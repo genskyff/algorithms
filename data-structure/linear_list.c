@@ -6,22 +6,21 @@
 typedef int ElemType;
 
 // 定义线性表结构
-typedef struct
+typedef struct LinearList
 {
     // 线性表长度
     ElemType data[MAXSIZE];
     // 数据长度
     int length;
 
-    void (*clear)(LinearList *);
-    void (*show)(LinearList);
-    bool (*is_empty)(LinearList);
-    bool (*get_index)(LinearList, ElemType, int *);
-    bool (*get)(LinearList, int, ElemType *);
-    bool (*insert)(LinearList *, int, ElemType);
-    bool (*update)(LinearList *, int, ElemType);
-    bool (*remove)(LinearList *, int i, ElemType *)
-
+    void (*clear)(struct LinearList *);
+    void (*show)(struct LinearList);
+    bool (*is_empty)(struct LinearList);
+    bool (*get_index)(struct LinearList, ElemType, int *);
+    bool (*get)(struct LinearList, int, ElemType *);
+    bool (*insert)(struct LinearList *, int, ElemType);
+    bool (*update)(struct LinearList *, int, ElemType);
+    bool (*remove)(struct LinearList *, int i, ElemType *);
 } LinearList;
 
 // 初始化
@@ -96,7 +95,7 @@ bool update(LinearList *L, int i, ElemType e)
 }
 
 // 删除下标i处的元素并获取其值
-bool remove(LinearList *L, int i, ElemType *e)
+bool delete(LinearList *L, int i, ElemType *e)
 {
     if (L->length == 0 || i < 0 || i > L->length - 1)
         return false;
@@ -128,7 +127,7 @@ int main(void)
     show(L);
 
     while (get_index(L, 10, &i))
-        remove(&L, i, &e);
+        delete(&L, i, &e);
     show(L);
 
     return 0;
