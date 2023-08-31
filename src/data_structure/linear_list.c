@@ -1,27 +1,4 @@
-#include <stdio.h>
-#include <stdbool.h>
-#define MAXSIZE 20
-
-// 定义线性表元素类型
-typedef int ElemType;
-
-// 定义线性表结构
-typedef struct LinearList
-{
-    // 线性表长度
-    ElemType data[MAXSIZE];
-    // 数据长度
-    size_t len;
-
-    void (*clear)(struct LinearList *);
-    void (*show)(struct LinearList);
-    bool (*is_empty)(struct LinearList);
-    bool (*get_index)(struct LinearList, ElemType, size_t *);
-    bool (*get)(struct LinearList, size_t, ElemType *);
-    bool (*insert)(struct LinearList *, size_t, ElemType);
-    bool (*update)(struct LinearList *, size_t, ElemType);
-    bool (*remove)(struct LinearList *, size_t, ElemType *);
-} LinearList;
+#include "linear_list.h"
 
 // 清空
 void clear(LinearList *L)
@@ -43,7 +20,7 @@ bool is_empty(LinearList L)
     return L.len == 0 ? true : false;
 }
 
-// 获取值为e的元素下标i
+// 获取值为 e 的元素的索引值
 bool get_index(LinearList L, ElemType e, size_t *i)
 {
     if (L.len == 0)
@@ -56,7 +33,7 @@ bool get_index(LinearList L, ElemType e, size_t *i)
     return true;
 }
 
-// 获取下标为i的元素值e
+// 获取索引 i 的元素值 e
 bool get(LinearList L, size_t i, ElemType *e)
 {
     if (L.len == 0 || i < 0 || i > L.len - 1)
@@ -67,7 +44,7 @@ bool get(LinearList L, size_t i, ElemType *e)
     return true;
 }
 
-// 下标i处插入值为e的元素
+// 在索引 i 处插入值为 e 的元素
 bool insert(LinearList *L, size_t i, ElemType e)
 {
     if (L->len == MAXSIZE || i < 0 || i > L->len)
@@ -83,7 +60,7 @@ bool insert(LinearList *L, size_t i, ElemType e)
     return true;
 }
 
-// 修改下标i处的元素值为e
+// 修改索引 i 处的元素值为 e
 bool update(LinearList *L, size_t i, ElemType e)
 {
     if (L->len == 0 || i < 0 || i > L->len - 1)
@@ -94,7 +71,7 @@ bool update(LinearList *L, size_t i, ElemType e)
     return true;
 }
 
-// 删除下标i处的元素并获取其值
+// 删除索引 i 处的元素并获取其值
 bool delete(LinearList *L, size_t i, ElemType *e)
 {
     if (L->len == 0 || i < 0 || i > L->len - 1)
@@ -109,26 +86,4 @@ bool delete(LinearList *L, size_t i, ElemType *e)
     L->len--;
 
     return true;
-}
-
-int main(void)
-{
-    LinearList L;
-    int i, e;
-
-    clear(&L);
-
-    for (int j = 0; j < MAXSIZE; j++)
-        insert(&L, j, j + 1);
-    show(L);
-
-    for (int j = 0; j < MAXSIZE; j += 2)
-        update(&L, j, 10);
-    show(L);
-
-    while (get_index(L, 10, i))
-        delete (&L, i, &e);
-    show(L);
-
-    return 0;
 }
