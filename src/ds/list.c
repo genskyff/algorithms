@@ -1,28 +1,20 @@
 #include "linear_list.h"
 
 // 清空
-void clear(LinearList *L)
-{
-    L->len = 0;
-}
+void clear(LinearList *L) { L->len = 0; }
 
 // 打印
-void show(LinearList L)
-{
+void show(LinearList L) {
     for (size_t i = 0; i < L.len; i++)
         printf("%d ", L.data[i]);
     printf("\n");
 }
 
 // 是否为空
-bool is_empty(LinearList L)
-{
-    return L.len == 0 ? true : false;
-}
+bool is_empty(LinearList L) { return L.len == 0 ? true : false; }
 
 // 获取值为 e 的元素的索引值
-bool get_index(LinearList L, ElemType e, size_t *i)
-{
+bool get_index(LinearList L, ElemType e, size_t *i) {
     if (L.len == 0)
         return false;
 
@@ -34,8 +26,7 @@ bool get_index(LinearList L, ElemType e, size_t *i)
 }
 
 // 获取索引 i 的元素值 e
-bool get(LinearList L, size_t i, ElemType *e)
-{
+bool get(LinearList L, size_t i, ElemType *e) {
     if (L.len == 0 || i < 0 || i > L.len - 1)
         return false;
 
@@ -45,8 +36,7 @@ bool get(LinearList L, size_t i, ElemType *e)
 }
 
 // 在索引 i 处插入值为 e 的元素
-bool insert(LinearList *L, size_t i, ElemType e)
-{
+bool insert(LinearList *L, size_t i, ElemType e) {
     if (L->len == MAXSIZE || i < 0 || i > L->len)
         return false;
 
@@ -61,8 +51,7 @@ bool insert(LinearList *L, size_t i, ElemType e)
 }
 
 // 修改索引 i 处的元素值为 e
-bool update(LinearList *L, size_t i, ElemType e)
-{
+bool update(LinearList *L, size_t i, ElemType e) {
     if (L->len == 0 || i < 0 || i > L->len - 1)
         return false;
 
@@ -72,8 +61,7 @@ bool update(LinearList *L, size_t i, ElemType e)
 }
 
 // 删除索引 i 处的元素并获取其值
-bool delete(LinearList *L, size_t i, ElemType *e)
-{
+bool delete(LinearList *L, size_t i, ElemType *e) {
     if (L->len == 0 || i < 0 || i > L->len - 1)
         return false;
 

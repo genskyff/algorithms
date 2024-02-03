@@ -1,9 +1,8 @@
 #include "../src/data_structure/linear_list.h"
 
-int main(void)
-{
+int main(void) {
     LinearList L;
-    int i, e;
+    int        i, e;
 
     clear(&L);
 
