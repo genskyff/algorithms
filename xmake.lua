@@ -1,8 +1,8 @@
 set_project("algorithms-c")
 set_version("0.1.0")
 set_languages("c17")
-set_allowedplats("windows", "linux", "macosx")
 
+set_allowedplats("windows", "linux", "macosx")
 if is_plat("windows") then
     add_toolchains("mingw")
 elseif is_plat("linux") then
@@ -11,12 +11,12 @@ elseif is_plat("macosx") then
     add_toolchains("clang")
 end
 
-option("test", { default = false, showmenu = true, description = "Enable test" })
-
+option("test", { default = false, showmenu = true, description = "Enable test mode" })
 if has_config("test") then
     add_requires("gtest")
 end
 
+add_rules("mode.debug", "mode.release", "mode.test")
 rule("mode.test")
     on_load(function (target)
         if not has_config("test") then
@@ -31,15 +31,13 @@ rule_end()
 
 task("test")
     on_run(function ()
-        os.exec("xmake f -m debug --test=y")
+        os.exec("xmake f -m test --test=y")
         os.exec("xmake build -g test")
         os.exec("xmake run -g test")
     end)
-
     set_menu{}
 task_end()
 
-add_rules("mode.debug", "mode.release", "mode.test")
 add_includedirs("include", "include/sort")
 
 on_load(function (target)
@@ -55,7 +53,7 @@ target("utils")
 target("test_utils")
     set_kind("binary")
     set_group("test")
-    add_files("test/utils.c")
+    add_files("test/test_utils.c")
 
 target("bubble")
     set_kind("static")
@@ -64,5 +62,5 @@ target("bubble")
 target("test_bubble")
     set_kind("binary")
     set_group("test")
-    add_files("test/sort/bubble.c")
+    add_files("test/sort/test_bubble.c")
     add_deps("bubble")
