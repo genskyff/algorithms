@@ -1,3 +1,4 @@
-void swap(int a[], int i, int j);
-void display(int a[], int n);
-void bubble_sort(int a[], int n);
+#ifndef BUBBLE_H
+#define BUBBLE_H
+void bubble_sort(int a[], int len);
+#endif

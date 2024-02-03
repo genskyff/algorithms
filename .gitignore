@@ -1,2 +1,6 @@
-/bin
-.xmake
+.xmake/
+build/
+
+.DS_Store
+
+.vscode/
