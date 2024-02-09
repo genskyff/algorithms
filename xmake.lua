@@ -59,3 +59,13 @@ target("test_bubble")
     set_group("test")
     add_files("test/sort/test_bubble.c")
     add_deps("bubble")
+
+target("selection")
+    set_kind("static")
+    add_files("src/sort/selection.c")
+
+target("test_selection")
+    set_kind("binary")
+    set_group("test")
+    add_files("test/sort/test_selection.c")
+    add_deps("selection")
