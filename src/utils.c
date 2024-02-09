@@ -1,17 +1,36 @@
 #include "utils.h"
+#include <stdbool.h>
 #include <stdio.h>
 
-// 交换数组 a 中索引为 i、j 的元素值
-void swap(int a[], int i, int j) {
-    int t = a[i];
-    a[i]  = a[j];
-    a[j]  = t;
+void swap(int arr[], int i, int j) {
+    int t  = arr[i];
+    arr[i] = arr[j];
+    arr[j] = t;
 }
 
-// 列出数组 a 的所有元素
-void show(int a[], int len) {
+void show(int arr[], int len) {
     for (int i = 0; i < len; i++) {
-        printf("%d ", a[i]);
+        printf("%d ", arr[i]);
     }
     printf("\n");
+}
+
+void assert_eq(int *left, int *right, int len) {
+    bool flag = true;
+    for (int i = 0; i < len; i++) {
+        if (left[i] != right[i]) {
+            flag = false;
+            break;
+        }
+    }
+
+    if (flag) {
+        printf("PASS\n");
+    } else {
+        printf("FAIL\n");
+        printf("left:\t");
+        show(left, len);
+        printf("right:\t");
+        show(right, len);
+    }
 }

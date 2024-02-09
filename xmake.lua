@@ -25,6 +25,7 @@ rule("mode.test")
         end
         target:set("rundir", os.projectdir())
         target:set("group", "test")
+        target:add("includedirs", "test")
         target:add("packages", "gtest")
     end)
 rule_end()
@@ -35,7 +36,10 @@ task("test")
         os.exec("xmake build -g test")
         os.exec("xmake run -g test")
     end)
-    set_menu{}
+    set_menu{
+        usage = "xmake test",
+        description = "Run tests"
+    }
 task_end()
 
 add_includedirs("include", "include/sort")
