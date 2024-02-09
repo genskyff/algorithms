@@ -12,21 +12,12 @@ elseif is_plat("macosx") then
 end
 
 option("test", { default = false, showmenu = true, description = "Enable test mode" })
-if has_config("test") then
-    add_requires("gtest")
-end
 
 add_rules("mode.debug", "mode.release", "mode.test")
 rule("mode.test")
     on_load(function (target)
-        if not has_config("test") then
-            target:set("enabled", false)
-            return
-        end
-        target:set("rundir", os.projectdir())
         target:set("group", "test")
         target:add("includedirs", "test")
-        target:add("packages", "gtest")
     end)
 rule_end()
 

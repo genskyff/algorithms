@@ -23,6 +23,7 @@ void show(int *arr, int len) {
 
 void assert_eq(int *left, int *right, int len) {
     bool flag = true;
+
     for (int i = 0; i < len; i++) {
         if (left[i] != right[i]) {
             flag = false;
