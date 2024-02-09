@@ -5,8 +5,11 @@
 
 int main(void) {
     printf("\n---- test_bubble ----\n");
-    bubble_sort(UNSTORED, LEN);
-    assert_eq(UNSTORED, STORED, LEN);
+
+    int arr[LEN];
+    copy(UNSTORED, arr, LEN);
+    bubble_sort(arr, LEN);
+    assert_eq(arr, STORED, LEN);
 
     return 0;
 }

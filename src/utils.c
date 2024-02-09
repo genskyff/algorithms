@@ -2,13 +2,19 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-void swap(int arr[], int i, int j) {
+void swap(int *arr, int i, int j) {
     int t  = arr[i];
     arr[i] = arr[j];
     arr[j] = t;
 }
 
-void show(int arr[], int len) {
+void copy(int *src, int *dest, int len) {
+    for (int i = 0; i < len; i++) {
+        dest[i] = src[i];
+    }
+}
+
+void show(int *arr, int len) {
     for (int i = 0; i < len; i++) {
         printf("%d ", arr[i]);
     }
