@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 void test_insertion_sort(void) {
-    printf("test_insertion_sort:\t\t");
+    printf("test insertion_sort\t\t");
 
     int arr[LEN];
     copy(UNSTORED, arr, LEN);
@@ -13,7 +13,7 @@ void test_insertion_sort(void) {
 }
 
 void test_binary_insertion_sort(void) {
-    printf("test_binary_insertion_sort:\t");
+    printf("test binary_insertion_sort\t");
 
     int arr[LEN];
     copy(UNSTORED, arr, LEN);
@@ -22,7 +22,7 @@ void test_binary_insertion_sort(void) {
 }
 
 void test_shell_sort(void) {
-    printf("test_shell_sort:\t\t");
+    printf("test shell_sort\t\t\t");
 
     int arr[LEN];
     copy(UNSTORED, arr, LEN);

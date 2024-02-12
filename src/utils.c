@@ -32,9 +32,9 @@ void assert_eq(int *left, int *right, int len) {
     }
 
     if (flag) {
-        printf("PASS\n");
+        printf("OK\n");
     } else {
-        printf("FAIL\n");
+        printf("FAILED\n");
         printf("|--- left:\t");
         show(left, len);
         printf("|--- right:\t");
