@@ -1,6 +1,5 @@
 #include "selection.h"
 #include "utils.h"
-#include <stdbool.h>
 
 void selection_sort(int *arr, int len) {
     if (len < 2) {

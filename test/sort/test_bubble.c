@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 void test_bubble_sort(void) {
-    printf("\n---- test_bubble_sort ----\n");
+    printf("test_bubble_sort:\t\t");
 
     int arr[LEN];
     copy(UNSTORED, arr, LEN);
@@ -13,7 +13,7 @@ void test_bubble_sort(void) {
 }
 
 void test_cocktail_sort(void) {
-    printf("\n---- test_cocktail_sort ----\n");
+    printf("test_cocktail_sort:\t\t");
 
     int arr[LEN];
     copy(UNSTORED, arr, LEN);

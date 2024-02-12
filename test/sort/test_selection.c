@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 void test_selection_sort(void) {
-    printf("\n---- test_selection_sort ----\n");
+    printf("test_selection_sort:\t\t");
 
     int arr[LEN];
     copy(UNSTORED, arr, LEN);

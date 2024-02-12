@@ -7,9 +7,8 @@ void bubble_sort(int *arr, int len) {
         return;
     }
 
-    bool flag;
     for (int i = 0; i < len; i++) {
-        flag = false;
+        bool flag = false;
 
         for (int j = 0; j < len - i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
@@ -48,7 +47,7 @@ void cocktail_sort(int *arr, int len) {
 
         end--;
         flag = false;
-        
+
         for (int i = end; i > start; i--) {
             if (arr[i] < arr[i - 1]) {
                 swap(arr, i, i - 1);
