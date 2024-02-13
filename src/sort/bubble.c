@@ -8,7 +8,7 @@
 
 void bubble_sort(int *arr, int len) {
 #ifdef DEBUG_PRINT
-    printf("\nbefore:\t");
+    printf("\nbegin:\t");
     show(arr, len);
 #endif
 
@@ -39,7 +39,7 @@ void bubble_sort(int *arr, int len) {
 
 void cocktail_sort(int *arr, int len) {
 #ifdef DEBUG_PRINT
-    printf("\nbefore:\t");
+    printf("\nbegin:\t");
     show(arr, len);
 #endif
 

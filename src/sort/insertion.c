@@ -7,7 +7,7 @@
 
 void insertion_sort(int *arr, int len) {
 #ifdef DEBUG_PRINT
-    printf("\nbefore:\t");
+    printf("\nbegin:\t");
     show(arr, len);
 #endif
 
@@ -35,7 +35,7 @@ void insertion_sort(int *arr, int len) {
 
 void binary_insertion_sort(int *arr, int len) {
 #ifdef DEBUG_PRINT
-    printf("\nbefore:\t");
+    printf("\nbegin:\t");
     show(arr, len);
 #endif
 
@@ -73,7 +73,7 @@ void binary_insertion_sort(int *arr, int len) {
 
 void shell_sort(int *arr, int len) {
 #ifdef DEBUG_PRINT
-    printf("\nbefore:\t");
+    printf("\nbegin:\t");
     show(arr, len);
 #endif
 
