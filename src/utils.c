@@ -35,9 +35,9 @@ void assert_eq(int *left, int *right, int len) {
         printf("...OK\n");
     } else {
         printf("...FAILED\n");
-        printf("   |--- left:\t");
+        printf("  |--- left\t");
         show(left, len);
-        printf("   |--- right:\t");
+        printf("  |--- right\t");
         show(right, len);
         printf("\n");
     }

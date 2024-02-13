@@ -91,6 +91,16 @@ target("test_merge")
     add_files("test/sort/test_merge.c")
     add_deps("merge")
 
+target("quick")
+    set_kind("static")
+    add_files("src/sort/quick.c")
+
+target("test_quick")
+    set_kind("binary")
+    set_group("test")
+    add_files("test/sort/test_quick.c")
+    add_deps("quick")
+
 target("selection")
     set_kind("static")
     add_files("src/sort/selection.c")
