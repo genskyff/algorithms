@@ -6,11 +6,9 @@
 #include <stdio.h>
 #endif
 
-void entry_recu(int *arr, int len);
-void entry_iter(int *arr, int len);
-void divide_recu(int *arr, int *tmp, int left, int right);
-void divide_iter(int *arr, int *tmp, int len);
-void conquer(int *arr, int *tmp, int left, int mid, int right);
+void msort_recu(int *arr, int *tmp, int left, int right);
+void msort_iter(int *arr, int *tmp, int len);
+void merge(int *arr, int *tmp, int left, int mid, int right);
 
 void merge_sort_recu(int *arr, int len) {
 #ifdef DEBUG_PRINT
@@ -22,7 +20,8 @@ void merge_sort_recu(int *arr, int len) {
         return;
     }
 
-    entry_recu(arr, len);
+    int *tmp = (int *)malloc(len * sizeof(int));
+    msort_recu(arr, tmp, 0, len - 1);
 }
 
 void merge_sort_iter(int *arr, int len) {
@@ -35,30 +34,21 @@ void merge_sort_iter(int *arr, int len) {
         return;
     }
 
-    entry_iter(arr, len);
-}
-
-void entry_recu(int *arr, int len) {
     int *tmp = (int *)malloc(len * sizeof(int));
-    divide_recu(arr, tmp, 0, len - 1);
+    msort_iter(arr, tmp, len);
 }
 
-void entry_iter(int *arr, int len) {
-    int *tmp = (int *)malloc(len * sizeof(int));
-    divide_iter(arr, tmp, len);
-}
-
-void divide_recu(int *arr, int *tmp, int left, int right) {
+void msort_recu(int *arr, int *tmp, int left, int right) {
     if (left < right) {
         int mid = left + (right - left) / 2;
 
-        divide_recu(arr, tmp, left, mid);
-        divide_recu(arr, tmp, mid + 1, right);
-        conquer(arr, tmp, left, mid, right);
+        msort_recu(arr, tmp, left, mid);
+        msort_recu(arr, tmp, mid + 1, right);
+        merge(arr, tmp, left, mid, right);
     }
 }
 
-void divide_iter(int *arr, int *tmp, int len) {
+void msort_iter(int *arr, int *tmp, int len) {
     int left, mid, right;
 
     for (int i = 1; i < len; i *= 2) {
@@ -66,7 +56,7 @@ void divide_iter(int *arr, int *tmp, int len) {
         while (left + i < len) {
             mid   = left + i - 1;
             right = mid + i < len ? mid + i : len - 1;
-            conquer(arr, tmp, left, mid, right);
+            merge(arr, tmp, left, mid, right);
             left = right + 1;
 
 #ifdef DEBUG_PRINT
@@ -77,7 +67,7 @@ void divide_iter(int *arr, int *tmp, int len) {
     }
 }
 
-void conquer(int *arr, int *tmp, int left, int mid, int right) {
+void merge(int *arr, int *tmp, int left, int mid, int right) {
     int l_pos = left, r_pos = mid + 1, t_pos = left;
 
     while (l_pos <= mid && r_pos <= right) {
