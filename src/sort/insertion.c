@@ -1,6 +1,16 @@
 #include "insertion.h"
 
+#ifdef DEBUG_PRINT
+#include "utils.h"
+#include <stdio.h>
+#endif
+
 void insertion_sort(int *arr, int len) {
+#ifdef DEBUG_PRINT
+    printf("\nbefore:\t");
+    show(arr, len);
+#endif
+
     if (len < 2) {
         return;
     }
@@ -15,10 +25,20 @@ void insertion_sort(int *arr, int len) {
         }
 
         arr[j] = base;
+
+#ifdef DEBUG_PRINT
+        printf("next:\t");
+        show(arr, len);
+#endif
     }
 }
 
 void binary_insertion_sort(int *arr, int len) {
+#ifdef DEBUG_PRINT
+    printf("\nbefore:\t");
+    show(arr, len);
+#endif
+
     if (len < 2) {
         return;
     }
@@ -43,10 +63,20 @@ void binary_insertion_sort(int *arr, int len) {
         }
 
         arr[left] = base;
+
+#ifdef DEBUG_PRINT
+        printf("next:\t");
+        show(arr, len);
+#endif
     }
 }
 
 void shell_sort(int *arr, int len) {
+#ifdef DEBUG_PRINT
+    printf("\nbefore:\t");
+    show(arr, len);
+#endif
+
     if (len < 2) {
         return;
     }
@@ -71,5 +101,10 @@ void shell_sort(int *arr, int len) {
         }
 
         gap = (gap - 1) / 3;
+
+#ifdef DEBUG_PRINT
+        printf("next:\t");
+        show(arr, len);
+#endif
     }
 }

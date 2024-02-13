@@ -2,7 +2,16 @@
 #include "utils.h"
 #include <stdbool.h>
 
+#ifdef DEBUG_PRINT
+#include <stdio.h>
+#endif
+
 void bubble_sort(int *arr, int len) {
+#ifdef DEBUG_PRINT
+    printf("\nbefore:\t");
+    show(arr, len);
+#endif
+
     if (len < 2) {
         return;
     }
@@ -17,6 +26,11 @@ void bubble_sort(int *arr, int len) {
             }
         }
 
+#ifdef DEBUG_PRINT
+        printf("next:\t");
+        show(arr, len);
+#endif
+
         if (!flag) {
             break;
         }
@@ -24,6 +38,11 @@ void bubble_sort(int *arr, int len) {
 }
 
 void cocktail_sort(int *arr, int len) {
+#ifdef DEBUG_PRINT
+    printf("\nbefore:\t");
+    show(arr, len);
+#endif
+
     if (len < 2) {
         return;
     }
@@ -42,6 +61,10 @@ void cocktail_sort(int *arr, int len) {
         }
 
         if (!flag) {
+#ifdef DEBUG_PRINT
+            printf("next:\t");
+            show(arr, len);
+#endif
             break;
         }
 
@@ -54,6 +77,11 @@ void cocktail_sort(int *arr, int len) {
                 flag = true;
             }
         }
+
+#ifdef DEBUG_PRINT
+        printf("next:\t");
+        show(arr, len);
+#endif
 
         if (!flag) {
             break;

@@ -11,7 +11,7 @@ elseif is_plat("macosx") then
     add_toolchains("clang")
 end
 
-option("test", { default = false, showmenu = true, description = "Enable test mode" })
+option("debug-print", { default = false, showmenu = true, description = "Print the intermediate results" })
 
 add_rules("mode.debug", "mode.release", "mode.test")
 rule("mode.test")
@@ -23,7 +23,7 @@ rule_end()
 
 task("test")
     on_run(function ()
-        os.exec("xmake f -m test --test=y")
+        os.exec("xmake f -m test --debug-print=n")
         os.exec("xmake build -g test")
         os.exec("xmake run -g test")
     end)
@@ -33,11 +33,27 @@ task("test")
     }
 task_end()
 
+task("debug-test")
+    on_run(function ()
+        os.exec("xmake clean")
+        os.exec("xmake f -m test --debug-print=y")
+        os.exec("xmake build -g test")
+        os.exec("xmake run -g test")
+    end)
+    set_menu{
+        usage = "xmake debug-test",
+        description = "Run tests and print the intermediate results"
+    }
+task_end()
+
 add_includedirs("include", "include/sort")
 
 on_load(function (target)
     if target:name() ~= "utils" then
         target:add("deps", "utils")
+        if has_config("debug-print") and target:kind() == "static" then
+            target:add("defines", "DEBUG_PRINT")
+        end
     end
 end)
 

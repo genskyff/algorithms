@@ -1,7 +1,16 @@
 #include "selection.h"
 #include "utils.h"
 
+#ifdef DEBUG_PRINT
+#include <stdio.h>
+#endif
+
 void selection_sort(int *arr, int len) {
+#ifdef DEBUG_PRINT
+    printf("\nbefore:\t");
+    show(arr, len);
+#endif
+
     if (len < 2) {
         return;
     }
@@ -18,5 +27,10 @@ void selection_sort(int *arr, int len) {
         if (i != min) {
             swap(arr, i, min);
         }
+
+#ifdef DEBUG_PRINT
+        printf("next:\t");
+        show(arr, len);
+#endif
     }
 }
