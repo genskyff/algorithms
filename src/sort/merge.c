@@ -4,6 +4,7 @@
 #ifdef DEBUG_PRINT
 #include "utils.h"
 #include <stdio.h>
+int LEN;
 #endif
 
 void msort_recu(int *arr, int *tmp, int left, int right);
@@ -19,6 +20,10 @@ void merge_sort_recu(int *arr, int len) {
     if (len < 2) {
         return;
     }
+
+#ifdef DEBUG_PRINT
+    LEN = len;
+#endif
 
     int *tmp = (int *)malloc(len * sizeof(int));
     msort_recu(arr, tmp, 0, len - 1);
@@ -58,11 +63,6 @@ void msort_iter(int *arr, int *tmp, int len) {
             right = mid + i < len ? mid + i : len - 1;
             merge(arr, tmp, left, mid, right);
             left = right + 1;
-
-#ifdef DEBUG_PRINT
-            printf("next:\t");
-            show(arr, len);
-#endif
         }
     }
 }
@@ -89,4 +89,9 @@ void merge(int *arr, int *tmp, int left, int mid, int right) {
     for (int i = left; i < t_pos; i++) {
         arr[i] = tmp[i];
     }
+
+#ifdef DEBUG_PRINT
+    printf("next:\t");
+    show(arr, LEN);
+#endif
 }
