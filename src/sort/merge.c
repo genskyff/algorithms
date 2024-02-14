@@ -13,17 +13,14 @@ void merge(int *arr, int *tmp, int left, int mid, int right);
 
 void merge_sort_recu(int *arr, int len) {
 #ifdef DEBUG_PRINT
+    LEN = len;
     printf("\nbegin:\t");
-    show(arr, len);
+    show(arr, LEN);
 #endif
 
     if (len < 2) {
         return;
     }
-
-#ifdef DEBUG_PRINT
-    LEN = len;
-#endif
 
     int *tmp = (int *)malloc(len * sizeof(int));
     msort_recu(arr, tmp, 0, len - 1);

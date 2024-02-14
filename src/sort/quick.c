@@ -12,17 +12,14 @@ void move_pivot_to_right(int *arr, int left, int right);
 
 void quick_sort(int *arr, int len) {
 #ifdef DEBUG_PRINT
+    LEN = len;
     printf("\nbegin:\t");
-    show(arr, len);
+    show(arr, LEN);
 #endif
 
     if (len < 2) {
         return;
     }
-
-#ifdef DEBUG_PRINT
-    LEN = len;
-#endif
 
     qsort(arr, 0, len - 1);
 }
