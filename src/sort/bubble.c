@@ -17,12 +17,12 @@ void bubble_sort(int *arr, int len) {
     }
 
     for (int i = 0; i < len; i++) {
-        bool flag = false;
+        bool swapped = false;
 
         for (int j = 0; j < len - i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
                 swap(arr, j, j + 1);
-                flag = true;
+                swapped = true;
             }
         }
 
@@ -31,7 +31,7 @@ void bubble_sort(int *arr, int len) {
         show(arr, len);
 #endif
 
-        if (!flag) {
+        if (!swapped) {
             break;
         }
     }
@@ -47,20 +47,20 @@ void cocktail_sort(int *arr, int len) {
         return;
     }
 
-    int left = 0;
-    int right   = len - 1;
+    int left  = 0;
+    int right = len - 1;
 
     while (left < right) {
-        bool flag = false;
+        bool swapped = false;
 
         for (int i = left; i < right; i++) {
             if (arr[i] > arr[i + 1]) {
                 swap(arr, i, i + 1);
-                flag = true;
+                swapped = true;
             }
         }
 
-        if (!flag) {
+        if (!swapped) {
 #ifdef DEBUG_PRINT
             printf("next:\t");
             show(arr, len);
@@ -69,12 +69,12 @@ void cocktail_sort(int *arr, int len) {
         }
 
         right--;
-        flag = false;
+        swapped = false;
 
         for (int i = right; i > left; i--) {
             if (arr[i] < arr[i - 1]) {
                 swap(arr, i, i - 1);
-                flag = true;
+                swapped = true;
             }
         }
 
@@ -83,7 +83,7 @@ void cocktail_sort(int *arr, int len) {
         show(arr, len);
 #endif
 
-        if (!flag) {
+        if (!swapped) {
             break;
         }
 
