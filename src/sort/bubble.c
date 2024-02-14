@@ -47,13 +47,13 @@ void cocktail_sort(int *arr, int len) {
         return;
     }
 
-    int left  = 0;
-    int right = len - 1;
+    int lo  = 0;
+    int hi = len - 1;
 
-    while (left < right) {
+    while (lo < hi) {
         bool swapped = false;
 
-        for (int i = left; i < right; i++) {
+        for (int i = lo; i < hi; i++) {
             if (arr[i] > arr[i + 1]) {
                 swap(arr, i, i + 1);
                 swapped = true;
@@ -68,10 +68,10 @@ void cocktail_sort(int *arr, int len) {
             break;
         }
 
-        right--;
+        hi--;
         swapped = false;
 
-        for (int i = right; i > left; i--) {
+        for (int i = hi; i > lo; i--) {
             if (arr[i] < arr[i - 1]) {
                 swap(arr, i, i - 1);
                 swapped = true;
@@ -87,6 +87,6 @@ void cocktail_sort(int *arr, int len) {
             break;
         }
 
-        left++;
+        lo++;
     }
 }

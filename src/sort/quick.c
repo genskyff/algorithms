@@ -6,9 +6,9 @@
 int LEN;
 #endif
 
-void qsort(int *arr, int left, int right);
-int  partition(int *arr, int left, int right);
-void move_pivot_to_right(int *arr, int left, int right);
+void qsort(int *arr, int lo, int hi);
+int  partition(int *arr, int lo, int hi);
+void move_pivot_to_hi(int *arr, int lo, int hi);
 
 void quick_sort(int *arr, int len) {
 #ifdef DEBUG_PRINT
@@ -24,18 +24,18 @@ void quick_sort(int *arr, int len) {
     qsort(arr, 0, len - 1);
 }
 
-void qsort(int *arr, int left, int right) {
-    while (left < right) {
-        int pivot = partition(arr, left, right);
+void qsort(int *arr, int lo, int hi) {
+    while (lo < hi) {
+        int pivot = partition(arr, lo, hi);
 
-        if (pivot - left < right - pivot) {
-            if (pivot >= 1) {
-                qsort(arr, left, pivot - 1);
+        if (pivot - lo < hi - pivot) {
+            if (pivot > 0) {
+                qsort(arr, lo, pivot - 1);
             }
-            left = pivot + 1;
+            lo = pivot + 1;
         } else {
-            qsort(arr, pivot + 1, right);
-            right = pivot - 1;
+            qsort(arr, pivot + 1, hi);
+            hi = pivot - 1;
         }
 
 #ifdef DEBUG_PRINT
@@ -45,28 +45,28 @@ void qsort(int *arr, int left, int right) {
     }
 }
 
-int partition(int *arr, int left, int right) {
-    move_pivot_to_right(arr, left, right);
-    int pivot = arr[right];
-    int tail  = left;
+int partition(int *arr, int lo, int hi) {
+    move_pivot_to_hi(arr, lo, hi);
+    int pivot = arr[hi];
+    int tail  = lo;
 
-    for (int i = left; i < right; i++) {
+    for (int i = lo; i < hi; i++) {
         if (arr[i] < pivot) {
             swap(arr, i, tail);
             tail++;
         }
     }
-    swap(arr, tail, right);
+    swap(arr, tail, hi);
 
     return tail;
 }
 
-void move_pivot_to_right(int *arr, int left, int right) {
-    int mid = left + (right - left) / 2;
+void move_pivot_to_hi(int *arr, int lo, int hi) {
+    int mid = lo + (hi - lo) / 2;
 
-    if ((arr[left] < arr[mid]) ^ (arr[left] < arr[right])) {
-        swap(arr, left, right);
-    } else if ((arr[mid] < arr[left]) ^ (arr[mid] < arr[right])) {
-        swap(arr, mid, right);
+    if ((arr[lo] < arr[mid]) ^ (arr[lo] < arr[hi])) {
+        swap(arr, lo, hi);
+    } else if ((arr[mid] < arr[lo]) ^ (arr[mid] < arr[hi])) {
+        swap(arr, mid, hi);
     }
 }

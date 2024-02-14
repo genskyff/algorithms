@@ -45,24 +45,24 @@ void binary_insertion_sort(int *arr, int len) {
 
     for (int i = 1; i < len; i++) {
         int base  = arr[i];
-        int left  = 0;
-        int right = i;
+        int lo  = 0;
+        int hi = i;
 
-        while (left < right) {
-            int mid = (left + right) / 2;
+        while (lo < hi) {
+            int mid = (lo + hi) / 2;
 
             if (arr[mid] > base) {
-                right = mid;
+                hi = mid;
             } else {
-                left = mid + 1;
+                lo = mid + 1;
             }
         }
 
-        for (int j = i - 1; j >= left; j--) {
+        for (int j = i - 1; j >= lo; j--) {
             arr[j + 1] = arr[j];
         }
 
-        arr[left] = base;
+        arr[lo] = base;
 
 #ifdef DEBUG_PRINT
         printf("next:\t");
