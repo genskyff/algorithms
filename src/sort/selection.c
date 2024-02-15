@@ -11,7 +11,7 @@ void selection_sort(int *arr, int len) {
     show(arr, len);
 #endif
 
-    if (len < 2) {
+    if (len == 0) {
         return;
     }
 
@@ -24,9 +24,7 @@ void selection_sort(int *arr, int len) {
             }
         }
 
-        if (i != min) {
-            swap(arr, i, min);
-        }
+        swap(arr, i, min);
 
 #ifdef DEBUG_PRINT
         printf("next:\t");

@@ -43,7 +43,7 @@ void cocktail_sort(int *arr, int len) {
     show(arr, len);
 #endif
 
-    if (len < 2) {
+    if (len == 0) {
         return;
     }
 

@@ -18,7 +18,7 @@ void merge_sort_recu(int *arr, int len) {
     show(arr, LEN);
 #endif
 
-    if (len < 2) {
+    if (len == 0) {
         return;
     }
 
@@ -32,7 +32,7 @@ void merge_sort_iter(int *arr, int len) {
     show(arr, len);
 #endif
 
-    if (len < 2) {
+    if (len == 0) {
         return;
     }
 

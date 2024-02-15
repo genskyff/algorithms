@@ -11,7 +11,7 @@ void insertion_sort(int *arr, int len) {
     show(arr, len);
 #endif
 
-    if (len < 2) {
+    if (len == 0) {
         return;
     }
 
@@ -39,7 +39,7 @@ void binary_insertion_sort(int *arr, int len) {
     show(arr, len);
 #endif
 
-    if (len < 2) {
+    if (len == 0) {
         return;
     }
 
@@ -77,7 +77,7 @@ void shell_sort(int *arr, int len) {
     show(arr, len);
 #endif
 
-    if (len < 2) {
+    if (len == 0) {
         return;
     }
 
