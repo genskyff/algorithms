@@ -48,25 +48,28 @@ void qsort(int *arr, int low, int high) {
 int partition(int *arr, int low, int high) {
     move_pivot_to_hi(arr, low, high);
     int pivot = arr[high];
-    int tail  = low;
+    int curr  = low;
 
     for (int i = low; i < high; i++) {
         if (arr[i] < pivot) {
-            swap(arr, i, tail);
-            tail++;
+            swap(arr, i, curr);
+            curr++;
         }
     }
-    swap(arr, tail, high);
+    swap(arr, curr, high);
 
-    return tail;
+    return curr;
 }
 
 void move_pivot_to_hi(int *arr, int low, int high) {
     int mid = low + (high - low) / 2;
-
+    int pivot = high;
+    
     if ((arr[low] < arr[mid]) ^ (arr[low] < arr[high])) {
-        swap(arr, low, high);
+        pivot = low;
     } else if ((arr[mid] < arr[low]) ^ (arr[mid] < arr[high])) {
-        swap(arr, mid, high);
+        pivot = mid;
     }
+
+    swap(arr, pivot, high);
 }
