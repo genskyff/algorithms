@@ -1,23 +1,25 @@
-#include "data.h"
 #include "quick.h"
+#include "test.h"
 #include "utils.h"
-#include <stdio.h>
 #include <stdlib.h>
 
-void test_quick_sort(void) {
-    printf("test quick_sort\t\t\t");
+bool test_quick_sort(void) {
+    bool all_passed = true;
 
-    for (int i = 0; i < DATA_LEN; i++) {
-        int *arr = (int *)malloc(DATA[i].len * sizeof(int));
-
-        copy(DATA[i].unsorted, arr, DATA[i].len);
-        quick_sort(arr, DATA[i].len);
-        assert_eq(arr, DATA[i].sorted, DATA[i].len);
+    for (size_t i = 0; i < DATA_LEN; i++) {
+        elem_t *data = (elem_t *)malloc(DATA[i].unsorted.len * sizeof(elem_t));
+        Array   arr  = {data, DATA[i].unsorted.len};
+        copy(&arr, &DATA[i].unsorted);
+        quick_sort(&arr);
+        all_passed = assert_eq(&arr, &DATA[i].sorted);
+        free(data);
     }
+
+    return all_passed;
 }
 
 int main(void) {
-    test_quick_sort();
+    run_test(test_quick_sort, "test_quick_sort\t");
 
     return 0;
 }

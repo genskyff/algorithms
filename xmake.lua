@@ -11,8 +11,6 @@ elseif is_plat("macosx") then
     add_toolchains("clang")
 end
 
-option("debug-print", { default = false, showmenu = true, description = "Print the intermediate results" })
-
 add_rules("mode.debug", "mode.release", "mode.test")
 rule("mode.test")
     on_load(function (target)
@@ -23,7 +21,7 @@ rule_end()
 
 task("test")
     on_run(function ()
-        os.exec("xmake f -m test --debug-print=n")
+        os.exec("xmake f -m test")
         os.exec("xmake build -g test")
         os.exec("xmake run -g test")
     end)
@@ -33,29 +31,17 @@ task("test")
     }
 task_end()
 
-task("debug-test")
-    on_run(function ()
-        os.exec("xmake clean")
-        os.exec("xmake f -m test --debug-print=y")
-        os.exec("xmake build -g test")
-        os.exec("xmake run -g test")
-    end)
-    set_menu{
-        usage = "xmake debug-test",
-        description = "Run tests and print the intermediate results"
-    }
-task_end()
-
 add_includedirs("include", "include/sort")
 
 on_load(function (target)
     if target:name() ~= "utils" then
         target:add("deps", "utils")
-        if has_config("debug-print") and target:kind() == "static" then
-            target:add("defines", "DEBUG_PRINT")
-        end
     end
 end)
+
+-- -------
+--  utils
+-- -------
 
 target("utils")
     set_kind("static")
@@ -65,7 +51,10 @@ target("test_utils")
     set_kind("binary")
     set_group("test")
     add_files("test/test_utils.c")
-    add_deps("utils")
+
+-- --------------------
+--  sorting algorithms
+-- --------------------
 
 target("bubble")
     set_kind("static")

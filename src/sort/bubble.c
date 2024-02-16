@@ -1,85 +1,56 @@
 #include "bubble.h"
 #include "utils.h"
-#include <stdbool.h>
 
-#ifdef DEBUG_PRINT
-#include <stdio.h>
-#endif
+void bubble_sort(Array *arr) {
+    for (size_t i = 0; i < arr->len; i++) {
+        bool is_swapped = false;
 
-void bubble_sort(int *arr, const size_t len) {
-#ifdef DEBUG_PRINT
-    printf("\nbegin:\t");
-    show(arr, len);
-#endif
-
-    for (int i = 0; i < len; i++) {
-        bool swapped = false;
-
-        for (int j = 0; j < len - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
+        for (size_t j = 0; j < arr->len - i - 1; j++) {
+            if (arr->data[j] > arr->data[j + 1]) {
                 swap(arr, j, j + 1);
-                swapped = true;
+                is_swapped = true;
             }
         }
 
-#ifdef DEBUG_PRINT
-        printf("next:\t");
-        show(arr, len);
-#endif
-
-        if (!swapped) {
+        if (!is_swapped) {
             break;
         }
     }
 }
 
-void cocktail_sort(int *arr, const size_t len) {
-#ifdef DEBUG_PRINT
-    printf("\nbegin:\t");
-    show(arr, len);
-#endif
-
-    if (len == 0) {
+void cocktail_sort(Array *arr) {
+    if (arr->len == 0) {
         return;
     }
 
-    int low  = 0;
-    int high = len - 1;
+    size_t low  = 0;
+    size_t high = arr->len - 1;
 
     while (low < high) {
-        bool swapped = false;
+        bool is_swapped = false;
 
-        for (int i = low; i < high; i++) {
-            if (arr[i] > arr[i + 1]) {
+        for (size_t i = low; i < high; i++) {
+            if (arr->data[i] > arr->data[i + 1]) {
                 swap(arr, i, i + 1);
-                swapped = true;
+                is_swapped = true;
             }
         }
 
-        if (!swapped) {
-#ifdef DEBUG_PRINT
-            printf("next:\t");
-            show(arr, len);
-#endif
+        if (!is_swapped) {
             break;
         }
 
         high--;
-        swapped = false;
+        is_swapped = false;
 
-        for (int i = high; i > low; i--) {
-            if (arr[i] < arr[i - 1]) {
+        for (size_t i = high; i > low; i--) {
+            if (arr->data[i] < arr->data[i - 1]) {
                 swap(arr, i, i - 1);
-                swapped = true;
+                is_swapped = true;
             }
         }
 
-#ifdef DEBUG_PRINT
-        printf("next:\t");
-        show(arr, len);
-#endif
-
-        if (!swapped) {
+        if (!is_swapped) {
             break;
         }
 

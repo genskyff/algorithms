@@ -1,103 +1,142 @@
 #include "utils.h"
-#include <corecrt.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-void swap(int *arr, const size_t i, const size_t j) {
-    if (i == j) {
+void swap(Array *arr, const size_t i, const size_t j) {
+    if (i == j || i >= arr->len || j >= arr->len) {
         return;
     }
 
-    int t  = arr[i];
-    arr[i] = arr[j];
-    arr[j] = t;
+    elem_t tmp   = arr->data[i];
+    arr->data[i] = arr->data[j];
+    arr->data[j] = tmp;
 }
 
-void copy(const int *src, int *dest, const size_t len) {
-    for (int i = 0; i < len; i++) {
-        dest[i] = src[i];
-    }
-}
-
-void rotate_left(int *arr, const size_t begin, const size_t end,
-                 const size_t k) {
-    if (begin >= end) {
-        return;
-    }
-
-    int len = end - begin;
-    if (len == 0) {
-        return;
-    }
-
-    int *tmp = (int *)malloc(len * sizeof(int));
-    if (tmp == NULL) {
-        return;
-    }
-
-    int offset = k % len;
-    copy(arr + begin, tmp + len - offset, offset);
-    copy(arr + begin + offset, tmp, len - offset);
-    copy(tmp, arr + begin, len);
-
-    free(tmp);
-}
-
-void rotate_right(int *arr, const size_t begin, const size_t end,
-                  const size_t n) {
-    if (begin >= end) {
-        return;
-    }
-
-    int len = end - begin;
-    if (len == 0) {
-        return;
-    }
-
-    int *tmp = (int *)malloc(len * sizeof(int));
-    if (tmp == NULL) {
-        return;
-    }
-
-    int offset = n % len;
-    copy(arr + end - offset, tmp, offset);
-    copy(arr + begin, tmp + offset, len - offset);
-    copy(tmp, arr + begin, len);
-
-    free(tmp);
-}
-
-void show(const int *arr, const size_t len) {
-    for (int i = 0; i < len; i++) {
-        printf("%d ", arr[i]);
+void show(const Array *arr) {
+    for (size_t i = 0; i < arr->len; i++) {
+        printf("%d ", arr->data[i]);
     }
     printf("\n");
 }
 
-bool _assert_eq(const int *left, const int *right, const size_t len) {
-    bool flag = true;
+void show_slice(const Array *arr, const size_t begin, const size_t end) {
+    if (begin >= end || begin >= arr->len) {
+        return;
+    }
 
-    for (int i = 0; i < len; i++) {
-        if (left[i] != right[i]) {
-            flag = false;
-            break;
+    for (size_t i = begin; i < MIN(end, arr->len); i++) {
+        printf("%d ", arr->data[i]);
+    }
+    printf("\n");
+}
+
+void copy(Array *dst, const Array *src) {
+    memcpy(dst->data, src->data, MIN(dst->len, src->len) * sizeof(elem_t));
+}
+
+void copy_slice(Array *dst, const size_t d_begin, const size_t d_end,
+                const Array *src, const size_t s_begin, const size_t s_end) {
+    if (d_begin >= d_end || d_begin >= dst->len || s_begin >= s_end ||
+        s_begin >= src->len) {
+        return;
+    }
+
+    size_t len = MIN(d_end - d_begin, s_end - s_begin);
+    memcpy(dst->data + d_begin, src->data + s_begin, len * sizeof(elem_t));
+}
+
+void rotate_left(Array *arr, const size_t n) {
+    size_t k = n % arr->len;
+
+    if (k == 0) {
+        return;
+    }
+
+    elem_t *tmp = (elem_t *)malloc(k * sizeof(elem_t));
+    memcpy(tmp, arr->data, k * sizeof(elem_t));
+    memmove(arr->data, arr->data + k, (arr->len - k) * sizeof(elem_t));
+    memcpy(arr->data + arr->len - k, tmp, k * sizeof(elem_t));
+    free(tmp);
+}
+
+void rotate_left_slice(Array *arr, const size_t begin, const size_t end,
+                       const size_t n) {
+    if (begin >= end || begin >= arr->len) {
+        return;
+    }
+
+    size_t k = n % (end - begin);
+
+    if (k == 0) {
+        return;
+    }
+
+    elem_t *tmp = (elem_t *)malloc(k * sizeof(elem_t));
+    memcpy(tmp, arr->data + begin, k * sizeof(elem_t));
+    memmove(arr->data + begin, arr->data + begin + k,
+            (end - begin - k) * sizeof(elem_t));
+    memcpy(arr->data + end - k, tmp, k * sizeof(elem_t));
+    free(tmp);
+}
+
+void rotate_right(Array *arr, const size_t n) {
+    size_t k = n % arr->len;
+
+    if (k == 0) {
+        return;
+    }
+
+    elem_t *tmp = (elem_t *)malloc(k * sizeof(elem_t));
+    memcpy(tmp, arr->data + arr->len - k, k * sizeof(elem_t));
+    memmove(arr->data + k, arr->data, (arr->len - k) * sizeof(elem_t));
+    memcpy(arr->data, tmp, k * sizeof(elem_t));
+    free(tmp);
+}
+
+void rotate_right_slice(Array *arr, const size_t begin, const size_t end,
+                        const size_t n) {
+    if (begin >= end || begin >= arr->len) {
+        return;
+    }
+
+    size_t k = n % (end - begin);
+
+    if (k == 0) {
+        return;
+    }
+
+    elem_t *tmp = (elem_t *)malloc(k * sizeof(elem_t));
+    memcpy(tmp, arr->data + end - k, k * sizeof(elem_t));
+    memmove(arr->data + begin + k, arr->data + begin,
+            (end - begin - k) * sizeof(elem_t));
+    memcpy(arr->data + begin, tmp, k * sizeof(elem_t));
+    free(tmp);
+}
+
+bool assert_eq(const Array *left, const Array *right) {
+    bool is_eq = true;
+
+    if (left->len != right->len) {
+        is_eq = false;
+    } else {
+        for (size_t i = 0; i < left->len; i++) {
+            if (left->data[i] != right->data[i]) {
+                is_eq = false;
+                break;
+            }
         }
     }
 
-    if (flag) {
-        return true;
-    } else {
-        printf("...FAILED\n");
-        printf("  |--- left\t");
-        show(left, len);
-        printf("  |--- right\t");
-        show(right, len);
+    if (!is_eq) {
+        printf("\033[1;31m...FAILED\033[0m\n");
+        printf("  |-- left\t");
+        show(left);
+        printf("  |-- right\t");
+        show(right);
         printf("\n");
-        return false;
+        exit(1);
     }
-}
 
-void assert_eq(const int *left, const int *right, const size_t len) {
-    // todo
+    return is_eq;
 }

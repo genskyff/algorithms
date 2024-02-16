@@ -1,7 +1,10 @@
 #ifndef INSERTION_H
 #define INSERTION_H
-#include <stddef.h>
-void insertion_sort(int *arr, const size_t len);
-void binary_insertion_sort(int *arr, const size_t len);
-void shell_sort(int *arr, const size_t len);
+
+#include "type.h"
+
+void insertion_sort(Array *arr);
+void binary_insertion_sort(Array *arr);
+void shell_sort(Array *arr);
+
 #endif

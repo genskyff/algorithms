@@ -1,32 +1,22 @@
 #include "quick.h"
 #include "utils.h"
 
-#ifdef DEBUG_PRINT
-#include <stdio.h>
-int LEN;
-#endif
+void   qsort(Array *arr, size_t low, size_t high);
+size_t partition(Array *arr, const size_t low, const size_t high);
+void   move_pivot_to_high(Array *arr, const size_t low, const size_t high);
 
-void qsort(int *arr, size_t low, size_t high);
-int  partition(int *arr, const size_t low, const size_t high);
-void move_pivot_to_high(int *arr, const size_t low, const size_t high);
+void quick_sort(Array *arr) {
 
-void quick_sort(int *arr, const size_t len) {
-#ifdef DEBUG_PRINT
-    LEN = len;
-    printf("\nbegin:\t");
-    show(arr, LEN);
-#endif
-
-    if (len == 0) {
+    if (arr->len == 0) {
         return;
     }
 
-    qsort(arr, 0, len - 1);
+    qsort(arr, 0, arr->len - 1);
 }
 
-void qsort(int *arr, size_t low, size_t high) {
+void qsort(Array *arr, size_t low, size_t high) {
     while (low < high) {
-        int pivot = partition(arr, low, high);
+        size_t pivot = partition(arr, low, high);
 
         if (pivot - low < high - pivot) {
             if (pivot > 0) {
@@ -37,21 +27,16 @@ void qsort(int *arr, size_t low, size_t high) {
             qsort(arr, pivot + 1, high);
             high = pivot - 1;
         }
-
-#ifdef DEBUG_PRINT
-        printf("next:\t");
-        show(arr, LEN);
-#endif
     }
 }
 
-int partition(int *arr, const size_t low, const size_t high) {
+size_t partition(Array *arr, const size_t low, const size_t high) {
     move_pivot_to_high(arr, low, high);
-    int pivot = arr[high];
-    int cur   = low;
+    elem_t pivot = arr->data[high];
+    size_t cur   = low;
 
-    for (int i = low; i < high; i++) {
-        if (arr[i] < pivot) {
+    for (size_t i = low; i < high; i++) {
+        if (arr->data[i] < pivot) {
             swap(arr, i, cur);
             cur++;
         }
@@ -61,13 +46,15 @@ int partition(int *arr, const size_t low, const size_t high) {
     return cur;
 }
 
-void move_pivot_to_high(int *arr, const size_t low, const size_t high) {
-    int mid   = low + (high - low) / 2;
-    int pivot = high;
+void move_pivot_to_high(Array *arr, const size_t low, const size_t high) {
+    size_t mid   = low + (high - low) / 2;
+    size_t pivot = high;
 
-    if ((arr[low] < arr[mid]) ^ (arr[low] < arr[high])) {
+    if ((arr->data[low] < arr->data[mid]) ^
+        (arr->data[low] < arr->data[high])) {
         pivot = low;
-    } else if ((arr[mid] < arr[low]) ^ (arr[mid] < arr[high])) {
+    } else if ((arr->data[mid] < arr->data[low]) ^
+               (arr->data[mid] < arr->data[high])) {
         pivot = mid;
     }
 
