@@ -1,5 +1,6 @@
 #ifndef MERGE_H
 #define MERGE_H
-void merge_sort_recu(int *arr, int len);
-void merge_sort_iter(int *arr, int len);
+#include <stddef.h>
+void merge_sort_recu(int *arr, const size_t len);
+void merge_sort_iter(int *arr, const size_t len);
 #endif

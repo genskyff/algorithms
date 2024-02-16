@@ -5,7 +5,7 @@
 #include <stdio.h>
 #endif
 
-void selection_sort(int *arr, int len) {
+void selection_sort(int *arr, const size_t len) {
 #ifdef DEBUG_PRINT
     printf("\nbegin:\t");
     show(arr, len);

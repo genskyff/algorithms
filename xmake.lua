@@ -61,6 +61,12 @@ target("utils")
     set_kind("static")
     add_files("src/utils.c")
 
+target("test_utils")
+    set_kind("binary")
+    set_group("test")
+    add_files("test/test_utils.c")
+    add_deps("utils")
+
 target("bubble")
     set_kind("static")
     add_files("src/sort/bubble.c")

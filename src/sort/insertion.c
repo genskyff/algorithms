@@ -1,11 +1,11 @@
 #include "insertion.h"
+#include "utils.h"
 
 #ifdef DEBUG_PRINT
-#include "utils.h"
 #include <stdio.h>
 #endif
 
-void insertion_sort(int *arr, int len) {
+void insertion_sort(int *arr, const size_t len) {
 #ifdef DEBUG_PRINT
     printf("\nbegin:\t");
     show(arr, len);
@@ -33,7 +33,7 @@ void insertion_sort(int *arr, int len) {
     }
 }
 
-void binary_insertion_sort(int *arr, int len) {
+void binary_insertion_sort(int *arr, const size_t len) {
 #ifdef DEBUG_PRINT
     printf("\nbegin:\t");
     show(arr, len);
@@ -44,7 +44,7 @@ void binary_insertion_sort(int *arr, int len) {
     }
 
     for (int i = 1; i < len; i++) {
-        int base  = arr[i];
+        int base = arr[i];
         int low  = 0;
         int high = i;
 
@@ -58,10 +58,7 @@ void binary_insertion_sort(int *arr, int len) {
             }
         }
 
-        for (int j = i - 1; j >= low; j--) {
-            arr[j + 1] = arr[j];
-        }
-
+        rotate_right(arr, low, i + 1, 1);
         arr[low] = base;
 
 #ifdef DEBUG_PRINT
@@ -71,7 +68,7 @@ void binary_insertion_sort(int *arr, int len) {
     }
 }
 
-void shell_sort(int *arr, int len) {
+void shell_sort(int *arr, const size_t len) {
 #ifdef DEBUG_PRINT
     printf("\nbegin:\t");
     show(arr, len);

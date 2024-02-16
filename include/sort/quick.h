@@ -1,4 +1,5 @@
 #ifndef QUICK_H
 #define QUICK_H
-void quick_sort(int *arr, int len);
+#include <stddef.h>
+void quick_sort(int *arr, const size_t len);
 #endif

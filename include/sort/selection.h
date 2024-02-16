@@ -1,4 +1,5 @@
 #ifndef SELECTION_H
 #define SELECTION_H
-void selection_sort(int *arr, int len);
+#include <stddef.h>
+void selection_sort(int *arr, const size_t len);
 #endif

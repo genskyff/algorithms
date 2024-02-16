@@ -6,15 +6,11 @@
 #include <stdio.h>
 #endif
 
-void bubble_sort(int *arr, int len) {
+void bubble_sort(int *arr, const size_t len) {
 #ifdef DEBUG_PRINT
     printf("\nbegin:\t");
     show(arr, len);
 #endif
-
-    if (len < 2) {
-        return;
-    }
 
     for (int i = 0; i < len; i++) {
         bool swapped = false;
@@ -37,7 +33,7 @@ void bubble_sort(int *arr, int len) {
     }
 }
 
-void cocktail_sort(int *arr, int len) {
+void cocktail_sort(int *arr, const size_t len) {
 #ifdef DEBUG_PRINT
     printf("\nbegin:\t");
     show(arr, len);

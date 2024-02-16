@@ -6,11 +6,11 @@
 int LEN;
 #endif
 
-void qsort(int *arr, int low, int high);
-int  partition(int *arr, int low, int high);
-void move_pivot_to_hi(int *arr, int low, int high);
+void qsort(int *arr, size_t low, size_t high);
+int  partition(int *arr, const size_t low, const size_t high);
+void move_pivot_to_high(int *arr, const size_t low, const size_t high);
 
-void quick_sort(int *arr, int len) {
+void quick_sort(int *arr, const size_t len) {
 #ifdef DEBUG_PRINT
     LEN = len;
     printf("\nbegin:\t");
@@ -24,7 +24,7 @@ void quick_sort(int *arr, int len) {
     qsort(arr, 0, len - 1);
 }
 
-void qsort(int *arr, int low, int high) {
+void qsort(int *arr, size_t low, size_t high) {
     while (low < high) {
         int pivot = partition(arr, low, high);
 
@@ -45,26 +45,26 @@ void qsort(int *arr, int low, int high) {
     }
 }
 
-int partition(int *arr, int low, int high) {
-    move_pivot_to_hi(arr, low, high);
+int partition(int *arr, const size_t low, const size_t high) {
+    move_pivot_to_high(arr, low, high);
     int pivot = arr[high];
-    int curr  = low;
+    int cur   = low;
 
     for (int i = low; i < high; i++) {
         if (arr[i] < pivot) {
-            swap(arr, i, curr);
-            curr++;
+            swap(arr, i, cur);
+            cur++;
         }
     }
-    swap(arr, curr, high);
+    swap(arr, cur, high);
 
-    return curr;
+    return cur;
 }
 
-void move_pivot_to_hi(int *arr, int low, int high) {
-    int mid = low + (high - low) / 2;
+void move_pivot_to_high(int *arr, const size_t low, const size_t high) {
+    int mid   = low + (high - low) / 2;
     int pivot = high;
-    
+
     if ((arr[low] < arr[mid]) ^ (arr[low] < arr[high])) {
         pivot = low;
     } else if ((arr[mid] < arr[low]) ^ (arr[mid] < arr[high])) {

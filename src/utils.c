@@ -1,8 +1,10 @@
 #include "utils.h"
+#include <corecrt.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-void swap(int *arr, int i, int j) {
+void swap(int *arr, const size_t i, const size_t j) {
     if (i == j) {
         return;
     }
@@ -12,20 +14,68 @@ void swap(int *arr, int i, int j) {
     arr[j] = t;
 }
 
-void copy(int *src, int *dest, int len) {
+void copy(const int *src, int *dest, const size_t len) {
     for (int i = 0; i < len; i++) {
         dest[i] = src[i];
     }
 }
 
-void show(int *arr, int len) {
+void rotate_left(int *arr, const size_t begin, const size_t end,
+                 const size_t k) {
+    if (begin >= end) {
+        return;
+    }
+
+    int len = end - begin;
+    if (len == 0) {
+        return;
+    }
+
+    int *tmp = (int *)malloc(len * sizeof(int));
+    if (tmp == NULL) {
+        return;
+    }
+
+    int offset = k % len;
+    copy(arr + begin, tmp + len - offset, offset);
+    copy(arr + begin + offset, tmp, len - offset);
+    copy(tmp, arr + begin, len);
+
+    free(tmp);
+}
+
+void rotate_right(int *arr, const size_t begin, const size_t end,
+                  const size_t n) {
+    if (begin >= end) {
+        return;
+    }
+
+    int len = end - begin;
+    if (len == 0) {
+        return;
+    }
+
+    int *tmp = (int *)malloc(len * sizeof(int));
+    if (tmp == NULL) {
+        return;
+    }
+
+    int offset = n % len;
+    copy(arr + end - offset, tmp, offset);
+    copy(arr + begin, tmp + offset, len - offset);
+    copy(tmp, arr + begin, len);
+
+    free(tmp);
+}
+
+void show(const int *arr, const size_t len) {
     for (int i = 0; i < len; i++) {
         printf("%d ", arr[i]);
     }
     printf("\n");
 }
 
-void assert_eq(int *left, int *right, int len) {
+bool _assert_eq(const int *left, const int *right, const size_t len) {
     bool flag = true;
 
     for (int i = 0; i < len; i++) {
@@ -36,7 +86,7 @@ void assert_eq(int *left, int *right, int len) {
     }
 
     if (flag) {
-        printf("...OK\n");
+        return true;
     } else {
         printf("...FAILED\n");
         printf("  |--- left\t");
@@ -44,5 +94,10 @@ void assert_eq(int *left, int *right, int len) {
         printf("  |--- right\t");
         show(right, len);
         printf("\n");
+        return false;
     }
+}
+
+void assert_eq(const int *left, const int *right, const size_t len) {
+    // todo
 }
