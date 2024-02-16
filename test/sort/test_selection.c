@@ -3,6 +3,8 @@
 #include "utils.h"
 #include <stdlib.h>
 
+TestData DATA[DATA_LEN];
+
 bool test_selection_sort(void) {
     bool all_passed = true;
 
@@ -19,6 +21,7 @@ bool test_selection_sort(void) {
 }
 
 int main(void) {
+    init_data(DATA);
     run_test(test_selection_sort, "test_selection_sort");
 
     return 0;

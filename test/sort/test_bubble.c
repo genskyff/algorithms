@@ -3,6 +3,8 @@
 #include "utils.h"
 #include <stdlib.h>
 
+TestData DATA[DATA_LEN];
+
 bool test_bubble_sort(void) {
     bool all_passed = true;
 
@@ -34,6 +36,7 @@ bool test_cocktail_sort(void) {
 }
 
 int main(void) {
+    init_data(DATA);
     run_test(test_bubble_sort, "test_bubble_sort\t");
     run_test(test_cocktail_sort, "test_cocktail_sort\t");
 

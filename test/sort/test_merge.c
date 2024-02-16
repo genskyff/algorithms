@@ -3,6 +3,8 @@
 #include "utils.h"
 #include <stdlib.h>
 
+TestData DATA[DATA_LEN];
+
 bool test_merge_sort_recu(void) {
     bool all_passed = true;
 
@@ -34,6 +36,7 @@ bool test_merge_sort_iter(void) {
 }
 
 int main(void) {
+    init_data(DATA);
     run_test(test_merge_sort_recu, "test_merge_sort_recu");
     run_test(test_merge_sort_iter, "test_merge_sort_iter");
 

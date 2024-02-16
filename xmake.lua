@@ -37,7 +37,15 @@ on_load(function (target)
     if target:name() ~= "utils" then
         target:add("deps", "utils")
     end
+
+    if target:name() ~= "utils" and target:name() ~= "test" and target:name("test_.*") then
+        target:add("deps", "test")
+    end
 end)
+
+target("test")
+    set_kind("static")
+    add_files("test/test.c")
 
 -- -------
 --  utils

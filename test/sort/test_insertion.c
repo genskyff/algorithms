@@ -3,6 +3,8 @@
 #include "utils.h"
 #include <stdlib.h>
 
+TestData DATA[DATA_LEN];
+
 bool test_insertion_sort(void) {
     bool all_passed = true;
 
@@ -49,6 +51,7 @@ bool test_shell_sort(void) {
 }
 
 int main(void) {
+    init_data(DATA);
     run_test(test_insertion_sort, "test_insertion_sort");
     run_test(test_binary_insertion_sort, "test_binary_insertion_sort");
     run_test(test_shell_sort, "test_shell_sort\t");
