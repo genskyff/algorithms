@@ -39,6 +39,6 @@ void run_test(const TestFunc test, const char *test_name) {
     printf("test %s\t", test_name);
 
     if (test()) {
-        printf("\033[1;32m...OK\033[0m\n");
+        printf("\x1b[1;32m...OK\x1b[0m\n");
     }
 }

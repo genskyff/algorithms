@@ -129,7 +129,7 @@ bool assert_eq(const Array *left, const Array *right) {
     }
 
     if (!is_eq) {
-        printf("\033[1;31m...FAILED\033[0m\n");
+        printf("\x1b[1;31m...FAILED\x1b[0m\n");
         printf("  |-- left\t");
         show(left);
         printf("  |-- right\t");
