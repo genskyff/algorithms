@@ -1,7 +1,7 @@
 #include "bubble.h"
 #include "utils.h"
 
-void bubble_sort(Array *arr) {
+void bubble_sort(const Array *arr) {
     for (size_t i = 0; i < arr->len; i++) {
         bool is_swapped = false;
 
@@ -18,7 +18,7 @@ void bubble_sort(Array *arr) {
     }
 }
 
-void cocktail_sort(Array *arr) {
+void cocktail_sort(const Array *arr) {
     if (arr->len == 0) {
         return;
     }

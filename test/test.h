@@ -5,14 +5,14 @@
 #include <stdbool.h>
 
 typedef struct {
-    Array unsorted;
-    Array sorted;
+    const Array unsorted;
+    const Array sorted;
 } TestData;
 
 typedef bool (*TestFunc)(void);
 
-void init_data(TestData *data);
-void run_test(TestFunc test, const char *test_name);
+void init_data(const TestData *data);
+void run_test(const TestFunc test, const char *test_name);
 
 #define DATA_LEN 7
 

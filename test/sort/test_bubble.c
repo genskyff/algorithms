@@ -3,7 +3,7 @@
 #include "utils.h"
 #include <stdlib.h>
 
-TestData DATA[DATA_LEN];
+const TestData DATA[DATA_LEN];
 
 bool test_bubble_sort(void) {
     bool all_passed = true;

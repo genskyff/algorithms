@@ -2,7 +2,7 @@
 #include "utils.h"
 #include <stdio.h>
 
-void init_data(TestData *data) {
+void init_data(const TestData *data) {
     const Array empty          = ARRAY();
     const Array one            = ARRAY(0);
     const Array unsorted_2     = ARRAY(5, -2);
@@ -35,7 +35,7 @@ void init_data(TestData *data) {
     copy(&data[6].sorted, &sorted);
 }
 
-void run_test(TestFunc test, const char *test_name) {
+void run_test(const TestFunc test, const char *test_name) {
     printf("test %s\t", test_name);
 
     if (test()) {

@@ -1,11 +1,7 @@
 #include "insertion.h"
 #include "utils.h"
 
-void insertion_sort(Array *arr) {
-    if (arr->len == 0) {
-        return;
-    }
-
+void insertion_sort(const Array *arr) {
     for (size_t i = 1; i < arr->len; i++) {
         elem_t base = arr->data[i];
         size_t j    = i;
@@ -19,11 +15,7 @@ void insertion_sort(Array *arr) {
     }
 }
 
-void binary_insertion_sort(Array *arr) {
-    if (arr->len == 0) {
-        return;
-    }
-
+void binary_insertion_sort(const Array *arr) {
     for (size_t i = 1; i < arr->len; i++) {
         elem_t base = arr->data[i];
         size_t low  = 0;
@@ -44,11 +36,7 @@ void binary_insertion_sort(Array *arr) {
     }
 }
 
-void shell_sort(Array *arr) {
-    if (arr->len == 0) {
-        return;
-    }
-
+void shell_sort(const Array *arr) {
     size_t gap = 1;
 
     while (gap < arr->len / 3) {
