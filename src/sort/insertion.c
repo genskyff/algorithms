@@ -30,7 +30,7 @@ void binary_insertion_sort(Array *arr) {
             }
         }
 
-        rotate_right_slice(arr, low, i + 1, 1);
+        array_rotate_right_slice(arr, low, i + 1, 1);
         arr->data[low] = base;
     }
 }

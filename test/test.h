@@ -13,7 +13,7 @@ typedef bool (*TestFunc)(void);
 
 void init_data(TestData *data);
 void run_test(TestFunc test, char *test_name);
-bool assert_eq(Array left, Array right);
+bool assert_array_eq(Array left, Array right);
 
 #define DATA_LEN 7
 

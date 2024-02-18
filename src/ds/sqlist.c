@@ -12,23 +12,27 @@ void clear(SqList *list) { list->len = 0; }
 bool is_empty(SqList list) { return list.len == 0 ? true : false; }
 
 bool get(SqList list, size_t i, elem_t *e) {
-    if (list.len == 0 || i < 0 || i > list.len - 1)
+    if (list.len == 0 || i >= list.len) {
         return false;
+    }
 
     *e = list.data[i];
 
     return true;
 }
 
-bool find(SqList list, elem_t e, size_t *i) {}
+bool find(SqList list, elem_t e, size_t *i) { return true; }
 
 bool insert(SqList *list, size_t i, elem_t e) {
-    if (list->len == MAXSIZE || i < 0 || i > list->len)
+    if (list->len == MAXLEN || i > list->len + 1) {
         return false;
+    }
 
-    if (i < list->len)
-        for (size_t j = list->len - 1; j >= i; j--)
+    if (i < list->len) {
+        for (size_t j = list->len - 1; j >= i; j--) {
             list->data[j + 1] = list->data[j];
+        }
+    }
 
     list->data[i] = e;
     list->len++;

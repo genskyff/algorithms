@@ -14,6 +14,6 @@ void selection_sort(Array *arr) {
             }
         }
 
-        swap(arr, i, min);
+        array_swap(arr, i, min);
     }
 }

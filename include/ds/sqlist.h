@@ -5,14 +5,13 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#define MAXSIZE 100
+#define MAXLEN 100
 
 typedef struct {
-    elem_t data[MAXSIZE];
+    elem_t data[MAXLEN];
     size_t len;
 } SqList;
 
-void new();
 void show(SqList list);
 void clear(SqList *list);
 bool is_empty(SqList list);

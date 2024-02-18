@@ -36,11 +36,11 @@ size_t partition(Array *arr, size_t low, size_t high) {
 
     for (size_t i = low; i < high; i++) {
         if (arr->data[i] < pivot) {
-            swap(arr, i, cur);
+            array_swap(arr, i, cur);
             cur++;
         }
     }
-    swap(arr, cur, high);
+    array_swap(arr, cur, high);
 
     return cur;
 }
@@ -57,5 +57,5 @@ void move_pivot_to_high(Array *arr, size_t low, size_t high) {
         pivot = mid;
     }
 
-    swap(arr, pivot, high);
+    array_swap(arr, pivot, high);
 }

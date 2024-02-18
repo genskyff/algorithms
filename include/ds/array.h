@@ -15,20 +15,20 @@ typedef struct {
 
 #define INIT_ARRAY(_LEN) ((Array){.data = (elem_t[(_LEN)]){}, .len = (_LEN)})
 
-void swap(Array *arr, size_t i, size_t j);
+void array_swap(Array *arr, size_t i, size_t j);
 
-// [begin, end)
-void show(Array arr);
-void show_slice(Array arr, size_t begin, size_t end);
+// [start, end)
+void array_show(Array arr);
+void array_show_slice(Array arr, size_t start, size_t end);
 
-void copy(Array *dst, Array *src);
-void copy_slice(Array *dst, size_t d_begin, size_t d_end, Array *src,
-                size_t s_begin, size_t s_end);
+void array_copy(Array *dst, Array *src);
+void array_copy_slice(Array *dst, size_t d_start, size_t d_end, Array *src,
+                      size_t s_start, size_t s_end);
 
-void rotate_left(Array *arr, size_t n);
-void rotate_left_slice(Array *arr, size_t begin, size_t end, size_t n);
+void array_rotate_left(Array *arr, size_t n);
+void array_rotate_left_slice(Array *arr, size_t start, size_t end, size_t n);
 
-void rotate_right(Array *arr, size_t n);
-void rotate_right_slice(Array *arr, size_t begin, size_t end, size_t n);
+void array_rotate_right(Array *arr, size_t n);
+void array_rotate_right_slice(Array *arr, size_t start, size_t end, size_t n);
 
 #endif

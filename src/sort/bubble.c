@@ -7,7 +7,7 @@ void bubble_sort(Array *arr) {
 
         for (size_t j = 0; j < arr->len - i - 1; j++) {
             if (arr->data[j] > arr->data[j + 1]) {
-                swap(arr, j, j + 1);
+                array_swap(arr, j, j + 1);
                 is_swapped = true;
             }
         }
@@ -31,7 +31,7 @@ void cocktail_sort(Array *arr) {
 
         for (size_t i = low; i < high; i++) {
             if (arr->data[i] > arr->data[i + 1]) {
-                swap(arr, i, i + 1);
+                array_swap(arr, i, i + 1);
                 is_swapped = true;
             }
         }
@@ -45,7 +45,7 @@ void cocktail_sort(Array *arr) {
 
         for (size_t i = high; i > low; i--) {
             if (arr->data[i] < arr->data[i - 1]) {
-                swap(arr, i, i - 1);
+                array_swap(arr, i, i - 1);
                 is_swapped = true;
             }
         }
