@@ -1,11 +1,11 @@
 #include "quick.h"
 #include "utils.h"
 
-void   qsort(const Array *arr, size_t low, size_t high);
-size_t partition(const Array *arr, const size_t low, const size_t high);
-void   move_pivot_to_high(const Array *arr, const size_t low, const size_t high);
+void   qsort(Array *arr, size_t low, size_t high);
+size_t partition(Array *arr, size_t low, size_t high);
+void   move_pivot_to_high(Array *arr, size_t low, size_t high);
 
-void quick_sort(const Array *arr) {
+void quick_sort(Array *arr) {
 
     if (arr->len == 0) {
         return;
@@ -14,7 +14,7 @@ void quick_sort(const Array *arr) {
     qsort(arr, 0, arr->len - 1);
 }
 
-void qsort(const Array *arr, size_t low, size_t high) {
+void qsort(Array *arr, size_t low, size_t high) {
     while (low < high) {
         size_t pivot = partition(arr, low, high);
 
@@ -30,7 +30,7 @@ void qsort(const Array *arr, size_t low, size_t high) {
     }
 }
 
-size_t partition(const Array *arr, const size_t low, const size_t high) {
+size_t partition(Array *arr, size_t low, size_t high) {
     move_pivot_to_high(arr, low, high);
     elem_t pivot = arr->data[high];
     size_t cur   = low;
@@ -46,7 +46,7 @@ size_t partition(const Array *arr, const size_t low, const size_t high) {
     return cur;
 }
 
-void move_pivot_to_high(const Array *arr, const size_t low, const size_t high) {
+void move_pivot_to_high(Array *arr, size_t low, size_t high) {
     size_t mid   = low + (high - low) / 2;
     size_t pivot = high;
 

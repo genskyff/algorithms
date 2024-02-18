@@ -3,7 +3,7 @@
 #include "utils.h"
 #include <stdlib.h>
 
-const TestData DATA[DATA_LEN];
+TestData DATA[DATA_LEN];
 
 bool test_merge_sort_recu(void) {
     bool all_passed = true;

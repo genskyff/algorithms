@@ -1,7 +1,7 @@
 #include "selection.h"
 #include "utils.h"
 
-void selection_sort(const Array *arr) {
+void selection_sort(Array *arr) {
     if (arr->len == 0) {
         return;
     }

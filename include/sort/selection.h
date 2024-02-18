@@ -3,6 +3,6 @@
 
 #include "type.h"
 
-void selection_sort(const Array *arr);
+void selection_sort(Array *arr);
 
 #endif

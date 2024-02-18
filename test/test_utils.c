@@ -4,15 +4,13 @@
 #define ARR_LEN           11
 #define ARR_SLICE_4_7_LEN 3
 
-const Array ARR                = ARRAY(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-const Array ARR_SLICE_4_7      = ARRAY(4, 5, 6);
-const Array ARR_SWAP_0_10      = ARRAY(10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
-const Array ARR_ROTATE_LEFT_2  = ARRAY(2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1);
-const Array ARR_ROTATE_RIGHT_2 = ARRAY(9, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8);
-const Array ARR_ROTATE_LEFT_SLICE_4_7_2 =
-    ARRAY(0, 1, 2, 3, 6, 4, 5, 7, 8, 9, 10);
-const Array ARR_ROTATE_RIGHT_SLICE_4_7_2 =
-    ARRAY(0, 1, 2, 3, 5, 6, 4, 7, 8, 9, 10);
+Array ARR                          = ARRAY(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+Array ARR_SLICE_4_7                = ARRAY(4, 5, 6);
+Array ARR_SWAP_0_10                = ARRAY(10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+Array ARR_ROTATE_LEFT_2            = ARRAY(2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1);
+Array ARR_ROTATE_RIGHT_2           = ARRAY(9, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8);
+Array ARR_ROTATE_LEFT_SLICE_4_7_2  = ARRAY(0, 1, 2, 3, 6, 4, 5, 7, 8, 9, 10);
+Array ARR_ROTATE_RIGHT_SLICE_4_7_2 = ARRAY(0, 1, 2, 3, 5, 6, 4, 7, 8, 9, 10);
 
 bool test_swap(void) {
     Array arr = INIT_ARRAY(ARR_LEN);

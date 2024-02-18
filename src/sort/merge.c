@@ -1,13 +1,11 @@
 #include "merge.h"
 #include <stdlib.h>
 
-void msort_recu(const Array *arr, const Array *tmp, const size_t low,
-                const size_t high);
-void msort_iter(const Array *arr, const Array *tmp);
-void merge(const Array *arr, const Array *tmp, const size_t low,
-           const size_t mid, const size_t high);
+void msort_recu(Array *arr, Array *tmp, size_t low, size_t high);
+void msort_iter(Array *arr, Array *tmp);
+void merge(Array *arr, Array *tmp, size_t low, size_t mid, size_t high);
 
-void merge_sort_recu(const Array *arr) {
+void merge_sort_recu(Array *arr) {
     if (arr->len < 2) {
         return;
     }
@@ -21,7 +19,7 @@ void merge_sort_recu(const Array *arr) {
     free(data);
 }
 
-void merge_sort_iter(const Array *arr) {
+void merge_sort_iter(Array *arr) {
     if (arr->len < 2) {
         return;
     }
@@ -35,8 +33,7 @@ void merge_sort_iter(const Array *arr) {
     free(data);
 }
 
-void msort_recu(const Array *arr, const Array *tmp, const size_t low,
-                const size_t high) {
+void msort_recu(Array *arr, Array *tmp, size_t low, size_t high) {
     if (low < high) {
         size_t mid = low + (high - low) / 2;
 
@@ -46,7 +43,7 @@ void msort_recu(const Array *arr, const Array *tmp, const size_t low,
     }
 }
 
-void msort_iter(const Array *arr, const Array *tmp) {
+void msort_iter(Array *arr, Array *tmp) {
     size_t low, mid, high;
 
     for (size_t i = 1; i < arr->len; i *= 2) {
@@ -60,8 +57,7 @@ void msort_iter(const Array *arr, const Array *tmp) {
     }
 }
 
-void merge(const Array *arr, const Array *tmp, const size_t low,
-           const size_t mid, const size_t high) {
+void merge(Array *arr, Array *tmp, size_t low, size_t mid, size_t high) {
     size_t l_pos = low, h_pos = mid + 1, t_pos = low;
 
     while (l_pos <= mid && h_pos <= high) {

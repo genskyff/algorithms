@@ -6,9 +6,14 @@
 typedef int elem_t;
 
 typedef struct {
-    elem_t      *data;
-    const size_t len;
+    elem_t *data;
+    size_t  len;
 } Array;
+
+typedef struct {
+    elem_t *data;
+    size_t  len;
+} List;
 
 #define ARRAY(...)                                                             \
     ((Array){.data = (elem_t[]){__VA_ARGS__},                                  \

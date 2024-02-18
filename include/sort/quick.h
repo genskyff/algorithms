@@ -3,6 +3,6 @@
 
 #include "type.h"
 
-void quick_sort(const Array *arr);
+void quick_sort(Array *arr);
 
 #endif
