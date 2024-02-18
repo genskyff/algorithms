@@ -1,6 +1,6 @@
 #include "test.h"
-#include "utils.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void init_data(TestData *data) {
     Array empty          = ARRAY();
@@ -41,4 +41,31 @@ void run_test(TestFunc test, char *test_name) {
     if (test()) {
         printf("\x1b[1;32m...OK\x1b[0m\n");
     }
+}
+
+bool assert_eq(Array *left, Array *right) {
+    bool is_eq = true;
+
+    if (left->len != right->len) {
+        is_eq = false;
+    } else {
+        for (size_t i = 0; i < left->len; i++) {
+            if (left->data[i] != right->data[i]) {
+                is_eq = false;
+                break;
+            }
+        }
+    }
+
+    if (!is_eq) {
+        printf("\x1b[1;31m...FAILED\x1b[0m\n");
+        printf("  |-- left\t");
+        show(left);
+        printf("  |-- right\t");
+        show(right);
+        printf("\n");
+        exit(1);
+    }
+
+    return is_eq;
 }

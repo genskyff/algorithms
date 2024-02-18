@@ -1,5 +1,5 @@
 #include "test.h"
-#include "utils.h"
+#include "array.h"
 
 #define ARR_LEN           11
 #define ARR_SLICE_4_7_LEN 3

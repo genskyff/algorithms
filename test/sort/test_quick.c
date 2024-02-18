@@ -1,6 +1,5 @@
 #include "quick.h"
 #include "test.h"
-#include "utils.h"
 #include <stdlib.h>
 
 TestData DATA[DATA_LEN];

@@ -1,7 +1,7 @@
 #ifndef QUICK_H
 #define QUICK_H
 
-#include "type.h"
+#include "array.h"
 
 void quick_sort(Array *arr);
 

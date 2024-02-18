@@ -1,5 +1,4 @@
 #include "quick.h"
-#include "utils.h"
 
 void   qsort(Array *arr, size_t low, size_t high);
 size_t partition(Array *arr, size_t low, size_t high);

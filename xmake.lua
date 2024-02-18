@@ -14,7 +14,6 @@ end
 add_rules("mode.debug", "mode.release", "mode.test")
 rule("mode.test")
     on_load(function (target)
-        target:set("group", "test")
         target:add("includedirs", "test")
     end)
 rule_end()
@@ -31,34 +30,55 @@ task("test")
     }
 task_end()
 
-add_includedirs("include", "include/sort")
+add_includedirs("include", "include/ds", "include/sort")
 
 on_load(function (target)
     if target:name() ~= "utils" then
         target:add("deps", "utils")
     end
 
-    if target:name() ~= "utils" and target:name() ~= "test" and target:name("test_.*") then
+    if target:get("group") == "test" then
         target:add("deps", "test")
     end
+
+    if target:get("group") == "sort" or target:get("group") == "test" then
+        target:add("deps", "array")
+    end
 end)
-
-target("test")
-    set_kind("static")
-    add_files("test/test.c")
-
--- -------
---  utils
--- -------
 
 target("utils")
     set_kind("static")
     add_files("src/utils.c")
 
-target("test_utils")
+target("test")
+    set_kind("static")
+    add_files("test/test.c")
+
+-- -----------------
+--  data structures
+-- -----------------
+
+target("array")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/array.c")
+
+target("test_array")
     set_kind("binary")
     set_group("test")
-    add_files("test/test_utils.c")
+    add_files("test/ds/test_array.c")
+    add_deps("array")
+
+-- target("list")
+--     set_kind("static")
+--     set_group("ds")
+--     add_files("src/ds/list.c")
+
+-- target("test_list")
+--     set_kind("binary")
+--     set_group("test")
+--     add_files("test/ds/test_list.c")
+--     add_deps("list")
 
 -- --------------------
 --  sorting algorithms
@@ -66,6 +86,7 @@ target("test_utils")
 
 target("bubble")
     set_kind("static")
+    set_group("sort")
     add_files("src/sort/bubble.c")
 
 target("test_bubble")
@@ -76,6 +97,7 @@ target("test_bubble")
 
 target("insertion")
     set_kind("static")
+    set_group("sort")
     add_files("src/sort/insertion.c")
 
 target("test_insertion")
@@ -86,6 +108,7 @@ target("test_insertion")
 
 target("merge")
     set_kind("static")
+    set_group("sort")
     add_files("src/sort/merge.c")
 
 target("test_merge")
@@ -96,6 +119,7 @@ target("test_merge")
 
 target("quick")
     set_kind("static")
+    set_group("sort")
     add_files("src/sort/quick.c")
 
 target("test_quick")
@@ -106,6 +130,7 @@ target("test_quick")
 
 target("selection")
     set_kind("static")
+    set_group("sort")
     add_files("src/sort/selection.c")
 
 target("test_selection")

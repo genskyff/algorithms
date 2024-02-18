@@ -1,7 +1,7 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include "type.h"
+#include "array.h"
 #include <stdbool.h>
 
 typedef struct {
@@ -13,6 +13,7 @@ typedef bool (*TestFunc)(void);
 
 void init_data(TestData *data);
 void run_test(TestFunc test, char *test_name);
+bool assert_eq(Array *left, Array *right);
 
 #define DATA_LEN 7
 
