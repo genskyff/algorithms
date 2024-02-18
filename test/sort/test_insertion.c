@@ -12,7 +12,7 @@ bool test_insertion_sort(void) {
         Array   arr  = {data, DATA[i].unsorted.len};
         copy(&arr, &DATA[i].unsorted);
         insertion_sort(&arr);
-        all_passed = assert_eq(&arr, &DATA[i].sorted);
+        all_passed = assert_eq(arr, DATA[i].sorted);
         free(data);
     }
 
@@ -27,7 +27,7 @@ bool test_binary_insertion_sort(void) {
         Array   arr  = {data, DATA[i].unsorted.len};
         copy(&arr, &DATA[i].unsorted);
         binary_insertion_sort(&arr);
-        all_passed = assert_eq(&arr, &DATA[i].sorted);
+        all_passed = assert_eq(arr, DATA[i].sorted);
         free(data);
     }
 
@@ -42,7 +42,7 @@ bool test_shell_sort(void) {
         Array   arr  = {data, DATA[i].unsorted.len};
         copy(&arr, &DATA[i].unsorted);
         shell_sort(&arr);
-        all_passed = assert_eq(&arr, &DATA[i].sorted);
+        all_passed = assert_eq(arr, DATA[i].sorted);
         free(data);
     }
 

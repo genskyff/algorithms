@@ -12,7 +12,7 @@ bool test_bubble_sort(void) {
         Array   arr  = {data, DATA[i].unsorted.len};
         copy(&arr, &DATA[i].unsorted);
         bubble_sort(&arr);
-        all_passed = assert_eq(&arr, &DATA[i].sorted);
+        all_passed = assert_eq(arr, DATA[i].sorted);
         free(data);
     }
 
@@ -27,7 +27,7 @@ bool test_cocktail_sort(void) {
         Array   arr  = {data, DATA[i].unsorted.len};
         copy(&arr, &DATA[i].unsorted);
         cocktail_sort(&arr);
-        all_passed = assert_eq(&arr, &DATA[i].sorted);
+        all_passed = assert_eq(arr, DATA[i].sorted);
         free(data);
     }
 

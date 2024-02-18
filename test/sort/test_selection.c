@@ -12,7 +12,7 @@ bool test_selection_sort(void) {
         Array   arr  = {data, DATA[i].unsorted.len};
         copy(&arr, &DATA[i].unsorted);
         selection_sort(&arr);
-        all_passed = assert_eq(&arr, &DATA[i].sorted);
+        all_passed = assert_eq(arr, DATA[i].sorted);
         free(data);
     }
 

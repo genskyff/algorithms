@@ -14,20 +14,20 @@ void swap(Array *arr, size_t i, size_t j) {
     arr->data[j] = tmp;
 }
 
-void show(Array *arr) {
-    for (size_t i = 0; i < arr->len; i++) {
-        printf("%d ", arr->data[i]);
+void show(Array arr) {
+    for (size_t i = 0; i < arr.len; i++) {
+        printf("%d ", arr.data[i]);
     }
     printf("\n");
 }
 
-void show_slice(Array *arr, size_t begin, size_t end) {
-    if (begin >= end || begin >= arr->len) {
+void show_slice(Array arr, size_t begin, size_t end) {
+    if (begin >= end || begin >= arr.len) {
         return;
     }
 
-    for (size_t i = begin; i < MIN(end, arr->len); i++) {
-        printf("%d ", arr->data[i]);
+    for (size_t i = begin; i < MIN(end, arr.len); i++) {
+        printf("%d ", arr.data[i]);
     }
     printf("\n");
 }

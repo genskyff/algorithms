@@ -43,14 +43,14 @@ void run_test(TestFunc test, char *test_name) {
     }
 }
 
-bool assert_eq(Array *left, Array *right) {
+bool assert_eq(Array left, Array right) {
     bool is_eq = true;
 
-    if (left->len != right->len) {
+    if (left.len != right.len) {
         is_eq = false;
     } else {
-        for (size_t i = 0; i < left->len; i++) {
-            if (left->data[i] != right->data[i]) {
+        for (size_t i = 0; i < left.len; i++) {
+            if (left.data[i] != right.data[i]) {
                 is_eq = false;
                 break;
             }

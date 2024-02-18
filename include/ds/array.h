@@ -18,8 +18,8 @@ typedef struct {
 void swap(Array *arr, size_t i, size_t j);
 
 // [begin, end)
-void show(Array *arr);
-void show_slice(Array *arr, size_t begin, size_t end);
+void show(Array arr);
+void show_slice(Array arr, size_t begin, size_t end);
 
 void copy(Array *dst, Array *src);
 void copy_slice(Array *dst, size_t d_begin, size_t d_end, Array *src,

@@ -69,16 +69,16 @@ target("test_array")
     add_files("test/ds/test_array.c")
     add_deps("array")
 
--- target("list")
---     set_kind("static")
---     set_group("ds")
---     add_files("src/ds/list.c")
+target("sqlist")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/sqlist.c")
 
--- target("test_list")
---     set_kind("binary")
---     set_group("test")
---     add_files("test/ds/test_list.c")
---     add_deps("list")
+target("test_sqlist")
+    set_kind("binary")
+    set_group("test")
+    add_files("test/ds/test_sqlist.c")
+    add_deps("sqlist")
 
 -- --------------------
 --  sorting algorithms

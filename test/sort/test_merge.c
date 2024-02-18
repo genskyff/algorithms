@@ -12,7 +12,7 @@ bool test_merge_sort_recu(void) {
         Array   arr  = {data, DATA[i].unsorted.len};
         copy(&arr, &DATA[i].unsorted);
         merge_sort_recu(&arr);
-        all_passed = assert_eq(&arr, &DATA[i].sorted);
+        all_passed = assert_eq(arr, DATA[i].sorted);
         free(data);
     }
 
@@ -27,7 +27,7 @@ bool test_merge_sort_iter(void) {
         Array   arr  = {data, DATA[i].unsorted.len};
         copy(&arr, &DATA[i].unsorted);
         merge_sort_iter(&arr);
-        all_passed = assert_eq(&arr, &DATA[i].sorted);
+        all_passed = assert_eq(arr, DATA[i].sorted);
         free(data);
     }
 
