@@ -12,7 +12,7 @@ bool test_quick_sort(void) {
         elem_t tmp[len];
         copy(tmp, len, DATA[i].unsorted, len);
         quick_sort(tmp, len);
-        all_passed = assert_array_eq(tmp, len, DATA[i].sorted, len);
+        all_passed = assert_eq(tmp, len, DATA[i].sorted, len);
     }
 
     return all_passed;
