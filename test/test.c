@@ -12,57 +12,53 @@ void init_sort_data(TestSortData *data) {
     elem_t sorted[]         = {-5, -4, -3, -2, -1, 0, 1, 1, 2, 3, 4, 5};
     elem_t sorted_reverse[] = {5, 4, 3, 2, 1, 1, 0, -1, -2, -3, -4, -5};
 
-    data[0].unsorted = NULL;
-    data[0].sorted   = NULL;
-    data[0].len      = 0;
-
     elem_t *tmp = (elem_t *)malloc(2 * sizeof(one));
     size_t  len = sizeof(one) / sizeof(elem_t);
     copy(tmp, len, one, len);
-    data[1].unsorted = tmp;
+    data[0].unsorted = tmp;
     copy(tmp + len, len, one, len);
-    data[1].sorted = tmp + len;
-    data[1].len    = len;
+    data[0].sorted = tmp + len;
+    data[0].len    = len;
 
     tmp = (elem_t *)malloc(2 * sizeof(unsorted_2));
     len = sizeof(unsorted_2) / sizeof(elem_t);
     copy(tmp, len, unsorted_2, len);
-    data[2].unsorted = tmp;
+    data[1].unsorted = tmp;
     copy(tmp + len, len, sorted_2, len);
-    data[2].sorted = tmp + len;
-    data[2].len    = len;
+    data[1].sorted = tmp + len;
+    data[1].len    = len;
 
     tmp = (elem_t *)malloc(2 * sizeof(unsorted_3));
     len = sizeof(unsorted_3) / sizeof(elem_t);
     copy(tmp, len, unsorted_3, len);
-    data[3].unsorted = tmp;
+    data[2].unsorted = tmp;
     copy(tmp + len, len, sorted_3, len);
-    data[3].sorted = tmp + len;
-    data[3].len    = len;
+    data[2].sorted = tmp + len;
+    data[2].len    = len;
 
     tmp = (elem_t *)malloc(2 * sizeof(unsorted));
     len = sizeof(unsorted) / sizeof(elem_t);
     copy(tmp, len, unsorted, len);
+    data[3].unsorted = tmp;
+    copy(tmp + len, len, sorted, len);
+    data[3].sorted = tmp + len;
+    data[3].len    = len;
+
+    tmp = (elem_t *)malloc(2 * sizeof(sorted));
+    len = sizeof(sorted) / sizeof(elem_t);
+    copy(tmp, len, sorted, len);
     data[4].unsorted = tmp;
     copy(tmp + len, len, sorted, len);
     data[4].sorted = tmp + len;
     data[4].len    = len;
 
-    tmp = (elem_t *)malloc(2 * sizeof(sorted));
-    len = sizeof(sorted) / sizeof(elem_t);
-    copy(tmp, len, sorted, len);
+    tmp = (elem_t *)malloc(2 * sizeof(sorted_reverse));
+    len = sizeof(sorted_reverse) / sizeof(elem_t);
+    copy(tmp, len, sorted_reverse, len);
     data[5].unsorted = tmp;
     copy(tmp + len, len, sorted, len);
     data[5].sorted = tmp + len;
     data[5].len    = len;
-
-    tmp = (elem_t *)malloc(2 * sizeof(sorted_reverse));
-    len = sizeof(sorted_reverse) / sizeof(elem_t);
-    copy(tmp, len, sorted_reverse, len);
-    data[6].unsorted = tmp;
-    copy(tmp + len, len, sorted, len);
-    data[6].sorted = tmp + len;
-    data[6].len    = len;
 }
 
 void run_test(TestFunc test, const char *prefix, const char *test_name) {
