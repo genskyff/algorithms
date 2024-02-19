@@ -1,13 +1,14 @@
 #include "bubble.h"
+#include "utils.h"
 #include <stdbool.h>
 
-void bubble_sort(Array *arr) {
-    for (size_t i = 0; i < arr->len; i++) {
+void bubble_sort(elem_t *arr, size_t len) {
+    for (size_t i = 0; i < len; i++) {
         bool is_swapped = false;
 
-        for (size_t j = 0; j < arr->len - i - 1; j++) {
-            if (arr->data[j] > arr->data[j + 1]) {
-                array_swap(arr, j, j + 1);
+        for (size_t j = 0; j < len - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr, j, j + 1);
                 is_swapped = true;
             }
         }
@@ -18,20 +19,20 @@ void bubble_sort(Array *arr) {
     }
 }
 
-void cocktail_sort(Array *arr) {
-    if (arr->len == 0) {
+void cocktail_sort(elem_t *arr, size_t len) {
+    if (len == 0) {
         return;
     }
 
     size_t low  = 0;
-    size_t high = arr->len - 1;
+    size_t high = len - 1;
 
     while (low < high) {
         bool is_swapped = false;
 
         for (size_t i = low; i < high; i++) {
-            if (arr->data[i] > arr->data[i + 1]) {
-                array_swap(arr, i, i + 1);
+            if (arr[i] > arr[i + 1]) {
+                swap(arr, i, i + 1);
                 is_swapped = true;
             }
         }
@@ -44,8 +45,8 @@ void cocktail_sort(Array *arr) {
         is_swapped = false;
 
         for (size_t i = high; i > low; i--) {
-            if (arr->data[i] < arr->data[i - 1]) {
-                array_swap(arr, i, i - 1);
+            if (arr[i] < arr[i - 1]) {
+                swap(arr, i, i - 1);
                 is_swapped = true;
             }
         }

@@ -40,34 +40,29 @@ on_load(function (target)
     if target:get("group") == "test" then
         target:add("deps", "test")
     end
-
-    if target:get("group") == "sort" or target:get("group") == "test" then
-        target:add("deps", "array")
-    end
 end)
-
-target("utils")
-    set_kind("static")
-    add_files("src/utils.c")
 
 target("test")
     set_kind("static")
     add_files("test/test.c")
 
+-- -------
+--  utils
+-- -------
+
+target("utils")
+    set_kind("static")
+    add_files("src/utils.c")
+
+target("test_utils")
+    set_kind("binary")
+    set_group("test")
+    add_files("test/test_utils.c")
+    add_deps("utils")
+
 -- -----------------
 --  data structures
 -- -----------------
-
-target("array")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/array.c")
-
-target("test_array")
-    set_kind("binary")
-    set_group("test")
-    add_files("test/ds/test_array.c")
-    add_deps("array")
 
 target("sqlist")
     set_kind("static")

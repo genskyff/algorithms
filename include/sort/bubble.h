@@ -1,9 +1,10 @@
 #ifndef BUBBLE_H
 #define BUBBLE_H
 
-#include "array.h"
+#include "type.h"
+#include <stddef.h>
 
-void bubble_sort(Array *arr);
-void cocktail_sort(Array *arr);
+void bubble_sort(elem_t *arr, size_t len);
+void cocktail_sort(elem_t *arr, size_t len);
 
 #endif

@@ -1,8 +1,9 @@
 #ifndef SELECTION_H
 #define SELECTION_H
 
-#include "array.h"
+#include "type.h"
+#include <stddef.h>
 
-void selection_sort(Array *arr);
+void selection_sort(elem_t *arr, size_t len);
 
 #endif

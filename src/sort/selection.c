@@ -1,19 +1,20 @@
 #include "selection.h"
+#include "utils.h"
 
-void selection_sort(Array *arr) {
-    if (arr->len == 0) {
+void selection_sort(elem_t *arr, size_t len) {
+    if (len == 0) {
         return;
     }
 
-    for (size_t i = 0; i < arr->len - 1; i++) {
+    for (size_t i = 0; i < len - 1; i++) {
         size_t min = i;
 
-        for (size_t j = i + 1; j < arr->len; j++) {
-            if (arr->data[j] < arr->data[min]) {
+        for (size_t j = i + 1; j < len; j++) {
+            if (arr[j] < arr[min]) {
                 min = j;
             }
         }
 
-        array_swap(arr, i, min);
+        swap(arr, i, min);
     }
 }

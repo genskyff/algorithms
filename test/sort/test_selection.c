@@ -1,27 +1,26 @@
 #include "selection.h"
 #include "test.h"
-#include <stdlib.h>
+#include "utils.h"
 
-TestData DATA[DATA_LEN];
+TestSortData DATA[SORT_DATA_LEN];
 
 bool test_selection_sort(void) {
-    bool all_passed = true;
+    bool all_passed;
 
-    for (size_t i = 0; i < DATA_LEN; i++) {
-        elem_t *data = (elem_t *)malloc(DATA[i].unsorted.len * sizeof(elem_t));
-        Array   arr  = {data, DATA[i].unsorted.len};
-        copy(&arr, &DATA[i].unsorted);
-        selection_sort(&arr);
-        all_passed = assert_eq(arr, DATA[i].sorted);
-        free(data);
+    for (size_t i = 0; i < SORT_DATA_LEN; i++) {
+        elem_t len = DATA[i].len;
+        elem_t tmp[len];
+        copy(tmp, len, DATA[i].unsorted, len);
+        selection_sort(tmp, len);
+        all_passed = assert_array_eq(tmp, len, DATA[i].sorted, len);
     }
 
     return all_passed;
 }
 
 int main(void) {
-    init_data(DATA);
-    run_test(test_selection_sort, "test_selection_sort");
+    init_sort_data(DATA);
+    run_test(test_selection_sort, "sort", "test_selection_sort");
 
     return 0;
 }

@@ -1,8 +1,9 @@
 #ifndef QUICK_H
 #define QUICK_H
 
-#include "array.h"
+#include "type.h"
+#include <stddef.h>
 
-void quick_sort(Array *arr);
+void quick_sort(elem_t *arr, size_t len);
 
 #endif

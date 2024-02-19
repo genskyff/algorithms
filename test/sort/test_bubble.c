@@ -1,43 +1,40 @@
 #include "bubble.h"
 #include "test.h"
-#include <stdlib.h>
+#include "utils.h"
 
-TestData DATA[DATA_LEN];
+TestSortData DATA[SORT_DATA_LEN];
 
 bool test_bubble_sort(void) {
-    bool all_passed = true;
+    bool all_passed;
 
-    for (size_t i = 0; i < DATA_LEN; i++) {
-        elem_t *data = (elem_t *)malloc(DATA[i].unsorted.len * sizeof(elem_t));
-        Array   arr  = {data, DATA[i].unsorted.len};
-        copy(&arr, &DATA[i].unsorted);
-        bubble_sort(&arr);
-        all_passed = assert_eq(arr, DATA[i].sorted);
-        free(data);
+    for (size_t i = 0; i < SORT_DATA_LEN; i++) {
+        elem_t len = DATA[i].len;
+        elem_t tmp[len];
+        copy(tmp, len, DATA[i].unsorted, len);
+        bubble_sort(tmp, len);
+        all_passed = assert_array_eq(tmp, len, DATA[i].sorted, len);
     }
 
     return all_passed;
 }
 
 bool test_cocktail_sort(void) {
-    bool all_passed = true;
+    bool all_passed;
 
-    for (size_t i = 0; i < DATA_LEN; i++) {
-        elem_t *data = (elem_t *)malloc(DATA[i].unsorted.len * sizeof(elem_t));
-        Array   arr  = {data, DATA[i].unsorted.len};
-        copy(&arr, &DATA[i].unsorted);
-        cocktail_sort(&arr);
-        all_passed = assert_eq(arr, DATA[i].sorted);
-        free(data);
+    for (size_t i = 0; i < SORT_DATA_LEN; i++) {
+        elem_t len = DATA[i].len;
+        elem_t tmp[len];
+        copy(tmp, len, DATA[i].unsorted, len);
+        cocktail_sort(tmp, len);
+        all_passed = assert_array_eq(tmp, len, DATA[i].sorted, len);
     }
-
     return all_passed;
 }
 
 int main(void) {
-    init_data(DATA);
-    run_test(test_bubble_sort, "test_bubble_sort\t");
-    run_test(test_cocktail_sort, "test_cocktail_sort\t");
+    init_sort_data(DATA);
+    run_test(test_bubble_sort, "sort", "test_bubble_sort\t");
+    run_test(test_cocktail_sort, "sort", "test_cocktail_sort\t");
 
     return 0;
 }

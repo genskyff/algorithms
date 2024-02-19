@@ -1,56 +1,90 @@
 #include "test.h"
-#include <stdio.h>
+#include "utils.h"
 #include <stdlib.h>
 
-void init_data(TestData *data) {
-    Array empty          = ARRAY();
-    Array one            = ARRAY(0);
-    Array unsorted_2     = ARRAY(5, -2);
-    Array sorted_2       = ARRAY(-2, 5);
-    Array unsorted_3     = ARRAY(3, -1, 0);
-    Array sorted_3       = ARRAY(-1, 0, 3);
-    Array unsorted       = ARRAY(-3, -5, 2, 1, 4, 3, 0, 5, 1, -1, -2, -4);
-    Array sorted         = ARRAY(-5, -4, -3, -2, -1, 0, 1, 1, 2, 3, 4, 5);
-    Array sorted_reverse = ARRAY(5, 4, 3, 2, 1, 1, 0, -1, -2, -3, -4, -5);
+void init_sort_data(TestSortData *data) {
+    elem_t one[]            = {0};
+    elem_t unsorted_2[]     = {5, -2};
+    elem_t sorted_2[]       = {-2, 5};
+    elem_t unsorted_3[]     = {3, -1, 0};
+    elem_t sorted_3[]       = {-1, 0, 3};
+    elem_t unsorted[]       = {-3, -5, 2, 1, 4, 3, 0, 5, 1, -1, -2, -4};
+    elem_t sorted[]         = {-5, -4, -3, -2, -1, 0, 1, 1, 2, 3, 4, 5};
+    elem_t sorted_reverse[] = {5, 4, 3, 2, 1, 1, 0, -1, -2, -3, -4, -5};
 
-    copy(&data[0].unsorted, &empty);
-    copy(&data[0].sorted, &empty);
+    data[0].unsorted = NULL;
+    data[0].sorted   = NULL;
+    data[0].len      = 0;
 
-    copy(&data[1].unsorted, &one);
-    copy(&data[1].sorted, &one);
+    elem_t *tmp = (elem_t *)malloc(2 * sizeof(one));
+    size_t  len = sizeof(one) / sizeof(elem_t);
+    copy(tmp, len, one, len);
+    data[1].unsorted = tmp;
+    copy(tmp + len, len, one, len);
+    data[1].sorted = tmp + len;
+    data[1].len    = len;
 
-    copy(&data[2].unsorted, &unsorted_2);
-    copy(&data[2].sorted, &sorted_2);
+    tmp = (elem_t *)malloc(2 * sizeof(unsorted_2));
+    len = sizeof(unsorted_2) / sizeof(elem_t);
+    copy(tmp, len, unsorted_2, len);
+    data[2].unsorted = tmp;
+    copy(tmp + len, len, sorted_2, len);
+    data[2].sorted = tmp + len;
+    data[2].len    = len;
 
-    copy(&data[3].unsorted, &unsorted_3);
-    copy(&data[3].sorted, &sorted_3);
+    tmp = (elem_t *)malloc(2 * sizeof(unsorted_3));
+    len = sizeof(unsorted_3) / sizeof(elem_t);
+    copy(tmp, len, unsorted_3, len);
+    data[3].unsorted = tmp;
+    copy(tmp + len, len, sorted_3, len);
+    data[3].sorted = tmp + len;
+    data[3].len    = len;
 
-    copy(&data[4].unsorted, &unsorted);
-    copy(&data[4].sorted, &sorted);
+    tmp = (elem_t *)malloc(2 * sizeof(unsorted));
+    len = sizeof(unsorted) / sizeof(elem_t);
+    copy(tmp, len, unsorted, len);
+    data[4].unsorted = tmp;
+    copy(tmp + len, len, sorted, len);
+    data[4].sorted = tmp + len;
+    data[4].len    = len;
 
-    copy(&data[5].unsorted, &sorted);
-    copy(&data[5].sorted, &sorted);
+    tmp = (elem_t *)malloc(2 * sizeof(sorted));
+    len = sizeof(sorted) / sizeof(elem_t);
+    copy(tmp, len, sorted, len);
+    data[5].unsorted = tmp;
+    copy(tmp + len, len, sorted, len);
+    data[5].sorted = tmp + len;
+    data[5].len    = len;
 
-    copy(&data[6].unsorted, &sorted_reverse);
-    copy(&data[6].sorted, &sorted);
+    tmp = (elem_t *)malloc(2 * sizeof(sorted_reverse));
+    len = sizeof(sorted_reverse) / sizeof(elem_t);
+    copy(tmp, len, sorted_reverse, len);
+    data[6].unsorted = tmp;
+    copy(tmp + len, len, sorted, len);
+    data[6].sorted = tmp + len;
+    data[6].len    = len;
 }
 
-void run_test(TestFunc test, char *test_name) {
-    printf("test %s\t", test_name);
+void run_test(TestFunc test, const char *prefix, const char *test_name) {
+    if (prefix == NULL || *prefix == '\0') {
+        prefix = "test";
+    }
+
+    printf("%s %s\t", prefix, test_name);
 
     if (test()) {
         printf("\x1b[1;32m...OK\x1b[0m\n");
     }
 }
 
-bool assert_eq(Array left, Array right) {
+bool assert_array_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len) {
     bool is_eq = true;
 
-    if (left.len != right.len) {
+    if (l_len != r_len) {
         is_eq = false;
     } else {
-        for (size_t i = 0; i < left.len; i++) {
-            if (left.data[i] != right.data[i]) {
+        for (size_t i = 0; i < l_len; i++) {
+            if (left[i] != right[i]) {
                 is_eq = false;
                 break;
             }
@@ -58,13 +92,13 @@ bool assert_eq(Array left, Array right) {
     }
 
     if (!is_eq) {
-        printf("\x1b[1;31m...FAILED\x1b[0m\n");
-        printf("  |-- left\t");
-        show(left);
-        printf("  |-- right\t");
-        show(right);
-        printf("\n");
-        exit(1);
+        fprintf(stderr, "\x1b[1;31m...FAILED\x1b[0m\n");
+        fprintf(stderr, "  |-- left\t");
+        show(stderr, left, l_len);
+        fprintf(stderr, "  |-- right\t");
+        show(stderr, right, r_len);
+        fprintf(stderr, "\n");
+        abort();
     }
 
     return is_eq;

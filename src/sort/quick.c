@@ -1,19 +1,20 @@
 #include "quick.h"
+#include "utils.h"
 
-void   qsort(Array *arr, size_t low, size_t high);
-size_t partition(Array *arr, size_t low, size_t high);
-void   move_pivot_to_high(Array *arr, size_t low, size_t high);
+void   qsort(elem_t *arr, size_t low, size_t high);
+size_t partition(elem_t *arr, size_t low, size_t high);
+void   move_pivot_to_high(elem_t *arr, size_t low, size_t high);
 
-void quick_sort(Array *arr) {
+void quick_sort(elem_t *arr, size_t len) {
 
-    if (arr->len == 0) {
+    if (len == 0) {
         return;
     }
 
-    qsort(arr, 0, arr->len - 1);
+    qsort(arr, 0, len - 1);
 }
 
-void qsort(Array *arr, size_t low, size_t high) {
+void qsort(elem_t *arr, size_t low, size_t high) {
     while (low < high) {
         size_t pivot = partition(arr, low, high);
 
@@ -29,33 +30,31 @@ void qsort(Array *arr, size_t low, size_t high) {
     }
 }
 
-size_t partition(Array *arr, size_t low, size_t high) {
+size_t partition(elem_t *arr, size_t low, size_t high) {
     move_pivot_to_high(arr, low, high);
-    elem_t pivot = arr->data[high];
+    elem_t pivot = arr[high];
     size_t cur   = low;
 
     for (size_t i = low; i < high; i++) {
-        if (arr->data[i] < pivot) {
-            array_swap(arr, i, cur);
+        if (arr[i] < pivot) {
+            swap(arr, i, cur);
             cur++;
         }
     }
-    array_swap(arr, cur, high);
+    swap(arr, cur, high);
 
     return cur;
 }
 
-void move_pivot_to_high(Array *arr, size_t low, size_t high) {
+void move_pivot_to_high(elem_t *arr, size_t low, size_t high) {
     size_t mid   = low + (high - low) / 2;
     size_t pivot = high;
 
-    if ((arr->data[low] < arr->data[mid]) ^
-        (arr->data[low] < arr->data[high])) {
+    if ((arr[low] < arr[mid]) ^ (arr[low] < arr[high])) {
         pivot = low;
-    } else if ((arr->data[mid] < arr->data[low]) ^
-               (arr->data[mid] < arr->data[high])) {
+    } else if ((arr[mid] < arr[low]) ^ (arr[mid] < arr[high])) {
         pivot = mid;
     }
 
-    array_swap(arr, pivot, high);
+    swap(arr, pivot, high);
 }
