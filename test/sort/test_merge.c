@@ -33,9 +33,10 @@ bool test_merge_sort_iter(void) {
 }
 
 int main(void) {
+    char *prefix = "sort";
     init_sort_data(DATA);
-    run_test(test_merge_sort_recu, "sort", "test_merge_sort_recu");
-    run_test(test_merge_sort_iter, "sort", "test_merge_sort_iter");
+    run_test(test_merge_sort_recu, prefix, "test_merge_sort_recu");
+    run_test(test_merge_sort_iter, prefix, "test_merge_sort_iter");
 
     return 0;
 }

@@ -32,9 +32,10 @@ bool test_cocktail_sort(void) {
 }
 
 int main(void) {
+    char *prefix = "sort";
     init_sort_data(DATA);
-    run_test(test_bubble_sort, "sort", "test_bubble_sort\t");
-    run_test(test_cocktail_sort, "sort", "test_cocktail_sort\t");
+    run_test(test_bubble_sort, prefix, "test_bubble_sort\t");
+    run_test(test_cocktail_sort, prefix, "test_cocktail_sort\t");
 
     return 0;
 }

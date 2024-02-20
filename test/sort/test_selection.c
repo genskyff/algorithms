@@ -19,8 +19,9 @@ bool test_selection_sort(void) {
 }
 
 int main(void) {
+    char *prefix = "sort";
     init_sort_data(DATA);
-    run_test(test_selection_sort, "sort", "test_selection_sort");
+    run_test(test_selection_sort, prefix, "test_selection_sort");
 
     return 0;
 }

@@ -47,9 +47,10 @@ bool test_shell_sort(void) {
 }
 
 int main(void) {
+    char *prefix = "sort";
     init_sort_data(DATA);
-    run_test(test_insertion_sort, "sort", "test_insertion_sort");
-    run_test(test_binary_insertion_sort, "sort", "test_binary_insertion_sort");
-    run_test(test_shell_sort, "sort", "test_shell_sort\t");
+    run_test(test_insertion_sort, prefix, "test_insertion_sort");
+    run_test(test_binary_insertion_sort, prefix, "test_binary_insertion_sort");
+    run_test(test_shell_sort, prefix, "test_shell_sort\t");
     return 0;
 }

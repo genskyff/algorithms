@@ -19,8 +19,9 @@ bool test_quick_sort(void) {
 }
 
 int main(void) {
+    char *prefix = "sort";
     init_sort_data(DATA);
-    run_test(test_quick_sort, "sort", "test_quick_sort\t");
+    run_test(test_quick_sort, prefix, "test_quick_sort\t");
 
     return 0;
 }

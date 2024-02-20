@@ -392,17 +392,18 @@ bool test_rotate_right_slice(void) {
 }
 
 int main(void) {
-    run_test(test_swap, "utils", "test_swap\t\t");
-    run_test(test_copy, "utils", "test_copy\t\t");
-    run_test(test_copy_slice, "utils", "test_copy_slice\t");
-    run_test(test_move_left, "utils", "test_move_left\t");
-    run_test(test_move_left_slice, "utils", "test_move_left_slice");
-    run_test(test_move_right, "utils", "test_move_right\t");
-    run_test(test_move_right_slice, "utils", "test_move_right_slice");
-    run_test(test_rotate_left, "utils", "test_rotate_left\t");
-    run_test(test_rotate_left_slice, "utils", "test_rotate_left_slice");
-    run_test(test_rotate_right, "utils", "test_rotate_right\t");
-    run_test(test_rotate_right_slice, "utils", "test_rotate_right_slice");
+    char *prefix = "utils";
+    run_test(test_swap, prefix, "test_swap\t\t");
+    run_test(test_copy, prefix, "test_copy\t\t");
+    run_test(test_copy_slice, prefix, "test_copy_slice\t");
+    run_test(test_move_left, prefix, "test_move_left\t");
+    run_test(test_move_left_slice, prefix, "test_move_left_slice");
+    run_test(test_move_right, prefix, "test_move_right\t");
+    run_test(test_move_right_slice, prefix, "test_move_right_slice");
+    run_test(test_rotate_left, prefix, "test_rotate_left\t");
+    run_test(test_rotate_left_slice, prefix, "test_rotate_left_slice");
+    run_test(test_rotate_right, prefix, "test_rotate_right\t");
+    run_test(test_rotate_right_slice, prefix, "test_rotate_right_slice");
 
     return 0;
 }
