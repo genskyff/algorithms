@@ -4,7 +4,7 @@ set_languages("c17")
 
 set_allowedplats("windows", "linux", "macosx")
 if is_plat("windows") then
-    add_toolchains("mingw")
+    add_toolchains("msvc")
 elseif is_plat("linux") then
     add_toolchains("gcc")
 elseif is_plat("macosx") then

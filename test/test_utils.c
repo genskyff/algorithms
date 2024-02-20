@@ -2,8 +2,8 @@
 #include "utils.h"
 #include <string.h>
 
-elem_t ARR[] = {0, 1, 2, 3, 4, 5};
-size_t LEN   = sizeof(ARR) / sizeof(elem_t);
+#define LEN 6
+elem_t ARR[LEN] = {0, 1, 2, 3, 4, 5};
 
 bool test_swap(void) {
     elem_t tmp[LEN];
