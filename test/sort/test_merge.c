@@ -11,7 +11,7 @@ bool test_merge_sort_recu(void) {
     for (size_t i = 0; i < SORT_DATA_LEN; i++) {
         elem_t  len = DATA[i].len;
         elem_t *tmp = malloc(len * sizeof(elem_t));
-        copy(tmp, len, DATA[i].unsorted, len);
+        _copy(tmp, len, DATA[i].unsorted, len);
         merge_sort_recu(tmp, len);
         all_passed = assert_eq(tmp, len, DATA[i].sorted, len);
         free(tmp);
@@ -26,7 +26,7 @@ bool test_merge_sort_iter(void) {
     for (size_t i = 0; i < SORT_DATA_LEN; i++) {
         elem_t  len = DATA[i].len;
         elem_t *tmp = malloc(len * sizeof(elem_t));
-        copy(tmp, len, DATA[i].unsorted, len);
+        _copy(tmp, len, DATA[i].unsorted, len);
         merge_sort_iter(tmp, len);
         all_passed = assert_eq(tmp, len, DATA[i].sorted, len);
         free(tmp);

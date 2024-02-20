@@ -31,7 +31,7 @@ void binary_insertion_sort(elem_t *arr, size_t len) {
             }
         }
 
-        rotate_right_slice(arr, len, low, i + 1, 1);
+        _rotate_right_slice(arr, len, low, i + 1, 1);
         arr[low] = base;
     }
 }

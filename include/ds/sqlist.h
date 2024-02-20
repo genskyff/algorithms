@@ -3,7 +3,7 @@
 #define SQLIST_H
 #include "type.h"
 #include <stdbool.h>
-#include <stddef.h>
+#include <stdio.h>
 
 #define MAXLEN 100
 
@@ -12,7 +12,7 @@ typedef struct {
     size_t len;
 } SqList;
 
-void show(SqList list);
+void show(FILE *stream, SqList list);
 void clear(SqList *list);
 bool is_empty(SqList list);
 bool get(SqList list, size_t i, elem_t *e);

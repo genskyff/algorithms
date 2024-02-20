@@ -1,11 +1,8 @@
 #include "sqlist.h"
+#include "utils.h"
 #include <stdio.h>
 
-void show(SqList list) {
-    for (size_t i = 0; i < list.len; i++)
-        printf("%d ", list.data[i]);
-    printf("\n");
-}
+void show(FILE *stream, SqList list) { _show(stream, list.data, list.len); }
 
 void clear(SqList *list) { list->len = 0; }
 
@@ -21,7 +18,9 @@ bool get(SqList list, size_t i, elem_t *e) {
     return true;
 }
 
-bool find(SqList list, elem_t e, size_t *i) { return true; }
+bool find(SqList list, elem_t e, size_t *i) {
+    return _find(list.data, list.len, e, i);
+}
 
 bool insert(SqList *list, size_t i, elem_t e) {
     if (list->len == MAXLEN || i > list->len + 1) {
@@ -29,9 +28,7 @@ bool insert(SqList *list, size_t i, elem_t e) {
     }
 
     if (i < list->len) {
-        for (size_t j = list->len - 1; j >= i; j--) {
-            list->data[j + 1] = list->data[j];
-        }
+        _move_right_slice(list->data, list->len, i, list->len, 1);
     }
 
     list->data[i] = e;
@@ -41,8 +38,9 @@ bool insert(SqList *list, size_t i, elem_t e) {
 }
 
 bool update(SqList *list, size_t i, elem_t e) {
-    if (list->len == 0 || i < 0 || i > list->len - 1)
+    if (list->len == 0 || i >= list->len) {
         return false;
+    }
 
     list->data[i] = e;
 
@@ -50,14 +48,15 @@ bool update(SqList *list, size_t i, elem_t e) {
 }
 
 bool delete(SqList *list, size_t i, elem_t *e) {
-    if (list->len == 0 || i < 0 || i > list->len - 1)
+    if (list->len == 0 || i >= list->len) {
         return false;
+    }
 
     *e = list->data[i];
 
-    if (i < list->len - 1)
-        for (size_t j = i; j < list->len - 1; j++)
-            list->data[j] = list->data[j + 1];
+    if (i < list->len - 1) {
+        _move_left_slice(list->data, list->len, i, list->len, 1);
+    }
 
     list->len--;
 
