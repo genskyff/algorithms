@@ -99,12 +99,12 @@ void rotate_left(elem_t *arr, size_t len, size_t n) {
         return;
     }
 
-    size_t k = n % len;
+    n = n % len;
 
-    elem_t *tmp = (elem_t *)malloc(k * sizeof(elem_t));
-    memmove(tmp, arr, k * sizeof(elem_t));
-    memmove(arr, arr + k, (len - k) * sizeof(elem_t));
-    memmove(arr + len - k, tmp, k * sizeof(elem_t));
+    elem_t *tmp = (elem_t *)malloc(n * sizeof(elem_t));
+    memmove(tmp, arr, n * sizeof(elem_t));
+    memmove(arr, arr + n, (len - n) * sizeof(elem_t));
+    memmove(arr + len - n, tmp, n * sizeof(elem_t));
     free(tmp);
 }
 
@@ -115,13 +115,8 @@ void rotate_left_slice(elem_t *arr, size_t len, size_t start, size_t end,
         return;
     }
 
-    size_t k = n % (end - start);
-
-    elem_t *tmp = (elem_t *)malloc(k * sizeof(elem_t));
-    memmove(tmp, arr + start, k * sizeof(elem_t));
-    memmove(arr + start, arr + start + k, (end - start - k) * sizeof(elem_t));
-    memmove(arr + end - k, tmp, k * sizeof(elem_t));
-    free(tmp);
+    n = n % (end - start);
+    rotate_left(arr + start, end - start, n);
 }
 
 void rotate_right(elem_t *arr, size_t len, size_t n) {
@@ -129,12 +124,12 @@ void rotate_right(elem_t *arr, size_t len, size_t n) {
         return;
     }
 
-    size_t k = n % len;
+    n = n % len;
 
-    elem_t *tmp = (elem_t *)malloc(k * sizeof(elem_t));
-    memmove(tmp, arr + len - k, k * sizeof(elem_t));
-    memmove(arr + k, arr, (len - k) * sizeof(elem_t));
-    memmove(arr, tmp, k * sizeof(elem_t));
+    elem_t *tmp = (elem_t *)malloc(n * sizeof(elem_t));
+    memmove(tmp, arr + len - n, n * sizeof(elem_t));
+    memmove(arr + n, arr, (len - n) * sizeof(elem_t));
+    memmove(arr, tmp, n * sizeof(elem_t));
     free(tmp);
 }
 
@@ -145,11 +140,6 @@ void rotate_right_slice(elem_t *arr, size_t len, size_t start, size_t end,
         return;
     }
 
-    size_t k = n % (end - start);
-
-    elem_t *tmp = (elem_t *)malloc(k * sizeof(elem_t));
-    memmove(tmp, arr + end - k, k * sizeof(elem_t));
-    memmove(arr + start + k, arr + start, (end - start - k) * sizeof(elem_t));
-    memmove(arr + start, tmp, k * sizeof(elem_t));
-    free(tmp);
+    n = n % (end - start);
+    rotate_right(arr + start, end - start, n);
 }
