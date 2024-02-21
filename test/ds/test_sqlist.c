@@ -20,13 +20,13 @@ bool test_get(void) {
 
     elem_t e;
     bool   is_all_passed;
-    char *msg;
+    char  *msg;
 
-    msg = "should get";
+    msg           = "should get";
     is_all_passed = assert(get(tmp, tmp.len - 1, &e), msg);
     is_all_passed = assert(e == tmp.data[tmp.len - 1], msg);
 
-    msg = "should not get";
+    msg           = "should not get";
     is_all_passed = assert(!get(tmp, tmp.len, &e), msg);
     is_all_passed = assert(e == tmp.data[tmp.len - 1], msg);
 
@@ -39,13 +39,13 @@ bool test_find(void) {
 
     size_t i;
     bool   is_all_passed;
-    char *msg;
+    char  *msg;
 
-    msg = "should find";
+    msg           = "should find";
     is_all_passed = assert(find(tmp, 5, &i), msg);
     is_all_passed = assert(i == 5, msg);
 
-    msg = "should not find";
+    msg           = "should not find";
     is_all_passed = assert(!find(tmp, 6, &i), msg);
     is_all_passed = assert(i == 5, msg);
 
@@ -58,24 +58,24 @@ bool test_insert(void) {
 
     elem_t e = 10;
     bool   is_all_passed;
-    char *msg;
+    char  *msg;
 
-    msg = "should insert in head";
+    msg           = "should insert in head";
     is_all_passed = assert(insert(&tmp, 0, ++e), msg);
     is_all_passed = assert(tmp.len == LEN + 1, msg);
     is_all_passed = assert(tmp.data[0] == e, msg);
 
-    msg = "should insert in middle";
+    msg           = "should insert in middle";
     is_all_passed = assert(insert(&tmp, 3, ++e), msg);
     is_all_passed = assert(tmp.len == LEN + 2, msg);
     is_all_passed = assert(tmp.data[3] == e, msg);
 
-    msg = "should insert in tail";
+    msg           = "should insert in tail";
     is_all_passed = assert(insert(&tmp, tmp.len, ++e), msg);
     is_all_passed = assert(tmp.len == LEN + 3, msg);
     is_all_passed = assert(tmp.data[LEN + 2] == e, msg);
 
-    msg = "should not insert when index is out of range";
+    msg           = "should not insert when index is out of range";
     is_all_passed = assert(!insert(&tmp, tmp.len + 1, ++e), msg);
     is_all_passed = assert(tmp.len == LEN + 3, msg);
     is_all_passed = assert(!find(tmp, e, NULL), msg);
@@ -87,12 +87,47 @@ bool test_update(void) {
     SqList tmp = {.len = LIST.len};
     _copy(tmp.data, tmp.len, LIST.data, LIST.len);
 
+    elem_t e = 10;
+    bool   is_all_passed;
+    char  *msg;
+
+    msg           = "should update";
+    is_all_passed = assert(update(&tmp, tmp.len - 1, e), msg);
+    is_all_passed = assert(tmp.data[tmp.len - 1] == e, msg);
+
+    msg           = "should not update when index is out of range";
+    is_all_passed = assert(!update(&tmp, tmp.len, e), msg);
+
     return false;
 }
 
 bool test_delete(void) {
     SqList tmp = {.len = LIST.len};
     _copy(tmp.data, tmp.len, LIST.data, LIST.len);
+
+    elem_t e;
+    elem_t deleted;
+    bool   is_all_passed;
+    char  *msg;
+
+    msg           = "should delete in head";
+    deleted       = tmp.data[0];
+    is_all_passed = assert(delete (&tmp, 0, &e), msg);
+    is_all_passed = assert(tmp.len == LEN - 1 && e == deleted, msg);
+
+    msg           = "should delete in middle";
+    deleted       = tmp.data[tmp.len / 2];
+    is_all_passed = assert(delete (&tmp, tmp.len / 2, &e), msg);
+    is_all_passed = assert(tmp.len == LEN - 2 && e == deleted, msg);
+
+    msg           = "should delete in tail";
+    deleted       = tmp.data[tmp.len - 1];
+    is_all_passed = assert(delete (&tmp, tmp.len - 1, &e), msg);
+    is_all_passed = assert(tmp.len == LEN - 3 && e == deleted, msg);
+
+    msg           = "should not delete when index is out of range";
+    is_all_passed = assert(!delete (&tmp, tmp.len, &e), msg);
+    is_all_passed = assert(tmp.len == LEN - 3 && e == deleted, msg);
 
     return false;
 }
@@ -103,6 +138,8 @@ int main(void) {
     run_test(test_get, prefix, "sqlist_get");
     run_test(test_find, prefix, "sqlist_find");
     run_test(test_insert, prefix, "sqlist_insert");
+    run_test(test_update, prefix, "sqlist_update");
+    run_test(test_delete, prefix, "sqlist_delete");
 
     return 0;
 }
