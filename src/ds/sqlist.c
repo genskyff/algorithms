@@ -7,7 +7,9 @@ void show(FILE *stream, SqList list) {
 }
 
 void clear(SqList *list) {
-    list->len = 0;
+    if (list != NULL) {
+        list->len = 0;
+    }
 }
 
 bool is_empty(SqList list) {
@@ -19,7 +21,9 @@ bool get(SqList list, size_t i, elem_t *e) {
         return false;
     }
 
-    *e = list.data[i];
+    if (e != NULL) {
+        *e = list.data[i];
+    }
 
     return true;
 }
@@ -29,7 +33,7 @@ bool find(SqList list, elem_t e, size_t *i) {
 }
 
 bool insert(SqList *list, size_t i, elem_t e) {
-    if (list->len == MAXLEN || i > list->len + 1) {
+    if (list == NULL || list->len == MAXLEN || i > list->len) {
         return false;
     }
 
@@ -44,7 +48,7 @@ bool insert(SqList *list, size_t i, elem_t e) {
 }
 
 bool update(SqList *list, size_t i, elem_t e) {
-    if (list->len == 0 || i >= list->len) {
+    if (list == NULL || list->len == 0 || i >= list->len) {
         return false;
     }
 
@@ -54,11 +58,13 @@ bool update(SqList *list, size_t i, elem_t e) {
 }
 
 bool delete(SqList *list, size_t i, elem_t *e) {
-    if (list->len == 0 || i >= list->len) {
+    if (list == NULL || list->len == 0 || i >= list->len) {
         return false;
     }
 
-    *e = list->data[i];
+    if (e != NULL) {
+        *e = list->data[i];
+    }
 
     if (i < list->len - 1) {
         _move_left_slice(list->data, list->len, i, list->len, 1);

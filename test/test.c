@@ -1,8 +1,14 @@
 #include "test.h"
 #include "utils.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 void init_sort_data(TestSortData *data) {
+    if (data == NULL) {
+        fprintf(stderr, "init_sort_data is NULL\n");
+        return;
+    }
+
     elem_t one[]            = {0};
     elem_t unsorted_2[]     = {5, -2};
     elem_t sorted_2[]       = {-2, 5};
@@ -66,6 +72,10 @@ void run_test(TestFunc test, const char *prefix, const char *test_name) {
         prefix = "test";
     }
 
+    if (test_name == NULL || *test_name == '\0') {
+        test_name = "unknown_test";
+    }
+
     printf("%s\t%s", prefix, test_name);
 
     if (test()) {
@@ -73,7 +83,20 @@ void run_test(TestFunc test, const char *prefix, const char *test_name) {
     }
 }
 
-bool assert_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len) {
+bool assert(bool cond, const char *msg) {
+    if (!cond) {
+        fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
+        if (msg != NULL && *msg != '\0') {
+            fprintf(stderr, "\x1b[33m|-- failed: \x1b[0m%s\n\n", msg);
+        }
+        abort();
+    }
+
+    return cond;
+}
+
+bool assert_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
+               const char *msg) {
     bool is_eq = true;
 
     if (l_len != r_len) {
@@ -89,11 +112,14 @@ bool assert_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len) {
 
     if (!is_eq) {
         fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-        fprintf(stderr, "  |-- left\t");
+        if (msg != NULL && *msg != '\0') {
+            fprintf(stderr, "\x1b[33m|-- failed: \x1b[0m%s\n\n", msg);
+        }
+        fprintf(stderr, "\x1b[33m|-- left\x1b[0m\t");
         _show(stderr, left, l_len);
-        fprintf(stderr, "  |-- right\t");
+        fprintf(stderr, "\x1b[33m|-- right\x1b[0m\t");
         _show(stderr, right, r_len);
-        fprintf(stderr, "\n");
+        fprintf(stderr, "\n\n");
         abort();
     }
 

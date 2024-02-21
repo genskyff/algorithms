@@ -13,7 +13,7 @@ bool test_bubble_sort(void) {
         elem_t *tmp = malloc(len * sizeof(elem_t));
         _copy(tmp, len, DATA[i].unsorted, len);
         bubble_sort(tmp, len);
-        all_passed = assert_eq(tmp, len, DATA[i].sorted, len);
+        all_passed = assert_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }
 
@@ -28,7 +28,7 @@ bool test_cocktail_sort(void) {
         elem_t *tmp = malloc(len * sizeof(elem_t));
         _copy(tmp, len, DATA[i].unsorted, len);
         cocktail_sort(tmp, len);
-        all_passed = assert_eq(tmp, len, DATA[i].sorted, len);
+        all_passed = assert_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }
 

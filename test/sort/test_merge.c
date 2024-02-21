@@ -13,7 +13,7 @@ bool test_merge_sort_recu(void) {
         elem_t *tmp = malloc(len * sizeof(elem_t));
         _copy(tmp, len, DATA[i].unsorted, len);
         merge_sort_recu(tmp, len);
-        all_passed = assert_eq(tmp, len, DATA[i].sorted, len);
+        all_passed = assert_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }
 
@@ -28,7 +28,7 @@ bool test_merge_sort_iter(void) {
         elem_t *tmp = malloc(len * sizeof(elem_t));
         _copy(tmp, len, DATA[i].unsorted, len);
         merge_sort_iter(tmp, len);
-        all_passed = assert_eq(tmp, len, DATA[i].sorted, len);
+        all_passed = assert_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }
 

@@ -13,7 +13,7 @@ bool test_insertion_sort(void) {
         elem_t *tmp = malloc(len * sizeof(elem_t));
         _copy(tmp, len, DATA[i].unsorted, len);
         insertion_sort(tmp, len);
-        all_passed = assert_eq(tmp, len, DATA[i].sorted, len);
+        all_passed = assert_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }
 
@@ -28,7 +28,7 @@ bool test_binary_insertion_sort(void) {
         elem_t *tmp = malloc(len * sizeof(elem_t));
         _copy(tmp, len, DATA[i].unsorted, len);
         binary_insertion_sort(tmp, len);
-        all_passed = assert_eq(tmp, len, DATA[i].sorted, len);
+        all_passed = assert_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }
 
@@ -43,7 +43,7 @@ bool test_shell_sort(void) {
         elem_t *tmp = malloc(len * sizeof(elem_t));
         _copy(tmp, len, DATA[i].unsorted, len);
         shell_sort(tmp, len);
-        all_passed = assert_eq(tmp, len, DATA[i].sorted, len);
+        all_passed = assert_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }
 
