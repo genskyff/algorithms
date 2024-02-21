@@ -37,7 +37,7 @@ bool test_find(void) {
     bool   is_all_passed;
 
     // expect result's name like find_<e>
-    bool find_0 = _find(ARR, LEN, 0, &i);
+    bool find_0   = _find(ARR, LEN, 0, &i);
     is_all_passed = find_0 && i == 0;
     bool find_5   = _find(ARR, LEN, 5, &i);
     is_all_passed = find_5 && i == 5;
@@ -53,11 +53,11 @@ bool test_find_slice(void) {
 
     // expect result's name like find_<start>_<end>_<e>
     bool find_0_len_0 = _find_slice(ARR, LEN, 0, LEN, 0, &i);
-    is_all_passed = find_0_len_0 && i == 0;
-    bool find_1_5_3 = _find_slice(ARR, LEN, 1, 5, 3, &i);
-    is_all_passed = find_1_5_3 && i == 3;
-    bool find_2_3_1 = _find_slice(ARR, LEN, 2, 3, 1, &i);
-    is_all_passed = !find_2_3_1;
+    is_all_passed     = find_0_len_0 && i == 0;
+    bool find_1_5_3   = _find_slice(ARR, LEN, 1, 5, 3, &i);
+    is_all_passed     = find_1_5_3 && i == 3;
+    bool find_2_3_1   = _find_slice(ARR, LEN, 2, 3, 1, &i);
+    is_all_passed     = !find_2_3_1;
 
     return is_all_passed;
 }

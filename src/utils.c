@@ -29,7 +29,7 @@ void _show(FILE *stream, elem_t *arr, size_t len) {
 }
 
 void _show_slice(FILE *stream, elem_t *arr, size_t len, size_t start,
-                size_t end) {
+                 size_t end) {
     end = MIN(len, end);
     if (start >= end) {
         return;
@@ -50,7 +50,7 @@ bool _find(elem_t *arr, size_t len, elem_t e, size_t *i) {
 }
 
 bool _find_slice(elem_t *arr, size_t len, size_t start, size_t end, elem_t e,
-                size_t *i) {
+                 size_t *i) {
     end = MIN(len, end);
     if (start >= end) {
         return false;
@@ -64,7 +64,7 @@ void _copy(elem_t *dst, size_t d_len, elem_t *src, size_t s_len) {
 }
 
 void _copy_slice(elem_t *dst, size_t d_len, size_t d_start, size_t d_end,
-                elem_t *src, size_t s_len, size_t s_start, size_t s_end) {
+                 elem_t *src, size_t s_len, size_t s_start, size_t s_end) {
     d_end = MIN(d_len, d_end);
     s_end = MIN(s_len, s_end);
     if (d_start >= d_end || s_start >= s_end) {
@@ -85,7 +85,7 @@ void _move_left(elem_t *arr, size_t len, size_t n) {
 }
 
 void _move_left_slice(elem_t *arr, size_t len, size_t start, size_t end,
-                     size_t n) {
+                      size_t n) {
     end = MIN(len, end);
     if (start >= end) {
         return;
@@ -105,7 +105,7 @@ void _move_right(elem_t *arr, size_t len, size_t n) {
 }
 
 void _move_right_slice(elem_t *arr, size_t len, size_t start, size_t end,
-                      size_t n) {
+                       size_t n) {
     end = MIN(len, end);
     if (start >= end) {
         return;
@@ -130,7 +130,7 @@ void _rotate_left(elem_t *arr, size_t len, size_t n) {
 }
 
 void _rotate_left_slice(elem_t *arr, size_t len, size_t start, size_t end,
-                       size_t n) {
+                        size_t n) {
     end = MIN(len, end);
     if (start >= end || n % (end - start) == 0) {
         return;
@@ -155,7 +155,7 @@ void _rotate_right(elem_t *arr, size_t len, size_t n) {
 }
 
 void _rotate_right_slice(elem_t *arr, size_t len, size_t start, size_t end,
-                        size_t n) {
+                         size_t n) {
     end = MIN(len, end);
     if (start >= end || n % (end - start) == 0) {
         return;

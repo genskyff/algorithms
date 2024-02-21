@@ -2,11 +2,17 @@
 #include "utils.h"
 #include <stdio.h>
 
-void show(FILE *stream, SqList list) { _show(stream, list.data, list.len); }
+void show(FILE *stream, SqList list) {
+    _show(stream, list.data, list.len);
+}
 
-void clear(SqList *list) { list->len = 0; }
+void clear(SqList *list) {
+    list->len = 0;
+}
 
-bool is_empty(SqList list) { return list.len == 0 ? true : false; }
+bool is_empty(SqList list) {
+    return list.len == 0 ? true : false;
+}
 
 bool get(SqList list, size_t i, elem_t *e) {
     if (list.len == 0 || i >= list.len) {

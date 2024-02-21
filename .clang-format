@@ -10,3 +10,5 @@ AlignConsecutiveAssignments: true
 AlignConsecutiveDeclarations: true
 AlignConsecutiveMacros: true
 AlignConsecutiveBitFields: true
+
+AllowShortFunctionsOnASingleLine: None
