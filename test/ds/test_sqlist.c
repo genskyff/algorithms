@@ -98,7 +98,7 @@ bool test_update(void) {
     msg           = "should not update when index is out of range";
     is_all_passed = assert(!update(&tmp, tmp.len, e), msg);
 
-    return false;
+    return is_all_passed;
 }
 
 bool test_delete(void) {
@@ -129,7 +129,7 @@ bool test_delete(void) {
     is_all_passed = assert(!delete (&tmp, tmp.len, &e), msg);
     is_all_passed = assert(tmp.len == LEN - 3 && e == deleted, msg);
 
-    return false;
+    return is_all_passed;
 }
 
 int main(void) {
