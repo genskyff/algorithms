@@ -9,23 +9,23 @@ This is a repository implemented in C for various basic algorithms and data stru
 - Strict adherence to the C17 standard, tested and passed on MSVC, GCC, and Clang
 
 ## Roadmap
-- [ ] Sorting algorithms
-  - [ ] Bubble sort
-  - [ ] Cocktail sort
+- [x] Sorting algorithms
+  - [x] Bubble sort
+  - [x] Cocktail sort
   - [ ] Heap sort
-  - [ ] Insertion sort
-  - [ ] Binary insertion sort
-  - [ ] Shell sort
-  - [ ] Merge sort (recursive version)
-  - [ ] Merge sort (iterative version)
-  - [ ] Quick sort
-  - [ ] Selection sort
+  - [x] Insertion sort
+  - [x] Binary insertion sort
+  - [x] Shell sort
+  - [x] Merge sort (recursive version)
+  - [x] Merge sort (iterative version)
+  - [x] Quick sort
+  - [x] Selection sort
   - [ ] Bucket sort
   - [ ] Counting sort
   - [ ] Radix sort
 - [ ] Data structures
   - [ ] Linear lists
-    - [ ] Sequential list
+    - [x] Sequential list
     - [ ] Singly linked list
     - [ ] Doubly linked list
     - [ ] Circular linked list
