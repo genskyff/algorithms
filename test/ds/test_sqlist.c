@@ -9,9 +9,21 @@ SqList LIST = {.data = {0, 1, 2, 3, 4, 5}, .len = LEN};
 bool test_is_empty(void) {
     SqList tmp = {.len = LIST.len};
     _copy(tmp.data, tmp.len, LIST.data, LIST.len);
-    clear(&tmp);
 
-    return assert(is_empty(tmp), NULL);
+    bool  is_all_passed;
+    char *msg;
+
+    msg           = "should be empty when NULL";
+    is_all_passed = assert(is_empty(NULL), msg);
+
+    msg           = "should not be empty";
+    is_all_passed = assert(!is_empty(&tmp), msg);
+
+    msg = "should be empty when empty";
+    clear(&tmp);
+    is_all_passed = assert(is_empty(&tmp), msg);
+
+    return is_all_passed;
 }
 
 bool test_get(void) {
@@ -22,12 +34,15 @@ bool test_get(void) {
     bool   is_all_passed;
     char  *msg;
 
+    msg           = "should not get when NULL";
+    is_all_passed = assert(!get(NULL, 0, NULL), msg);
+
     msg           = "should get";
-    is_all_passed = assert(get(tmp, tmp.len - 1, &e), msg);
+    is_all_passed = assert(get(&tmp, tmp.len - 1, &e), msg);
     is_all_passed = assert(e == tmp.data[tmp.len - 1], msg);
 
     msg           = "should not get";
-    is_all_passed = assert(!get(tmp, tmp.len, &e), msg);
+    is_all_passed = assert(!get(&tmp, tmp.len, &e), msg);
     is_all_passed = assert(e == tmp.data[tmp.len - 1], msg);
 
     return is_all_passed;
@@ -41,12 +56,15 @@ bool test_find(void) {
     bool   is_all_passed;
     char  *msg;
 
+    msg           = "should not find when NULL";
+    is_all_passed = assert(!find(NULL, 0, NULL), msg);
+
     msg           = "should find";
-    is_all_passed = assert(find(tmp, 5, &i), msg);
+    is_all_passed = assert(find(&tmp, 5, &i), msg);
     is_all_passed = assert(i == 5, msg);
 
     msg           = "should not find";
-    is_all_passed = assert(!find(tmp, 6, &i), msg);
+    is_all_passed = assert(!find(&tmp, 6, &i), msg);
     is_all_passed = assert(i == 5, msg);
 
     return is_all_passed;
@@ -59,6 +77,9 @@ bool test_insert(void) {
     elem_t e = 10;
     bool   is_all_passed;
     char  *msg;
+
+    msg           = "should not insert when NULL";
+    is_all_passed = assert(!insert(NULL, 0, e), msg);
 
     msg           = "should insert in head";
     is_all_passed = assert(insert(&tmp, 0, ++e), msg);
@@ -78,7 +99,7 @@ bool test_insert(void) {
     msg           = "should not insert when index is out of range";
     is_all_passed = assert(!insert(&tmp, tmp.len + 1, ++e), msg);
     is_all_passed = assert(tmp.len == LEN + 3, msg);
-    is_all_passed = assert(!find(tmp, e, NULL), msg);
+    is_all_passed = assert(!find(&tmp, e, NULL), msg);
 
     return is_all_passed;
 }
@@ -90,6 +111,9 @@ bool test_update(void) {
     elem_t e = 10;
     bool   is_all_passed;
     char  *msg;
+
+    msg           = "should not update when NULL";
+    is_all_passed = assert(!update(NULL, 0, e), msg);
 
     msg           = "should update";
     is_all_passed = assert(update(&tmp, tmp.len - 1, e), msg);
@@ -109,6 +133,9 @@ bool test_delete(void) {
     elem_t deleted;
     bool   is_all_passed;
     char  *msg;
+
+    msg           = "should not delete when NULL";
+    is_all_passed = assert(!delete (NULL, 0, NULL), msg);
 
     msg           = "should delete in head";
     deleted       = tmp.data[0];

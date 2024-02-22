@@ -2,8 +2,10 @@
 #include "utils.h"
 #include <stdio.h>
 
-void show(FILE *stream, SqList list) {
-    _show(stream, list.data, list.len);
+void show(FILE *stream, SqList *list) {
+    if (list != NULL) {
+        _show(stream, list->data, list->len);
+    }
 }
 
 void clear(SqList *list) {
@@ -12,24 +14,24 @@ void clear(SqList *list) {
     }
 }
 
-bool is_empty(SqList list) {
-    return list.len == 0 ? true : false;
+bool is_empty(SqList *list) {
+    return list == NULL || list->len == 0 ? true : false;
 }
 
-bool get(SqList list, size_t i, elem_t *e) {
-    if (list.len == 0 || i >= list.len) {
+bool get(SqList *list, size_t i, elem_t *e) {
+    if (list == NULL || list->len == 0 || i >= list->len) {
         return false;
     }
 
     if (e != NULL) {
-        *e = list.data[i];
+        *e = list->data[i];
     }
 
     return true;
 }
 
-bool find(SqList list, elem_t e, size_t *i) {
-    return _find(list.data, list.len, e, i);
+bool find(SqList *list, elem_t e, size_t *i) {
+    return list != NULL && _find(list->data, list->len, e, i);
 }
 
 bool insert(SqList *list, size_t i, elem_t e) {
