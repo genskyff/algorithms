@@ -9,6 +9,7 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 void _swap(elem_t *arr, size_t i, size_t j);
+void _reverse(elem_t *arr, size_t len);
 
 // [start, end)
 void _show(FILE *stream, elem_t *arr, size_t len);

@@ -1,4 +1,5 @@
 #include "test.h"
+#include "type.h"
 #include "utils.h"
 #include <string.h>
 
@@ -29,6 +30,35 @@ bool test_swap(void) {
     _copy(tmp, LEN, ARR, LEN);
     _swap(tmp, 3, 3);
     is_all_passed = assert_arr_eq(tmp, LEN, ARR, LEN, msg);
+
+    return is_all_passed;
+}
+
+bool test_reverse(void) {
+    elem_t tmp[LEN];
+
+    // expect array's name like reverse_<len>
+    elem_t reverse_len[] = {5, 4, 3, 2, 1, 0};
+    elem_t reverse_2[]   = {1, 0};
+    elem_t reverse_1[]   = {0};
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg = "should reverse [0..len]";
+    _copy(tmp, LEN, ARR, LEN);
+    _reverse(tmp, LEN);
+    is_all_passed = assert_arr_eq(tmp, LEN, reverse_len, LEN, msg);
+
+    msg = "should reverse [0..2]";
+    _copy(tmp, 2, ARR, 2);
+    _reverse(tmp, 2);
+    is_all_passed = assert_arr_eq(tmp, 2, reverse_2, 2, msg);
+
+    msg = "should not reverse [0..1]";
+    _copy(tmp, 1, ARR, 1);
+    _reverse(tmp, 1);
+    is_all_passed = assert_arr_eq(tmp, 1, reverse_1, 1, msg);
 
     return is_all_passed;
 }
@@ -494,6 +524,7 @@ bool test_rotate_right_slice(void) {
 int main(void) {
     char *prefix = "utils";
     run_test(test_swap, prefix, "swap");
+    run_test(test_reverse, prefix, "reverse");
     run_test(test_find, prefix, "find");
     run_test(test_find_slice, prefix, "find_slice");
     run_test(test_copy, prefix, "copy");

@@ -3,6 +3,7 @@
 #include "type.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include <vcruntime.h>
 
 #define INIT_CAP     20
 #define EXTEND_RATIO 2
@@ -15,6 +16,8 @@ typedef struct {
 
 Vec *create(void);
 Vec *init(size_t n, ...);
+void swap(Vec *v, size_t i, size_t j);
+void reverse(Vec *v);
 void show(FILE *stream, Vec *v);
 void clear(Vec *v);
 bool is_empty(Vec *v);

@@ -37,6 +37,18 @@ Vec *init(size_t n, ...) {
     return v;
 }
 
+void swap(Vec *v, size_t i, size_t j) {
+    if (v != NULL && i < v->len && j < v->len) {
+        _swap(v->data, i, j);
+    }
+}
+
+void reverse(Vec *v) {
+    if (v != NULL) {
+        _reverse(v->data, v->len);
+    }
+}
+
 void show(FILE *stream, Vec *v) {
     if (v != NULL) {
         _show(stream, v->data, v->len);

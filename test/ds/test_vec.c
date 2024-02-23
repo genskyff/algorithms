@@ -1,4 +1,5 @@
 #include "test.h"
+#include "type.h"
 #include "vec.h"
 
 #define LEN 6
@@ -36,6 +37,47 @@ bool test_init(void) {
     is_all_passed = assert_eq(v->len, LEN, msg);
     is_all_passed = assert_eq(v->cap, INIT_CAP, msg);
     is_all_passed = assert_arr_eq(v->data, v->len, tmp->data, tmp->len, msg);
+
+    defer(&v);
+    return is_all_passed;
+}
+
+bool test_swap(void) {
+    Vec *v = test_data();
+
+    // expect array's name like swap_<i>_<j>
+    elem_t swap_0_5[] = {5, 1, 2, 3, 4, 0};
+    elem_t swap_4_1[] = {5, 4, 2, 3, 1, 0};
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg = "should swap(0, 5)";
+    swap(v, 0, 5);
+    is_all_passed = assert_arr_eq(v->data, v->len, swap_0_5, LEN, msg);
+
+    msg = "should swap(4, 1)";
+    swap(v, 4, 1);
+    is_all_passed = assert_arr_eq(v->data, v->len, swap_4_1, LEN, msg);
+
+    msg = "should not swap(3, 3)";
+    swap(v, 3, 3);
+    is_all_passed = assert_arr_eq(v->data, v->len, swap_4_1, LEN, msg);
+
+    defer(&v);
+    return is_all_passed;
+}
+
+bool test_reverse(void) {
+    Vec *v = test_data();
+    elem_t rev[] = {5, 4, 3, 2, 1, 0};
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg = "should reverse";
+    reverse(v);
+    is_all_passed = assert_arr_eq(v->data, v->len, rev, LEN, msg);
 
     defer(&v);
     return is_all_passed;
@@ -264,6 +306,8 @@ int main(void) {
     char *prefix = "ds";
     run_test(test_create, prefix, "vec_create");
     run_test(test_init, prefix, "vec_init");
+    run_test(test_swap, prefix, "vec_swap");
+    run_test(test_reverse, prefix, "vec_reverse");
     run_test(test_is_empty, prefix, "vec_is_empty");
     run_test(test_get, prefix, "vec_get");
     run_test(test_set, prefix, "vec_set");

@@ -13,6 +13,8 @@ typedef struct {
 
 SqList create(void);
 SqList init(size_t n, ...);
+void   swap(SqList *list, size_t i, size_t j);
+void   reverse(SqList *list);
 void   show(FILE *stream, SqList *list);
 void   clear(SqList *list);
 bool   is_empty(SqList *list);

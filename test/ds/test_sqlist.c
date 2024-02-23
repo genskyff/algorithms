@@ -33,6 +33,46 @@ bool test_init(void) {
     return is_all_passed;
 }
 
+bool test_swap(void) {
+    SqList list = test_data();
+
+    // expect array's name like swap_<i>_<j>
+    elem_t swap_0_5[] = {5, 1, 2, 3, 4, 0};
+    elem_t swap_4_1[] = {5, 4, 2, 3, 1, 0};
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg = "should swap(0, 5)";
+    swap(&list, 0, 5);
+    is_all_passed = assert_arr_eq(list.data, list.len, swap_0_5, LEN, msg);
+
+    msg = "should swap(4, 1)";
+    swap(&list, 4, 1);
+    is_all_passed = assert_arr_eq(list.data, list.len, swap_4_1, LEN, msg);
+
+    msg = "should not swap(3, 3)";
+    swap(&list, 3, 3);
+    is_all_passed = assert_arr_eq(list.data, list.len, swap_4_1, LEN, msg);
+
+    return is_all_passed;
+}
+
+bool test_reverse(void) {
+    SqList list = test_data();
+
+    elem_t rev[] = {5, 4, 3, 2, 1, 0};
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg = "should reverse";
+    reverse(&list);
+    is_all_passed = assert_arr_eq(list.data, list.len, rev, LEN, msg);
+
+    return is_all_passed;
+}
+
 bool test_is_empty(void) {
     SqList list = test_data();
 
@@ -237,6 +277,8 @@ int main(void) {
     char *prefix = "ds";
     run_test(test_create, prefix, "sqlist_create");
     run_test(test_init, prefix, "sqlist_init");
+    run_test(test_swap, prefix, "sqlist_swap");
+    run_test(test_reverse, prefix, "sqlist_reverse");
     run_test(test_is_empty, prefix, "sqlist_is_empty");
     run_test(test_get, prefix, "sqlist_get");
     run_test(test_set, prefix, "sqlist_set");

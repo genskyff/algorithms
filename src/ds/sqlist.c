@@ -27,6 +27,18 @@ SqList init(size_t n, ...) {
     return list;
 }
 
+void swap(SqList *list, size_t i, size_t j) {
+    if (list != NULL && i < list->len && j < list->len) {
+        _swap(list->data, i, j);
+    }
+}
+
+void reverse(SqList *list) {
+    if (list != NULL) {
+        _reverse(list->data, list->len);
+    }
+}
+
 void show(FILE *stream, SqList *list) {
     if (list != NULL) {
         _show(stream, list->data, list->len);

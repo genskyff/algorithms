@@ -13,6 +13,12 @@ void _swap(elem_t *arr, size_t i, size_t j) {
     arr[j]     = tmp;
 }
 
+void _reverse(elem_t *arr, size_t len) {
+    for (size_t i = 0; i < len / 2; i++) {
+        _swap(arr, i, len - i - 1);
+    }
+}
+
 void _show(FILE *stream, elem_t *arr, size_t len) {
     if (arr == NULL || len == 0) {
         return;
