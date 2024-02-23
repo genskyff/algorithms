@@ -20,7 +20,7 @@ bool test_create(void) {
     is_all_passed = assert_eq(v->len, 0, msg);
     is_all_passed = assert_eq(v->cap, INIT_CAP, msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -38,7 +38,7 @@ bool test_init(void) {
     is_all_passed = assert_eq(v->cap, INIT_CAP, msg);
     is_all_passed = assert_arr_eq(v->data, v->len, tmp->data, tmp->len, msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -64,7 +64,7 @@ bool test_swap(void) {
     swap(v, 3, 3);
     is_all_passed = assert_arr_eq(v->data, v->len, swap_4_1, LEN, msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -79,7 +79,7 @@ bool test_reverse(void) {
     reverse(v);
     is_all_passed = assert_arr_eq(v->data, v->len, rev, LEN, msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -99,7 +99,7 @@ bool test_is_empty(void) {
     clear(v);
     is_all_passed = assert(is_empty(v), msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -121,7 +121,7 @@ bool test_get(void) {
     is_all_passed = assert(!get(v, v->len, &e), msg);
     is_all_passed = assert_eq(e, v->data[v->len - 1], msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -142,7 +142,7 @@ bool test_set(void) {
     msg           = "should not set when index is out of range";
     is_all_passed = assert(!set(v, v->len, e), msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -164,7 +164,7 @@ bool test_find(void) {
     is_all_passed = assert(!find(v, 6, &i), msg);
     is_all_passed = assert_eq(i, 5, msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -198,7 +198,7 @@ bool test_insert(void) {
     is_all_passed = assert_eq(v->len, LEN + 3, msg);
     is_all_passed = assert(!find(v, e, NULL), msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -224,7 +224,7 @@ bool test_push(void) {
     is_all_passed = assert_eq(v->cap, 2 * INIT_CAP, msg);
     is_all_passed = assert_eq(v->data[v->len - 1], e, msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -262,7 +262,7 @@ bool test_del(void) {
     is_all_passed = assert_eq(v->len, LEN - 3, msg);
     is_all_passed = assert_eq(e, deleted, msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -289,7 +289,7 @@ bool test_pop(void) {
     is_all_passed = assert_eq(v->len, 0, msg);
     is_all_passed = assert_eq(e, popped, msg);
 
-    defer(&v);
+    drop(&v);
     return is_all_passed;
 }
 
@@ -297,8 +297,8 @@ bool test_defer(void) {
     Vec  *v = test_data();
     char *msg;
 
-    msg = "should defer";
-    defer(&v);
+    msg = "should drop";
+    drop(&v);
     return assert(v == NULL, msg);
 }
 

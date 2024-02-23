@@ -156,7 +156,7 @@ bool pop(Vec *v, elem_t *e) {
     }
 }
 
-void defer(Vec **v) {
+void drop(Vec **v) {
     if (v != NULL && *v != NULL) {
         free((*v)->data);
         free(*v);

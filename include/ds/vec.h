@@ -28,6 +28,6 @@ bool insert(Vec *v, size_t i, elem_t e);
 bool push(Vec *v, elem_t e);
 bool del(Vec *v, size_t i, elem_t *e);
 bool pop(Vec *v, elem_t *e);
-void defer(Vec **v);
+void drop(Vec **v);
 
 #endif
