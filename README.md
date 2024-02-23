@@ -41,6 +41,7 @@ xmake test
   - [ ] Counting sort
   - [ ] Radix sort
 - [ ] Data structures
+  - [x] Vector
   - [ ] Linear lists
     - [x] Sequential list
     - [ ] Singly linked list

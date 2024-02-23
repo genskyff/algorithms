@@ -95,8 +95,27 @@ bool assert(bool cond, const char *msg) {
     return cond;
 }
 
-bool assert_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
-               const char *msg) {
+bool assert_eq(elem_t left, elem_t right, const char *msg) {
+    bool is_eq = left == right;
+
+    if (!is_eq) {
+        fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
+        if (msg != NULL && *msg != '\0') {
+            fprintf(stderr, "\x1b[33m|-- failed: \x1b[0m%s\n", msg);
+        }
+        fprintf(stderr, "\x1b[33m|-- left:   \x1b[0m");
+        fprintf(stderr, "%d\n", left);
+        fprintf(stderr, "\x1b[33m|-- right:  \x1b[0m");
+        fprintf(stderr, "%d\n", right);
+        fprintf(stderr, "\n");
+        abort();
+    }
+
+    return is_eq;
+}
+
+bool assert_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
+                   const char *msg) {
     bool is_eq = true;
 
     if (l_len != r_len) {
@@ -113,13 +132,13 @@ bool assert_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
     if (!is_eq) {
         fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
         if (msg != NULL && *msg != '\0') {
-            fprintf(stderr, "\x1b[33m|-- failed: \x1b[0m%s\n\n", msg);
+            fprintf(stderr, "\x1b[33m|-- failed: \x1b[0m%s\n", msg);
         }
-        fprintf(stderr, "\x1b[33m|-- left\x1b[0m\t");
+        fprintf(stderr, "\x1b[33m|-- left:   \x1b[0m");
         _show(stderr, left, l_len);
-        fprintf(stderr, "\x1b[33m|-- right\x1b[0m\t");
+        fprintf(stderr, "\x1b[33m|-- right:  \x1b[0m");
         _show(stderr, right, r_len);
-        fprintf(stderr, "\n\n");
+        fprintf(stderr, "\n");
         abort();
     }
 

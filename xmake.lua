@@ -75,6 +75,17 @@ target("test_sqlist")
     add_files("test/ds/test_sqlist.c")
     add_deps("sqlist")
 
+target("vec")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/vec.c")
+
+target("test_vec")
+    set_kind("binary")
+    set_group("test")
+    add_files("test/ds/test_vec.c")
+    add_deps("vec")
+
 -- --------------------
 --  sorting algorithms
 -- --------------------

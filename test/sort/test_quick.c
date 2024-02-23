@@ -13,7 +13,7 @@ bool test_quick_sort(void) {
         elem_t *tmp = malloc(len * sizeof(elem_t));
         _copy(tmp, len, DATA[i].unsorted, len);
         quick_sort(tmp, len);
-        all_passed = assert_eq(tmp, len, DATA[i].sorted, len, NULL);
+        all_passed = assert_arr_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }
 
@@ -23,7 +23,7 @@ bool test_quick_sort(void) {
 int main(void) {
     char *prefix = "sort";
     init_sort_data(DATA);
-    run_test(test_quick_sort, prefix, "test_quick_sort");
+    run_test(test_quick_sort, prefix, "quick_sort");
 
     return 0;
 }
