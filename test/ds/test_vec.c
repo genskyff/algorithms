@@ -123,6 +123,7 @@ bool test_find(void) {
     is_all_passed = assert(!find(v, 6, &i), msg);
     is_all_passed = assert_eq(i, 5, msg);
 
+    defer(&v);
     return is_all_passed;
 }
 
@@ -156,6 +157,7 @@ bool test_insert(void) {
     is_all_passed = assert_eq(v->len, LEN + 3, msg);
     is_all_passed = assert(!find(v, e, NULL), msg);
 
+    defer(&v);
     return is_all_passed;
 }
 
@@ -181,6 +183,7 @@ bool test_push(void) {
     is_all_passed = assert_eq(v->cap, 2 * INIT_CAP, msg);
     is_all_passed = assert_eq(v->data[v->len - 1], e, msg);
 
+    defer(&v);
     return is_all_passed;
 }
 
@@ -218,6 +221,7 @@ bool test_del(void) {
     is_all_passed = assert_eq(v->len, LEN - 3, msg);
     is_all_passed = assert_eq(e, deleted, msg);
 
+    defer(&v);
     return is_all_passed;
 }
 
@@ -244,7 +248,17 @@ bool test_pop(void) {
     is_all_passed = assert_eq(v->len, 0, msg);
     is_all_passed = assert_eq(e, popped, msg);
 
+    defer(&v);
     return is_all_passed;
+}
+
+bool test_defer(void) {
+    Vec  *v = test_data();
+    char *msg;
+
+    msg = "should defer";
+    defer(&v);
+    return assert(v == NULL, msg);
 }
 
 int main(void) {
@@ -259,6 +273,7 @@ int main(void) {
     run_test(test_push, prefix, "vec_push");
     run_test(test_del, prefix, "vec_del");
     run_test(test_pop, prefix, "vec_pop");
+    run_test(test_defer, prefix, "vec_defer");
 
     return 0;
 }
