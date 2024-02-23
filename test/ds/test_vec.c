@@ -293,7 +293,7 @@ bool test_pop(void) {
     return is_all_passed;
 }
 
-bool test_defer(void) {
+bool test_drop(void) {
     Vec  *v = test_data();
     char *msg;
 
@@ -316,7 +316,7 @@ int main(void) {
     run_test(test_push, prefix, "vec_push");
     run_test(test_del, prefix, "vec_del");
     run_test(test_pop, prefix, "vec_pop");
-    run_test(test_defer, prefix, "vec_defer");
+    run_test(test_drop, prefix, "vec_drop");
 
     return 0;
 }
