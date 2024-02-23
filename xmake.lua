@@ -64,6 +64,17 @@ target("test_utils")
 --  data structures
 -- -----------------
 
+target("linked_list")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/linked_list.c")
+
+target("test_linked_list")
+    set_kind("binary")
+    set_group("test")
+    add_files("test/ds/test_linked_list.c")
+    add_deps("linked_list")
+
 target("sqlist")
     set_kind("static")
     set_group("ds")
