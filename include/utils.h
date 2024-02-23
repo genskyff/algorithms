@@ -9,12 +9,14 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 void _swap(elem_t *arr, size_t i, size_t j);
-void _reverse(elem_t *arr, size_t len);
 
 // [start, end)
 void _show(FILE *stream, elem_t *arr, size_t len);
 void _show_slice(FILE *stream, elem_t *arr, size_t len, size_t start,
-                size_t end);
+                 size_t end);
+
+void _reverse(elem_t *arr, size_t len);
+void _reverse_slice(elem_t *arr, size_t len, size_t start, size_t end);
 
 bool _find(elem_t *arr, size_t len, elem_t e, size_t *i);
 bool _find_slice(elem_t *arr, size_t len, size_t start, size_t end, elem_t e,

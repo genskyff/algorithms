@@ -63,6 +63,39 @@ bool test_reverse(void) {
     return is_all_passed;
 }
 
+bool test_reverse_slice(void) {
+    elem_t tmp[LEN];
+
+    // expect array's name like reverse_<start>_<end>
+    elem_t reverse_1_5[]    = {0, 4, 3, 2, 1, 5};
+    elem_t reverse_1_over[] = {0, 5, 4, 3, 2, 1};
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg = "should reverse [1..5]";
+    _copy(tmp, LEN, ARR, LEN);
+    _reverse_slice(tmp, LEN, 1, 5);
+    is_all_passed = assert_arr_eq(tmp, LEN, reverse_1_5, LEN, msg);
+
+    msg = "should reverse [1..len+1]";
+    _copy(tmp, LEN, ARR, LEN);
+    _reverse_slice(tmp, LEN, 1, LEN + 1);
+    is_all_passed = assert_arr_eq(tmp, LEN, reverse_1_over, LEN, msg);
+
+    msg = "should not reverse [2..3]";
+    _copy(tmp, LEN, ARR, LEN);
+    _reverse_slice(tmp, LEN, 2, 3);
+    is_all_passed = assert_arr_eq(tmp, LEN, ARR, LEN, msg);
+
+    msg = "should not reverse [3..2]";
+    _copy(tmp, LEN, ARR, LEN);
+    _reverse_slice(tmp, LEN, 3, 2);
+    is_all_passed = assert_arr_eq(tmp, LEN, ARR, LEN, msg);
+
+    return is_all_passed;
+}
+
 bool test_find(void) {
     size_t i;
     bool   is_all_passed;
@@ -525,6 +558,7 @@ int main(void) {
     char *prefix = "utils";
     run_test(test_swap, prefix, "swap");
     run_test(test_reverse, prefix, "reverse");
+    run_test(test_reverse_slice, prefix, "reverse_slice");
     run_test(test_find, prefix, "find");
     run_test(test_find_slice, prefix, "find_slice");
     run_test(test_copy, prefix, "copy");
