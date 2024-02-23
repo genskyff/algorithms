@@ -16,6 +16,11 @@ LinkedList create(void) {
 LinkedList init(size_t n, ...) {
     elem_t *arr = (elem_t *)malloc(n * sizeof(elem_t));
 
+    if (arr == NULL) {
+        fprintf(stderr, "init: failed to allocate memory\n");
+        abort();
+    }
+
     va_list ap;
     va_start(ap, n);
     for (size_t i = 0; i < n; i++) {
