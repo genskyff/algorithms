@@ -1,7 +1,6 @@
 #include "test.h"
 #include "type.h"
 #include "vec.h"
-#include <stdlib.h>
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \
@@ -26,8 +25,8 @@ bool test_vec(void) {
 }
 
 bool test_vec_init(void) {
-    Vec   *v         = vec_init(LEN, 0, 1, 2, 3, 4, 5);
-    elem_t data[LEN] = {0, 1, 2, 3, 4, 5};
+    Vec *v   = vec_init(LEN, 0, 1, 2, 3, 4, 5);
+    Vec *tmp = test_data();
 
     bool  is_all_passed;
     char *msg;
@@ -37,7 +36,7 @@ bool test_vec_init(void) {
     is_all_passed = assert(v->data != NULL, msg);
     is_all_passed = assert_eq(v->len, LEN, msg);
     is_all_passed = assert_eq(v->cap, INIT_CAP, msg);
-    is_all_passed = assert_arr_eq(v->data, v->len, data, LEN, msg);
+    is_all_passed = assert_arr_eq(v->data, v->len, tmp->data, tmp->len, msg);
 
     defer(&v);
     return is_all_passed;
