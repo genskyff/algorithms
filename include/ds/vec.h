@@ -13,8 +13,8 @@ typedef struct {
     size_t  cap;
 } Vec;
 
-Vec *vec(void);
-Vec *vec_init(size_t n, ...);
+Vec *create(void);
+Vec *init(size_t n, ...);
 void show(FILE *stream, Vec *v);
 void clear(Vec *v);
 bool is_empty(Vec *v);

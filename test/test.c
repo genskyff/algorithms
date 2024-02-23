@@ -1,6 +1,5 @@
 #include "test.h"
 #include "utils.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 void init_sort_data(TestSortData *data) {

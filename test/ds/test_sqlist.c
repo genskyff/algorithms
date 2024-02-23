@@ -1,16 +1,15 @@
 #include "sqlist.h"
 #include "test.h"
-#include "type.h"
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \
     SqList test_data() {                                                       \
-        return sqlist_init(LEN, __VA_ARGS__);                                  \
+        return init(LEN, __VA_ARGS__);                                         \
     }
 TEST_DATA(0, 1, 2, 3, 4, 5)
 
-bool test_sqlist(void) {
-    SqList list = sqlist();
+bool test_create(void) {
+    SqList list = create();
     bool   is_all_passed;
     char  *msg;
 
@@ -20,8 +19,8 @@ bool test_sqlist(void) {
     return is_all_passed;
 }
 
-bool test_sqlist_init(void) {
-    SqList list = sqlist_init(LEN, 0, 1, 2, 3, 4, 5);
+bool test_init(void) {
+    SqList list = init(LEN, 0, 1, 2, 3, 4, 5);
     SqList tmp  = test_data();
 
     bool  is_all_passed;
@@ -236,8 +235,8 @@ bool test_pop(void) {
 
 int main(void) {
     char *prefix = "ds";
-    run_test(test_sqlist, prefix, "sqlist_new");
-    run_test(test_sqlist_init, prefix, "sqlist_init");
+    run_test(test_create, prefix, "sqlist_create");
+    run_test(test_init, prefix, "sqlist_init");
     run_test(test_is_empty, prefix, "sqlist_is_empty");
     run_test(test_get, prefix, "sqlist_get");
     run_test(test_set, prefix, "sqlist_set");

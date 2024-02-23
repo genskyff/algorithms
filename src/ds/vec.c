@@ -1,15 +1,14 @@
 #include "vec.h"
-#include "type.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-Vec *vec(void) {
-    return vec_init(0);
+Vec *create(void) {
+    return init(0);
 }
 
-Vec *vec_init(size_t n, ...) {
+Vec *init(size_t n, ...) {
     Vec *v = (Vec *)malloc(sizeof(Vec));
     if (v == NULL) {
         return NULL;

@@ -3,15 +3,15 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-SqList sqlist(void) {
+SqList create(void) {
     SqList list;
     list.len = 0;
 
     return list;
 }
 
-SqList sqlist_init(size_t n, ...) {
-    SqList list = sqlist();
+SqList init(size_t n, ...) {
+    SqList list = create();
 
     n = MIN(n, MAXLEN);
 

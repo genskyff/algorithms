@@ -1,16 +1,15 @@
 #include "test.h"
-#include "type.h"
 #include "vec.h"
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \
     Vec *test_data() {                                                         \
-        return vec_init(LEN, __VA_ARGS__);                                     \
+        return init(LEN, __VA_ARGS__);                                         \
     }
 TEST_DATA(0, 1, 2, 3, 4, 5)
 
-bool test_vec(void) {
-    Vec  *v = vec();
+bool test_create(void) {
+    Vec  *v = create();
     bool  is_all_passed;
     char *msg;
 
@@ -24,8 +23,8 @@ bool test_vec(void) {
     return is_all_passed;
 }
 
-bool test_vec_init(void) {
-    Vec *v   = vec_init(LEN, 0, 1, 2, 3, 4, 5);
+bool test_init(void) {
+    Vec *v   = init(LEN, 0, 1, 2, 3, 4, 5);
     Vec *tmp = test_data();
 
     bool  is_all_passed;
@@ -263,8 +262,8 @@ bool test_defer(void) {
 
 int main(void) {
     char *prefix = "ds";
-    run_test(test_vec, prefix, "vec_new");
-    run_test(test_vec_init, prefix, "vec_init");
+    run_test(test_create, prefix, "vec_create");
+    run_test(test_init, prefix, "vec_init");
     run_test(test_is_empty, prefix, "vec_is_empty");
     run_test(test_get, prefix, "vec_get");
     run_test(test_set, prefix, "vec_set");

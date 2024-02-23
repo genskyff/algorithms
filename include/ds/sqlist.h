@@ -11,8 +11,8 @@ typedef struct {
     size_t len;
 } SqList;
 
-SqList sqlist(void);
-SqList sqlist_init(size_t n, ...);
+SqList create(void);
+SqList init(size_t n, ...);
 void   show(FILE *stream, SqList *list);
 void   clear(SqList *list);
 bool   is_empty(SqList *list);
