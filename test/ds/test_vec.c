@@ -1,5 +1,4 @@
 #include "test.h"
-#include "type.h"
 #include "vec.h"
 
 #define LEN 6
