@@ -26,7 +26,7 @@ xmake test
 ```
 
 ## Roadmap
-- [x] Sorting
+- [ ] Sorting
   - [x] Bubble sort
   - [x] Cocktail sort
   - [ ] Heap sort
@@ -42,9 +42,9 @@ xmake test
   - [ ] Radix sort
 - [ ] Data structures
   - [x] Vector
-  - [ ] Linear lists
+  - [x] Linear lists
     - [x] Sequential list
-    - [ ] Linked list
+    - [x] Linked list
   - [ ] Queue
   - [ ] Stack
   - [ ] Hash table
