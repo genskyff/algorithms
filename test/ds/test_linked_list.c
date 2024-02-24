@@ -25,7 +25,7 @@ bool test_create(void) {
 bool test_init(void) {
     LinkedList list     = init(LEN, 0, 1, 2, 3, 4, 5);
     elem_t     tmp[LEN] = {0, 1, 2, 3, 4, 5};
-    elem_t    *arr      = to_array(list);
+    elem_t    *arr      = to_array(&list);
 
     bool  is_all_passed;
     char *msg;
@@ -35,6 +35,7 @@ bool test_init(void) {
     is_all_passed = assert_eq(list.len, LEN, msg);
     is_all_passed = assert_arr_eq(arr, list.len, tmp, LEN, msg);
 
+    free(arr);
     return is_all_passed;
 }
 
@@ -63,12 +64,28 @@ bool test_to_array(void) {
     char *msg;
 
     msg           = "should get an array from linked list";
-    elem_t *arr   = to_array(list);
+    elem_t *arr   = to_array(&list);
     is_all_passed = assert(arr != NULL, msg);
     is_all_passed = assert_arr_eq(arr, list.len, tmp, LEN, msg);
 
-    msg           = "should get NULL from empty linked list";
-    is_all_passed = assert(to_array(create()) == NULL, msg);
+    msg              = "should get NULL from empty linked list";
+    LinkedList empty = create();
+    is_all_passed    = assert(to_array(&empty) == NULL, msg);
+
+    free(arr);
+    return is_all_passed;
+}
+
+bool test_clear(void) {
+    LinkedList list = test_data();
+    clear(&list);
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg           = "should clear the linked list";
+    is_all_passed = assert(list.head == NULL, msg);
+    is_all_passed = assert_eq(list.len, 0, msg);
 
     return is_all_passed;
 }
@@ -79,6 +96,7 @@ int main(void) {
     run_test(test_init, prefix, "linked_list_init");
     run_test(test_from_array, prefix, "linked_list_from_array");
     run_test(test_to_array, prefix, "linked_list_to_array");
+    run_test(test_clear, prefix, "linked_list_clear");
 
     return 0;
 }

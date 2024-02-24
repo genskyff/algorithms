@@ -68,7 +68,7 @@ bool test_swap(void) {
 }
 
 bool test_reverse(void) {
-    Vec *v = test_data();
+    Vec   *v     = test_data();
     elem_t rev[] = {5, 4, 3, 2, 1, 0};
 
     bool  is_all_passed;
@@ -94,7 +94,7 @@ bool test_is_empty(void) {
     msg           = "should not be empty";
     is_all_passed = assert(!is_empty(v), msg);
 
-    msg = "should be empty when empty";
+    msg = "should be empty after clear";
     clear(v);
     is_all_passed = assert(is_empty(v), msg);
 
