@@ -110,7 +110,7 @@ bool test_find(void) {
     bool find_tail = _find(ARR, LEN, LEN - 1, &i);
     is_all_passed  = assert(find_tail && i == 5, msg);
 
-    msg           = "should not find out of range";
+    msg           = "should not find when out of range";
     bool find_100 = _find(ARR, LEN, 100, &i);
     is_all_passed = assert(!find_100 && i == 5, msg);
 

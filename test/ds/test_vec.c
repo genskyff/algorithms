@@ -116,7 +116,7 @@ bool test_get(void) {
     is_all_passed = assert(get(v, v->len - 1, &e), msg);
     is_all_passed = assert_eq(e, v->data[v->len - 1], msg);
 
-    msg           = "should not get";
+    msg           = "should not get when out of range";
     is_all_passed = assert(!get(v, v->len, &e), msg);
     is_all_passed = assert_eq(e, v->data[v->len - 1], msg);
 
@@ -138,7 +138,7 @@ bool test_set(void) {
     is_all_passed = assert(set(v, v->len - 1, e), msg);
     is_all_passed = assert_eq(v->data[v->len - 1], e, msg);
 
-    msg           = "should not set when index is out of range";
+    msg           = "should not set when out of range";
     is_all_passed = assert(!set(v, v->len, e), msg);
 
     drop(&v);

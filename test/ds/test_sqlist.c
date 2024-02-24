@@ -106,7 +106,7 @@ bool test_get(void) {
     is_all_passed = assert(get(&list, list.len - 1, &e), msg);
     is_all_passed = assert_eq(e, list.data[list.len - 1], msg);
 
-    msg           = "should not get";
+    msg           = "should not get when out of range";
     is_all_passed = assert(!get(&list, list.len, &e), msg);
     is_all_passed = assert_eq(e, list.data[list.len - 1], msg);
 
@@ -127,7 +127,7 @@ bool test_set(void) {
     is_all_passed = assert(set(&list, list.len - 1, e), msg);
     is_all_passed = assert_eq(list.data[list.len - 1], e, msg);
 
-    msg           = "should not set when index is out of range";
+    msg           = "should not set when out of range";
     is_all_passed = assert(!set(&list, list.len, e), msg);
 
     return is_all_passed;

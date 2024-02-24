@@ -153,6 +153,143 @@ bool test_is_empty(void) {
     return is_all_passed;
 }
 
+bool test_get(void) {
+    LinkedList list = test_data();
+    elem_t     e;
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg           = "should not get when NULL";
+    is_all_passed = assert(!get(NULL, 0, &e), msg);
+
+    msg           = "should get";
+    is_all_passed = assert(get(&list, 0, &e), msg);
+    is_all_passed = assert_eq(e, 0, msg);
+
+    msg           = "should not get when out of range";
+    is_all_passed = assert(!get(&list, list.len, &e), msg);
+
+    return is_all_passed;
+}
+
+bool test_set(void) {
+    LinkedList list = test_data();
+
+    elem_t e = 10;
+    bool   is_all_passed;
+    char  *msg;
+
+    msg           = "should not set when NULL";
+    is_all_passed = assert(!set(NULL, 0, e), msg);
+
+    msg           = "should set";
+    is_all_passed = assert(set(&list, 0, e), msg);
+    is_all_passed = assert_eq(list.head->data, 10, msg);
+
+    msg           = "should not set when out of range";
+    is_all_passed = assert(!set(&list, list.len, e), msg);
+
+    return is_all_passed;
+}
+
+bool test_find(void) {
+    LinkedList list = test_data();
+
+    size_t i;
+    bool   is_all_passed;
+    char  *msg;
+
+    msg           = "should not find when NULL";
+    is_all_passed = assert(!find(NULL, 0, NULL), msg);
+
+    msg           = "should find";
+    is_all_passed = assert(find(&list, 5, &i), msg);
+    is_all_passed = assert_eq(i, 5, msg);
+
+    msg           = "should not";
+    is_all_passed = assert(!find(&list, 6, &i), msg);
+
+    return is_all_passed;
+}
+
+bool test_insert(void) {
+    LinkedList list = test_data();
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg           = "should insert";
+    is_all_passed = assert(insert(&list, 0, 10), msg);
+    is_all_passed = assert_eq(list.head->data, 10, msg);
+    is_all_passed = assert_eq(list.len, LEN + 1, msg);
+
+    msg           = "should not insert when out of range";
+    is_all_passed = assert(!insert(&list, list.len + 1, 10), msg);
+
+    return is_all_passed;
+}
+
+bool test_push(void) {
+    LinkedList list = test_data();
+
+    elem_t e = 10;
+    bool   is_all_passed;
+    char  *msg;
+
+    msg           = "should not push when NULL";
+    is_all_passed = assert(!push(NULL, e), msg);
+
+    msg           = "should push";
+    is_all_passed = assert(push(&list, e), msg);
+    elem_t last;
+    get(&list, list.len - 1, &last);
+    is_all_passed = assert_eq(last, e, msg);
+    is_all_passed = assert_eq(list.len, LEN + 1, msg);
+
+    return is_all_passed;
+}
+
+bool test_del(void) {
+    LinkedList list = test_data();
+
+    elem_t e;
+    bool   is_all_passed;
+    char  *msg;
+
+    msg           = "should not del when NULL";
+    is_all_passed = assert(!del(NULL, 0, &e), msg);
+
+    msg           = "should del";
+    is_all_passed = assert(del(&list, 0, &e), msg);
+    is_all_passed = assert_eq(e, 0, msg);
+    is_all_passed = assert_eq(list.head->data, 1, msg);
+    is_all_passed = assert_eq(list.len, LEN - 1, msg);
+
+    msg           = "should not del when out of range";
+    is_all_passed = assert(!del(&list, list.len, &e), msg);
+
+    return is_all_passed;
+}
+
+bool test_pop(void) {
+    LinkedList list = test_data();
+
+    elem_t e;
+    bool   is_all_passed;
+    char  *msg;
+
+    msg           = "should not pop when NULL";
+    is_all_passed = assert(!pop(NULL, &e), msg);
+
+    msg           = "should pop";
+    is_all_passed = assert(pop(&list, &e), msg);
+    is_all_passed = assert_eq(e, 5, msg);
+    is_all_passed = assert_eq(list.len, LEN - 1, msg);
+
+    return is_all_passed;
+}
+
 int main(void) {
     char *prefix = "ds";
     run_test(test_create, prefix, "linked_list_create");
@@ -163,6 +300,13 @@ int main(void) {
     run_test(test_reverse, prefix, "linked_list_reverse");
     run_test(test_clear, prefix, "linked_list_clear");
     run_test(test_is_empty, prefix, "linked_list_is_empty");
+    run_test(test_get, prefix, "linked_list_get");
+    run_test(test_set, prefix, "linked_list_set");
+    run_test(test_find, prefix, "linked_list_find");
+    run_test(test_insert, prefix, "linked_list_insert");
+    run_test(test_push, prefix, "linked_list_push");
+    run_test(test_del, prefix, "linked_list_del");
+    run_test(test_pop, prefix, "linked_list_pop");
 
     return 0;
 }

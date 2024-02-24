@@ -176,3 +176,129 @@ void clear(LinkedList *list) {
 bool is_empty(LinkedList *list) {
     return list == NULL || list->head == NULL || list->len == 0;
 }
+
+bool get(LinkedList *list, size_t i, elem_t *e) {
+    if (list == NULL || list->head == NULL || list->len == 0 ||
+        i >= list->len) {
+        return false;
+    }
+
+    Node *node = list->head;
+    for (size_t k = 0; k < i; k++) {
+        node = node->next;
+    }
+
+    if (e != NULL) {
+        *e = node->data;
+    }
+
+    return true;
+}
+
+bool set(LinkedList *list, size_t i, elem_t e) {
+    if (list == NULL || list->head == NULL || list->len == 0 ||
+        i >= list->len) {
+        return false;
+    }
+
+    Node *node = list->head;
+    for (size_t k = 0; k < i; k++) {
+        node = node->next;
+    }
+
+    node->data = e;
+
+    return true;
+}
+
+bool find(LinkedList *list, elem_t e, size_t *i) {
+    if (list == NULL || list->head == NULL || list->len == 0) {
+        return false;
+    }
+
+    Node *node = list->head;
+    for (size_t k = 0; node != NULL && k < list->len; k++) {
+        if (node->data == e) {
+            if (i != NULL) {
+                *i = k;
+            }
+            return true;
+        }
+        node = node->next;
+    }
+
+    return false;
+}
+
+bool insert(LinkedList *list, size_t i, elem_t e) {
+    if (list == NULL || i > list->len) {
+        return false;
+    }
+
+    Node *node = (Node *)malloc(sizeof(Node));
+    if (node == NULL) {
+        return false;
+    }
+
+    node->data = e;
+
+    if (i == 0) {
+        node->next = list->head;
+        list->head = node;
+    } else {
+        Node *prev = list->head;
+        for (size_t k = 0; k < i - 1; k++) {
+            prev = prev->next;
+        }
+
+        node->next = prev->next;
+        prev->next = node;
+    }
+
+    list->len++;
+
+    return true;
+}
+
+bool push(LinkedList *list, elem_t e) {
+    return list != NULL && insert(list, list->len, e);
+}
+bool del(LinkedList *list, size_t i, elem_t *e) {
+    if (list == NULL || list->head == NULL || list->len == 0 ||
+        i >= list->len) {
+        return false;
+    }
+
+    if (i == 0) {
+        Node *node = list->head;
+        list->head = node->next;
+        if (e != NULL) {
+            *e = node->data;
+        }
+        free(node);
+    } else {
+        Node *prev = list->head;
+        for (size_t k = 0; k < i - 1; k++) {
+            prev = prev->next;
+        }
+
+        Node *node = prev->next;
+        prev->next = node->next;
+        if (e != NULL) {
+            *e = node->data;
+        }
+        free(node);
+    }
+
+    list->len--;
+
+    return true;
+}
+
+bool pop(LinkedList *list, elem_t *e) {
+    if (list == NULL || list->head == NULL || list->len == 0) {
+        return false;
+    } else {
+        return del(list, list->len - 1, e);
+    }
+}

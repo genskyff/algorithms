@@ -44,9 +44,7 @@ xmake test
   - [x] Vector
   - [ ] Linear lists
     - [x] Sequential list
-    - [ ] Singly linked list
-    - [ ] Doubly linked list
-    - [ ] Circular linked list
+    - [ ] Linked list
   - [ ] Queue
   - [ ] Stack
   - [ ] Hash table
