@@ -76,6 +76,53 @@ bool test_to_array(void) {
     return is_all_passed;
 }
 
+bool test_swap(void) {
+    LinkedList list = test_data();
+
+    // expect array's name like swap_<i>_<j>
+    elem_t swap_0_5[] = {5, 1, 2, 3, 4, 0};
+    elem_t swap_0_1[] = {1, 5, 2, 3, 4, 0};
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg = "should swap(0, 5)";
+    swap(&list, 0, 5);
+    elem_t *tmp   = to_array(&list);
+    is_all_passed = assert_arr_eq(tmp, list.len, swap_0_5, LEN, msg);
+    free(tmp);
+
+    msg = "should swap(0, 1)";
+    swap(&list, 0, 1);
+    tmp           = to_array(&list);
+    is_all_passed = assert_arr_eq(tmp, list.len, swap_0_1, LEN, msg);
+    free(tmp);
+
+    msg = "should not swap(3, 3)";
+    swap(&list, 3, 3);
+    tmp           = to_array(&list);
+    is_all_passed = assert_arr_eq(tmp, list.len, swap_0_1, LEN, msg);
+    free(tmp);
+
+    return is_all_passed;
+}
+
+bool test_reverse(void) {
+    LinkedList list  = test_data();
+    elem_t     rev[] = {5, 4, 3, 2, 1, 0};
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg = "should reverse";
+    reverse(&list);
+    elem_t *tmp   = to_array(&list);
+    is_all_passed = assert_arr_eq(tmp, list.len, tmp, LEN, msg);
+    free(tmp);
+
+    return is_all_passed;
+}
+
 bool test_clear(void) {
     LinkedList list = test_data();
     clear(&list);
@@ -90,13 +137,32 @@ bool test_clear(void) {
     return is_all_passed;
 }
 
+bool test_is_empty(void) {
+    LinkedList list = test_data();
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg           = "should return false for non-empty linked list";
+    is_all_passed = assert(!is_empty(&list), msg);
+
+    msg = "should return true for empty linked list";
+    clear(&list);
+    is_all_passed = assert(is_empty(&list), msg);
+
+    return is_all_passed;
+}
+
 int main(void) {
     char *prefix = "ds";
     run_test(test_create, prefix, "linked_list_create");
     run_test(test_init, prefix, "linked_list_init");
     run_test(test_from_array, prefix, "linked_list_from_array");
     run_test(test_to_array, prefix, "linked_list_to_array");
+    run_test(test_swap, prefix, "linked_list_swap");
+    run_test(test_reverse, prefix, "linked_list_reverse");
     run_test(test_clear, prefix, "linked_list_clear");
+    run_test(test_is_empty, prefix, "linked_list_is_empty");
 
     return 0;
 }
