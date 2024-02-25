@@ -4,11 +4,11 @@ set_languages("c17")
 
 set_allowedplats("windows", "linux", "macosx")
 if is_plat("windows") then
-    add_toolchains("msvc")
+    set_toolchains("msvc")
 elseif is_plat("linux") then
-    add_toolchains("gcc")
+    set_toolchains("gcc")
 elseif is_plat("macosx") then
-    add_toolchains("clang")
+    set_toolchains("clang")
 end
 
 add_rules("mode.debug", "mode.release", "mode.test")
