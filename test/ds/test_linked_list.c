@@ -1,6 +1,5 @@
 #include "linked_list.h"
 #include "test.h"
-#include "type.h"
 #include <stdlib.h>
 
 #define LEN 6
