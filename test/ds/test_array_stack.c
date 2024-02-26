@@ -62,14 +62,13 @@ bool test_peek(void) {
     msg           = "should not get when NULL";
     is_all_passed = assert(!peek(NULL, NULL), msg);
 
-    msg           = "should get";
+    msg           = "should get top";
     is_all_passed = assert(peek(&stack, &e), msg);
     is_all_passed = assert_eq(e, stack.data[stack.len - 1], msg);
 
-    msg = "should not get when empty";
+    msg = "should not get top when empty";
     clear(&stack);
     is_all_passed = assert(!peek(&stack, &e), msg);
-    is_all_passed = assert_eq(e, stack.data[stack.len - 1], msg);
 
     return is_all_passed;
 }

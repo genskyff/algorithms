@@ -16,7 +16,7 @@ bool test_create(void) {
 
     msg           = "should get a empty linked list";
     is_all_passed = assert(list.head == NULL, msg);
-    is_all_passed = assert_eq(list.len, 0, msg);
+    is_all_passed = assert_eq(length(&list), 0, msg);
 
     return is_all_passed;
 }
@@ -31,8 +31,8 @@ bool test_init(void) {
 
     msg           = "should get a initialized linked list";
     is_all_passed = assert(list.head != NULL, msg);
-    is_all_passed = assert_eq(list.len, LEN, msg);
-    is_all_passed = assert_arr_eq(arr, list.len, tmp, LEN, msg);
+    is_all_passed = assert_eq(length(&list), LEN, msg);
+    is_all_passed = assert_arr_eq(arr, length(&list), tmp, LEN, msg);
 
     free(arr);
     return is_all_passed;
@@ -47,7 +47,7 @@ bool test_from_array(void) {
     msg             = "should get a linked list from array";
     LinkedList list = from_array(arr, LEN);
     is_all_passed   = assert(list.head != NULL, msg);
-    is_all_passed   = assert_eq(list.len, LEN, msg);
+    is_all_passed   = assert_eq(length(&list), LEN, msg);
 
     msg           = "should get a empty linked list from NULL array";
     is_all_passed = assert(from_array(NULL, LEN).head == NULL, msg);
@@ -65,13 +65,29 @@ bool test_to_array(void) {
     msg           = "should get an array from linked list";
     elem_t *arr   = to_array(&list);
     is_all_passed = assert(arr != NULL, msg);
-    is_all_passed = assert_arr_eq(arr, list.len, tmp, LEN, msg);
+    is_all_passed = assert_arr_eq(arr, length(&list), tmp, LEN, msg);
 
     msg              = "should get NULL from empty linked list";
     LinkedList empty = create();
     is_all_passed    = assert(to_array(&empty) == NULL, msg);
 
     free(arr);
+    return is_all_passed;
+}
+
+bool test_length(void) {
+    LinkedList list = test_data();
+
+    bool  is_all_passed;
+    char *msg;
+
+    msg           = "should get the length of linked list";
+    is_all_passed = assert_eq(length(&list), LEN, msg);
+
+    msg              = "should get 0 from empty linked list";
+    LinkedList empty = create();
+    is_all_passed    = assert_eq(length(&empty), 0, msg);
+
     return is_all_passed;
 }
 
@@ -88,19 +104,19 @@ bool test_swap(void) {
     msg = "should swap(0, 5)";
     swap(&list, 0, 5);
     elem_t *tmp   = to_array(&list);
-    is_all_passed = assert_arr_eq(tmp, list.len, swap_0_5, LEN, msg);
+    is_all_passed = assert_arr_eq(tmp, length(&list), swap_0_5, LEN, msg);
     free(tmp);
 
     msg = "should swap(0, 1)";
     swap(&list, 0, 1);
     tmp           = to_array(&list);
-    is_all_passed = assert_arr_eq(tmp, list.len, swap_0_1, LEN, msg);
+    is_all_passed = assert_arr_eq(tmp, length(&list), swap_0_1, LEN, msg);
     free(tmp);
 
     msg = "should not swap(3, 3)";
     swap(&list, 3, 3);
     tmp           = to_array(&list);
-    is_all_passed = assert_arr_eq(tmp, list.len, swap_0_1, LEN, msg);
+    is_all_passed = assert_arr_eq(tmp, length(&list), swap_0_1, LEN, msg);
     free(tmp);
 
     return is_all_passed;
@@ -116,7 +132,7 @@ bool test_reverse(void) {
     msg = "should reverse";
     reverse(&list);
     elem_t *tmp   = to_array(&list);
-    is_all_passed = assert_arr_eq(tmp, list.len, tmp, LEN, msg);
+    is_all_passed = assert_arr_eq(tmp, length(&list), tmp, LEN, msg);
     free(tmp);
 
     return is_all_passed;
@@ -131,7 +147,7 @@ bool test_clear(void) {
 
     msg           = "should clear the linked list";
     is_all_passed = assert(list.head == NULL, msg);
-    is_all_passed = assert_eq(list.len, 0, msg);
+    is_all_passed = assert_eq(length(&list), 0, msg);
 
     return is_all_passed;
 }
@@ -167,7 +183,7 @@ bool test_get(void) {
     is_all_passed = assert_eq(e, 0, msg);
 
     msg           = "should not get when out of range";
-    is_all_passed = assert(!get(&list, list.len, &e), msg);
+    is_all_passed = assert(!get(&list, length(&list), &e), msg);
 
     return is_all_passed;
 }
@@ -187,7 +203,7 @@ bool test_set(void) {
     is_all_passed = assert_eq(list.head->data, 10, msg);
 
     msg           = "should not set when out of range";
-    is_all_passed = assert(!set(&list, list.len, e), msg);
+    is_all_passed = assert(!set(&list, length(&list), e), msg);
 
     return is_all_passed;
 }
@@ -215,16 +231,16 @@ bool test_find(void) {
 bool test_insert(void) {
     LinkedList list = test_data();
 
-    bool  is_all_passed;
+    bool  is_all_passed = true;
     char *msg;
 
     msg           = "should insert";
     is_all_passed = assert(insert(&list, 0, 10), msg);
     is_all_passed = assert_eq(list.head->data, 10, msg);
-    is_all_passed = assert_eq(list.len, LEN + 1, msg);
+    is_all_passed = assert_eq(length(&list), LEN + 1, msg);
 
     msg           = "should not insert when out of range";
-    is_all_passed = assert(!insert(&list, list.len + 1, 10), msg);
+    is_all_passed = assert(!insert(&list, length(&list) + 1, 10), msg);
 
     return is_all_passed;
 }
@@ -242,9 +258,9 @@ bool test_push(void) {
     msg           = "should push";
     is_all_passed = assert(push(&list, e), msg);
     elem_t last;
-    get(&list, list.len - 1, &last);
+    get(&list, length(&list) - 1, &last);
     is_all_passed = assert_eq(last, e, msg);
-    is_all_passed = assert_eq(list.len, LEN + 1, msg);
+    is_all_passed = assert_eq(length(&list), LEN + 1, msg);
 
     return is_all_passed;
 }
@@ -263,10 +279,10 @@ bool test_del(void) {
     is_all_passed = assert(del(&list, 0, &e), msg);
     is_all_passed = assert_eq(e, 0, msg);
     is_all_passed = assert_eq(list.head->data, 1, msg);
-    is_all_passed = assert_eq(list.len, LEN - 1, msg);
+    is_all_passed = assert_eq(length(&list), LEN - 1, msg);
 
     msg           = "should not del when out of range";
-    is_all_passed = assert(!del(&list, list.len, &e), msg);
+    is_all_passed = assert(!del(&list, length(&list), &e), msg);
 
     return is_all_passed;
 }
@@ -284,7 +300,7 @@ bool test_pop(void) {
     msg           = "should pop";
     is_all_passed = assert(pop(&list, &e), msg);
     is_all_passed = assert_eq(e, 5, msg);
-    is_all_passed = assert_eq(list.len, LEN - 1, msg);
+    is_all_passed = assert_eq(length(&list), LEN - 1, msg);
 
     return is_all_passed;
 }
@@ -295,6 +311,7 @@ int main(void) {
     run_test(test_init, prefix, "linked_list_init");
     run_test(test_from_array, prefix, "linked_list_from_array");
     run_test(test_to_array, prefix, "linked_list_to_array");
+    run_test(test_length, prefix, "linked_list_length");
     run_test(test_swap, prefix, "linked_list_swap");
     run_test(test_reverse, prefix, "linked_list_reverse");
     run_test(test_clear, prefix, "linked_list_clear");

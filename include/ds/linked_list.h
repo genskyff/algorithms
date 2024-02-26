@@ -11,14 +11,14 @@ typedef struct Node {
 } Node;
 
 typedef struct {
-    Node  *head;
-    size_t len;
+    Node *head;
 } LinkedList;
 
 LinkedList create(void);
 LinkedList init(size_t n, ...);
 LinkedList from_array(elem_t *arr, size_t len);
 elem_t    *to_array(LinkedList *list);
+size_t     length(LinkedList *list);
 void       swap(LinkedList *list, size_t i, size_t j);
 void       reverse(LinkedList *list);
 void       show(FILE *stream, LinkedList *list);
