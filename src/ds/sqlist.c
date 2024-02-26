@@ -1,7 +1,6 @@
 #include "sqlist.h"
 #include "utils.h"
 #include <stdarg.h>
-#include <stdio.h>
 
 SqList create(void) {
     SqList list;

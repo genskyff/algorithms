@@ -1,35 +1,28 @@
 #include "vec.h"
 #include "utils.h"
 #include <stdarg.h>
-#include <stdio.h>
 #include <stdlib.h>
 
-Vec *create(void) {
+Vec create(void) {
     return init(0);
 }
 
-Vec *init(size_t n, ...) {
-    Vec *v = (Vec *)malloc(sizeof(Vec));
-    if (v == NULL) {
-        return NULL;
-    }
-
+Vec init(size_t n, ...) {
     size_t  cap  = n < INIT_CAP ? INIT_CAP : n * EXTEND_RATIO;
     elem_t *data = (elem_t *)malloc(cap * sizeof(elem_t));
+
     if (data == NULL) {
-        free(v);
-        return NULL;
+        fprintf(stderr, "init: failed to allocate memory\n");
+        abort();
     }
 
-    v->len  = 0;
-    v->cap  = cap;
-    v->data = data;
+    Vec v = {.data = data, .len = 0, .cap = cap};
 
     va_list ap;
     va_start(ap, n);
 
     for (size_t i = 0; i < n; i++) {
-        v->data[v->len++] = va_arg(ap, elem_t);
+        v.data[v.len++] = va_arg(ap, elem_t);
     }
 
     va_end(ap);
@@ -156,10 +149,11 @@ bool pop(Vec *v, elem_t *e) {
     }
 }
 
-void drop(Vec **v) {
-    if (v != NULL && *v != NULL) {
-        free((*v)->data);
-        free(*v);
-        *v = NULL;
+void drop(Vec *v) {
+    if (v != NULL) {
+        free(v->data);
+        v->data = NULL;
+        v->len  = 0;
+        v->cap  = 0;
     }
 }

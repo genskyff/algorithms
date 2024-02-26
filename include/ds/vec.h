@@ -1,5 +1,6 @@
 #ifndef VEC_H
 #define VEC_H
+
 #include "type.h"
 #include <stdbool.h>
 #include <stdio.h>
@@ -13,8 +14,8 @@ typedef struct {
     size_t  cap;
 } Vec;
 
-Vec *create(void);
-Vec *init(size_t n, ...);
+Vec  create(void);
+Vec  init(size_t n, ...);
 void swap(Vec *v, size_t i, size_t j);
 void reverse(Vec *v);
 void show(FILE *stream, Vec *v);
@@ -27,6 +28,6 @@ bool insert(Vec *v, size_t i, elem_t e);
 bool push(Vec *v, elem_t e);
 bool del(Vec *v, size_t i, elem_t *e);
 bool pop(Vec *v, elem_t *e);
-void drop(Vec **v);
+void drop(Vec *v);
 
 #endif

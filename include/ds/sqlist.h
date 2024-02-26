@@ -1,5 +1,6 @@
 #ifndef SQLIST_H
 #define SQLIST_H
+
 #include "type.h"
 #include <stdbool.h>
 #include <stdio.h>

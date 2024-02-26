@@ -1,5 +1,4 @@
 #include "linked_list.h"
-#include "type.h"
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>

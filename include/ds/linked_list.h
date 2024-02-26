@@ -1,5 +1,6 @@
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
+
 #include "type.h"
 #include <stdbool.h>
 #include <stdio.h>
