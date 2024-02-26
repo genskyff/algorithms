@@ -46,7 +46,11 @@ xmake test
     - [x] Sequential list
     - [x] Linked list
   - [ ] Queue
+    - [ ] Array queue
+    - [ ] Linked queue
   - [ ] Stack
+    - [x] Array stack
+    - [ ] Linked stack
   - [ ] Hash table
   - [ ] Tree
   - [ ] Heap

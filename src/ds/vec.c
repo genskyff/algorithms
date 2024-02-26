@@ -142,11 +142,11 @@ bool del(Vec *v, size_t i, elem_t *e) {
 }
 
 bool pop(Vec *v, elem_t *e) {
-    if (v == NULL || v->len == 0) {
-        return false;
-    } else {
+    if (v != NULL && v->len > 0) {
         return del(v, v->len - 1, e);
     }
+
+    return false;
 }
 
 void drop(Vec *v) {

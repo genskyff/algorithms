@@ -64,6 +64,17 @@ target("test_utils")
 --  data structures
 -- -----------------
 
+target("array_stack")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/array_stack.c")
+
+target("test_array_stack")
+    set_kind("binary")
+    set_group("test")
+    add_files("test/ds/test_array_stack.c")
+    add_deps("array_stack")
+
 target("linked_list")
     set_kind("static")
     set_group("ds")
