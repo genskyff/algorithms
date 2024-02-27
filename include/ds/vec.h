@@ -3,7 +3,6 @@
 
 #include "type.h"
 #include <stdbool.h>
-#include <stdio.h>
 
 #define INIT_CAP     20
 #define EXTEND_RATIO 2

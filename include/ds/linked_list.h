@@ -3,12 +3,6 @@
 
 #include "type.h"
 #include <stdbool.h>
-#include <stdio.h>
-
-typedef struct Node {
-    elem_t       data;
-    struct Node *next;
-} Node;
 
 typedef struct {
     Node *head;

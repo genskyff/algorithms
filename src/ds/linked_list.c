@@ -1,7 +1,5 @@
 #include "linked_list.h"
 #include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 LinkedList create(void) {

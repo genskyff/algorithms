@@ -6,12 +6,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#define MAXLEN 100
-
-typedef struct {
-    elem_t data[MAXLEN];
-    size_t len;
-} ArrayStack;
+typedef SqList ArrayStack;
 
 ArrayStack create(void);
 ArrayStack init(size_t n, ...);
