@@ -50,7 +50,7 @@ xmake test
     - [ ] Linked queue
   - [ ] Stack
     - [x] Array stack
-    - [ ] Linked stack
+    - [x] Linked stack
   - [ ] Hash table
   - [ ] Tree
   - [ ] Heap
