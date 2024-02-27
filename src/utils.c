@@ -13,18 +13,19 @@ void _swap(elem_t *arr, size_t i, size_t j) {
 }
 
 void _show(FILE *stream, elem_t *arr, size_t len) {
-    if (arr == NULL || len == 0) {
-        return;
-    }
-
     if (stream == NULL) {
         stream = stdout;
     }
 
-    for (size_t i = 0; i < len; i++) {
-        fprintf(stream, "%d ", arr[i]);
+    if (arr == NULL || len == 0) {
+        fprintf(stream, "[]\n");
+        return;
     }
-    fprintf(stream, "\n");
+
+    fprintf(stream, "[");
+    for (size_t i = 0; i < len; i++) {
+        fprintf(stream, "%d%s", arr[i], i == len - 1 ? "]\n" : ", ");
+    }
 }
 
 void _show_slice(FILE *stream, elem_t *arr, size_t len, size_t start,

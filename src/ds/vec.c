@@ -45,6 +45,8 @@ void reverse(Vec *v) {
 void show(FILE *stream, Vec *v) {
     if (v != NULL) {
         _show(stream, v->data, v->len);
+    } else {
+        fprintf(stream == NULL ? stdout : stream, "[]\n");
     }
 }
 

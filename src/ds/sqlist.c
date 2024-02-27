@@ -3,8 +3,7 @@
 #include <stdarg.h>
 
 SqList create(void) {
-    SqList list;
-    list.len = 0;
+    SqList list = {.len = 0};
 
     return list;
 }
@@ -41,6 +40,8 @@ void reverse(SqList *list) {
 void show(FILE *stream, SqList *list) {
     if (list != NULL) {
         _show(stream, list->data, list->len);
+    } else {
+        fprintf(stream == NULL ? stdout : stream, "[]\n");
     }
 }
 

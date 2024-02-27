@@ -4,8 +4,7 @@
 #include <stdlib.h>
 
 ArrayStack create(void) {
-    ArrayStack stack;
-    stack.len = 0;
+    ArrayStack stack = {.len = 0};
 
     return stack;
 }
@@ -27,6 +26,8 @@ ArrayStack init(size_t n, ...) {
 void show(FILE *stream, ArrayStack *stack) {
     if (stack != NULL) {
         _show(stream, stack->data, stack->len);
+    } else {
+        fprintf(stream == NULL ? stdout : stream, "[]\n");
     }
 }
 

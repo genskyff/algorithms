@@ -3,8 +3,7 @@
 #include <stdlib.h>
 
 LinkedList create(void) {
-    LinkedList list;
-    list.head = NULL;
+    LinkedList list = {.head = NULL};
 
     return list;
 }
@@ -163,7 +162,12 @@ void reverse(LinkedList *list) {
 }
 
 void show(FILE *stream, LinkedList *list) {
+    if (stream == NULL) {
+        stream = stdout;
+    }
+
     if (list == NULL || list->head == NULL) {
+        fprintf(stream, "[]\n");
         return;
     }
 
@@ -171,6 +175,7 @@ void show(FILE *stream, LinkedList *list) {
         stream = stdout;
     }
 
+    fprintf(stream, "[");
     Node *node = list->head;
     while (node != NULL) {
         fprintf(stream, "%d", node->data);
@@ -179,7 +184,7 @@ void show(FILE *stream, LinkedList *list) {
             fprintf(stream, " -> ");
         }
     }
-    fprintf(stream, "\n");
+    fprintf(stream, "]\n");
 }
 
 void clear(LinkedList *list) {
