@@ -1,7 +1,6 @@
 #include "array_stack.h"
 #include "utils.h"
 #include <stdarg.h>
-#include <stdlib.h>
 
 ArrayStack create(void) {
     ArrayStack stack = {.len = 0};

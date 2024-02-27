@@ -1,5 +1,5 @@
 #include "test.h"
-#include "vec.h"
+#include "vector.h"
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \
@@ -13,7 +13,7 @@ bool test_create(void) {
     bool  is_all_passed;
     char *msg;
 
-    msg           = "should get a empty vec";
+    msg           = "should get a empty vector";
     is_all_passed = assert(v.data != NULL, msg);
     is_all_passed = assert_eq(v.len, 0, msg);
     is_all_passed = assert_eq(v.cap, INIT_CAP, msg);
@@ -29,7 +29,7 @@ bool test_init(void) {
     bool  is_all_passed;
     char *msg;
 
-    msg           = "should get a initialized vec";
+    msg           = "should get a initialized vector";
     is_all_passed = assert(v.data != NULL, msg);
     is_all_passed = assert_eq(v.len, LEN, msg);
     is_all_passed = assert_eq(v.cap, INIT_CAP, msg);
@@ -311,19 +311,19 @@ bool test_drop(void) {
 
 int main(void) {
     char *prefix = "ds";
-    run_test(test_create, prefix, "vec_create");
-    run_test(test_init, prefix, "vec_init");
-    run_test(test_swap, prefix, "vec_swap");
-    run_test(test_reverse, prefix, "vec_reverse");
-    run_test(test_is_empty, prefix, "vec_is_empty");
-    run_test(test_get, prefix, "vec_get");
-    run_test(test_set, prefix, "vec_set");
-    run_test(test_find, prefix, "vec_find");
-    run_test(test_insert, prefix, "vec_insert");
-    run_test(test_push, prefix, "vec_push");
-    run_test(test_del, prefix, "vec_del");
-    run_test(test_pop, prefix, "vec_pop");
-    run_test(test_drop, prefix, "vec_drop");
+    run_test(test_create, prefix, "vector_create");
+    run_test(test_init, prefix, "vector_init");
+    run_test(test_swap, prefix, "vector_swap");
+    run_test(test_reverse, prefix, "vector_reverse");
+    run_test(test_is_empty, prefix, "vector_is_empty");
+    run_test(test_get, prefix, "vector_get");
+    run_test(test_set, prefix, "vector_set");
+    run_test(test_find, prefix, "vector_find");
+    run_test(test_insert, prefix, "vector_insert");
+    run_test(test_push, prefix, "vector_push");
+    run_test(test_del, prefix, "vector_del");
+    run_test(test_pop, prefix, "vector_pop");
+    run_test(test_drop, prefix, "vector_drop");
 
     return 0;
 }

@@ -64,6 +64,17 @@ target("test_utils")
 --  data structures
 -- -----------------
 
+target("array_queue")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/array_queue.c")
+
+target("test_array_queue")
+    set_kind("binary")
+    set_group("test")
+    add_files("test/ds/test_array_queue.c")
+    add_deps("array_queue")
+
 target("array_stack")
     set_kind("static")
     set_group("ds")
@@ -108,16 +119,16 @@ target("test_sqlist")
     add_files("test/ds/test_sqlist.c")
     add_deps("sqlist")
 
-target("vec")
+target("vector")
     set_kind("static")
     set_group("ds")
-    add_files("src/ds/vec.c")
+    add_files("src/ds/vector.c")
 
-target("test_vec")
+target("test_vector")
     set_kind("binary")
     set_group("test")
-    add_files("test/ds/test_vec.c")
-    add_deps("vec")
+    add_files("test/ds/test_vector.c")
+    add_deps("vector")
 
 -- --------------------
 --  sorting algorithms
