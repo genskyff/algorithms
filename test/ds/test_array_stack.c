@@ -59,7 +59,7 @@ bool test_peek(void) {
     bool   is_all_passed;
     char  *msg;
 
-    msg           = "should not get when NULL";
+    msg           = "should not get top when NULL";
     is_all_passed = assert(!peek(NULL, NULL), msg);
 
     msg           = "should get top";

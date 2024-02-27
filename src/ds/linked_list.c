@@ -188,6 +188,10 @@ void show(FILE *stream, LinkedList *list) {
 }
 
 void clear(LinkedList *list) {
+    if (list == NULL) {
+        return;
+    }
+    
     Node *node = list->head;
     while (node != NULL) {
         Node *tmp = node;

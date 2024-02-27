@@ -106,12 +106,69 @@ void show(FILE *stream, LinkedStack *stack) {
     fprintf(stream, "]\n");
 }
 
-void clear(LinkedStack *stack);
+void clear(LinkedStack *stack) {
+    if (stack == NULL) {
+        return;
+    }
 
-bool is_empty(LinkedStack *stack);
+    Node *node = stack->top;
+    while (node != NULL) {
+        Node *temp = node;
+        node       = node->next;
+        free(temp);
+    }
 
-bool peek(LinkedStack *stack, elem_t *e);
+    stack->top = NULL;
+    stack->len = 0;
+}
 
-bool push(LinkedStack *stack, elem_t e);
+bool is_empty(LinkedStack *stack) {
+    return stack == NULL || stack->top == NULL || stack->len == 0;
+}
 
-bool pop(LinkedStack *stack, elem_t *e);
+bool peek(LinkedStack *stack, elem_t *e) {
+    if (stack == NULL || stack->top == NULL) {
+        return false;
+    }
+
+    if (e != NULL) {
+        *e = stack->top->data;
+    }
+
+    return true;
+}
+
+bool push(LinkedStack *stack, elem_t e) {
+    if (stack == NULL) {
+        return false;
+    }
+
+    Node *node = (Node *)malloc(sizeof(Node));
+    if (node == NULL) {
+        return false;
+    }
+
+    node->data = e;
+    node->next = stack->top;
+    stack->top = node;
+    stack->len++;
+
+    return true;
+}
+
+bool pop(LinkedStack *stack, elem_t *e) {
+    if (stack == NULL || stack->top == NULL) {
+        return false;
+    }
+
+    if (e != NULL) {
+        *e = stack->top->data;
+    }
+
+    Node *node = stack->top;
+    stack->top = stack->top->next;
+    free(node);
+    stack->len--;
+
+    return true;
+}

@@ -121,7 +121,7 @@ bool test_swap(void) {
 
     msg = "should not swap when out of range";
     swap(&list, 0, LEN);
-    tmp = to_array(&list);
+    tmp           = to_array(&list);
     is_all_passed = assert_arr_eq(tmp, length(&list), swap_0_1, LEN, msg);
     free(tmp);
 
@@ -146,12 +146,12 @@ bool test_reverse(void) {
 
 bool test_clear(void) {
     LinkedList list = test_data();
-    clear(&list);
 
     bool  is_all_passed;
     char *msg;
 
-    msg           = "should clear the linked list";
+    msg = "should clear the linked list";
+    clear(&list);
     is_all_passed = assert(list.head == NULL, msg);
     is_all_passed = assert_eq(length(&list), 0, msg);
 

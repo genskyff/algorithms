@@ -75,90 +75,94 @@ bool test_to_array(void) {
     return is_all_passed;
 }
 
-// bool test_clear(void) {
-//     LinkedStack stack = test_data();
-//     clear(&stack);
+bool test_clear(void) {
+    LinkedStack stack = test_data();
 
-//     bool  is_all_passed;
-//     char *msg;
+    bool  is_all_passed;
+    char *msg;
 
-//     msg           = "should clear the linked stack";
-//     is_all_passed = assert(stack.top == NULL, msg);
-//     is_all_passed = assert_eq(stack.len, 0, msg);
+    msg = "should clear the linked stack";
+    clear(&stack);
+    is_all_passed = assert(stack.top == NULL, msg);
+    is_all_passed = assert_eq(stack.len, 0, msg);
 
-//     return is_all_passed;
-// }
+    return is_all_passed;
+}
 
-// bool test_is_empty(void) {
-//     LinkedStack stack = test_data();
+bool test_is_empty(void) {
+    LinkedStack stack = test_data();
 
-//     bool  is_all_passed;
-//     char *msg;
+    bool  is_all_passed;
+    char *msg;
 
-//     msg           = "should return false for non-empty linked stack";
-//     is_all_passed = assert(!is_empty(&stack), msg);
+    msg           = "should return false for non-empty linked stack";
+    is_all_passed = assert(!is_empty(&stack), msg);
 
-//     msg = "should return true for empty linked stack";
-//     clear(&stack);
-//     is_all_passed = assert(is_empty(&stack), msg);
+    msg = "should return true for empty linked stack";
+    clear(&stack);
+    is_all_passed = assert(is_empty(&stack), msg);
 
-//     return is_all_passed;
-// }
+    return is_all_passed;
+}
 
-// bool test_peek(void) {
-//     LinkedStack stack = test_data();
-//     elem_t     e;
+bool test_peek(void) {
+    LinkedStack stack = test_data();
+    elem_t      e;
 
-//     bool  is_all_passed;
-//     char *msg;
+    bool  is_all_passed;
+    char *msg;
 
-//     msg           = "should not get when NULL";
-//     is_all_passed = assert(!peek(NULL, &e), msg);
+    msg           = "should not get top when NULL";
+    is_all_passed = assert(!peek(NULL, &e), msg);
 
-//     msg           = "should get";
-//     is_all_passed = assert(peek(&stack, &e), msg);
-//     is_all_passed = assert_eq(e, 0, msg);
+    msg           = "should get top";
+    is_all_passed = assert(peek(&stack, &e), msg);
+    is_all_passed = assert_eq(e, 0, msg);
 
-//     return is_all_passed;
-// }
+    msg = "should not get top when empty";
+    clear(&stack);
+    is_all_passed = assert(!peek(&stack, &e), msg);
 
-// bool test_push(void) {
-//     LinkedStack stack = test_data();
+    return is_all_passed;
+}
 
-//     elem_t e = 10;
-//     bool   is_all_passed;
-//     char  *msg;
+bool test_push(void) {
+    LinkedStack stack = test_data();
 
-//     msg           = "should not push when NULL";
-//     is_all_passed = assert(!push(NULL, e), msg);
+    elem_t e = 10;
+    bool   is_all_passed;
+    char  *msg;
 
-//     msg           = "should push";
-//     is_all_passed = assert(push(&stack, e), msg);
-//     elem_t last;
-//     peek(&stack, &last);
-//     is_all_passed = assert_eq(last, e, msg);
-//     is_all_passed = assert_eq(stack.len, LEN + 1, msg);
+    msg           = "should not push when NULL";
+    is_all_passed = assert(!push(NULL, e), msg);
 
-//     return is_all_passed;
-// }
+    msg           = "should push";
+    is_all_passed = assert(push(&stack, e), msg);
+    elem_t top;
+    peek(&stack, &top);
+    is_all_passed = assert_eq(top, e, msg);
+    is_all_passed = assert_eq(stack.len, LEN + 1, msg);
 
-// bool test_pop(void) {
-//     LinkedStack stack = test_data();
+    return is_all_passed;
+}
 
-//     elem_t e;
-//     bool   is_all_passed;
-//     char  *msg;
+bool test_pop(void) {
+    LinkedStack stack = test_data();
 
-//     msg           = "should not pop when NULL";
-//     is_all_passed = assert(!pop(NULL, &e), msg);
+    elem_t e;
+    bool   is_all_passed;
+    char  *msg;
 
-//     msg           = "should pop";
-//     is_all_passed = assert(pop(&stack, &e), msg);
-//     is_all_passed = assert_eq(e, 5, msg);
-//     is_all_passed = assert_eq(stack.len, LEN - 1, msg);
+    msg           = "should not pop when NULL";
+    is_all_passed = assert(!pop(NULL, &e), msg);
 
-//     return is_all_passed;
-// }
+    msg           = "should pop";
+    is_all_passed = assert(pop(&stack, &e), msg);
+    is_all_passed = assert_eq(e, 0, msg);
+    is_all_passed = assert_eq(stack.len, LEN - 1, msg);
+
+    return is_all_passed;
+}
 
 int main(void) {
     char *prefix = "ds";
@@ -166,11 +170,11 @@ int main(void) {
     run_test(test_init, prefix, "linked_stack_init");
     run_test(test_from_array, prefix, "linked_stack_from_array");
     run_test(test_to_array, prefix, "linked_stack_to_array");
-    // run_test(test_clear, prefix, "linked_stack_clear");
-    // run_test(test_is_empty, prefix, "linked_stack_is_empty");
-    // run_test(test_peek, prefix, "linked_stack_peek");
-    // run_test(test_push, prefix, "linked_stack_push");
-    // run_test(test_pop, prefix, "linked_stack_pop");
+    run_test(test_clear, prefix, "linked_stack_clear");
+    run_test(test_is_empty, prefix, "linked_stack_is_empty");
+    run_test(test_peek, prefix, "linked_stack_peek");
+    run_test(test_push, prefix, "linked_stack_push");
+    run_test(test_pop, prefix, "linked_stack_pop");
 
     return 0;
 }
