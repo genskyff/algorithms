@@ -119,6 +119,12 @@ bool test_swap(void) {
     is_all_passed = assert_arr_eq(tmp, length(&list), swap_0_1, LEN, msg);
     free(tmp);
 
+    msg = "should not swap when out of range";
+    swap(&list, 0, LEN);
+    tmp = to_array(&list);
+    is_all_passed = assert_arr_eq(tmp, length(&list), swap_0_1, LEN, msg);
+    free(tmp);
+
     return is_all_passed;
 }
 

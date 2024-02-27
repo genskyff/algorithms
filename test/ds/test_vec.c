@@ -61,6 +61,10 @@ bool test_swap(void) {
     swap(&v, 3, 3);
     is_all_passed = assert_arr_eq(v.data, v.len, swap_4_1, LEN, msg);
 
+    msg = "should not swap when out of range";
+    swap(&v, 0, LEN);
+    is_all_passed = assert_arr_eq(v.data, v.len, swap_4_1, LEN, msg);
+
     drop(&v);
     return is_all_passed;
 }

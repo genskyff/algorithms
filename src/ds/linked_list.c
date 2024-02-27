@@ -103,9 +103,7 @@ void swap(LinkedList *list, size_t i, size_t j) {
         return;
     }
 
-    size_t len = length(list);
-
-    if (i == j || i >= len || j >= len) {
+    if (i == j) {
         return;
     }
 
@@ -120,6 +118,10 @@ void swap(LinkedList *list, size_t i, size_t j) {
     for (size_t k = 0; k < i; k++) {
         prev_i = node_i;
         node_i = node_i->next;
+
+        if (node_i == NULL) {
+            return;
+        }
     }
 
     Node *prev_j = NULL;
@@ -127,6 +129,10 @@ void swap(LinkedList *list, size_t i, size_t j) {
     for (size_t k = 0; k < j; k++) {
         prev_j = node_j;
         node_j = node_j->next;
+
+        if (node_j == NULL) {
+            return;
+        }
     }
 
     if (prev_i != NULL) {
@@ -356,6 +362,7 @@ bool pop(LinkedList *list, elem_t *e) {
             *e = node->data;
         }
         free(node);
+
         return true;
     } else {
         while (node->next->next != NULL) {
@@ -368,6 +375,7 @@ bool pop(LinkedList *list, elem_t *e) {
         }
         node->next = NULL;
         free(to_del);
+
         return true;
     }
 }
