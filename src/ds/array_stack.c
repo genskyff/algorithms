@@ -10,6 +10,7 @@ ArrayStack create(void) {
 
 ArrayStack init(size_t n, ...) {
     ArrayStack stack = create();
+
     va_list    ap;
     va_start(ap, n);
 
@@ -37,7 +38,7 @@ void clear(ArrayStack *stack) {
 }
 
 bool is_empty(ArrayStack *stack) {
-    return stack == NULL || stack->len == 0 ? true : false;
+    return stack == NULL || stack->len == 0;
 }
 
 bool peek(ArrayStack *stack, elem_t *e) {

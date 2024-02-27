@@ -57,7 +57,7 @@ void clear(Vec *v) {
 }
 
 bool is_empty(Vec *v) {
-    return v == NULL || v->len == 0 ? true : false;
+    return v == NULL || v->len == 0;
 }
 
 bool get(Vec *v, size_t i, elem_t *e) {
