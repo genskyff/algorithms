@@ -95,6 +95,23 @@ bool test_is_empty(void) {
     return is_all_passed;
 }
 
+bool test_head(void) {
+    LinkedQueue queue = test_data();
+
+    elem_t e;
+    bool   is_all_passed;
+    char  *msg;
+
+    msg           = "should not get head when NULL";
+    is_all_passed = assert(!head(NULL, &e), msg);
+
+    msg           = "should get head";
+    is_all_passed = assert(head(&queue, &e), msg);
+    is_all_passed = assert_eq(e, 0, msg);
+
+    return is_all_passed;
+}
+
 bool test_enque(void) {
     LinkedQueue queue = create();
 
@@ -108,7 +125,7 @@ bool test_enque(void) {
     is_all_passed = assert(enque(&queue, 0), msg);
     is_all_passed = assert_eq(queue.len, 1, msg);
     elem_t first;
-    front(&queue, &first);
+    head(&queue, &first);
     is_all_passed = assert_eq(first, 0, msg);
 
     return is_all_passed;
@@ -140,6 +157,7 @@ int main(void) {
     run_test(test_to_array, prefix, "linked_queue_to_array");
     run_test(test_clear, prefix, "linked_queue_clear");
     run_test(test_is_empty, prefix, "linked_queue_is_empty");
+    run_test(test_head, prefix, "linked_queue_head");
     run_test(test_enque, prefix, "linked_queue_enque");
     run_test(test_deque, prefix, "linked_queue_deque");
 

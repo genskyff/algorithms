@@ -126,7 +126,7 @@ bool is_empty(LinkedQueue *queue) {
     return queue == NULL || queue->len == 0;
 }
 
-bool front(LinkedQueue *queue, elem_t *e) {
+bool head(LinkedQueue *queue, elem_t *e) {
     if (queue == NULL || queue->len == 0) {
         return false;
     }

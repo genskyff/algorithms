@@ -17,7 +17,7 @@ elem_t     *to_array(LinkedQueue *queue);
 void        show(FILE *stream, LinkedQueue *queue);
 void        clear(LinkedQueue *queue);
 bool        is_empty(LinkedQueue *queue);
-bool        front(LinkedQueue *queue, elem_t *e);
+bool        head(LinkedQueue *queue, elem_t *e);
 bool        enque(LinkedQueue *queue, elem_t e);
 bool        deque(LinkedQueue *queue, elem_t *e);
 
