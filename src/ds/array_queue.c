@@ -1,6 +1,7 @@
 #include "array_queue.h"
 #include "utils.h"
 #include <stdarg.h>
+#include <stddef.h>
 
 ArrayQueue create(void) {
     ArrayQueue queue = {.front = 0, .len = 0};
@@ -34,7 +35,7 @@ void show(FILE *stream, ArrayQueue *queue) {
 void clear(ArrayQueue *queue) {
     if (queue != NULL) {
         queue->front = 0;
-        queue->len = 0;
+        queue->len   = 0;
     }
 }
 
@@ -42,8 +43,41 @@ bool is_empty(ArrayQueue *queue) {
     return queue == NULL || queue->len == 0;
 }
 
-bool front(ArrayQueue *queue, elem_t *e);
+bool front(ArrayQueue *queue, elem_t *e) {
+    if (queue == NULL || queue->len == 0) {
+        return false;
+    }
 
-bool enque(ArrayQueue *queue, elem_t e);
+    if (e != NULL) {
+        *e = queue->data[queue->front];
+    }
 
-bool deque(ArrayQueue *queue, elem_t *e);
+    return true;
+}
+
+bool enque(ArrayQueue *queue, elem_t e) {
+    if (queue == NULL || queue->len == MAXLEN) {
+        return false;
+    }
+
+    size_t rear = (queue->front + queue->len) % MAXLEN;
+    queue->data[rear] = e;
+    queue->len++;
+
+    return true;
+}
+
+bool deque(ArrayQueue *queue, elem_t *e) {
+    if (queue == NULL || queue->len == 0) {
+        return false;
+    }
+
+    if (e != NULL) {
+        *e = queue->data[queue->front];
+    }
+
+    queue->front = (queue->front + 1) % MAXLEN;
+    queue->len--;
+
+    return true;
+}
