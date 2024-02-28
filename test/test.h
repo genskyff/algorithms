@@ -3,7 +3,6 @@
 
 #include "type.h"
 #include <stdbool.h>
-#include <stddef.h>
 
 typedef struct {
     elem_t *unsorted;

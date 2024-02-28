@@ -1,7 +1,6 @@
 #include "array_queue.h"
 #include "utils.h"
 #include <stdarg.h>
-#include <stddef.h>
 
 ArrayQueue create(void) {
     ArrayQueue queue = {.front = 0, .len = 0};
