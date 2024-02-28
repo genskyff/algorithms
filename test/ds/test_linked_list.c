@@ -66,12 +66,12 @@ bool test_to_array(void) {
     elem_t *arr   = to_array(&list);
     is_all_passed = assert(arr != NULL, msg);
     is_all_passed = assert_arr_eq(arr, length(&list), tmp, LEN, msg);
+    free(arr);
 
     msg              = "should get NULL from empty linked list";
     LinkedList empty = create();
     is_all_passed    = assert(to_array(&empty) == NULL, msg);
 
-    free(arr);
     return is_all_passed;
 }
 

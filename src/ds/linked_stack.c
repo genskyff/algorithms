@@ -39,7 +39,6 @@ LinkedStack from_array(elem_t *arr, size_t len) {
     }
 
     Node *tail = NULL;
-
     for (size_t i = 0; i < len; i++) {
         Node *node = (Node *)malloc(sizeof(Node));
         if (node == NULL) {

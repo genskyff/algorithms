@@ -39,7 +39,6 @@ LinkedList from_array(elem_t *arr, size_t len) {
     }
 
     Node *tail = NULL;
-
     for (size_t i = 0; i < len; i++) {
         Node *node = (Node *)malloc(sizeof(Node));
         if (node == NULL) {
@@ -191,7 +190,7 @@ void clear(LinkedList *list) {
     if (list == NULL) {
         return;
     }
-    
+
     Node *node = list->head;
     while (node != NULL) {
         Node *tmp = node;

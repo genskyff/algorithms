@@ -97,6 +97,17 @@ target("test_linked_list")
     add_files("test/ds/test_linked_list.c")
     add_deps("linked_list")
 
+target("linked_queue")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/linked_queue.c")
+
+target("test_linked_queue")
+    set_kind("binary")
+    set_group("test")
+    add_files("test/ds/test_linked_queue.c")
+    add_deps("linked_queue")
+
 target("linked_stack")
     set_kind("static")
     set_group("ds")
