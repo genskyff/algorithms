@@ -45,10 +45,10 @@ xmake test
   - [x] Linear lists
     - [x] Sequential list
     - [x] Linked list
-  - [ ] Queue
-    - [ ] Array queue
-    - [ ] Linked queue
-  - [ ] Stack
+  - [x] Queue
+    - [x] Array queue
+    - [x] Linked queue
+  - [x] Stack
     - [x] Array stack
     - [x] Linked stack
   - [ ] Hash table
