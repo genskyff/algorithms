@@ -102,11 +102,11 @@ bool test_head(void) {
     bool   is_all_passed;
     char  *msg;
 
-    msg           = "should not get head when NULL";
-    is_all_passed = assert(!head(NULL, &e), msg);
+    msg           = "should not get front when NULL";
+    is_all_passed = assert(!front(NULL, &e), msg);
 
-    msg           = "should get head";
-    is_all_passed = assert(head(&queue, &e), msg);
+    msg           = "should get front";
+    is_all_passed = assert(front(&queue, &e), msg);
     is_all_passed = assert_eq(e, 0, msg);
 
     return is_all_passed;
@@ -125,7 +125,7 @@ bool test_enque(void) {
     is_all_passed = assert(enque(&queue, 0), msg);
     is_all_passed = assert_eq(queue.len, 1, msg);
     elem_t first;
-    head(&queue, &first);
+    front(&queue, &first);
     is_all_passed = assert_eq(first, 0, msg);
 
     return is_all_passed;
