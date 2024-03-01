@@ -12,7 +12,9 @@ Vec init(size_t n, ...) {
     elem_t *data = (elem_t *)malloc(cap * sizeof(elem_t));
 
     if (data == NULL) {
-        fprintf(stderr, "init: failed to allocate memory\n");
+        fprintf(stderr,
+                "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
+                "\x1b[33minit\x1b[0m)\n\n");
         abort();
     }
 
@@ -44,9 +46,7 @@ void reverse(Vec *v) {
 
 void show(FILE *stream, Vec *v) {
     if (v != NULL) {
-        _show(stream, v->data, v->len);
-    } else {
-        fprintf(stream == NULL ? stdout : stream, "[]\n");
+        _show(stream, v->data, v->len, NULL);
     }
 }
 

@@ -17,7 +17,7 @@ void run_test(TestFunc test, char *prefix, char *test_name) {
     printf("\x1b[1;32m ... OK\x1b[0m\n");
 }
 
-bool assert(bool cond, char *msg) {
+void assert(bool cond, char *msg) {
     if (!cond) {
         fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
 
@@ -30,11 +30,9 @@ bool assert(bool cond, char *msg) {
         fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mfalse\n\n");
         abort();
     }
-
-    return cond;
 }
 
-bool assert_not(bool cond, char *msg) {
+void assert_not(bool cond, char *msg) {
     return assert(!cond, msg);
 }
 
@@ -57,24 +55,20 @@ void _err_msg(elem_t left, elem_t right, char *msg) {
     abort();
 }
 
-bool assert_eq(elem_t left, elem_t right, char *msg) {
+void assert_eq(elem_t left, elem_t right, char *msg) {
     if (_is_eq(left, right)) {
-        return true;
+        return;;
     }
 
     _err_msg(left, right, msg);
-
-    return false;
 }
 
-bool assert_ne(elem_t left, elem_t right, char *msg) {
+void assert_ne(elem_t left, elem_t right, char *msg) {
     if (!_is_eq(left, right)) {
-        return true;
+        return;;
     }
 
     _err_msg(left, right, msg);
-
-    return false;
 }
 
 bool _is_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len) {
@@ -111,26 +105,22 @@ void _arr_err_msg(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
     abort();
 }
 
-bool assert_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
+void assert_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
                    char *msg) {
     bool is_eq = _is_arr_eq(left, l_len, right, r_len);
 
     if (!is_eq) {
         _arr_err_msg(left, l_len, right, r_len, msg);
     }
-
-    return is_eq;
 }
 
-bool assert_arr_ne(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
+void assert_arr_ne(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
                    char *msg) {
     bool is_ne = !_is_arr_eq(left, l_len, right, r_len);
 
     if (!is_ne) {
         _arr_err_msg(left, l_len, right, r_len, msg);
     }
-
-    return is_ne;
 }
 
 bool _is_list_eq(Node *left, Node *right) {
@@ -171,24 +161,20 @@ void _list_err_msg(Node *left, Node *right, char *msg) {
     abort();
 }
 
-bool assert_list_eq(Node *left, Node *right, char *msg) {
+void assert_list_eq(Node *left, Node *right, char *msg) {
     bool is_eq = _is_list_eq(left, right);
 
     if (!is_eq) {
         _list_err_msg(left, right, msg);
     }
-
-    return is_eq;
 }
 
-bool assert_list_ne(Node *left, Node *right, char *msg) {
+void assert_list_ne(Node *left, Node *right, char *msg) {
     bool is_ne = !_is_list_eq(left, right);
 
     if (!is_ne) {
         _list_err_msg(left, right, msg);
     }
-
-    return is_ne;
 }
 
 void init_sort_data(TestSortData *data) {
