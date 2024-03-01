@@ -54,6 +54,18 @@ task("test-sort")
     }
 task_end()
 
+task("test-utils")
+    on_run(function ()
+        os.exec("xmake f -m test")
+        os.exec("xmake build -g test_utils")
+        os.exec("xmake run -g test_utils")
+    end)
+    set_menu{
+        usage = "xmake test-utils",
+        description = "Run all utils tests"
+    }
+task_end()
+
 add_includedirs("include", "include/ds", "include/sort")
 
 on_load(function (target)
