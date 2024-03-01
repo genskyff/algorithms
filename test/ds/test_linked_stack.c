@@ -9,159 +9,136 @@
     }
 TEST_DATA(0, 1, 2, 3, 4, 5)
 
-bool test_create(void) {
+void test_create(void) {
     LinkedStack stack = create();
-    bool        is_all_passed;
-    char       *msg;
 
-    msg           = "should get a empty linked stack";
-    is_all_passed = assert(stack.top == NULL, msg);
-    is_all_passed = assert_eq(stack.len, 0, msg);
+    char *msg;
 
-    return is_all_passed;
+    msg = "should get a empty linked stack";
+    assert(stack.top == NULL, msg);
+    assert_eq(stack.len, 0, msg);
 }
 
-bool test_init(void) {
+void test_init(void) {
     LinkedStack stack    = init(LEN, 0, 1, 2, 3, 4, 5);
     elem_t      tmp[LEN] = {0, 1, 2, 3, 4, 5};
     elem_t     *arr      = to_array(&stack);
 
-    bool  is_all_passed;
     char *msg;
 
-    msg           = "should get a initialized linked stack";
-    is_all_passed = assert(stack.top != NULL, msg);
-    is_all_passed = assert_eq(stack.len, LEN, msg);
-    is_all_passed = assert_arr_eq(arr, stack.len, tmp, LEN, msg);
+    msg = "should get a initialized linked stack";
+    assert(stack.top != NULL, msg);
+    assert_eq(stack.len, LEN, msg);
+    assert_arr_eq(arr, stack.len, tmp, LEN, msg);
 
     free(arr);
-    return is_all_passed;
 }
 
-bool test_from_array(void) {
+void test_from_array(void) {
     elem_t arr[LEN] = {0, 1, 2, 3, 4, 5};
 
-    bool  is_all_passed;
     char *msg;
 
     msg               = "should get a linked stack from array";
     LinkedStack stack = from_array(arr, LEN);
-    is_all_passed     = assert(stack.top != NULL, msg);
-    is_all_passed     = assert_eq(stack.len, LEN, msg);
+    assert(stack.top != NULL, msg);
+    assert_eq(stack.len, LEN, msg);
 
-    msg           = "should get a empty linked stack from NULL array";
-    is_all_passed = assert(from_array(NULL, LEN).top == NULL, msg);
-
-    return is_all_passed;
+    msg = "should get a empty linked stack from NULL array";
+    assert(from_array(NULL, LEN).top == NULL, msg);
 }
 
-bool test_to_array(void) {
+void test_to_array(void) {
     LinkedStack stack    = test_data();
     elem_t      tmp[LEN] = {0, 1, 2, 3, 4, 5};
 
-    bool  is_all_passed;
     char *msg;
 
-    msg           = "should get an array from linked stack";
-    elem_t *arr   = to_array(&stack);
-    is_all_passed = assert(arr != NULL, msg);
-    is_all_passed = assert_arr_eq(arr, stack.len, tmp, LEN, msg);
+    msg         = "should get an array from linked stack";
+    elem_t *arr = to_array(&stack);
+    assert(arr != NULL, msg);
+    assert_arr_eq(arr, stack.len, tmp, LEN, msg);
     free(arr);
 
     msg               = "should get NULL from empty linked stack";
     LinkedStack empty = create();
-    is_all_passed     = assert(to_array(&empty) == NULL, msg);
-
-    return is_all_passed;
+    assert(to_array(&empty) == NULL, msg);
 }
 
-bool test_clear(void) {
+void test_clear(void) {
     LinkedStack stack = test_data();
 
-    bool  is_all_passed;
     char *msg;
 
     msg = "should clear the linked stack";
     clear(&stack);
-    is_all_passed = assert(stack.top == NULL, msg);
-    is_all_passed = assert_eq(stack.len, 0, msg);
-
-    return is_all_passed;
+    assert(stack.top == NULL, msg);
+    assert_eq(stack.len, 0, msg);
 }
 
-bool test_is_empty(void) {
+void test_is_empty(void) {
     LinkedStack stack = test_data();
 
-    bool  is_all_passed;
     char *msg;
 
-    msg           = "should return false for non-empty linked stack";
-    is_all_passed = assert(!is_empty(&stack), msg);
+    msg = "should return false for non-empty linked stack";
+    assert(!is_empty(&stack), msg);
 
     msg = "should return true for empty linked stack";
     clear(&stack);
-    is_all_passed = assert(is_empty(&stack), msg);
-
-    return is_all_passed;
+    assert(is_empty(&stack), msg);
 }
 
-bool test_peek(void) {
+void test_peek(void) {
     LinkedStack stack = test_data();
     elem_t      e;
 
-    bool  is_all_passed;
     char *msg;
 
-    msg           = "should not get top when NULL";
-    is_all_passed = assert(!peek(NULL, &e), msg);
+    msg = "should not get top when NULL";
+    assert(!peek(NULL, &e), msg);
 
-    msg           = "should get top";
-    is_all_passed = assert(peek(&stack, &e), msg);
-    is_all_passed = assert_eq(e, 0, msg);
+    msg = "should get top";
+    assert(peek(&stack, &e), msg);
+    assert_eq(e, 0, msg);
 
     msg = "should not get top when empty";
     clear(&stack);
-    is_all_passed = assert(!peek(&stack, &e), msg);
-
-    return is_all_passed;
+    assert(!peek(&stack, &e), msg);
 }
 
-bool test_push(void) {
+void test_push(void) {
     LinkedStack stack = test_data();
 
     elem_t e = 10;
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should not push when NULL";
-    is_all_passed = assert(!push(NULL, e), msg);
+    char *msg;
 
-    msg           = "should push";
-    is_all_passed = assert(push(&stack, e), msg);
+    msg = "should not push when NULL";
+    assert(!push(NULL, e), msg);
+
+    msg = "should push";
+    assert(push(&stack, e), msg);
     elem_t top;
     peek(&stack, &top);
-    is_all_passed = assert_eq(top, e, msg);
-    is_all_passed = assert_eq(stack.len, LEN + 1, msg);
-
-    return is_all_passed;
+    assert_eq(top, e, msg);
+    assert_eq(stack.len, LEN + 1, msg);
 }
 
-bool test_pop(void) {
+void test_pop(void) {
     LinkedStack stack = test_data();
 
     elem_t e;
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should not pop when NULL";
-    is_all_passed = assert(!pop(NULL, &e), msg);
+    char *msg;
 
-    msg           = "should pop";
-    is_all_passed = assert(pop(&stack, &e), msg);
-    is_all_passed = assert_eq(e, 0, msg);
-    is_all_passed = assert_eq(stack.len, LEN - 1, msg);
+    msg = "should not pop when NULL";
+    assert(!pop(NULL, &e), msg);
 
-    return is_all_passed;
+    msg = "should pop";
+    assert(pop(&stack, &e), msg);
+    assert_eq(e, 0, msg);
+    assert_eq(stack.len, LEN - 1, msg);
 }
 
 int main(void) {

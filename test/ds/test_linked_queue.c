@@ -9,144 +9,121 @@
     }
 TEST_DATA(0, 1, 2, 3, 4, 5)
 
-bool test_create(void) {
+void test_create(void) {
     LinkedQueue queue = create();
-    bool        is_all_passed;
-    char       *msg;
 
-    return is_all_passed;
+    char *msg;
 }
 
-bool test_init(void) {
+void test_init(void) {
     LinkedQueue queue    = init(LEN, 0, 1, 2, 3, 4, 5);
     elem_t      tmp[LEN] = {0, 1, 2, 3, 4, 5};
     elem_t     *arr      = to_array(&queue);
 
-    bool  is_all_passed;
     char *msg;
 
     free(arr);
-    return is_all_passed;
 }
 
-bool test_from_array(void) {
+void test_from_array(void) {
     elem_t arr[LEN] = {0, 1, 2, 3, 4, 5};
 
-    bool  is_all_passed;
     char *msg;
 
-    msg           = "should get a linked queue from array";
-    is_all_passed = assert(from_array(arr, LEN).front != NULL, msg);
-    is_all_passed = assert_eq(from_array(arr, LEN).len, LEN, msg);
+    msg = "should get a linked queue from array";
+    assert(from_array(arr, LEN).front != NULL, msg);
+    assert_eq(from_array(arr, LEN).len, LEN, msg);
 
-    msg           = "should get a empty linked queue from NULL array";
-    is_all_passed = assert(from_array(NULL, LEN).front == NULL, msg);
-
-    return is_all_passed;
+    msg = "should get a empty linked queue from NULL array";
+    assert(from_array(NULL, LEN).front == NULL, msg);
 }
 
-bool test_to_array(void) {
+void test_to_array(void) {
     LinkedQueue queue    = test_data();
     elem_t      tmp[LEN] = {0, 1, 2, 3, 4, 5};
 
-    bool  is_all_passed;
     char *msg;
 
-    msg           = "should get a array from linked queue";
-    elem_t *arr   = to_array(&queue);
-    is_all_passed = assert(arr != NULL, msg);
-    is_all_passed = assert_arr_eq(arr, queue.len, tmp, LEN, msg);
+    msg         = "should get a array from linked queue";
+    elem_t *arr = to_array(&queue);
+    assert(arr != NULL, msg);
+    assert_arr_eq(arr, queue.len, tmp, LEN, msg);
     free(arr);
 
     msg               = "should get a NULL array from empty linked queue";
     LinkedQueue empty = create();
-    is_all_passed     = assert(to_array(&empty) == NULL, msg);
-
-    return is_all_passed;
+    assert(to_array(&empty) == NULL, msg);
 }
 
-bool test_clear(void) {
+void test_clear(void) {
     LinkedQueue queue = test_data();
 
-    bool  is_all_passed;
     char *msg;
 
     msg = "should clear the linked queue";
     clear(&queue);
-    is_all_passed = assert(queue.front == NULL, msg);
-    is_all_passed = assert_eq(queue.len, 0, msg);
-
-    return is_all_passed;
+    assert(queue.front == NULL, msg);
+    assert_eq(queue.len, 0, msg);
 }
 
-bool test_is_empty(void) {
+void test_is_empty(void) {
     LinkedQueue queue = test_data();
 
-    bool  is_all_passed;
     char *msg;
 
-    msg           = "should return false for non-empty linked queue";
-    is_all_passed = assert(!is_empty(&queue), msg);
+    msg = "should return false for non-empty linked queue";
+    assert(!is_empty(&queue), msg);
 
     msg = "should return true for empty linked queue";
     clear(&queue);
-    is_all_passed = assert(is_empty(&queue), msg);
-
-    return is_all_passed;
+    assert(is_empty(&queue), msg);
 }
 
-bool test_head(void) {
+void test_head(void) {
     LinkedQueue queue = test_data();
 
     elem_t e;
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should not get front when NULL";
-    is_all_passed = assert(!front(NULL, &e), msg);
-
-    msg           = "should get front";
-    is_all_passed = assert(front(&queue, &e), msg);
-    is_all_passed = assert_eq(e, 0, msg);
-
-    return is_all_passed;
-}
-
-bool test_enque(void) {
-    LinkedQueue queue = create();
-
-    bool  is_all_passed;
     char *msg;
 
-    msg           = "should not enque when NULL";
-    is_all_passed = assert(!enque(NULL, 0), msg);
+    msg = "should not get front when NULL";
+    assert(!front(NULL, &e), msg);
 
-    msg           = "should enque";
-    is_all_passed = assert(enque(&queue, 0), msg);
-    is_all_passed = assert_eq(queue.len, 1, msg);
-    elem_t first;
-    front(&queue, &first);
-    is_all_passed = assert_eq(first, 0, msg);
-
-    return is_all_passed;
+    msg = "should get front";
+    assert(front(&queue, &e), msg);
+    assert_eq(e, 0, msg);
 }
 
-bool test_deque(void) {
+void test_enque(void) {
+    LinkedQueue queue = create();
+
+    char *msg;
+
+    msg = "should not enque when NULL";
+    assert(!enque(NULL, 0), msg);
+
+    msg = "should enque";
+    assert(enque(&queue, 0), msg);
+    assert_eq(queue.len, 1, msg);
+    elem_t first;
+    front(&queue, &first);
+    assert_eq(first, 0, msg);
+}
+
+void test_deque(void) {
     LinkedQueue queue = test_data();
 
     elem_t e;
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should not deque when NULL";
-    is_all_passed = assert(!deque(NULL, &e), msg);
+    char *msg;
 
-    msg           = "should deque";
-    is_all_passed = assert(deque(&queue, &e), msg);
-    is_all_passed = assert_eq(e, 0, msg);
-    is_all_passed = assert_eq(queue.len, LEN - 1, msg);
+    msg = "should not deque when NULL";
+    assert(!deque(NULL, &e), msg);
 
-    return is_all_passed;
+    msg = "should deque";
+    assert(deque(&queue, &e), msg);
+    assert_eq(e, 0, msg);
+    assert_eq(queue.len, LEN - 1, msg);
 }
 
 int main(void) {

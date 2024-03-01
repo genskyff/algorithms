@@ -8,273 +8,245 @@
     }
 TEST_DATA(0, 1, 2, 3, 4, 5)
 
-bool test_create(void) {
+void test_create(void) {
     SqList list = create();
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should get a empty sqlist";
-    is_all_passed = assert_eq(list.len, 0, msg);
+    char *msg;
 
-    return is_all_passed;
+    msg = "should get a empty sqlist";
+    assert_eq(list.len, 0, msg);
 }
 
-bool test_init(void) {
+void test_init(void) {
     SqList list = init(LEN, 0, 1, 2, 3, 4, 5);
     SqList tmp  = test_data();
 
-    bool  is_all_passed;
     char *msg;
 
-    msg           = "should get a initialized sqlist";
-    is_all_passed = assert_eq(list.len, LEN, msg);
-    is_all_passed = assert_arr_eq(list.data, list.len, tmp.data, tmp.len, msg);
-
-    return is_all_passed;
+    msg = "should get a initialized sqlist";
+    assert_eq(list.len, LEN, msg);
+    assert_arr_eq(list.data, list.len, tmp.data, tmp.len, msg);
 }
 
-bool test_swap(void) {
+void test_swap(void) {
     SqList list = test_data();
 
     // expect array's name like swap_<i>_<j>
     elem_t swap_0_5[] = {5, 1, 2, 3, 4, 0};
     elem_t swap_4_1[] = {5, 4, 2, 3, 1, 0};
 
-    bool  is_all_passed;
     char *msg;
 
     msg = "should swap(0, 5)";
     swap(&list, 0, 5);
-    is_all_passed = assert_arr_eq(list.data, list.len, swap_0_5, LEN, msg);
+    assert_arr_eq(list.data, list.len, swap_0_5, LEN, msg);
 
     msg = "should swap(4, 1)";
     swap(&list, 4, 1);
-    is_all_passed = assert_arr_eq(list.data, list.len, swap_4_1, LEN, msg);
+    assert_arr_eq(list.data, list.len, swap_4_1, LEN, msg);
 
     msg = "should not swap(3, 3)";
     swap(&list, 3, 3);
-    is_all_passed = assert_arr_eq(list.data, list.len, swap_4_1, LEN, msg);
+    assert_arr_eq(list.data, list.len, swap_4_1, LEN, msg);
 
     msg = "should not swap when out of range";
     swap(&list, 0, LEN);
-    is_all_passed = assert_arr_eq(list.data, list.len, swap_4_1, LEN, msg);
-
-    return is_all_passed;
+    assert_arr_eq(list.data, list.len, swap_4_1, LEN, msg);
 }
 
-bool test_reverse(void) {
+void test_reverse(void) {
     SqList list = test_data();
 
     elem_t rev[] = {5, 4, 3, 2, 1, 0};
 
-    bool  is_all_passed;
     char *msg;
 
     msg = "should reverse";
     reverse(&list);
-    is_all_passed = assert_arr_eq(list.data, list.len, rev, LEN, msg);
-
-    return is_all_passed;
+    assert_arr_eq(list.data, list.len, rev, LEN, msg);
 }
 
-bool test_is_empty(void) {
+void test_is_empty(void) {
     SqList list = test_data();
 
-    bool  is_all_passed;
     char *msg;
 
-    msg           = "should be empty when NULL";
-    is_all_passed = assert(is_empty(NULL), msg);
+    msg = "should be empty when NULL";
+    assert(is_empty(NULL), msg);
 
-    msg           = "should not be empty";
-    is_all_passed = assert(!is_empty(&list), msg);
+    msg = "should not be empty";
+    assert(!is_empty(&list), msg);
 
     msg = "should be empty when empty";
     clear(&list);
-    is_all_passed = assert(is_empty(&list), msg);
-
-    return is_all_passed;
+    assert(is_empty(&list), msg);
 }
 
-bool test_get(void) {
+void test_get(void) {
     SqList list = test_data();
 
     elem_t e;
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should not get when NULL";
-    is_all_passed = assert(!get(NULL, 0, NULL), msg);
+    char *msg;
 
-    msg           = "should get";
-    is_all_passed = assert(get(&list, list.len - 1, &e), msg);
-    is_all_passed = assert_eq(e, list.data[list.len - 1], msg);
+    msg = "should not get when NULL";
+    assert(!get(NULL, 0, NULL), msg);
 
-    msg           = "should not get when out of range";
-    is_all_passed = assert(!get(&list, list.len, &e), msg);
-    is_all_passed = assert_eq(e, list.data[list.len - 1], msg);
+    msg = "should get";
+    assert(get(&list, list.len - 1, &e), msg);
+    assert_eq(e, list.data[list.len - 1], msg);
 
-    return is_all_passed;
+    msg = "should not get when out of range";
+    assert(!get(&list, list.len, &e), msg);
+    assert_eq(e, list.data[list.len - 1], msg);
 }
 
-bool test_set(void) {
+void test_set(void) {
     SqList list = test_data();
 
     elem_t e = 10;
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should not set when NULL";
-    is_all_passed = assert(!set(NULL, 0, e), msg);
+    char *msg;
 
-    msg           = "should set";
-    is_all_passed = assert(set(&list, list.len - 1, e), msg);
-    is_all_passed = assert_eq(list.data[list.len - 1], e, msg);
+    msg = "should not set when NULL";
+    assert(!set(NULL, 0, e), msg);
 
-    msg           = "should not set when out of range";
-    is_all_passed = assert(!set(&list, list.len, e), msg);
+    msg = "should set";
+    assert(set(&list, list.len - 1, e), msg);
+    assert_eq(list.data[list.len - 1], e, msg);
 
-    return is_all_passed;
+    msg = "should not set when out of range";
+    assert(!set(&list, list.len, e), msg);
 }
 
-bool test_find(void) {
+void test_find(void) {
     SqList list = test_data();
 
     size_t i;
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should not find when NULL";
-    is_all_passed = assert(!find(NULL, 0, NULL), msg);
+    char *msg;
 
-    msg           = "should find";
-    is_all_passed = assert(find(&list, 5, &i), msg);
-    is_all_passed = assert_eq(i, 5, msg);
+    msg = "should not find when NULL";
+    assert(!find(NULL, 0, NULL), msg);
 
-    msg           = "should not find";
-    is_all_passed = assert(!find(&list, 6, &i), msg);
-    is_all_passed = assert_eq(i, 5, msg);
+    msg = "should find";
+    assert(find(&list, 5, &i), msg);
+    assert_eq(i, 5, msg);
 
-    return is_all_passed;
+    msg = "should not find";
+    assert(!find(&list, 6, &i), msg);
+    assert_eq(i, 5, msg);
 }
 
-bool test_insert(void) {
+void test_insert(void) {
     SqList list = test_data();
 
     elem_t e = 10;
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should not insert when NULL";
-    is_all_passed = assert(!insert(NULL, 0, e), msg);
+    char *msg;
 
-    msg           = "should insert in head";
-    is_all_passed = assert(insert(&list, 0, ++e), msg);
-    is_all_passed = assert_eq(list.len, LEN + 1, msg);
-    is_all_passed = assert_eq(list.data[0], e, msg);
+    msg = "should not insert when NULL";
+    assert(!insert(NULL, 0, e), msg);
 
-    msg           = "should insert in middle";
-    is_all_passed = assert(insert(&list, 3, ++e), msg);
-    is_all_passed = assert_eq(list.len, LEN + 2, msg);
-    is_all_passed = assert_eq(list.data[3], e, msg);
+    msg = "should insert in head";
+    assert(insert(&list, 0, ++e), msg);
+    assert_eq(list.len, LEN + 1, msg);
+    assert_eq(list.data[0], e, msg);
 
-    msg           = "should insert in tail";
-    is_all_passed = assert(insert(&list, list.len, ++e), msg);
-    is_all_passed = assert_eq(list.len, LEN + 3, msg);
-    is_all_passed = assert_eq(list.data[LEN + 2], e, msg);
+    msg = "should insert in middle";
+    assert(insert(&list, 3, ++e), msg);
+    assert_eq(list.len, LEN + 2, msg);
+    assert_eq(list.data[3], e, msg);
 
-    msg           = "should not insert when index is out of range";
-    is_all_passed = assert(!insert(&list, list.len + 1, ++e), msg);
-    is_all_passed = assert_eq(list.len, LEN + 3, msg);
-    is_all_passed = assert(!find(&list, e, NULL), msg);
+    msg = "should insert in tail";
+    assert(insert(&list, list.len, ++e), msg);
+    assert_eq(list.len, LEN + 3, msg);
+    assert_eq(list.data[LEN + 2], e, msg);
 
-    return is_all_passed;
+    msg = "should not insert when index is out of range";
+    assert(!insert(&list, list.len + 1, ++e), msg);
+    assert_eq(list.len, LEN + 3, msg);
+    assert(!find(&list, e, NULL), msg);
 }
 
-bool test_push(void) {
+void test_push(void) {
     SqList list = test_data();
 
     elem_t e = 10;
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should not push when NULL";
-    is_all_passed = assert(!push(NULL, e), msg);
+    char *msg;
 
-    msg           = "should push";
-    is_all_passed = assert(push(&list, e), msg);
-    is_all_passed = assert_eq(list.len, LEN + 1, msg);
-    is_all_passed = assert_eq(list.data[list.len - 1], e, msg);
+    msg = "should not push when NULL";
+    assert(!push(NULL, e), msg);
 
-    msg           = "should not push when full";
-    list.len      = MAXLEN;
-    is_all_passed = assert(!push(&list, e), msg);
-    is_all_passed = assert_eq(list.len, MAXLEN, msg);
+    msg = "should push";
+    assert(push(&list, e), msg);
+    assert_eq(list.len, LEN + 1, msg);
+    assert_eq(list.data[list.len - 1], e, msg);
 
-    return is_all_passed;
+    msg      = "should not push when full";
+    list.len = MAXLEN;
+    assert(!push(&list, e), msg);
+    assert_eq(list.len, MAXLEN, msg);
 }
 
-bool test_del(void) {
+void test_del(void) {
     SqList list = test_data();
 
     elem_t e;
     elem_t deleted;
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should not del when NULL";
-    is_all_passed = assert(!del(NULL, 0, NULL), msg);
+    char *msg;
 
-    msg           = "should del in head";
-    deleted       = list.data[0];
-    is_all_passed = assert(del(&list, 0, &e), msg);
-    is_all_passed = assert_eq(list.len, LEN - 1, msg);
-    is_all_passed = assert_eq(e, deleted, msg);
+    msg = "should not del when NULL";
+    assert(!del(NULL, 0, NULL), msg);
 
-    msg           = "should del in middle";
-    deleted       = list.data[list.len / 2];
-    is_all_passed = assert(del(&list, list.len / 2, &e), msg);
-    is_all_passed = assert_eq(list.len, LEN - 2, msg);
-    is_all_passed = assert_eq(e, deleted, msg);
+    msg     = "should del in head";
+    deleted = list.data[0];
+    assert(del(&list, 0, &e), msg);
+    assert_eq(list.len, LEN - 1, msg);
+    assert_eq(e, deleted, msg);
 
-    msg           = "should del in tail";
-    deleted       = list.data[list.len - 1];
-    is_all_passed = assert(del(&list, list.len - 1, &e), msg);
-    is_all_passed = assert_eq(list.len, LEN - 3, msg);
-    is_all_passed = assert_eq(e, deleted, msg);
+    msg     = "should del in middle";
+    deleted = list.data[list.len / 2];
+    assert(del(&list, list.len / 2, &e), msg);
+    assert_eq(list.len, LEN - 2, msg);
+    assert_eq(e, deleted, msg);
 
-    msg           = "should not del when index is out of range";
-    is_all_passed = assert(!del(&list, list.len, &e), msg);
-    is_all_passed = assert_eq(list.len, LEN - 3, msg);
-    is_all_passed = assert_eq(e, deleted, msg);
+    msg     = "should del in tail";
+    deleted = list.data[list.len - 1];
+    assert(del(&list, list.len - 1, &e), msg);
+    assert_eq(list.len, LEN - 3, msg);
+    assert_eq(e, deleted, msg);
 
-    return is_all_passed;
+    msg = "should not del when index is out of range";
+    assert(!del(&list, list.len, &e), msg);
+    assert_eq(list.len, LEN - 3, msg);
+    assert_eq(e, deleted, msg);
 }
 
-bool test_pop(void) {
+void test_pop(void) {
     SqList list = test_data();
 
     elem_t e;
     elem_t popped;
-    bool   is_all_passed;
-    char  *msg;
 
-    msg           = "should not pop when NULL";
-    is_all_passed = assert(!pop(NULL, NULL), msg);
+    char *msg;
 
-    msg           = "should pop";
-    popped        = list.data[list.len - 1];
-    is_all_passed = assert(pop(&list, &e), msg);
-    is_all_passed = assert_eq(list.len, LEN - 1, msg);
-    is_all_passed = assert_eq(e, popped, msg);
+    msg = "should not pop when NULL";
+    assert(!pop(NULL, NULL), msg);
+
+    msg    = "should pop";
+    popped = list.data[list.len - 1];
+    assert(pop(&list, &e), msg);
+    assert_eq(list.len, LEN - 1, msg);
+    assert_eq(e, popped, msg);
 
     msg = "should not pop when empty";
     clear(&list);
-    is_all_passed = assert(!pop(&list, &e), msg);
-    is_all_passed = assert_eq(list.len, 0, msg);
-    is_all_passed = assert_eq(e, popped, msg);
-
-    return is_all_passed;
+    assert(!pop(&list, &e), msg);
+    assert_eq(list.len, 0, msg);
+    assert_eq(e, popped, msg);
 }
 
 int main(void) {

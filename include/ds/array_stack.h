@@ -4,7 +4,10 @@
 #include "type.h"
 #include <stdbool.h>
 
-typedef SqList ArrayStack;
+typedef struct {
+    elem_t data[MAXLEN];
+    size_t len;
+} ArrayStack;
 
 ArrayStack create(void);
 ArrayStack init(size_t n, ...);

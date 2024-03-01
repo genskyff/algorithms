@@ -11,10 +11,10 @@ ArrayStack create(void) {
 ArrayStack init(size_t n, ...) {
     ArrayStack stack = create();
 
-    va_list    ap;
+    va_list ap;
     va_start(ap, n);
 
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; i < MIN(n, MAXLEN); i++) {
         stack.data[stack.len++] = va_arg(ap, elem_t);
     }
 
@@ -25,9 +25,7 @@ ArrayStack init(size_t n, ...) {
 
 void show(FILE *stream, ArrayStack *stack) {
     if (stack != NULL) {
-        _show(stream, stack->data, stack->len);
-    } else {
-        fprintf(stream == NULL ? stdout : stream, "[]\n");
+        _show(stream, stack->data, stack->len, NULL);
     }
 }
 
@@ -43,7 +41,9 @@ bool is_empty(ArrayStack *stack) {
 
 bool peek(ArrayStack *stack, elem_t *e) {
     if (stack != NULL && stack->len > 0) {
-        *e = stack->data[stack->len - 1];
+        if (e != NULL) {
+            *e = stack->data[stack->len - 1];
+        }
         return true;
     }
 
@@ -61,7 +61,9 @@ bool push(ArrayStack *stack, elem_t e) {
 
 bool pop(ArrayStack *stack, elem_t *e) {
     if (stack != NULL && stack->len > 0) {
-        *e = stack->data[--stack->len];
+        if (e != NULL) {
+            *e = stack->data[--stack->len];
+        }
         return true;
     }
 
