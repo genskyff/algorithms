@@ -5,19 +5,15 @@
 
 TestSortData DATA[SORT_DATA_LEN];
 
-bool test_selection_sort(void) {
-    bool all_passed;
-
+void test_selection_sort(void) {
     for (size_t i = 0; i < SORT_DATA_LEN; i++) {
         elem_t  len = DATA[i].len;
         elem_t *tmp = malloc(len * sizeof(elem_t));
         _copy(tmp, len, DATA[i].unsorted, len);
         selection_sort(tmp, len);
-        all_passed = assert_arr_eq(tmp, len, DATA[i].sorted, len, NULL);
+        assert_arr_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }
-
-    return all_passed;
 }
 
 int main(void) {

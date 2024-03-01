@@ -4,7 +4,7 @@
 #include "type.h"
 #include <stdbool.h>
 
-typedef bool (*TestFunc)(void);
+typedef void (*TestFunc)(void);
 void run_test(TestFunc test, char *prefix, char *test_name);
 
 bool assert(bool cond, char *msg);

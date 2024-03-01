@@ -13,9 +13,8 @@ void run_test(TestFunc test, char *prefix, char *test_name) {
 
     printf("%s\t%s", prefix, test_name);
 
-    if (test()) {
-        printf("\x1b[1;32m ... OK\x1b[0m\n");
-    }
+    test();
+    printf("\x1b[1;32m ... OK\x1b[0m\n");
 }
 
 bool assert(bool cond, char *msg) {
@@ -194,16 +193,17 @@ bool assert_list_ne(Node *left, Node *right, char *msg) {
 
 void init_sort_data(TestSortData *data) {
     if (data == NULL) {
-        fprintf(stderr, "\x1b[33merror: \x1b[0minit_sort_data is NULL\n\n");
+        fprintf(stderr, "\x1b[1;31merror: \x1b[0mdata is NULL (exec "
+                        "\x1b[33minit_sort_data\x1b[0m)\n\n");
         abort();
     }
 
     elem_t *none             = NULL;
-    elem_t  one[]            = {0};
-    elem_t  unsorted_2[]     = {5, -2};
-    elem_t  sorted_2[]       = {-2, 5};
-    elem_t  unsorted_3[]     = {3, -1, 0};
-    elem_t  sorted_3[]       = {-1, 0, 3};
+    elem_t  one[1]           = {0};
+    elem_t  unsorted_2[2]    = {5, -2};
+    elem_t  sorted_2[2]      = {-2, 5};
+    elem_t  unsorted_3[3]    = {3, -1, 0};
+    elem_t  sorted_3[3]      = {-1, 0, 3};
     elem_t  unsorted[]       = {-3, -5, 2, 1, 4, 3, 0, 5, 1, -1, -2, -4};
     elem_t  sorted[]         = {-5, -4, -3, -2, -1, 0, 1, 1, 2, 3, 4, 5};
     elem_t  sorted_reverse[] = {5, 4, 3, 2, 1, 1, 0, -1, -2, -3, -4, -5};

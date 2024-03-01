@@ -5,34 +5,26 @@
 
 TestSortData DATA[SORT_DATA_LEN];
 
-bool test_merge_sort_recu(void) {
-    bool all_passed;
-
+void test_merge_sort_recu(void) {
     for (size_t i = 0; i < SORT_DATA_LEN; i++) {
         elem_t  len = DATA[i].len;
         elem_t *tmp = malloc(len * sizeof(elem_t));
         _copy(tmp, len, DATA[i].unsorted, len);
         merge_sort_recu(tmp, len);
-        all_passed = assert_arr_eq(tmp, len, DATA[i].sorted, len, NULL);
+        assert_arr_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }
-
-    return all_passed;
 }
 
-bool test_merge_sort_iter(void) {
-    bool all_passed;
-
+void test_merge_sort_iter(void) {
     for (size_t i = 0; i < SORT_DATA_LEN; i++) {
         elem_t  len = DATA[i].len;
         elem_t *tmp = malloc(len * sizeof(elem_t));
         _copy(tmp, len, DATA[i].unsorted, len);
         merge_sort_iter(tmp, len);
-        all_passed = assert_arr_eq(tmp, len, DATA[i].sorted, len, NULL);
+        assert_arr_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }
-
-    return all_passed;
 }
 
 int main(void) {
