@@ -12,7 +12,26 @@ void _swap(elem_t *arr, size_t i, size_t j) {
     arr[j]     = tmp;
 }
 
-void _show(FILE *stream, elem_t *arr, size_t len) {
+void _shuffle(elem_t *arr, size_t len) {
+    if (arr == NULL || len < 2) {
+        return;
+    }
+
+    for (size_t i = len - 1; i > 0; i--) {
+        size_t j = rand() % (i + 1);
+        _swap(arr, i, j);
+    }
+}
+
+void _clear(elem_t *arr, size_t len) {
+    if (arr == NULL || len == 0) {
+        return;
+    }
+
+    memset(arr, 0, len * sizeof(elem_t));
+}
+
+void _show(FILE *stream, elem_t *arr, size_t len, char *sep) {
     if (stream == NULL) {
         stream = stdout;
     }
@@ -22,20 +41,49 @@ void _show(FILE *stream, elem_t *arr, size_t len) {
         return;
     }
 
+    if (sep == NULL || *sep == '\0') {
+        sep = ", ";
+    }
+
     fprintf(stream, "[");
     for (size_t i = 0; i < len; i++) {
-        fprintf(stream, "%d%s", arr[i], i == len - 1 ? "]\n" : ", ");
+        fprintf(stream, "%d%s", arr[i], i == len - 1 ? "]\n" : sep);
     }
 }
 
 void _show_slice(FILE *stream, elem_t *arr, size_t len, size_t start,
-                 size_t end) {
+                 size_t end, char *sep) {
+    if (stream == NULL) {
+        stream = stdout;
+    }
+
     end = MIN(len, end);
     if (arr == NULL || start >= end) {
+        fprintf(stream, "[]\n");
         return;
     }
 
-    _show(stream, arr + start, end - start);
+    _show(stream, arr + start, end - start, sep);
+}
+
+void _show_list(FILE *stream, Node *head, char *sep) {
+    if (stream == NULL) {
+        stream = stdout;
+    }
+
+    if (head == NULL) {
+        fprintf(stream, "[]\n");
+        return;
+    }
+
+    if (sep == NULL || *sep == '\0') {
+        sep = " -> ";
+    }
+
+    fprintf(stream, "[");
+    for (Node *p = head->next; p != NULL; p = p->next) {
+        fprintf(stream, "%d%s", p->data, p->next == NULL ? "]\n" : sep);
+    }
 }
 
 void _reverse(elem_t *arr, size_t len) {
@@ -54,7 +102,7 @@ void _reverse_slice(elem_t *arr, size_t len, size_t start, size_t end) {
 }
 
 bool _find(elem_t *arr, size_t len, elem_t e, size_t *i) {
-    if (arr == NULL) {
+    if (arr == NULL || len == 0) {
         return false;
     }
 
