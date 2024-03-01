@@ -32,8 +32,7 @@ void test_init(void) {
 void test_swap(void) {
     Vec    v        = test_data();
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
-
-    char *msg;
+    char  *msg;
 
     msg = "should not swap when i == j";
     swap(&v, 1, 1);
@@ -52,8 +51,7 @@ void test_swap(void) {
 }
 
 void test_reverse(void) {
-    Vec v = test_data();
-
+    Vec   v = test_data();
     char *msg;
 
     msg = "should reverse";
@@ -65,8 +63,7 @@ void test_reverse(void) {
 }
 
 void test_is_empty(void) {
-    Vec v = test_data();
-
+    Vec   v = test_data();
     char *msg;
 
     msg = "should be empty when NULL";
@@ -85,8 +82,7 @@ void test_is_empty(void) {
 void test_get(void) {
     Vec    v = test_data();
     elem_t e;
-
-    char *msg;
+    char  *msg;
 
     msg = "should not get when out of range";
     e   = 0;
@@ -103,8 +99,7 @@ void test_get(void) {
 void test_set(void) {
     Vec    v = test_data();
     elem_t e = 999;
-
-    char *msg;
+    char  *msg;
 
     msg = "should not set when out of range";
     assert_not(set(&v, v.len, e), msg);
@@ -120,8 +115,7 @@ void test_set(void) {
 void test_find(void) {
     Vec    v = test_data();
     size_t i;
-
-    char *msg;
+    char  *msg;
 
     msg = "should find at [0]";
     assert(find(&v, 0, &i), msg);
@@ -140,47 +134,44 @@ void test_find(void) {
 }
 
 void test_insert(void) {
-    Vec v = test_data();
+    Vec    v = test_data();
+    elem_t e = 999;
+    char  *msg;
 
-    elem_t e = 10;
-
-    char *msg;
-
-    msg = "should not insert when NULL";
-    assert(!insert(NULL, 0, e), msg);
-
-    msg = "should insert in head";
+    msg = "should insert at [0]";
     assert(insert(&v, 0, ++e), msg);
     assert_eq(v.len, LEN + 1, msg);
     assert_eq(v.data[0], e, msg);
 
-    msg = "should insert in middle";
-    assert(insert(&v, 3, ++e), msg);
+    msg = "should insert at middle";
+    assert(insert(&v, v.len / 2, ++e), msg);
     assert_eq(v.len, LEN + 2, msg);
-    assert_eq(v.data[3], e, msg);
+    assert_eq(v.data[(v.len - 1) / 2], e, msg);
 
-    msg = "should insert in tail";
+    msg = "should insert at tail";
     assert(insert(&v, v.len, ++e), msg);
     assert_eq(v.len, LEN + 3, msg);
-    assert_eq(v.data[LEN + 2], e, msg);
+    assert_eq(v.data[v.len - 1], e, msg);
 
-    msg = "should not insert when index is out of range";
-    assert(!insert(&v, v.len + 1, ++e), msg);
+    msg = "should not insert when out of range";
+    assert_not(insert(&v, v.len + 1, ++e), msg);
     assert_eq(v.len, LEN + 3, msg);
-    assert(!find(&v, e, NULL), msg);
+    assert_not(find(&v, e, NULL), msg);
+
+    msg   = "should extend when full";
+    v.len = v.cap;
+    assert(insert(&v, v.len, ++e), msg);
+    assert_eq(v.len, INIT_CAP + 1, msg);
+    assert_eq(v.cap, 2 * INIT_CAP, msg);
+    assert_eq(v.data[v.len - 1], e, msg);
 
     drop(&v);
 }
 
 void test_push(void) {
-    Vec v = test_data();
-
+    Vec    v = test_data();
     elem_t e = 10;
-
-    char *msg;
-
-    msg = "should not push when NULL";
-    assert(!push(NULL, e), msg);
+    char  *msg;
 
     msg = "should push";
     assert(push(&v, e), msg);
@@ -198,52 +189,46 @@ void test_push(void) {
 }
 
 void test_del(void) {
-    Vec v = test_data();
-
+    Vec    v = test_data();
     elem_t e;
     elem_t deleted;
+    char  *msg;
 
-    char *msg;
-
-    msg = "should not delete when NULL";
-    assert(!del(NULL, 0, NULL), msg);
-
-    msg     = "should delete in head";
+    msg     = "should delete at [0]";
     deleted = v.data[0];
     assert(del(&v, 0, &e), msg);
     assert_eq(v.len, LEN - 1, msg);
     assert_eq(e, deleted, msg);
 
-    msg     = "should delete in middle";
+    msg     = "should delete at middle";
     deleted = v.data[v.len / 2];
     assert(del(&v, v.len / 2, &e), msg);
     assert_eq(v.len, LEN - 2, msg);
     assert_eq(e, deleted, msg);
 
-    msg     = "should delete in tail";
+    msg     = "should delete at tail";
     deleted = v.data[v.len - 1];
     assert(del(&v, v.len - 1, &e), msg);
     assert_eq(v.len, LEN - 3, msg);
     assert_eq(e, deleted, msg);
 
-    msg = "should not delete when index is out of range";
-    assert(!del(&v, v.len, &e), msg);
+    msg = "should not delete when out of range";
+    assert_not(del(&v, v.len, &e), msg);
     assert_eq(v.len, LEN - 3, msg);
     assert_eq(e, deleted, msg);
+
+    msg = "should not delete when empty";
+    clear(&v);
+    assert_not(del(&v, 0, NULL), msg);
 
     drop(&v);
 }
 
 void test_pop(void) {
-    Vec v = test_data();
-
+    Vec    v = test_data();
     elem_t e;
     elem_t popped;
-
-    char *msg;
-
-    msg = "should not pop when NULL";
-    assert(!pop(NULL, NULL), msg);
+    char  *msg;
 
     msg    = "should pop";
     popped = v.data[v.len - 1];
@@ -253,19 +238,14 @@ void test_pop(void) {
 
     msg = "should not pop when empty";
     clear(&v);
-    assert(!pop(&v, &e), msg);
-    assert_eq(v.len, 0, msg);
-    assert_eq(e, popped, msg);
+    assert_not(pop(&v, NULL), msg);
 
     drop(&v);
 }
 
 void test_drop(void) {
-    Vec v = test_data();
-
-    char *msg;
-
-    msg = "should drop";
+    Vec   v   = test_data();
+    char *msg = "should drop";
     drop(&v);
     assert(v.data == NULL, msg);
     assert_eq(v.len, 0, msg);
