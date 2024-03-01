@@ -21,12 +21,16 @@ void show(FILE *stream, Vec *v);
 void clear(Vec *v);
 bool is_empty(Vec *v);
 bool get(Vec *v, size_t i, elem_t *e);
+bool first(Vec *v, elem_t *e);
+bool last(Vec *v, elem_t *e);
 bool set(Vec *v, size_t i, elem_t e);
 bool find(Vec *v, elem_t e, size_t *i);
 bool insert(Vec *v, size_t i, elem_t e);
-bool push(Vec *v, elem_t e);
+bool push_front(Vec *v, elem_t e);
+bool push_back(Vec *v, elem_t e);
 bool del(Vec *v, size_t i, elem_t *e);
-bool pop(Vec *v, elem_t *e);
+bool pop_front(Vec *v, elem_t *e);
+bool pop_back(Vec *v, elem_t *e);
 void drop(Vec *v);
 
 #endif

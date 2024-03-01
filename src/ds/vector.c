@@ -23,7 +23,7 @@ Vec init(size_t n, ...) {
     va_list ap;
     va_start(ap, n);
 
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; i < MIN(n, MAXLEN); i++) {
         v.data[v.len++] = va_arg(ap, elem_t);
     }
 
@@ -72,6 +72,18 @@ bool get(Vec *v, size_t i, elem_t *e) {
     return true;
 }
 
+bool first(Vec *v, elem_t *e) {
+    return get(v, 0, e);
+}
+
+bool last(Vec *v, elem_t *e) {
+    if (v == NULL || v->len == 0) {
+        return false;
+    }
+
+    return get(v, v->len - 1, e);
+}
+
 bool set(Vec *v, size_t i, elem_t e) {
     if (v == NULL || v->len == 0 || i >= v->len) {
         return false;
@@ -112,7 +124,11 @@ bool insert(Vec *v, size_t i, elem_t e) {
     return true;
 }
 
-bool push(Vec *v, elem_t e) {
+bool push_front(Vec *v, elem_t e) {
+    return v != NULL && insert(v, 0, e);
+}
+
+bool push_back(Vec *v, elem_t e) {
     return v != NULL && insert(v, v->len, e);
 }
 
@@ -143,7 +159,15 @@ bool del(Vec *v, size_t i, elem_t *e) {
     return true;
 }
 
-bool pop(Vec *v, elem_t *e) {
+bool pop_front(Vec *v, elem_t *e) {
+    if (v != NULL && v->len > 0) {
+        return del(v, 0, e);
+    }
+
+    return false;
+}
+
+bool pop_back(Vec *v, elem_t *e) {
     if (v != NULL && v->len > 0) {
         return del(v, v->len - 1, e);
     }

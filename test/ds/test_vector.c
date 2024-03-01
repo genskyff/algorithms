@@ -96,6 +96,38 @@ void test_get(void) {
     drop(&v);
 }
 
+void test_first(void) {
+    Vec    v = test_data();
+    elem_t e;
+    char  *msg;
+
+    msg = "should get first";
+    assert(first(&v, &e), msg);
+    assert_eq(e, v.data[0], msg);
+
+    msg = "should not get first when empty";
+    clear(&v);
+    assert_not(first(&v, &e), msg);
+
+    drop(&v);
+}
+
+void test_last(void) {
+    Vec    v = test_data();
+    elem_t e;
+    char  *msg;
+
+    msg = "should get last";
+    assert(last(&v, &e), msg);
+    assert_eq(e, v.data[v.len - 1], msg);
+
+    msg = "should not get last when empty";
+    clear(&v);
+    assert_not(last(&v, &e), msg);
+
+    drop(&v);
+}
+
 void test_set(void) {
     Vec    v = test_data();
     elem_t e = 999;
@@ -168,19 +200,39 @@ void test_insert(void) {
     drop(&v);
 }
 
-void test_push(void) {
+void test_push_front(void) {
     Vec    v = test_data();
     elem_t e = 10;
     char  *msg;
 
-    msg = "should push";
-    assert(push(&v, e), msg);
+    msg = "should push_front";
+    assert(push_front(&v, e), msg);
+    assert_eq(v.len, LEN + 1, msg);
+    assert_eq(v.data[0], e, msg);
+
+    msg   = "should extend when full";
+    v.len = v.cap;
+    assert(push_front(&v, e), msg);
+    assert_eq(v.len, INIT_CAP + 1, msg);
+    assert_eq(v.cap, 2 * INIT_CAP, msg);
+    assert_eq(v.data[0], e, msg);
+
+    drop(&v);
+}
+
+void test_push_back(void) {
+    Vec    v = test_data();
+    elem_t e = 10;
+    char  *msg;
+
+    msg = "should push_back";
+    assert(push_back(&v, e), msg);
     assert_eq(v.len, LEN + 1, msg);
     assert_eq(v.data[v.len - 1], e, msg);
 
     msg   = "should extend when full";
     v.len = v.cap;
-    assert(push(&v, e), msg);
+    assert(push_back(&v, e), msg);
     assert_eq(v.len, INIT_CAP + 1, msg);
     assert_eq(v.cap, 2 * INIT_CAP, msg);
     assert_eq(v.data[v.len - 1], e, msg);
@@ -224,21 +276,40 @@ void test_del(void) {
     drop(&v);
 }
 
-void test_pop(void) {
+void test_pop_front(void) {
     Vec    v = test_data();
     elem_t e;
     elem_t popped;
     char  *msg;
 
-    msg    = "should pop";
-    popped = v.data[v.len - 1];
-    assert(pop(&v, &e), msg);
+    msg    = "should pop_front";
+    popped = v.data[0];
+    assert(pop_front(&v, &e), msg);
     assert_eq(v.len, LEN - 1, msg);
     assert_eq(e, popped, msg);
 
-    msg = "should not pop when empty";
+    msg = "should not pop_front when empty";
     clear(&v);
-    assert_not(pop(&v, NULL), msg);
+    assert_not(pop_front(&v, NULL), msg);
+
+    drop(&v);
+}
+
+void test_pop_back(void) {
+    Vec    v = test_data();
+    elem_t e;
+    elem_t popped;
+    char  *msg;
+
+    msg    = "should pop_back";
+    popped = v.data[v.len - 1];
+    assert(pop_back(&v, &e), msg);
+    assert_eq(v.len, LEN - 1, msg);
+    assert_eq(e, popped, msg);
+
+    msg = "should not pop_back when empty";
+    clear(&v);
+    assert_not(pop_back(&v, NULL), msg);
 
     drop(&v);
 }
@@ -260,12 +331,16 @@ int main(void) {
     run_test(test_reverse, prefix, "vector_reverse");
     run_test(test_is_empty, prefix, "vector_is_empty");
     run_test(test_get, prefix, "vector_get");
+    run_test(test_first, prefix, "vector_first");
+    run_test(test_last, prefix, "vector_last");
     run_test(test_set, prefix, "vector_set");
     run_test(test_find, prefix, "vector_find");
     run_test(test_insert, prefix, "vector_insert");
-    run_test(test_push, prefix, "vector_push");
+    run_test(test_push_front, prefix, "vector_push_front");
+    run_test(test_push_back, prefix, "vector_push_back");
     run_test(test_del, prefix, "vector_del");
-    run_test(test_pop, prefix, "vector_pop");
+    run_test(test_pop_front, prefix, "vector_pop_front");
+    run_test(test_pop_back, prefix, "vector_pop_back");
     run_test(test_drop, prefix, "vector_drop");
 
     return 0;

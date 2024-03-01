@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 LinkedList create(void) {
-    LinkedList list = {.head = NULL};
+    LinkedList list = {.head = NULL, .tail = NULL, .len = 0};
 
     return list;
 }
@@ -12,7 +12,9 @@ LinkedList init(size_t n, ...) {
     elem_t *arr = (elem_t *)malloc(n * sizeof(elem_t));
 
     if (arr == NULL) {
-        fprintf(stderr, "init: failed to allocate memory\n");
+        fprintf(stderr,
+                "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
+                "\x1b[33minit\x1b[0m)\n\n");
         abort();
     }
 
