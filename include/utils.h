@@ -6,6 +6,12 @@
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define SWAP(a, b)                                                             \
+    do {                                                                       \
+        elem_t _tmp = (a);                                                     \
+        (a)         = (b);                                                     \
+        (b)         = _tmp;                                                    \
+    } while (0)
 
 void _swap(elem_t *arr, size_t i, size_t j);
 void _shuffle(elem_t *arr, size_t len);

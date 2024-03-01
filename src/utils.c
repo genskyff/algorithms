@@ -75,7 +75,7 @@ void _show_list(FILE *stream, Node *head, char *sep) {
 
     char *_sep = (sep == NULL || *sep == '\0') ? " -> " : sep;
     fprintf(stream, "[");
-    for (Node *p = head->next; p != NULL; p = p->next) {
+    for (Node *p = head; p != NULL; p = p->next) {
         fprintf(stream, "%d%s", p->data, p->next == NULL ? "]\n" : _sep);
     }
 }
@@ -198,7 +198,7 @@ void _rotate_left(elem_t *arr, size_t len, size_t n) {
         fprintf(stderr,
                 "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
                 "\x1b[33mrotate_left\x1b[0m)\n\n");
-        abort();
+        exit(EXIT_FAILURE);
     }
 
     memmove(tmp, arr, n * sizeof(elem_t));
@@ -230,7 +230,7 @@ void _rotate_right(elem_t *arr, size_t len, size_t n) {
         fprintf(stderr,
                 "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
                 "\x1b[33mrotate_right\x1b[0m)\n\n");
-        abort();
+        exit(EXIT_FAILURE);
     }
 
     memmove(tmp, arr + len - n, n * sizeof(elem_t));

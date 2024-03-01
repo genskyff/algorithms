@@ -1,4 +1,5 @@
 #include "linked_list.h"
+#include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 
@@ -9,145 +10,85 @@ LinkedList create(void) {
 }
 
 LinkedList init(size_t n, ...) {
-    elem_t *arr = (elem_t *)malloc(n * sizeof(elem_t));
-
-    if (arr == NULL) {
-        fprintf(stderr,
-                "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
-                "\x1b[33minit\x1b[0m)\n\n");
-        abort();
-    }
+    LinkedList list = create();
 
     va_list ap;
     va_start(ap, n);
 
     for (size_t i = 0; i < n; i++) {
-        arr[i] = va_arg(ap, elem_t);
+        Node *node = (Node *)malloc(sizeof(Node));
+        if (node == NULL) {
+            fprintf(stderr,
+                    "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
+                    "\x1b[33minit\x1b[0m)\n\n");
+            exit(EXIT_FAILURE);
+        }
+
+        node->data = va_arg(ap, elem_t);
+        node->next = NULL;
+
+        if (list.head == NULL) {
+            node->prev = NULL;
+            list.head  = node;
+            list.tail  = node;
+        } else {
+            node->prev      = list.tail;
+            list.tail->next = node;
+            list.tail       = node;
+        }
+
+        list.len++;
     }
 
     va_end(ap);
 
-    LinkedList list = from_array(arr, n);
-    free(arr);
-
     return list;
-}
-
-LinkedList from_array(elem_t *arr, size_t len) {
-    LinkedList list = create();
-
-    if (arr == NULL || len == 0) {
-        return list;
-    }
-
-    Node *tail = NULL;
-    for (size_t i = 0; i < len; i++) {
-        Node *node = (Node *)malloc(sizeof(Node));
-        if (node == NULL) {
-            return list;
-        }
-
-        node->data = arr[i];
-        node->next = NULL;
-
-        if (list.head == NULL) {
-            list.head = node;
-            tail      = node;
-        } else {
-            tail->next = node;
-            tail       = node;
-        }
-    }
-
-    return list;
-}
-
-elem_t *to_array(LinkedList *list) {
-    if (list == NULL || list->head == NULL) {
-        return NULL;
-    }
-
-    elem_t *arr = (elem_t *)malloc(length(list) * sizeof(elem_t));
-    if (arr == NULL) {
-        return NULL;
-    }
-
-    Node *node = list->head;
-    for (size_t i = 0; node != NULL; i++) {
-        arr[i] = node->data;
-        node   = node->next;
-    }
-
-    return arr;
-}
-
-size_t length(LinkedList *list) {
-    if (list == NULL || list->head == NULL) {
-        return 0;
-    }
-
-    size_t len  = 0;
-    Node  *node = list->head;
-    while (node != NULL) {
-        len++;
-        node = node->next;
-    }
-
-    return len;
 }
 
 void swap(LinkedList *list, size_t i, size_t j) {
-    if (list == NULL || list->head == NULL) {
-        return;
-    }
-
-    if (i == j) {
+    if (list == NULL || list->head == NULL || i == j ||
+        MAX(i, j) >= list->len) {
         return;
     }
 
     if (i > j) {
-        size_t tmp = i;
-        i          = j;
-        j          = tmp;
+        SWAP(i, j);
     }
 
-    Node *prev_i = NULL;
-    Node *node_i = list->head;
-    for (size_t k = 0; k < i; k++) {
-        prev_i = node_i;
-        node_i = node_i->next;
-
-        if (node_i == NULL) {
-            return;
-        }
-    }
-
-    Node *prev_j = NULL;
-    Node *node_j = list->head;
+    Node *node_i = NULL, *node_j = NULL;
+    Node *tail = list->head;
     for (size_t k = 0; k < j; k++) {
-        prev_j = node_j;
-        node_j = node_j->next;
-
-        if (node_j == NULL) {
-            return;
+        if (k == i) {
+            node_i = tail;
         }
+
+        if (k == j) {
+            node_j = tail;
+        }
+
+        tail = tail->next;
     }
 
-    if (prev_i != NULL) {
-        prev_i->next = node_j;
+    Node *i_prev = node_i->prev;
+    Node *i_next = node_i->next;
+    if (i_prev != NULL) {
+        i_prev->next = node_j;
     } else {
         list->head = node_j;
     }
 
-    if (prev_j != NULL) {
-        prev_j->next = node_i;
+    Node *j_prev = node_j->prev;
+    Node *j_next = node_j->next;
+    if (j_next != NULL) {
+        j_next->prev = node_i;
     } else {
-        list->head = node_i;
+        list->tail = node_i;
     }
 
-    Node *tmp    = node_i->next;
-    node_i->next = node_j->next;
-    node_j->next = tmp;
+    node_i->prev = j_prev;
+    node_i->next = j_next;
+    node_j->prev = i_prev;
+    node_j->next = i_next;
 }
 
 void reverse(LinkedList *list) {
@@ -155,37 +96,17 @@ void reverse(LinkedList *list) {
         return;
     }
 
-    size_t len = length(list);
-
-    for (size_t i = 0; i < len / 2; i++) {
-        swap(list, i, len - i - 1);
+    for (size_t i = 0; i < list->len / 2; i++) {
+        swap(list, i, list->len - i - 1);
     }
 }
 
 void show(FILE *stream, LinkedList *list) {
-    if (stream == NULL) {
-        stream = stdout;
+    if (list != NULL) {
+        _show_list(stream, list->head, NULL);
+    } else {
+        _show_list(stream, NULL, NULL);
     }
-
-    if (list == NULL || list->head == NULL) {
-        fprintf(stream, "[]\n");
-        return;
-    }
-
-    if (stream == NULL) {
-        stream = stdout;
-    }
-
-    fprintf(stream, "[");
-    Node *node = list->head;
-    while (node != NULL) {
-        fprintf(stream, "%d", node->data);
-        node = node->next;
-        if (node != NULL) {
-            fprintf(stream, " -> ");
-        }
-    }
-    fprintf(stream, "]\n");
 }
 
 void clear(LinkedList *list) {

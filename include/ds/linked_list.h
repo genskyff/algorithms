@@ -4,6 +4,8 @@
 #include "type.h"
 #include <stdbool.h>
 
+// index [0] is the head
+// index [len - 1] is the tail
 typedef struct {
     Node  *head;
     Node  *tail;

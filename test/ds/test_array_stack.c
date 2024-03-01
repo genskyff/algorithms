@@ -15,11 +15,11 @@ void test_create(void) {
 }
 
 void test_init(void) {
-    ArrayStack stack = test_data();
-    char      *msg   = "should get a initialized ArrayStack";
-    ArrayStack tmp   = init(LEN, 0, 1, 2, 3, 4, 5);
+    ArrayStack stack    = test_data();
+    char      *msg      = "should get a initialized ArrayStack";
+    elem_t     tmp[LEN] = {0, 1, 2, 3, 4, 5};
     assert_eq(stack.len, LEN, msg);
-    assert_arr_eq(tmp.data, tmp.len, stack.data, stack.len, msg);
+    assert_arr_eq(stack.data, stack.len, tmp, LEN, msg);
 }
 
 void test_is_empty(void) {

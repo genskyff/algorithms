@@ -15,7 +15,7 @@ Vec init(size_t n, ...) {
         fprintf(stderr,
                 "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
                 "\x1b[33minit\x1b[0m)\n\n");
-        abort();
+        exit(EXIT_FAILURE);
     }
 
     Vec v = {.data = data, .len = 0, .cap = cap};
@@ -23,7 +23,7 @@ Vec init(size_t n, ...) {
     va_list ap;
     va_start(ap, n);
 
-    for (size_t i = 0; i < MIN(n, MAXLEN); i++) {
+    for (size_t i = 0; i < n; i++) {
         v.data[v.len++] = va_arg(ap, elem_t);
     }
 
@@ -47,6 +47,8 @@ void reverse(Vec *v) {
 void show(FILE *stream, Vec *v) {
     if (v != NULL) {
         _show(stream, v->data, v->len, NULL);
+    } else {
+        _show(stream, NULL, 0, NULL);
     }
 }
 

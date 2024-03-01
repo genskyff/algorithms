@@ -13,7 +13,7 @@ LinkedQueue init(size_t n, ...) {
 
     if (arr == NULL) {
         fprintf(stderr, "init: failed to allocate memory\n");
-        abort();
+        exit(EXIT_FAILURE);
     }
 
     va_list ap;

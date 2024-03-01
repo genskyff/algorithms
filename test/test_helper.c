@@ -24,7 +24,7 @@ void assert(bool cond, char *msg) {
         fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", msg);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mtrue\n");
         fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mfalse\n\n");
-        abort();
+        exit(EXIT_FAILURE);
     }
 }
 
@@ -44,40 +44,37 @@ void _err_msg(elem_t left, elem_t right, char *msg) {
     fprintf(stderr, "%d\n", left);
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
     fprintf(stderr, "%d\n\n", right);
-    abort();
+    exit(EXIT_FAILURE);
 }
 
 void assert_eq(elem_t left, elem_t right, char *msg) {
-    if (_is_eq(left, right)) {
-        return;
+    if (!_is_eq(left, right)) {
+        _err_msg(left, right, msg);
     }
-
-    _err_msg(left, right, msg);
 }
 
 void assert_ne(elem_t left, elem_t right, char *msg) {
-    if (!_is_eq(left, right)) {
-        return;
+    if (_is_eq(left, right)) {
+        _err_msg(left, right, msg);
     }
-
-    _err_msg(left, right, msg);
 }
 
 bool _is_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len) {
-    bool is_eq = true;
+    if (left == NULL && right == NULL) {
+        return true;
+    }
 
-    if (l_len != r_len) {
-        is_eq = false;
-    } else {
-        for (size_t i = 0; i < l_len; i++) {
-            if (left[i] != right[i]) {
-                is_eq = false;
-                break;
-            }
+    if (left == NULL || right == NULL || l_len != r_len) {
+        return false;
+    }
+
+    for (size_t i = 0; i < l_len; i++) {
+        if (left[i] != right[i]) {
+            return false;
         }
     }
 
-    return is_eq;
+    return true;
 }
 
 void _arr_err_msg(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
@@ -90,74 +87,99 @@ void _arr_err_msg(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
     _show(stderr, right, r_len, NULL);
     fprintf(stderr, "\n");
-    abort();
+    exit(EXIT_FAILURE);
 }
 
 void assert_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
                    char *msg) {
-    bool is_eq = _is_arr_eq(left, l_len, right, r_len);
-
-    if (!is_eq) {
+    if (!_is_arr_eq(left, l_len, right, r_len)) {
         _arr_err_msg(left, l_len, right, r_len, msg);
     }
 }
 
 void assert_arr_ne(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
                    char *msg) {
-    bool is_ne = !_is_arr_eq(left, l_len, right, r_len);
-
-    if (!is_ne) {
+    if (_is_arr_eq(left, l_len, right, r_len)) {
         _arr_err_msg(left, l_len, right, r_len, msg);
     }
 }
 
-bool _is_list_eq(Node *left, Node *right) {
-    bool is_eq = true;
-
-    Node *tail1 = left;
-    Node *tail2 = right;
-    while (tail1 != NULL && tail2 != NULL) {
-        if (tail1->data != tail2->data) {
-            is_eq = false;
-            break;
+bool _is_list_eq(Node *hleft, Node *hright) {
+    while (hleft != NULL && hright != NULL) {
+        if (hleft->data != hright->data) {
+            return false;
         }
-
-        tail1 = tail1->next;
-        tail2 = tail2->next;
+        hleft  = hleft->next;
+        hright = hright->next;
     }
 
-    if (tail1 != NULL || tail2 != NULL) {
-        is_eq = false;
-    }
-
-    return is_eq;
+    return hleft == NULL && hright == NULL;
 }
 
-void _list_err_msg(Node *left, Node *right, char *msg) {
+void _list_err_msg(Node *hleft, Node *hright, char *msg) {
     char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
     fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
     fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", msg);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
-    _show_list(stderr, left, NULL);
+    _show_list(stderr, hleft, NULL);
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
-    _show_list(stderr, right, NULL);
+    _show_list(stderr, hright, NULL);
     fprintf(stderr, "\n");
-    abort();
+    exit(EXIT_FAILURE);
 }
 
-void assert_list_eq(Node *left, Node *right, char *msg) {
-    bool is_eq = _is_list_eq(left, right);
-
-    if (!is_eq) {
-        _list_err_msg(left, right, msg);
+void assert_list_eq(Node *hleft, Node *hright, char *msg) {
+    if (!_is_list_eq(hleft, hright)) {
+        _list_err_msg(hleft, hright, msg);
     }
 }
 
-void assert_list_ne(Node *left, Node *right, char *msg) {
-    bool is_ne = !_is_list_eq(left, right);
+void assert_list_ne(Node *hleft, Node *hright, char *msg) {
+    if (_is_list_eq(hleft, hright)) {
+        _list_err_msg(hleft, hright, msg);
+    }
+}
 
-    if (!is_ne) {
-        _list_err_msg(left, right, msg);
+bool _is_list_arr_eq(Node *head, elem_t *arr, size_t len) {
+    if (head == NULL && arr == NULL) {
+        return true;
+    }
+
+    if (head == NULL || arr == NULL) {
+        return false;
+    }
+
+    for (size_t i = 0; i < len; i++) {
+        if (head == NULL || head->data != arr[i]) {
+            return false;
+        }
+        head = head->next;
+    }
+
+    return head == NULL;
+}
+
+void _list_arr_err_msg(Node *head, elem_t *arr, size_t len, char *msg) {
+    char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+    fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
+    fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", msg);
+    fprintf(stderr, "\x1b[33m|-- list:    \x1b[0m");
+    _show_list(stderr, head, ", ");
+    fprintf(stderr, "\x1b[33m|-- arr:     \x1b[0m");
+    _show(stderr, arr, len, NULL);
+    fprintf(stderr, "\n");
+    exit(EXIT_FAILURE);
+}
+
+void assert_list_arr_eq(Node *list, elem_t *arr, size_t len, char *msg) {
+    if (!_is_list_arr_eq(list, arr, len)) {
+        _list_arr_err_msg(list, arr, len, msg);
+    }
+}
+
+void assert_list_arr_ne(Node *list, elem_t *arr, size_t len, char *msg) {
+    if (_is_list_arr_eq(list, arr, len)) {
+        _list_arr_err_msg(list, arr, len, msg);
     }
 }
 
@@ -165,7 +187,7 @@ void init_sort_data(TestSortData *data) {
     if (data == NULL) {
         fprintf(stderr, "\x1b[1;31merror: \x1b[0mdata is NULL (exec "
                         "\x1b[33minit_sort_data\x1b[0m)\n\n");
-        abort();
+        exit(EXIT_FAILURE);
     }
 
     elem_t *none             = NULL;

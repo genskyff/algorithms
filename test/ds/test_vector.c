@@ -18,14 +18,13 @@ void test_create(void) {
 }
 
 void test_init(void) {
-    Vec   v   = test_data();
+    Vec   v   = init(LEN, 0, 1, 2, 3, 4, 5);
     char *msg = "should get a initialized vector";
-    Vec   tmp = init(LEN, 0, 1, 2, 3, 4, 5);
-    assert(tmp.data != NULL, msg);
-    assert_eq(tmp.len, LEN, msg);
-    assert_eq(tmp.cap, INIT_CAP, msg);
-    assert_arr_eq(tmp.data, tmp.len, v.data, v.len, msg);
-    drop(&tmp);
+    assert(v.data != NULL, msg);
+    assert_eq(v.len, LEN, msg);
+    assert_eq(v.cap, INIT_CAP, msg);
+    elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
+    assert_arr_eq(v.data, v.len, tmp, LEN, msg);
     drop(&v);
 }
 
