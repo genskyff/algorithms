@@ -18,6 +18,23 @@ rule("mode.test")
     end)
 rule_end()
 
+add_includedirs("include", "include/ds", "include/sort")
+
+on_load(function (target)
+    if target:name() ~= "utils" then
+        target:add("deps", "utils")
+    end
+
+    local group = target:get("group")
+    if group and string.find(group, "^test") == 1 then
+        target:add("deps", "helper")
+    end
+end)
+
+-- -------
+--  tasks
+-- -------
+
 task("test-all")
     on_run(function ()
         os.exec("xmake f -m test")
@@ -27,6 +44,30 @@ task("test-all")
     set_menu{
         usage = "xmake test-all",
         description = "Run all tests"
+    }
+task_end()
+
+task("test-helper")
+    on_run(function ()
+        os.exec("xmake f -m test")
+        os.exec("xmake build -g test_helper")
+        os.exec("xmake run -g test_helper")
+    end)
+    set_menu{
+        usage = "xmake test-helper",
+        description = "Run all helper tests"
+    }
+task_end()
+
+task("test-utils")
+    on_run(function ()
+        os.exec("xmake f -m test")
+        os.exec("xmake build -g test_utils")
+        os.exec("xmake run -g test_utils")
+    end)
+    set_menu{
+        usage = "xmake test-utils",
+        description = "Run all utils tests"
     }
 task_end()
 
@@ -54,37 +95,17 @@ task("test-sort")
     }
 task_end()
 
-task("test-utils")
-    on_run(function ()
-        os.exec("xmake f -m test")
-        os.exec("xmake build -g test_utils")
-        os.exec("xmake run -g test_utils")
-    end)
-    set_menu{
-        usage = "xmake test-utils",
-        description = "Run all utils tests"
-    }
-task_end()
-
-add_includedirs("include", "include/ds", "include/sort")
-
-on_load(function (target)
-    if target:name() ~= "utils" then
-        target:add("deps", "utils")
-    end
-
-    local group = target:get("group")
-    if group and string.find(group, "^test") == 1 then
-        target:add("deps", "test_helper")
-    end
-end)
-
 -- -------------
 --  test helper
 -- -------------
 
-target("test_helper")
+target("helper")
     set_kind("static")
+    add_files("test/helper.c")
+
+target("test_helper")
+    set_kind("binary")
+    set_group("test_helper")
     add_files("test/test_helper.c")
 
 -- -------

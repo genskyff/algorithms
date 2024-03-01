@@ -1,5 +1,5 @@
 #include "bubble.h"
-#include "test_helper.h"
+#include "helper.h"
 #include "utils.h"
 #include <stdlib.h>
 

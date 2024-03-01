@@ -1,4 +1,4 @@
-#include "test_helper.h"
+#include "helper.h"
 #include "vector.h"
 
 #define LEN 6

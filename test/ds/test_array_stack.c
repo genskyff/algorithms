@@ -1,5 +1,5 @@
 #include "array_stack.h"
-#include "test_helper.h"
+#include "helper.h"
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \
