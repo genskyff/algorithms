@@ -73,7 +73,7 @@ void _show_list(FILE *stream, Node *head, char *sep) {
         return;
     }
 
-    char *_sep = (sep == NULL || *sep == '\0') ? " -> " : sep;
+    char *_sep = (sep == NULL || *sep == '\0') ? " <-> " : sep;
     fprintf(stream, "[");
     for (Node *p = head; p != NULL; p = p->next) {
         fprintf(stream, "%d%s", p->data, p->next == NULL ? "]\n" : _sep);
