@@ -19,12 +19,8 @@ void run_test(TestFunc test, char *prefix, char *test_name) {
 
 void assert(bool cond, char *msg) {
     if (!cond) {
+        char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
         fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-
-        if (msg == NULL || *msg == '\0') {
-            msg = "\"\"";
-        }
-
         fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", msg);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mtrue\n");
         fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mfalse\n\n");
@@ -41,12 +37,8 @@ bool _is_eq(elem_t left, elem_t right) {
 }
 
 void _err_msg(elem_t left, elem_t right, char *msg) {
+    char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
     fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-
-    if (msg == NULL || *msg == '\0') {
-        msg = "\"\"";
-    }
-
     fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", msg);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
     fprintf(stderr, "%d\n", left);
@@ -58,7 +50,6 @@ void _err_msg(elem_t left, elem_t right, char *msg) {
 void assert_eq(elem_t left, elem_t right, char *msg) {
     if (_is_eq(left, right)) {
         return;
-        ;
     }
 
     _err_msg(left, right, msg);
@@ -67,7 +58,6 @@ void assert_eq(elem_t left, elem_t right, char *msg) {
 void assert_ne(elem_t left, elem_t right, char *msg) {
     if (!_is_eq(left, right)) {
         return;
-        ;
     }
 
     _err_msg(left, right, msg);
@@ -92,13 +82,9 @@ bool _is_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len) {
 
 void _arr_err_msg(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
                   char *msg) {
+    char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
     fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-
-    if (msg == NULL || *msg == '\0') {
-        msg = "\"\"";
-    }
-
-    fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", msg);
+    fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
     _show(stderr, left, l_len, NULL);
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
@@ -148,12 +134,8 @@ bool _is_list_eq(Node *left, Node *right) {
 }
 
 void _list_err_msg(Node *left, Node *right, char *msg) {
+    char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
     fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-
-    if (msg == NULL || *msg == '\0') {
-        msg = "\"\"";
-    }
-
     fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", msg);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
     _show_list(stderr, left, NULL);

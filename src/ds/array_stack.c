@@ -26,6 +26,8 @@ ArrayStack init(size_t n, ...) {
 void show(FILE *stream, ArrayStack *stack) {
     if (stack != NULL) {
         _show(stream, stack->data, stack->len, NULL);
+    } else {
+        _show(stream, NULL, 0, NULL);
     }
 }
 
@@ -40,32 +42,35 @@ bool is_empty(ArrayStack *stack) {
 }
 
 bool peek(ArrayStack *stack, elem_t *e) {
-    if (stack != NULL && stack->len > 0) {
-        if (e != NULL) {
-            *e = stack->data[stack->len - 1];
-        }
-        return true;
+    if (stack == NULL || stack->len == 0) {
+        return false;
     }
 
-    return false;
+    if (e != NULL) {
+        *e = stack->data[stack->len - 1];
+    }
+
+    return true;
 }
 
 bool push(ArrayStack *stack, elem_t e) {
-    if (stack != NULL && stack->len < MAXLEN) {
-        stack->data[stack->len++] = e;
-        return true;
+    if (stack == NULL || stack->len == MAXLEN) {
+        return false;
     }
 
-    return false;
+    stack->data[stack->len++] = e;
+
+    return true;
 }
 
 bool pop(ArrayStack *stack, elem_t *e) {
-    if (stack != NULL && stack->len > 0) {
-        if (e != NULL) {
-            *e = stack->data[--stack->len];
-        }
-        return true;
+    if (stack == NULL || stack->len == 0) {
+        return false;
     }
 
-    return false;
+    if (e != NULL) {
+        *e = stack->data[--stack->len];
+    }
+
+    return true;
 }

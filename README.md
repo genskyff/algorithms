@@ -5,11 +5,11 @@ This is a repository implemented in C for various basic algorithms and data stru
 
 ## Features
 - Uses only the C standard library, with no third-party libraries
-- Unit tests for almost every function
-- Strict adherence to the C17 standard, tested and passed on MSVC, GCC, and Clang
+- Unit tests for almost all function
+- Strict adherence to the C17 standard, tested on MSVC, GCC, and Clang
 
 ## Usage
-First, you need any C compiler. GCC is installed by default on Linux, clang is installed by default on macOS, and on Windows, you can choose to install Visual Studio to use MSVC or install MinGW64.
+First, you need any C compiler. GCC is used by default on Linux, clang is used by default on macOS. On Windows, you can choose to install Visual Studio to use MSVC or install MinGW64.
 
 Additionally, you need to install Clangd, as well as the build tool XMake.
 
@@ -22,7 +22,7 @@ xmake project -k compile_commands
 Then, you can execute the program using the following command:
 
 ```shell
-xmake test
+xmake test-all
 ```
 
 ## Roadmap
@@ -43,7 +43,7 @@ xmake test
 - [ ] Data structures
   - [x] Vector
   - [x] Linear lists
-    - [x] Sequential list
+    - [x] Array list
     - [x] Linked list
   - [x] Queue
     - [x] Array queue

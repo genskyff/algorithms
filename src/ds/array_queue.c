@@ -14,7 +14,7 @@ ArrayQueue init(size_t n, ...) {
     va_list ap;
     va_start(ap, n);
 
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; i < MIN(n, MAXLEN); i++) {
         queue.data[queue.len++] = va_arg(ap, elem_t);
     }
 
@@ -25,9 +25,9 @@ ArrayQueue init(size_t n, ...) {
 
 void show(FILE *stream, ArrayQueue *queue) {
     if (queue != NULL) {
-        _show(stream, queue->data, queue->len);
+        _show(stream, queue->data, queue->len, " <-> ");
     } else {
-        fprintf(stream == NULL ? stdout : stream, "[]\n");
+        _show(stream, NULL, 0, NULL);
     }
 }
 
@@ -54,19 +54,43 @@ bool front(ArrayQueue *queue, elem_t *e) {
     return true;
 }
 
-bool enque(ArrayQueue *queue, elem_t e) {
+bool back(ArrayQueue *queue, elem_t *e) {
+    if (queue == NULL || queue->len == 0) {
+        return false;
+    }
+
+    if (e != NULL) {
+        *e = queue->data[(queue->front + queue->len - 1) % MAXLEN];
+    }
+
+    return true;
+}
+
+bool push_front(ArrayQueue *queue, elem_t e) {
     if (queue == NULL || queue->len == MAXLEN) {
         return false;
     }
 
-    size_t rear = (queue->front + queue->len) % MAXLEN;
+    queue->front              = (queue->front - 1 + MAXLEN) % MAXLEN;
+    queue->data[queue->front] = e;
+    queue->len++;
+
+    return true;
+}
+
+bool push_back(ArrayQueue *queue, elem_t e) {
+    if (queue == NULL || queue->len == MAXLEN) {
+        return false;
+    }
+
+    size_t rear       = (queue->front + queue->len) % MAXLEN;
     queue->data[rear] = e;
     queue->len++;
 
     return true;
 }
 
-bool deque(ArrayQueue *queue, elem_t *e) {
+bool pop_front(ArrayQueue *queue, elem_t *e) {
     if (queue == NULL || queue->len == 0) {
         return false;
     }
@@ -76,6 +100,20 @@ bool deque(ArrayQueue *queue, elem_t *e) {
     }
 
     queue->front = (queue->front + 1) % MAXLEN;
+    queue->len--;
+
+    return true;
+}
+
+bool pop_back(ArrayQueue *queue, elem_t *e) {
+    if (queue == NULL || queue->len == 0) {
+        return false;
+    }
+
+    if (e != NULL) {
+        *e = queue->data[(queue->front + queue->len - 1) % MAXLEN];
+    }
+
     queue->len--;
 
     return true;

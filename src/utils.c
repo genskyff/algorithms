@@ -17,7 +17,7 @@ void _shuffle(elem_t *arr, size_t len) {
         return;
     }
 
-    for (size_t i = len - 1; i > 0; i--) {
+    for (size_t i = 1; i < len; i++) {
         size_t j = rand() % (i + 1);
         _swap(arr, i, j);
     }
@@ -41,13 +41,10 @@ void _show(FILE *stream, elem_t *arr, size_t len, char *sep) {
         return;
     }
 
-    if (sep == NULL || *sep == '\0') {
-        sep = ", ";
-    }
-
+    char *_sep = (sep == NULL || *sep == '\0') ? ", " : sep;
     fprintf(stream, "[");
     for (size_t i = 0; i < len; i++) {
-        fprintf(stream, "%d%s", arr[i], i == len - 1 ? "]\n" : sep);
+        fprintf(stream, "%d%s", arr[i], i == len - 1 ? "]\n" : _sep);
     }
 }
 
@@ -76,13 +73,10 @@ void _show_list(FILE *stream, Node *head, char *sep) {
         return;
     }
 
-    if (sep == NULL || *sep == '\0') {
-        sep = " -> ";
-    }
-
+    char *_sep = (sep == NULL || *sep == '\0') ? " -> " : sep;
     fprintf(stream, "[");
     for (Node *p = head->next; p != NULL; p = p->next) {
-        fprintf(stream, "%d%s", p->data, p->next == NULL ? "]\n" : sep);
+        fprintf(stream, "%d%s", p->data, p->next == NULL ? "]\n" : _sep);
     }
 }
 
@@ -200,6 +194,13 @@ void _rotate_left(elem_t *arr, size_t len, size_t n) {
     n = n % len;
 
     elem_t *tmp = (elem_t *)malloc(n * sizeof(elem_t));
+    if (tmp == NULL) {
+        fprintf(stderr,
+                "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
+                "\x1b[33mrotate_left\x1b[0m)\n\n");
+        abort();
+    }
+
     memmove(tmp, arr, n * sizeof(elem_t));
     memmove(arr, arr + n, (len - n) * sizeof(elem_t));
     memmove(arr + len - n, tmp, n * sizeof(elem_t));
@@ -225,6 +226,13 @@ void _rotate_right(elem_t *arr, size_t len, size_t n) {
     n = n % len;
 
     elem_t *tmp = (elem_t *)malloc(n * sizeof(elem_t));
+    if (tmp == NULL) {
+        fprintf(stderr,
+                "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
+                "\x1b[33mrotate_right\x1b[0m)\n\n");
+        abort();
+    }
+
     memmove(tmp, arr + len - n, n * sizeof(elem_t));
     memmove(arr + n, arr, (len - n) * sizeof(elem_t));
     memmove(arr, tmp, n * sizeof(elem_t));

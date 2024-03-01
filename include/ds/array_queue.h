@@ -16,7 +16,10 @@ void       show(FILE *stream, ArrayQueue *queue);
 void       clear(ArrayQueue *queue);
 bool       is_empty(ArrayQueue *queue);
 bool       front(ArrayQueue *queue, elem_t *e);
-bool       enque(ArrayQueue *queue, elem_t e);
-bool       deque(ArrayQueue *queue, elem_t *e);
+bool       back(ArrayQueue *queue, elem_t *e);
+bool       push_front(ArrayQueue *queue, elem_t e);
+bool       push_back(ArrayQueue *queue, elem_t e);
+bool       pop_front(ArrayQueue *queue, elem_t *e);
+bool       pop_back(ArrayQueue *queue, elem_t *e);
 
 #endif

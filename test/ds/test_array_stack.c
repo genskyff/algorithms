@@ -48,7 +48,7 @@ void test_peek(void) {
 
     msg = "should not get top when empty";
     clear(&stack);
-    assert_not(peek(&stack, &e), msg);
+    assert_not(peek(&stack, NULL), msg);
 }
 
 void test_push(void) {
