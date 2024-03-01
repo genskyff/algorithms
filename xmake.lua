@@ -18,15 +18,39 @@ rule("mode.test")
     end)
 rule_end()
 
-task("test")
+task("test-all")
     on_run(function ()
         os.exec("xmake f -m test")
-        os.exec("xmake build -g test")
-        os.exec("xmake run -g test")
+        os.exec("xmake build -g test*")
+        os.exec("xmake run -g test*")
     end)
     set_menu{
-        usage = "xmake test",
-        description = "Run tests"
+        usage = "xmake test-all",
+        description = "Run all tests"
+    }
+task_end()
+
+task("test-ds")
+    on_run(function ()
+        os.exec("xmake f -m test")
+        os.exec("xmake build -g test_ds")
+        os.exec("xmake run -g test_ds")
+    end)
+    set_menu{
+        usage = "xmake test-ds",
+        description = "Run all data structures tests"
+    }
+task_end()
+
+task("test-sort")
+    on_run(function ()
+        os.exec("xmake f -m test")
+        os.exec("xmake build -g test_sort")
+        os.exec("xmake run -g test_sort")
+    end)
+    set_menu{
+        usage = "xmake test-sort",
+        description = "Run all sorting algorithms tests"
     }
 task_end()
 
@@ -37,7 +61,8 @@ on_load(function (target)
         target:add("deps", "utils")
     end
 
-    if target:get("group") == "test" then
+    local group = target:get("group")
+    if group and string.find(group, "^test") == 1 then
         target:add("deps", "test")
     end
 end)
@@ -56,7 +81,7 @@ target("utils")
 
 target("test_utils")
     set_kind("binary")
-    set_group("test")
+    set_group("test_utils")
     add_files("test/test_utils.c")
     add_deps("utils")
 
@@ -71,7 +96,7 @@ target("array_queue")
 
 target("test_array_queue")
     set_kind("binary")
-    set_group("test")
+    set_group("test_ds")
     add_files("test/ds/test_array_queue.c")
     add_deps("array_queue")
 
@@ -82,7 +107,7 @@ target("array_stack")
 
 target("test_array_stack")
     set_kind("binary")
-    set_group("test")
+    set_group("test_ds")
     add_files("test/ds/test_array_stack.c")
     add_deps("array_stack")
 
@@ -93,7 +118,7 @@ target("linked_list")
 
 target("test_linked_list")
     set_kind("binary")
-    set_group("test")
+    set_group("test_ds")
     add_files("test/ds/test_linked_list.c")
     add_deps("linked_list")
 
@@ -104,7 +129,7 @@ target("linked_queue")
 
 target("test_linked_queue")
     set_kind("binary")
-    set_group("test")
+    set_group("test_ds")
     add_files("test/ds/test_linked_queue.c")
     add_deps("linked_queue")
 
@@ -115,7 +140,7 @@ target("linked_stack")
 
 target("test_linked_stack")
     set_kind("binary")
-    set_group("test")
+    set_group("test_ds")
     add_files("test/ds/test_linked_stack.c")
     add_deps("linked_stack")
 
@@ -126,7 +151,7 @@ target("sqlist")
 
 target("test_sqlist")
     set_kind("binary")
-    set_group("test")
+    set_group("test_ds")
     add_files("test/ds/test_sqlist.c")
     add_deps("sqlist")
 
@@ -137,7 +162,7 @@ target("vector")
 
 target("test_vector")
     set_kind("binary")
-    set_group("test")
+    set_group("test_ds")
     add_files("test/ds/test_vector.c")
     add_deps("vector")
 
@@ -152,7 +177,7 @@ target("bubble")
 
 target("test_bubble")
     set_kind("binary")
-    set_group("test")
+    set_group("test_sort")
     add_files("test/sort/test_bubble.c")
     add_deps("bubble")
 
@@ -163,7 +188,7 @@ target("insertion")
 
 target("test_insertion")
     set_kind("binary")
-    set_group("test")
+    set_group("test_sort")
     add_files("test/sort/test_insertion.c")
     add_deps("insertion")
 
@@ -174,7 +199,7 @@ target("merge")
 
 target("test_merge")
     set_kind("binary")
-    set_group("test")
+    set_group("test_sort")
     add_files("test/sort/test_merge.c")
     add_deps("merge")
 
@@ -185,7 +210,7 @@ target("quick")
 
 target("test_quick")
     set_kind("binary")
-    set_group("test")
+    set_group("test_sort")
     add_files("test/sort/test_quick.c")
     add_deps("quick")
 
@@ -196,6 +221,6 @@ target("selection")
 
 target("test_selection")
     set_kind("binary")
-    set_group("test")
+    set_group("test_sort")
     add_files("test/sort/test_selection.c")
     add_deps("selection")
