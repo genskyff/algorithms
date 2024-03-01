@@ -1,4 +1,4 @@
-#include "sqlist.h"
+#include "array_list.h"
 #include "test_helper.h"
 
 #define LEN 6
