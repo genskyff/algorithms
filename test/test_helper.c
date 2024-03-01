@@ -1,4 +1,4 @@
-#include "test.h"
+#include "test_helper.h"
 #include "utils.h"
 #include <stdlib.h>
 
@@ -57,7 +57,8 @@ void _err_msg(elem_t left, elem_t right, char *msg) {
 
 void assert_eq(elem_t left, elem_t right, char *msg) {
     if (_is_eq(left, right)) {
-        return;;
+        return;
+        ;
     }
 
     _err_msg(left, right, msg);
@@ -65,7 +66,8 @@ void assert_eq(elem_t left, elem_t right, char *msg) {
 
 void assert_ne(elem_t left, elem_t right, char *msg) {
     if (!_is_eq(left, right)) {
-        return;;
+        return;
+        ;
     }
 
     _err_msg(left, right, msg);

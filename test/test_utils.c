@@ -1,4 +1,4 @@
-#include "test.h"
+#include "test_helper.h"
 #include "utils.h"
 #include <stdlib.h>
 #include <time.h>

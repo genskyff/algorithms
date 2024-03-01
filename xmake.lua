@@ -75,13 +75,17 @@ on_load(function (target)
 
     local group = target:get("group")
     if group and string.find(group, "^test") == 1 then
-        target:add("deps", "test")
+        target:add("deps", "test_helper")
     end
 end)
 
-target("test")
+-- -------------
+--  test helper
+-- -------------
+
+target("test_helper")
     set_kind("static")
-    add_files("test/test.c")
+    add_files("test/test_helper.c")
 
 -- -------
 --  utils
@@ -100,6 +104,17 @@ target("test_utils")
 -- -----------------
 --  data structures
 -- -----------------
+
+target("array_list")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/array_list.c")
+
+target("test_array_list")
+    set_kind("binary")
+    set_group("test_ds")
+    add_files("test/ds/test_array_list.c")
+    add_deps("array_list")
 
 target("array_queue")
     set_kind("static")
@@ -155,17 +170,6 @@ target("test_linked_stack")
     set_group("test_ds")
     add_files("test/ds/test_linked_stack.c")
     add_deps("linked_stack")
-
-target("sqlist")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/sqlist.c")
-
-target("test_sqlist")
-    set_kind("binary")
-    set_group("test_ds")
-    add_files("test/ds/test_sqlist.c")
-    add_deps("sqlist")
 
 target("vector")
     set_kind("static")

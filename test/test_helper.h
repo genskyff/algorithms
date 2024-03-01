@@ -1,5 +1,5 @@
-#ifndef TEST_H
-#define TEST_H
+#ifndef TEST_HELPER_H
+#define TEST_HELPER_H
 
 #include "type.h"
 #include <stdbool.h>

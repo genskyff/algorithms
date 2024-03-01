@@ -1,5 +1,5 @@
 #include "array_queue.h"
-#include "test.h"
+#include "test_helper.h"
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \

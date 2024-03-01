@@ -6,11 +6,6 @@
 
 typedef int elem_t;
 
-typedef struct {
-    elem_t data[MAXLEN];
-    size_t len;
-} Buffer;
-
 typedef struct Node {
     elem_t       data;
     struct Node *prev;

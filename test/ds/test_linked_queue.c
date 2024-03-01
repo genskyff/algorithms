@@ -1,5 +1,5 @@
 #include "linked_queue.h"
-#include "test.h"
+#include "test_helper.h"
 #include <stdlib.h>
 
 #define LEN 6
