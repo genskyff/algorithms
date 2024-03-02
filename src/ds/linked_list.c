@@ -55,9 +55,9 @@ void swap(LinkedList *list, size_t i, size_t j) {
         SWAP(i, j);
     }
 
-    Node *node_i = NULL, *node_j = NULL;
+    Node *node_i, *node_j;
     Node *tail = list->head;
-    for (size_t k = 0; k < j; k++) {
+    for (size_t k = 0; k <= j; k++) {
         if (k == i) {
             node_i = tail;
         }
@@ -71,24 +71,59 @@ void swap(LinkedList *list, size_t i, size_t j) {
 
     Node *i_prev = node_i->prev;
     Node *i_next = node_i->next;
-    if (i_prev != NULL) {
-        i_prev->next = node_j;
-    } else {
-        list->head = node_j;
-    }
-
     Node *j_prev = node_j->prev;
     Node *j_next = node_j->next;
-    if (j_next != NULL) {
-        j_next->prev = node_i;
-    } else {
-        list->tail = node_i;
+
+    // adjacent nodes
+    if (i_next == node_j) { // node_i is directly connected to node_j
+        node_i->next = j_next;
+        if (j_next != NULL) {
+            j_next->prev = node_i;
+        }
+
+        node_j->prev = i_prev;
+        if (i_prev != NULL) {
+            i_prev->next = node_j;
+        }
+
+        node_j->next = node_i;
+        node_i->prev = node_j;
+    } else { // non-adjacent nodes
+        if (i_prev != NULL) {
+            i_prev->next = node_j;
+        }
+
+        if (i_next != NULL) {
+            i_next->prev = node_j;
+        }
+
+        if (j_prev != NULL) {
+            j_prev->next = node_i;
+        }
+
+        if (j_next != NULL) {
+            j_next->prev = node_i;
+        }
+
+        node_i->prev = j_prev;
+        node_j->prev = i_prev;
+
+        Node *tmp    = node_i->next;
+        node_i->next = node_j->next;
+        node_j->next = tmp;
     }
 
-    node_i->prev = j_prev;
-    node_i->next = j_next;
-    node_j->prev = i_prev;
-    node_j->next = i_next;
+    if (list->head == node_i) {
+        list->head = node_j;
+    } else if (list->head == node_j) {
+        list->head = node_i;
+    }
+
+    if (list->tail == node_i) {
+        list->tail = node_j;
+    } else if (list->tail == node_j) {
+        list->tail = node_i;
+    }
 }
 
 void reverse(LinkedList *list) {
@@ -122,6 +157,8 @@ void clear(LinkedList *list) {
     }
 
     list->head = NULL;
+    list->tail = NULL;
+    list->len  = 0;
 }
 
 bool is_empty(LinkedList *list) {
@@ -129,17 +166,21 @@ bool is_empty(LinkedList *list) {
 }
 
 bool get(LinkedList *list, size_t i, elem_t *e) {
-    if (list == NULL || list->head == NULL) {
+    if (list == NULL || list->head == NULL || i >= list->len) {
         return false;
     }
 
-    Node *node = list->head;
-    for (size_t k = 0; node != NULL && k != i; k++) {
-        node = node->next;
-    }
-
-    if (node == NULL) {
-        return false;
+    Node *node;
+    if (i <= (list->len + 1) / 2) {
+        node = list->head;
+        for (size_t j = 0; j < i; j++) {
+            node = node->next;
+        }
+    } else {
+        node = list->tail;
+        for (size_t j = list->len - 1; j > i; j--) {
+            node = node->prev;
+        }
     }
 
     if (e != NULL) {
@@ -149,18 +190,46 @@ bool get(LinkedList *list, size_t i, elem_t *e) {
     return true;
 }
 
-bool set(LinkedList *list, size_t i, elem_t e) {
+bool first(LinkedList *list, elem_t *e) {
     if (list == NULL || list->head == NULL) {
         return false;
     }
 
-    Node *node = list->head;
-    for (size_t k = 0; node != NULL && k != i; k++) {
-        node = node->next;
+    if (e != NULL) {
+        *e = list->head->data;
     }
 
-    if (node == NULL) {
+    return true;
+}
+
+bool last(LinkedList *list, elem_t *e) {
+    if (list == NULL || list->tail == NULL) {
         return false;
+    }
+
+    if (e != NULL) {
+        *e = list->tail->data;
+    }
+
+    return true;
+}
+
+bool set(LinkedList *list, size_t i, elem_t e) {
+    if (list == NULL || list->head == NULL || i >= list->len) {
+        return false;
+    }
+
+    Node *node;
+    if (i <= (list->len + 1) / 2) {
+        node = list->head;
+        for (size_t j = 0; j < i; j++) {
+            node = node->next;
+        }
+    } else {
+        node = list->tail;
+        for (size_t j = list->len - 1; j > i; j--) {
+            node = node->prev;
+        }
     }
 
     node->data = e;
@@ -188,7 +257,7 @@ bool find(LinkedList *list, elem_t e, size_t *i) {
 }
 
 bool insert(LinkedList *list, size_t i, elem_t e) {
-    if (list == NULL) {
+    if (list == NULL || i > list->len) {
         return false;
     }
 
@@ -196,115 +265,112 @@ bool insert(LinkedList *list, size_t i, elem_t e) {
     if (node == NULL) {
         return false;
     }
-
     node->data = e;
 
     if (i == 0) {
         node->next = list->head;
+        node->prev = NULL;
+        if (list->head != NULL) {
+            list->head->prev = node;
+        }
         list->head = node;
+        if (list->len == 0) {
+            list->tail = node;
+        }
+    } else if (i == list->len) {
+        node->next = NULL;
+        node->prev = list->tail;
+        if (list->tail != NULL) {
+            list->tail->next = node;
+        } else {
+            list->head = node;
+        }
+        list->tail = node;
     } else {
-        Node *prev = list->head;
-        for (size_t k = 0; k < i - 1 && prev != NULL; k++) {
-            prev = prev->next;
+        Node *target;
+        if (i <= (list->len + 1) / 2) {
+            target = list->head;
+            for (size_t j = 0; j < i - 1; j++) {
+                target = target->next;
+            }
+        } else {
+            target = list->tail;
+            for (size_t j = list->len - 1; j > i; j--) {
+                target = target->prev;
+            }
         }
 
-        if (prev == NULL) {
-            free(node);
-            return false;
-        }
-
-        node->next = prev->next;
-        prev->next = node;
+        node->next       = target->next;
+        node->prev       = target;
+        target->next     = node;
+        node->next->prev = node;
     }
+
+    list->len++;
 
     return true;
 }
 
-bool push(LinkedList *list, elem_t e) {
+bool push_front(LinkedList *list, elem_t e) {
+    return insert(list, 0, e);
+}
+
+bool push_back(LinkedList *list, elem_t e) {
     if (list == NULL) {
         return false;
     }
 
-    Node *node = (Node *)malloc(sizeof(Node));
-    if (node == NULL) {
-        return false;
-    }
-
-    Node *tail = list->head;
-    while (tail != NULL && tail->next != NULL) {
-        tail = tail->next;
-    }
-
-    node->data = e;
-    node->next = NULL;
-
-    if (tail == NULL) {
-        list->head = node;
-    } else {
-        tail->next = node;
-    }
-
-    return true;
+    return insert(list, list->len, e);
 }
 
 bool del(LinkedList *list, size_t i, elem_t *e) {
-    if (list == NULL || list->head == NULL) {
+    if (list == NULL || list->head == NULL || i >= list->len) {
         return false;
     }
 
     Node *node;
-    if (i == 0) {
-        node       = list->head;
-        list->head = node->next;
+    if (i <= (list->len + 1) / 2) {
+        node = list->head;
+        for (size_t j = 0; j < i; j++) {
+            node = node->next;
+        }
     } else {
-        Node *prev = list->head;
-        for (size_t k = 0; k < i - 1 && prev != NULL; k++) {
-            prev = prev->next;
+        node = list->tail;
+        for (size_t j = list->len - 1; j > i; j--) {
+            node = node->prev;
         }
-
-        if (prev == NULL || prev->next == NULL) {
-            return false;
-        }
-
-        node       = prev->next;
-        prev->next = node->next;
     }
 
     if (e != NULL) {
         *e = node->data;
     }
+
+    if (node->prev != NULL) {
+        node->prev->next = node->next;
+    } else {
+        list->head = node->next;
+    }
+
+    if (node->next != NULL) {
+        node->next->prev = node->prev;
+    } else {
+        list->tail = node->prev;
+    }
+
+    list->len--;
     free(node);
 
     return true;
 }
 
-bool pop(LinkedList *list, elem_t *e) {
+bool pop_front(LinkedList *list, elem_t *e) {
+    return del(list, 0, e);
+}
+
+bool pop_back(LinkedList *list, elem_t *e) {
     if (list == NULL || list->head == NULL) {
         return false;
     }
 
-    Node *node = list->head;
-
-    if (node->next == NULL) {
-        list->head = NULL;
-        if (e != NULL) {
-            *e = node->data;
-        }
-        free(node);
-
-        return true;
-    } else {
-        while (node->next->next != NULL) {
-            node = node->next;
-        }
-
-        Node *to_del = node->next;
-        if (e != NULL) {
-            *e = to_del->data;
-        }
-        node->next = NULL;
-        free(to_del);
-
-        return true;
-    }
+    return del(list, list->len - 1, e);
 }

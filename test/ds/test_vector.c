@@ -50,14 +50,20 @@ void test_swap(void) {
 }
 
 void test_reverse(void) {
-    Vec   v = test_data();
-    char *msg;
-
-    msg = "should reverse";
+    Vec   v   = test_data();
+    char *msg = "should reverse";
     reverse(&v);
     elem_t rev[LEN] = {5, 4, 3, 2, 1, 0};
     assert_arr_eq(v.data, v.len, rev, LEN, msg);
+    drop(&v);
+}
 
+void test_clear(void) {
+    Vec   v   = test_data();
+    char *msg = "should clear";
+    clear(&v);
+    assert_eq(v.len, 0, msg);
+    assert_eq(v.cap, INIT_CAP, msg);
     drop(&v);
 }
 
@@ -106,7 +112,7 @@ void test_first(void) {
 
     msg = "should not get first when empty";
     clear(&v);
-    assert_not(first(&v, &e), msg);
+    assert_not(first(&v, NULL), msg);
 
     drop(&v);
 }
@@ -122,7 +128,7 @@ void test_last(void) {
 
     msg = "should not get last when empty";
     clear(&v);
-    assert_not(last(&v, &e), msg);
+    assert_not(last(&v, NULL), msg);
 
     drop(&v);
 }
@@ -150,11 +156,11 @@ void test_find(void) {
 
     msg = "should find at [0]";
     assert(find(&v, 0, &i), msg);
-    assert(i == 0, msg);
+    assert_eq(i, 0, msg);
 
     msg = "should find at tail";
     assert(find(&v, 5, &i), msg);
-    assert(i == 5, msg);
+    assert_eq(i, v.len - 1, msg);
 
     msg = "should not find when no exist";
     i   = 0;
@@ -201,7 +207,7 @@ void test_insert(void) {
 
 void test_push_front(void) {
     Vec    v = test_data();
-    elem_t e = 10;
+    elem_t e = 999;
     char  *msg;
 
     msg = "should push_front";
@@ -221,7 +227,7 @@ void test_push_front(void) {
 
 void test_push_back(void) {
     Vec    v = test_data();
-    elem_t e = 10;
+    elem_t e = 999;
     char  *msg;
 
     msg = "should push_back";
@@ -328,6 +334,7 @@ int main(void) {
     run_test(test_init, prefix, "vector_init");
     run_test(test_swap, prefix, "vector_swap");
     run_test(test_reverse, prefix, "vector_reverse");
+    run_test(test_clear, prefix, "vector_clear");
     run_test(test_is_empty, prefix, "vector_is_empty");
     run_test(test_get, prefix, "vector_get");
     run_test(test_first, prefix, "vector_first");

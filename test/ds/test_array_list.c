@@ -32,8 +32,8 @@ void test_swap(void) {
     SqList list = test_data();
 
     // expect array's name like swap_<i>_<j>
-    elem_t swap_0_5[] = {5, 1, 2, 3, 4, 0};
-    elem_t swap_4_1[] = {5, 4, 2, 3, 1, 0};
+    elem_t swap_0_5[LEN] = {5, 1, 2, 3, 4, 0};
+    elem_t swap_4_1[LEN] = {5, 4, 2, 3, 1, 0};
 
     char *msg;
 
@@ -57,7 +57,7 @@ void test_swap(void) {
 void test_reverse(void) {
     SqList list = test_data();
 
-    elem_t rev[] = {5, 4, 3, 2, 1, 0};
+    elem_t rev[LEN] = {5, 4, 3, 2, 1, 0};
 
     char *msg;
 

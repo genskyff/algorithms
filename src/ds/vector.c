@@ -127,7 +127,7 @@ bool insert(Vec *v, size_t i, elem_t e) {
 }
 
 bool push_front(Vec *v, elem_t e) {
-    return v != NULL && insert(v, 0, e);
+    return insert(v, 0, e);
 }
 
 bool push_back(Vec *v, elem_t e) {
@@ -162,19 +162,15 @@ bool del(Vec *v, size_t i, elem_t *e) {
 }
 
 bool pop_front(Vec *v, elem_t *e) {
-    if (v != NULL && v->len > 0) {
-        return del(v, 0, e);
-    }
-
-    return false;
+    return del(v, 0, e);
 }
 
 bool pop_back(Vec *v, elem_t *e) {
-    if (v != NULL && v->len > 0) {
-        return del(v, v->len - 1, e);
+    if (v == NULL || v->len == 0) {
+        return false;
     }
 
-    return false;
+    return del(v, v->len - 1, e);
 }
 
 void drop(Vec *v) {
