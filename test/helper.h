@@ -18,11 +18,13 @@ void assert_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
 void assert_arr_ne(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
                    char *msg);
 
-void assert_list_eq(Node *hleft, Node *hright, char *msg);
-void assert_list_ne(Node *hleft, Node *hright, char *msg);
+void assert_list_eq(Node *left, Node *right, Direction dir, char *msg);
+void assert_list_ne(Node *left, Node *right, Direction dir, char *msg);
 
-void assert_list_arr_eq(Node *head, elem_t *arr, size_t len, char *msg);
-void assert_list_arr_ne(Node *head, elem_t *arr, size_t len, char *msg);
+void assert_list_arr_eq(Node *node, Direction dir, elem_t *arr, size_t len,
+                        char *msg);
+void assert_list_arr_ne(Node *node, Direction dir, elem_t *arr, size_t len,
+                        char *msg);
 
 #define SORT_DATA_LEN 7
 

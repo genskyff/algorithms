@@ -23,7 +23,7 @@ void test_init(void) {
     assert(list.tail != NULL, msg);
     assert_eq(list.len, LEN, msg);
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
-    assert_list_arr_eq(list.head, tmp, LEN, msg);
+    assert_list_arr_eq(list.head, FORWARD, tmp, LEN, msg);
     assert_eq(list.tail->data, 5, msg);
 }
 
@@ -34,34 +34,34 @@ void test_swap(void) {
 
     msg = "should not swap when i == j";
     swap(&list, 1, 1);
-    assert_list_arr_eq(list.head, tmp, LEN, msg);
+    assert_list_arr_eq(list.head, FORWARD, tmp, LEN, msg);
 
     msg = "should not swap when out of range";
     swap(&list, 0, LEN);
-    assert_list_arr_eq(list.head, tmp, LEN, msg);
+    assert_list_arr_eq(list.head, FORWARD, tmp, LEN, msg);
 
     msg = "should swap head and tail";
     swap(&list, 0, list.len - 1);
     elem_t swap_side[LEN] = {5, 1, 2, 3, 4, 0};
-    assert_list_arr_eq(list.head, swap_side, LEN, msg);
+    assert_list_arr_eq(list.head, FORWARD, swap_side, LEN, msg);
     assert_eq(list.tail->data, 0, msg);
 
     msg = "should swap when |i - j| == 1";
     swap(&list, 0, 1);
     elem_t swap_adjacent[LEN] = {1, 5, 2, 3, 4, 0};
-    assert_list_arr_eq(list.head, swap_adjacent, LEN, msg);
+    assert_list_arr_eq(list.head, FORWARD, swap_adjacent, LEN, msg);
     assert_eq(list.tail->data, 0, msg);
 
     msg = "should swap when i == 0, j > 1";
     swap(&list, 0, 3);
     elem_t swap_front[LEN] = {3, 5, 2, 1, 4, 0};
-    assert_list_arr_eq(list.head, swap_front, LEN, msg);
+    assert_list_arr_eq(list.head, FORWARD, swap_front, LEN, msg);
     assert_eq(list.tail->data, 0, msg);
 
     msg = "should swap when i > 0, j == len - 1";
     swap(&list, 1, list.len - 1);
     elem_t swap_end[LEN] = {3, 0, 2, 1, 4, 5};
-    assert_list_arr_eq(list.head, swap_end, LEN, msg);
+    assert_list_arr_eq(list.head, FORWARD, swap_end, LEN, msg);
     assert_eq(list.tail->data, 5, msg);
 }
 
@@ -70,7 +70,7 @@ void test_reverse(void) {
     char      *msg  = "should reverse";
     reverse(&list);
     elem_t rev[LEN] = {5, 4, 3, 2, 1, 0};
-    assert_list_arr_eq(list.head, rev, LEN, msg);
+    assert_list_arr_eq(list.head, FORWARD, rev, LEN, msg);
     assert_eq(list.tail->data, 0, msg);
 }
 

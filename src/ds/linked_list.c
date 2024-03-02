@@ -138,9 +138,9 @@ void reverse(LinkedList *list) {
 
 void show(FILE *stream, LinkedList *list) {
     if (list != NULL) {
-        _show_list(stream, list->head, NULL);
+        _show_list(stream, list->head, FORWARD, NULL);
     } else {
-        _show_list(stream, NULL, NULL);
+        _show_list(stream, NULL, FORWARD, NULL);
     }
 }
 

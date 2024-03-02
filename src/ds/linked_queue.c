@@ -48,9 +48,9 @@ LinkedQueue init(size_t n, ...) {
 
 void show(FILE *stream, LinkedQueue *queue) {
     if (queue != NULL) {
-        _show_list(stream, queue->front, NULL);
+        _show_list(stream, queue->front, FORWARD, NULL);
     } else {
-        _show_list(stream, NULL, NULL);
+        _show_list(stream, NULL, FORWARD, NULL);
     }
 }
 

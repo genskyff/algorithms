@@ -12,4 +12,6 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
+typedef enum { FORWARD, BACKWARD } Direction;
+
 #endif

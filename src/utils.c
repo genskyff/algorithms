@@ -63,21 +63,28 @@ void _show_slice(FILE *stream, elem_t *arr, size_t len, size_t start,
     _show(stream, arr + start, end - start, sep);
 }
 
-void _show_list(FILE *stream, Node *head, char *sep) {
+void _show_list(FILE *stream, Node *node, Direction dir, char *sep) {
     if (stream == NULL) {
         stream = stdout;
     }
 
-    if (head == NULL) {
+    if (node == NULL) {
         fprintf(stream, "[]\n");
         return;
     }
 
     char *_sep = (sep == NULL || *sep == '\0') ? " <-> " : sep;
     fprintf(stream, "[");
-    while (head != NULL) {
-        fprintf(stream, "%d%s", head->data, head->next == NULL ? "]\n" : _sep);
-        head = head->next;
+
+    if (dir == BACKWARD) {
+        while (node->prev != NULL) {
+            node = node->prev;
+        }
+    }
+
+    while (node != NULL) {
+        fprintf(stream, "%d%s", node->data, node->next == NULL ? "]\n" : _sep);
+        node = node->next;
     }
 }
 

@@ -45,8 +45,8 @@ void test_assert_list_eq(void) {
     Node tail2 = {.data = 2, .prev = &head2, .next = NULL};
     head2.next = &tail2;
 
-    assert_list_eq(NULL, NULL, NULL);
-    assert_list_eq(&head1, &head2, MSG);
+    assert_list_eq(NULL, NULL, FORWARD, NULL);
+    assert_list_eq(&head1, &head2, FORWARD, MSG);
 }
 
 void test_assert_list_ne(void) {
@@ -64,10 +64,10 @@ void test_assert_list_ne(void) {
     Node tail3 = {.data = 3, .prev = &n, .next = NULL};
     n.next     = &tail3;
 
-    assert_list_ne(NULL, &head2, MSG);
-    assert_list_ne(&head1, NULL, MSG);
-    assert_list_ne(&head1, &head2, MSG);
-    assert_list_ne(&head1, &head3, MSG);
+    assert_list_ne(NULL, &head2, FORWARD, MSG);
+    assert_list_ne(&head1, NULL, FORWARD, MSG);
+    assert_list_ne(&head1, &head2, FORWARD, MSG);
+    assert_list_ne(&head1, &head3, FORWARD, MSG);
 }
 
 void test_assert_list_arr_eq(void) {
@@ -79,8 +79,8 @@ void test_assert_list_arr_eq(void) {
 
     elem_t arr[] = {1, 2, 3};
 
-    assert_list_arr_eq(NULL, NULL, 0, MSG);
-    assert_list_arr_eq(&head, arr, 3, MSG);
+    assert_list_arr_eq(NULL, FORWARD, NULL, 0, MSG);
+    assert_list_arr_eq(&head, FORWARD, arr, 3, MSG);
 }
 
 void test_assert_list_arr_ne(void) {
@@ -93,10 +93,10 @@ void test_assert_list_arr_ne(void) {
     elem_t arr[]  = {1, 2, 4};
     elem_t arr2[] = {1, 2, 3, 4};
 
-    assert_list_arr_ne(NULL, arr, 3, MSG);
-    assert_list_arr_ne(&head, NULL, 0, MSG);
-    assert_list_arr_ne(&head, arr, 3, MSG);
-    assert_list_arr_ne(&head, arr2, 4, MSG);
+    assert_list_arr_ne(NULL, FORWARD, arr, 3, MSG);
+    assert_list_arr_ne(&head, FORWARD, NULL, 0, MSG);
+    assert_list_arr_ne(&head, FORWARD, arr, 3, MSG);
+    assert_list_arr_ne(&head, FORWARD, arr2, 4, MSG);
 }
 
 int main(void) {

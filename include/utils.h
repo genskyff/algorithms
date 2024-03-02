@@ -21,7 +21,7 @@ void _clear(elem_t *arr, size_t len);
 void _show(FILE *stream, elem_t *arr, size_t len, char *sep);
 void _show_slice(FILE *stream, elem_t *arr, size_t len, size_t start,
                  size_t end, char *sep);
-void _show_list(FILE *stream, Node *head, char *sep);
+void _show_list(FILE *stream, Node *node, Direction dir, char *sep);
 
 void _reverse(elem_t *arr, size_t len);
 void _reverse_slice(elem_t *arr, size_t len, size_t start, size_t end);

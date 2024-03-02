@@ -47,9 +47,9 @@ LinkedStack init(size_t n, ...) {
 
 void show(FILE *stream, LinkedStack *stack) {
     if (stack != NULL) {
-        _show_list(stream, stack->top, " -> ");
+        _show_list(stream, stack->top, BACKWARD, " -> ");
     } else {
-        _show_list(stream, NULL, NULL);
+        _show_list(stream, NULL, BACKWARD, NULL);
     }
 }
 

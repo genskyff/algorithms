@@ -23,7 +23,7 @@ void test_init(void) {
     assert(queue.rear != NULL, msg);
     assert_eq(queue.len, LEN, msg);
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
-    assert_list_arr_eq(queue.front, tmp, LEN, msg);
+    assert_list_arr_eq(queue.front, FORWARD, tmp, LEN, msg);
     assert_eq(queue.rear->data, 5, msg);
 }
 

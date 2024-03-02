@@ -21,6 +21,7 @@ void test_init(void) {
     assert(stack.top != NULL, msg);
     assert_eq(stack.len, LEN, msg);
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
+    assert_list_arr_eq(stack.top, BACKWARD, tmp, LEN, msg);
     assert_eq(stack.top->data, 5, msg);
 }
 

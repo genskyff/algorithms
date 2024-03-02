@@ -19,7 +19,7 @@ void run_test(TestFunc test, char *prefix, char *test_name) {
 
 void assert(bool cond, char *msg) {
     if (!cond) {
-        char *_msg  = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+        char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
         fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
         fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mtrue\n");
@@ -104,82 +104,86 @@ void assert_arr_ne(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
     }
 }
 
-bool _is_list_eq(Node *hleft, Node *hright) {
-    while (hleft != NULL && hright != NULL) {
-        if (hleft->data != hright->data) {
+bool _is_list_eq(Node *left, Node *right, Direction dir) {
+    while (left != NULL && right != NULL) {
+        if (left->data != right->data) {
             return false;
         }
-        hleft  = hleft->next;
-        hright = hright->next;
+        left  = dir == FORWARD ? left->next : left->prev;
+        right = dir == FORWARD ? right->next : right->prev;
     }
 
-    return hleft == NULL && hright == NULL;
+    return left == NULL && right == NULL;
 }
 
-void _list_err_msg(Node *hleft, Node *hright, char *msg) {
+void _list_err_msg(Node *left, Node *right, Direction dir, char *msg) {
     char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
     fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
     fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
-    _show_list(stderr, hleft, NULL);
+    _show_list(stderr, left, dir, NULL);
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
-    _show_list(stderr, hright, NULL);
+    _show_list(stderr, right, dir, NULL);
     fprintf(stderr, "\n");
     exit(EXIT_FAILURE);
 }
 
-void assert_list_eq(Node *hleft, Node *hright, char *msg) {
-    if (!_is_list_eq(hleft, hright)) {
-        _list_err_msg(hleft, hright, msg);
+void assert_list_eq(Node *left, Node *right, Direction dir, char *msg) {
+    if (!_is_list_eq(left, right, dir)) {
+        _list_err_msg(left, right, dir, msg);
     }
 }
 
-void assert_list_ne(Node *hleft, Node *hright, char *msg) {
-    if (_is_list_eq(hleft, hright)) {
-        _list_err_msg(hleft, hright, msg);
+void assert_list_ne(Node *left, Node *right, Direction dir, char *msg) {
+    if (_is_list_eq(left, right, dir)) {
+        _list_err_msg(left, right, dir, msg);
     }
 }
 
-bool _is_list_arr_eq(Node *head, elem_t *arr, size_t len) {
-    if (head == NULL && arr == NULL) {
+bool _is_list_arr_eq(Node *node, Direction dir, elem_t *arr, size_t len) {
+    if (node == NULL && arr == NULL) {
         return true;
     }
 
-    if (head == NULL || arr == NULL) {
+    if (node == NULL || arr == NULL) {
         return false;
     }
 
     for (size_t i = 0; i < len; i++) {
-        if (head == NULL || head->data != arr[i]) {
+        size_t idx = dir == FORWARD ? i : len - i - 1;
+        if (node == NULL || node->data != arr[idx]) {
             return false;
         }
-        head = head->next;
+        node = dir == FORWARD ? node->next : node->prev;
     }
 
-    return head == NULL;
+    return node == NULL;
 }
 
-void _list_arr_err_msg(Node *head, elem_t *arr, size_t len, char *msg) {
+void _list_arr_err_msg(Node *node, Direction dir, elem_t *arr, size_t len,
+                       char *msg) {
     char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
     fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
     fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
     fprintf(stderr, "\x1b[33m|-- list:    \x1b[0m");
-    _show_list(stderr, head, ", ");
+    _show_list(stderr, node, dir, ", ");
     fprintf(stderr, "\x1b[33m|-- arr:     \x1b[0m");
     _show(stderr, arr, len, NULL);
     fprintf(stderr, "\n");
     exit(EXIT_FAILURE);
 }
 
-void assert_list_arr_eq(Node *list, elem_t *arr, size_t len, char *msg) {
-    if (!_is_list_arr_eq(list, arr, len)) {
-        _list_arr_err_msg(list, arr, len, msg);
+void assert_list_arr_eq(Node *node, Direction dir, elem_t *arr, size_t len,
+                        char *msg) {
+    if (!_is_list_arr_eq(node, dir, arr, len)) {
+        _list_arr_err_msg(node, dir, arr, len, msg);
     }
 }
 
-void assert_list_arr_ne(Node *list, elem_t *arr, size_t len, char *msg) {
-    if (_is_list_arr_eq(list, arr, len)) {
-        _list_arr_err_msg(list, arr, len, msg);
+void assert_list_arr_ne(Node *node, Direction dir, elem_t *arr, size_t len,
+                        char *msg) {
+    if (_is_list_arr_eq(node, dir, arr, len)) {
+        _list_arr_err_msg(node, dir, arr, len, msg);
     }
 }
 
