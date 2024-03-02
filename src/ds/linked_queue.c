@@ -1,112 +1,61 @@
 #include "linked_queue.h"
+#include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 
 LinkedQueue create(void) {
-    LinkedQueue queue = {NULL, NULL, 0};
+    LinkedQueue queue = {.front = NULL, .rear = NULL, .len = 0};
 
     return queue;
 }
 
 LinkedQueue init(size_t n, ...) {
-    elem_t *arr = (elem_t *)malloc(n * sizeof(elem_t));
-
-    if (arr == NULL) {
-        fprintf(stderr, "init: failed to allocate memory\n");
-        exit(EXIT_FAILURE);
-    }
+    LinkedQueue queue = create();
 
     va_list ap;
     va_start(ap, n);
 
     for (size_t i = 0; i < n; i++) {
-        arr[i] = va_arg(ap, elem_t);
-    }
-
-    va_end(ap);
-
-    LinkedQueue queue = from_array(arr, n);
-    free(arr);
-
-    return queue;
-}
-
-LinkedQueue from_array(elem_t *arr, size_t len) {
-    LinkedQueue queue = create();
-
-    if (arr == NULL || len == 0) {
-        return queue;
-    }
-
-    Node *tail = NULL;
-    for (size_t i = 0; i < len; i++) {
         Node *node = (Node *)malloc(sizeof(Node));
+
         if (node == NULL) {
-            return queue;
+            fprintf(stderr,
+                    "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
+                    "\x1b[33minit\x1b[0m)\n\n");
+            exit(EXIT_FAILURE);
         }
 
-        node->data = arr[i];
+        node->data = va_arg(ap, elem_t);
         node->next = NULL;
 
         if (queue.front == NULL) {
+            node->prev  = NULL;
             queue.front = node;
-            tail        = node;
+            queue.rear  = node;
         } else {
-            tail->next = node;
-            tail       = node;
+            node->prev       = queue.rear;
+            queue.rear->next = node;
+            queue.rear       = node;
         }
 
         queue.len++;
     }
 
-    queue.rear = tail;
+    va_end(ap);
 
     return queue;
 }
 
-elem_t *to_array(LinkedQueue *queue) {
-    if (queue == NULL || queue->len == 0) {
-        return NULL;
-    }
-
-    elem_t *arr = (elem_t *)malloc(queue->len * sizeof(elem_t));
-    if (arr == NULL) {
-        return NULL;
-    }
-
-    Node *node = queue->front;
-    for (size_t i = 0; i < queue->len; i++) {
-        arr[i] = node->data;
-        node   = node->next;
-    }
-
-    return arr;
-}
-
 void show(FILE *stream, LinkedQueue *queue) {
-    if (stream == NULL) {
-        stream = stdout;
+    if (queue != NULL) {
+        _show_list(stream, queue->front, NULL);
+    } else {
+        _show_list(stream, NULL, NULL);
     }
-
-    if (queue == NULL || queue->len == 0) {
-        fprintf(stream, "[]\n");
-        return;
-    }
-
-    fprintf(stream, "[");
-    Node *node = queue->front;
-    for (size_t i = 0; i < queue->len; i++) {
-        fprintf(stream, "%d", node->data);
-        if (i < queue->len - 1) {
-            fprintf(stream, " <- ");
-        }
-        node = node->next;
-    }
-    fprintf(stream, "]\n");
 }
 
 void clear(LinkedQueue *queue) {
-    if (queue == NULL || queue->len == 0) {
+    if (queue == NULL) {
         return;
     }
 
@@ -123,11 +72,11 @@ void clear(LinkedQueue *queue) {
 }
 
 bool is_empty(LinkedQueue *queue) {
-    return queue == NULL || queue->len == 0;
+    return queue == NULL || queue->front == NULL;
 }
 
 bool front(LinkedQueue *queue, elem_t *e) {
-    if (queue == NULL || queue->len == 0) {
+    if (queue == NULL || queue->front == NULL) {
         return false;
     }
 
@@ -138,7 +87,47 @@ bool front(LinkedQueue *queue, elem_t *e) {
     return true;
 }
 
-bool enque(LinkedQueue *queue, elem_t e) {
+bool back(LinkedQueue *queue, elem_t *e) {
+    if (queue == NULL || queue->rear == NULL) {
+        return false;
+    }
+
+    if (e != NULL) {
+        *e = queue->rear->data;
+    }
+
+    return true;
+}
+
+bool push_front(LinkedQueue *queue, elem_t e) {
+    if (queue == NULL) {
+        return false;
+    }
+
+    Node *node = (Node *)malloc(sizeof(Node));
+    if (node == NULL) {
+        return false;
+    }
+
+    node->data = e;
+    node->prev = NULL;
+
+    if (queue->front == NULL) {
+        node->next   = NULL;
+        queue->front = node;
+        queue->rear  = node;
+    } else {
+        node->next         = queue->front;
+        queue->front->prev = node;
+        queue->front       = node;
+    }
+
+    queue->len++;
+
+    return true;
+}
+
+bool push_back(LinkedQueue *queue, elem_t e) {
     if (queue == NULL) {
         return false;
     }
@@ -152,9 +141,11 @@ bool enque(LinkedQueue *queue, elem_t e) {
     node->next = NULL;
 
     if (queue->front == NULL) {
+        node->prev   = NULL;
         queue->front = node;
         queue->rear  = node;
     } else {
+        node->prev        = queue->rear;
         queue->rear->next = node;
         queue->rear       = node;
     }
@@ -164,8 +155,8 @@ bool enque(LinkedQueue *queue, elem_t e) {
     return true;
 }
 
-bool deque(LinkedQueue *queue, elem_t *e) {
-    if (queue == NULL || queue->len == 0) {
+bool pop_front(LinkedQueue *queue, elem_t *e) {
+    if (queue == NULL || queue->front == NULL) {
         return false;
     }
 
@@ -173,11 +164,45 @@ bool deque(LinkedQueue *queue, elem_t *e) {
         *e = queue->front->data;
     }
 
-    Node *node   = queue->front;
-    queue->front = queue->front->next;
-    free(node);
+    Node *node;
+    if (queue->front == queue->rear) {
+        node         = queue->front;
+        queue->front = NULL;
+        queue->rear  = NULL;
+    } else {
+        node               = queue->front;
+        queue->front       = queue->front->next;
+        queue->front->prev = NULL;
+    }
 
     queue->len--;
+    free(node);
+
+    return true;
+}
+
+bool pop_back(LinkedQueue *queue, elem_t *e) {
+    if (queue == NULL || queue->front == NULL) {
+        return false;
+    }
+
+    if (e != NULL) {
+        *e = queue->rear->data;
+    }
+
+    Node *node;
+    if (queue->front == queue->rear) {
+        node         = queue->rear;
+        queue->front = NULL;
+        queue->rear  = NULL;
+    } else {
+        node              = queue->rear;
+        queue->rear       = queue->rear->prev;
+        queue->rear->next = NULL;
+    }
+
+    queue->len--;
+    free(node);
 
     return true;
 }

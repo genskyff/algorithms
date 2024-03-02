@@ -1,6 +1,5 @@
 #include "helper.h"
 #include "linked_list.h"
-#include <stdlib.h>
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \
