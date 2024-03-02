@@ -1,4 +1,4 @@
-#include "array_list.h"
+#include "sqlist.h"
 #include "utils.h"
 #include <stdarg.h>
 
@@ -11,12 +11,10 @@ SqList create(void) {
 SqList init(size_t n, ...) {
     SqList list = create();
 
-    n = MIN(n, MAXLEN);
-
     va_list ap;
     va_start(ap, n);
 
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; i < MIN(n, MAXLEN); i++) {
         list.data[list.len++] = va_arg(ap, elem_t);
     }
 
@@ -26,7 +24,7 @@ SqList init(size_t n, ...) {
 }
 
 void swap(SqList *list, size_t i, size_t j) {
-    if (list != NULL && i < list->len && j < list->len) {
+    if (list != NULL && MAX(i, j) < list->len) {
         _swap(list->data, i, j);
     }
 }
@@ -39,9 +37,9 @@ void reverse(SqList *list) {
 
 void show(FILE *stream, SqList *list) {
     if (list != NULL) {
-        _show(stream, list->data, list->len);
+        _show(stream, list->data, list->len, NULL);
     } else {
-        fprintf(stream == NULL ? stdout : stream, "[]\n");
+        _show(stream, NULL, 0, NULL);
     }
 }
 
@@ -65,6 +63,18 @@ bool get(SqList *list, size_t i, elem_t *e) {
     }
 
     return true;
+}
+
+bool first(SqList *list, elem_t *e) {
+    return get(list, 0, e);
+}
+
+bool last(SqList *list, elem_t *e) {
+    if (list == NULL || list->len == 0) {
+        return false;
+    }
+
+    return get(list, list->len - 1, e);
 }
 
 bool set(SqList *list, size_t i, elem_t e) {
@@ -96,7 +106,15 @@ bool insert(SqList *list, size_t i, elem_t e) {
     return true;
 }
 
-bool push(SqList *list, elem_t e) {
+bool push_front(SqList *list, elem_t e) {
+    if (list == NULL || list->len == MAXLEN) {
+        return false;
+    } else {
+        return insert(list, 0, e);
+    }
+}
+
+bool push_back(SqList *list, elem_t e) {
     if (list == NULL || list->len == MAXLEN) {
         return false;
     } else {
@@ -122,7 +140,15 @@ bool del(SqList *list, size_t i, elem_t *e) {
     return true;
 }
 
-bool pop(SqList *list, elem_t *e) {
+bool pop_front(SqList *list, elem_t *e) {
+    if (list == NULL || list->len == 0) {
+        return false;
+    } else {
+        return del(list, 0, e);
+    }
+}
+
+bool pop_back(SqList *list, elem_t *e) {
     if (list == NULL || list->len == 0) {
         return false;
     } else {

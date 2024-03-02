@@ -43,8 +43,8 @@ void test_swap(void) {
 
     msg = "should swap";
     swap(&v, 0, v.len - 1);
-    elem_t swap_side[LEN] = {5, 1, 2, 3, 4, 0};
-    assert_arr_eq(v.data, v.len, swap_side, LEN, msg);
+    elem_t swap_endpoint[LEN] = {5, 1, 2, 3, 4, 0};
+    assert_arr_eq(v.data, v.len, swap_endpoint, LEN, msg);
 
     drop(&v);
 }
@@ -159,7 +159,7 @@ void test_find(void) {
     assert_eq(i, 0, msg);
 
     msg = "should find at tail";
-    assert(find(&v, 5, &i), msg);
+    assert(find(&v, v.data[v.len - 1], &i), msg);
     assert_eq(i, v.len - 1, msg);
 
     msg = "should not find when no exist";

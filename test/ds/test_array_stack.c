@@ -10,13 +10,13 @@ TEST_DATA(0, 1, 2, 3, 4, 5)
 
 void test_create(void) {
     ArrayStack stack = create();
-    char      *msg   = "should get a empty ArrayStack";
+    char      *msg   = "should get a empty array stack";
     assert_eq(stack.len, 0, msg);
 }
 
 void test_init(void) {
     ArrayStack stack    = test_data();
-    char      *msg      = "should get a initialized ArrayStack";
+    char      *msg      = "should get a initialized array stack";
     elem_t     tmp[LEN] = {0, 1, 2, 3, 4, 5};
     assert_eq(stack.len, LEN, msg);
     assert_arr_eq(stack.data, stack.len, tmp, LEN, msg);

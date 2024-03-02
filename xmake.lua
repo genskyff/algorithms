@@ -126,17 +126,6 @@ target("test_utils")
 --  data structures
 -- -----------------
 
--- target("array_list")
---     set_kind("static")
---     set_group("ds")
---     add_files("src/ds/array_list.c")
-
--- target("test_array_list")
---     set_kind("binary")
---     set_group("test_ds")
---     add_files("test/ds/test_array_list.c")
---     add_deps("array_list")
-
 target("array_queue")
     set_kind("static")
     set_group("ds")
@@ -191,6 +180,28 @@ target("test_linked_stack")
     set_group("test_ds")
     add_files("test/ds/test_linked_stack.c")
     add_deps("linked_stack")
+
+target("sqlist")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/sqlist.c")
+
+target("test_sqlist")
+    set_kind("binary")
+    set_group("test_ds")
+    add_files("test/ds/test_sqlist.c")
+    add_deps("sqlist")
+
+-- target("static_linked_list")
+--     set_kind("static")
+--     set_group("ds")
+--     add_files("src/ds/static_linked_list.c")
+
+-- target("test_static_linked_list")
+--     set_kind("binary")
+--     set_group("test_ds")
+--     add_files("test/ds/test_static_linked_list.c")
+--     add_deps("static_linked_list")
 
 target("vector")
     set_kind("static")

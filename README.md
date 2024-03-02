@@ -4,7 +4,7 @@
 This is a repository implemented in C for various basic algorithms and data structures, intended for learning and recording. It is licensed under the GPLv3 and designed to be modular, making it easy to be imported into other code.
 
 ## Features
-- Uses only the C standard library, with no third-party libraries
+- Uses only the C standard library, with no 3rd-party libraries
 - Unit tests for almost all function
 - Strict adherence to the C17 standard, tested on MSVC, GCC, and Clang
 
@@ -33,8 +33,8 @@ xmake test-all
   - [x] Insertion sort
   - [x] Binary insertion sort
   - [x] Shell sort
-  - [x] Merge sort (recursive version)
-  - [x] Merge sort (iterative version)
+  - [x] Merge sort (recursion version)
+  - [x] Merge sort (iteration version)
   - [x] Quick sort
   - [x] Selection sort
   - [ ] Bucket sort
@@ -42,8 +42,9 @@ xmake test-all
   - [ ] Radix sort
 - [ ] Data structures
   - [x] Vector
-  - [x] Linear lists
-    - [x] Array list
+  - [ ] Linear lists
+    - [x] Sequential List
+    - [ ] Static linked list
     - [x] Linked list
   - [x] Queue
     - [x] Array queue

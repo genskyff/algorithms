@@ -42,8 +42,8 @@ void test_swap(void) {
 
     msg = "should swap head and tail";
     swap(&list, 0, list.len - 1);
-    elem_t swap_side[LEN] = {5, 1, 2, 3, 4, 0};
-    assert_list_arr_eq(list.head, FORWARD, swap_side, LEN, msg);
+    elem_t swap_endpoint[LEN] = {5, 1, 2, 3, 4, 0};
+    assert_list_arr_eq(list.head, FORWARD, swap_endpoint, LEN, msg);
     assert_eq(list.tail->data, 0, msg);
 
     msg = "should swap when |i - j| == 1";
@@ -167,7 +167,7 @@ void test_find(void) {
     assert_eq(i, 0, msg);
 
     msg = "should find at tail";
-    assert(find(&list, 5, &i), msg);
+    assert(find(&list, list.tail->data, &i), msg);
     assert_eq(i, list.len - 1, msg);
 
     msg = "should not find when no exist";
