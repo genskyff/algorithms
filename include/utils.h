@@ -13,9 +13,11 @@
         (b)         = _tmp;                                                    \
     } while (0)
 
-void _swap(elem_t *arr, size_t i, size_t j);
-void _shuffle(elem_t *arr, size_t len);
-void _clear(elem_t *arr, size_t len);
+elem_t _min(elem_t *arr, size_t len);
+elem_t _max(elem_t *arr, size_t len);
+void   _swap(elem_t *arr, size_t i, size_t j);
+void   _shuffle(elem_t *arr, size_t len);
+void   _clear(elem_t *arr, size_t len);
 
 // [start, end)
 void _show(FILE *stream, elem_t *arr, size_t len, char *sep);

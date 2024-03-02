@@ -6,6 +6,16 @@
 #define LEN 6
 elem_t ARR[LEN] = {0, 1, 2, 3, 4, 5};
 
+void test_min(void) {
+    char *msg = "should return min when len > 0";
+    assert_eq(_min(ARR, LEN), ARR[0], msg);
+}
+
+void test_max(void) {
+    char *msg = "should return max when len > 0";
+    assert_eq(_max(ARR, LEN), ARR[5], msg);
+}
+
 void test_swap(void) {
     elem_t tmp[LEN];
     char  *msg;
@@ -438,6 +448,8 @@ void test_rotate_right_slice(void) {
 
 int main(void) {
     char *prefix = "utils";
+    run_test(test_min, prefix, "min");
+    run_test(test_max, prefix, "max");
     run_test(test_swap, prefix, "swap");
     run_test(test_shuffle, prefix, "shuffle");
     run_test(test_clear, prefix, "clear");

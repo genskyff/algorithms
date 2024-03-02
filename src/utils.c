@@ -2,6 +2,36 @@
 #include <stdlib.h>
 #include <string.h>
 
+elem_t _min(elem_t *arr, size_t len) {
+    if (arr == NULL || len == 0) {
+        return 0;
+    }
+
+    elem_t min = arr[0];
+    for (size_t i = 1; i < len; i++) {
+        if (arr[i] < min) {
+            min = arr[i];
+        }
+    }
+
+    return min;
+}
+
+elem_t _max(elem_t *arr, size_t len) {
+    if (arr == NULL || len == 0) {
+        return 0;
+    }
+
+    elem_t max = arr[0];
+    for (size_t i = 1; i < len; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+
+    return max;
+}
+
 void _swap(elem_t *arr, size_t i, size_t j) {
     if (arr == NULL || i == j) {
         return;
