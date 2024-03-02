@@ -1,4 +1,5 @@
 #include "linked_stack.h"
+#include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 
@@ -9,99 +10,47 @@ LinkedStack create(void) {
 }
 
 LinkedStack init(size_t n, ...) {
-    elem_t *arr = (elem_t *)malloc(n * sizeof(elem_t));
-
-    if (arr == NULL) {
-        fprintf(stderr, "init: failed to allocate memory\n");
-        exit(EXIT_FAILURE);
-    }
+    LinkedStack stack = create();
 
     va_list ap;
     va_start(ap, n);
 
     for (size_t i = 0; i < n; i++) {
-        arr[i] = va_arg(ap, elem_t);
-    }
-
-    va_end(ap);
-
-    LinkedStack stack = from_array(arr, n);
-    free(arr);
-
-    return stack;
-}
-
-LinkedStack from_array(elem_t *arr, size_t len) {
-    LinkedStack stack = create();
-
-    if (arr == NULL || len == 0) {
-        return stack;
-    }
-
-    Node *tail = NULL;
-    for (size_t i = 0; i < len; i++) {
         Node *node = (Node *)malloc(sizeof(Node));
+
         if (node == NULL) {
-            return stack;
+            fprintf(stderr,
+                    "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
+                    "\x1b[33minit\x1b[0m)\n\n");
+            exit(EXIT_FAILURE);
         }
 
-        node->data = arr[i];
+        node->data = va_arg(ap, elem_t);
         node->next = NULL;
 
         if (stack.top == NULL) {
-            stack.top = node;
-            tail      = node;
+            node->prev = NULL;
+            stack.top  = node;
         } else {
-            tail->next = node;
-            tail       = node;
+            node->prev      = stack.top;
+            stack.top->next = node;
+            stack.top       = node;
         }
 
         stack.len++;
     }
 
+    va_end(ap);
+
     return stack;
 }
 
-elem_t *to_array(LinkedStack *stack) {
-    if (stack == NULL || stack->top == NULL) {
-        return NULL;
-    }
-
-    elem_t *arr = (elem_t *)malloc(stack->len * sizeof(elem_t));
-    if (arr == NULL) {
-        return NULL;
-    }
-
-    Node *node = stack->top;
-    for (size_t i = 0; node != NULL; i++) {
-        arr[i] = node->data;
-        node   = node->next;
-    }
-
-    return arr;
-}
-
 void show(FILE *stream, LinkedStack *stack) {
-    if (stream == NULL) {
-        stream = stdout;
+    if (stack != NULL) {
+        _show_list(stream, stack->top, " -> ");
+    } else {
+        _show_list(stream, NULL, NULL);
     }
-
-    if (stack == NULL || stack->top == NULL) {
-        fprintf(stream, "[]\n");
-        return;
-    }
-
-    fprintf(stream, "[");
-    Node *node = stack->top;
-    for (size_t i = 0; node != NULL; i++) {
-        fprintf(stream, "%d", node->data);
-        if (node->next != NULL) {
-            fprintf(stream, " -> ");
-        }
-        node = node->next;
-    }
-
-    fprintf(stream, "]\n");
 }
 
 void clear(LinkedStack *stack) {
@@ -111,9 +60,9 @@ void clear(LinkedStack *stack) {
 
     Node *node = stack->top;
     while (node != NULL) {
-        Node *temp = node;
-        node       = node->next;
-        free(temp);
+        Node *tmp = node;
+        node      = node->prev;
+        free(tmp);
     }
 
     stack->top = NULL;
@@ -121,7 +70,7 @@ void clear(LinkedStack *stack) {
 }
 
 bool is_empty(LinkedStack *stack) {
-    return stack == NULL || stack->top == NULL || stack->len == 0;
+    return stack == NULL || stack->top == NULL;
 }
 
 bool peek(LinkedStack *stack, elem_t *e) {
@@ -147,8 +96,17 @@ bool push(LinkedStack *stack, elem_t e) {
     }
 
     node->data = e;
-    node->next = stack->top;
-    stack->top = node;
+    node->next = NULL;
+
+    if (stack->top == NULL) {
+        node->prev = NULL;
+        stack->top = node;
+    } else {
+        node->prev       = stack->top;
+        stack->top->next = node;
+        stack->top       = node;
+    }
+
     stack->len++;
 
     return true;
@@ -164,9 +122,13 @@ bool pop(LinkedStack *stack, elem_t *e) {
     }
 
     Node *node = stack->top;
-    stack->top = stack->top->next;
-    free(node);
+    stack->top = node->prev;
+    if (stack->top != NULL) {
+        stack->top->next = NULL;
+    }
+
     stack->len--;
+    free(node);
 
     return true;
 }

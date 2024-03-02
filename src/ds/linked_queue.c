@@ -143,13 +143,12 @@ bool push_back(LinkedQueue *queue, elem_t e) {
     if (queue->front == NULL) {
         node->prev   = NULL;
         queue->front = node;
-        queue->rear  = node;
     } else {
         node->prev        = queue->rear;
         queue->rear->next = node;
-        queue->rear       = node;
     }
 
+    queue->rear = node;
     queue->len++;
 
     return true;
@@ -164,13 +163,11 @@ bool pop_front(LinkedQueue *queue, elem_t *e) {
         *e = queue->front->data;
     }
 
-    Node *node;
+    Node *node = queue->front;
     if (queue->front == queue->rear) {
-        node         = queue->front;
         queue->front = NULL;
         queue->rear  = NULL;
     } else {
-        node               = queue->front;
         queue->front       = queue->front->next;
         queue->front->prev = NULL;
     }
@@ -190,13 +187,11 @@ bool pop_back(LinkedQueue *queue, elem_t *e) {
         *e = queue->rear->data;
     }
 
-    Node *node;
+    Node *node = queue->rear;
     if (queue->front == queue->rear) {
-        node         = queue->rear;
         queue->front = NULL;
         queue->rear  = NULL;
     } else {
-        node              = queue->rear;
         queue->rear       = queue->rear->prev;
         queue->rear->next = NULL;
     }
