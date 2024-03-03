@@ -56,17 +56,17 @@ void swap(LinkedList *list, size_t i, size_t j) {
     }
 
     Node *node_i, *node_j;
-    Node *tail = list->head;
+    Node *cur = list->head;
     for (size_t k = 0; k <= j; k++) {
         if (k == i) {
-            node_i = tail;
+            node_i = cur;
         }
 
         if (k == j) {
-            node_j = tail;
+            node_j = cur;
         }
 
-        tail = tail->next;
+        cur = cur->next;
     }
 
     Node *i_prev = node_i->prev;
