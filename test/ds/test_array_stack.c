@@ -90,13 +90,15 @@ void test_pop(void) {
 }
 
 int main(void) {
-    char *prefix = "ds";
-    run_test(test_create, prefix, "array_stack_create");
-    run_test(test_init, prefix, "array_stack_init");
-    run_test(test_is_empty, prefix, "array_stack_is_empty");
-    run_test(test_peek, prefix, "array_stack_peek");
-    run_test(test_push, prefix, "array_stack_push");
-    run_test(test_pop, prefix, "array_stack_pop");
+    char *mod    = "ds";
+    char *target = "array_stack";
+
+    run_test(test_create, mod, target, "create");
+    run_test(test_init, mod, target, "init");
+    run_test(test_is_empty, mod, target, "is_empty");
+    run_test(test_peek, mod, target, "peek");
+    run_test(test_push, mod, target, "push");
+    run_test(test_pop, mod, target, "pop");
 
     return 0;
 }

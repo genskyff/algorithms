@@ -3,7 +3,6 @@
 #include "utils.h"
 #include <stdlib.h>
 
-
 TestSortData DATA[SORT_DATA_LEN];
 
 void test_merge_sort_recu(void) {
@@ -29,10 +28,12 @@ void test_merge_sort_iter(void) {
 }
 
 int main(void) {
-    char *prefix = "sort";
+    char *mod    = "sort";
+    char *target = NULL;
+
     init_sort_data(DATA);
-    run_test(test_merge_sort_recu, prefix, "merge_sort_recu");
-    run_test(test_merge_sort_iter, prefix, "merge_sort_iter");
+    run_test(test_merge_sort_recu, mod, target, "merge_sort_recu");
+    run_test(test_merge_sort_iter, mod, target, "merge_sort_iter");
 
     return 0;
 }

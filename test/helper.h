@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 typedef void (*TestFunc)(void);
-void run_test(TestFunc test, char *prefix, char *test_name);
+void run_test(TestFunc test, char *mod, char *target, char *test_name);
 
 void assert(bool cond, char *msg);
 void assert_not(bool cond, char *msg);

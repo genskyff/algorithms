@@ -3,7 +3,6 @@
 #include "utils.h"
 #include <stdlib.h>
 
-
 TestSortData DATA[SORT_DATA_LEN];
 
 void test_insertion_sort(void) {
@@ -40,11 +39,13 @@ void test_shell_sort(void) {
 }
 
 int main(void) {
-    char *prefix = "sort";
+    char *mod    = "sort";
+    char *target = NULL;
+
     init_sort_data(DATA);
-    run_test(test_insertion_sort, prefix, "insertion_sort");
-    run_test(test_binary_insertion_sort, prefix, "binary_insertion_sort");
-    run_test(test_shell_sort, prefix, "shell_sort");
+    run_test(test_insertion_sort, mod, target, "insertion_sort");
+    run_test(test_binary_insertion_sort, mod, target, "binary_insertion_sort");
+    run_test(test_shell_sort, mod, target, "shell_sort");
 
     return 0;
 }

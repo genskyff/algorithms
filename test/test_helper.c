@@ -100,17 +100,19 @@ void test_assert_list_arr_ne(void) {
 }
 
 int main(void) {
-    char *prefix = "helper";
-    run_test(test_assert, prefix, "test_assert");
-    run_test(test_assert_not, prefix, "test_assert_not");
-    run_test(test_assert_eq, prefix, "test_assert_eq");
-    run_test(test_assert_ne, prefix, "test_assert_ne");
-    run_test(test_assert_arr_eq, prefix, "test_assert_arr_eq");
-    run_test(test_assert_arr_ne, prefix, "test_assert_arr_ne");
-    run_test(test_assert_list_eq, prefix, "test_assert_list_eq");
-    run_test(test_assert_list_ne, prefix, "test_assert_list_ne");
-    run_test(test_assert_list_arr_eq, prefix, "test_assert_list_arr_eq");
-    run_test(test_assert_list_arr_ne, prefix, "test_assert_list_arr_ne");
+    char *mod    = NULL;
+    char *target = "helper";
+
+    run_test(test_assert, mod, target, "assert");
+    run_test(test_assert_not, mod, target, "assert_not");
+    run_test(test_assert_eq, mod, target, "assert_eq");
+    run_test(test_assert_ne, mod, target, "assert_ne");
+    run_test(test_assert_arr_eq, mod, target, "assert_arr_eq");
+    run_test(test_assert_arr_ne, mod, target, "assert_arr_ne");
+    run_test(test_assert_list_eq, mod, target, "assert_list_eq");
+    run_test(test_assert_list_ne, mod, target, "assert_list_ne");
+    run_test(test_assert_list_arr_eq, mod, target, "assert_list_arr_eq");
+    run_test(test_assert_list_arr_ne, mod, target, "assert_list_arr_ne");
 
     return 0;
 }

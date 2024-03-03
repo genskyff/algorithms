@@ -28,10 +28,12 @@ void test_cocktail_sort(void) {
 }
 
 int main(void) {
-    char *prefix = "sort";
+    char *mod    = "sort";
+    char *target = NULL;
+
     init_sort_data(DATA);
-    run_test(test_bubble_sort, prefix, "bubble_sort");
-    run_test(test_cocktail_sort, prefix, "cocktail_sort");
+    run_test(test_bubble_sort, mod, target, "bubble_sort");
+    run_test(test_cocktail_sort, mod, target, "cocktail_sort");
 
     return 0;
 }

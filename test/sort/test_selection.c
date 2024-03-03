@@ -3,7 +3,6 @@
 #include "utils.h"
 #include <stdlib.h>
 
-
 TestSortData DATA[SORT_DATA_LEN];
 
 void test_selection_sort(void) {
@@ -18,9 +17,11 @@ void test_selection_sort(void) {
 }
 
 int main(void) {
-    char *prefix = "sort";
+    char *mod    = "sort";
+    char *target = NULL;
+
     init_sort_data(DATA);
-    run_test(test_selection_sort, prefix, "selection_sort");
+    run_test(test_selection_sort, mod, target, "selection_sort");
 
     return 0;
 }

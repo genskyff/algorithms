@@ -140,16 +140,18 @@ void test_pop_back(void) {
 }
 
 int main(void) {
-    char *prefix = "ds";
-    run_test(test_create, prefix, "array_queue_create");
-    run_test(test_init, prefix, "array_queue_init");
-    run_test(test_is_empty, prefix, "array_queue_is_empty");
-    run_test(test_front, prefix, "array_queue_front");
-    run_test(test_back, prefix, "array_queue_back");
-    run_test(test_push_front, prefix, "array_queue_push_front");
-    run_test(test_push_back, prefix, "array_queue_push_back");
-    run_test(test_pop_front, prefix, "array_queue_pop_front");
-    run_test(test_pop_back, prefix, "array_queue_pop_back");
+    char *mod    = "ds";
+    char *target = "array_queue";
+
+    run_test(test_create, mod, target, "create");
+    run_test(test_init, mod, target, "init");
+    run_test(test_is_empty, mod, target, "is_empty");
+    run_test(test_front, mod, target, "front");
+    run_test(test_back, mod, target, "back");
+    run_test(test_push_front, mod, target, "push_front");
+    run_test(test_push_back, mod, target, "push_back");
+    run_test(test_pop_front, mod, target, "pop_front");
+    run_test(test_pop_back, mod, target, "pop_back");
 
     return 0;
 }

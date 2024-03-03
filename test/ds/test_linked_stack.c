@@ -103,14 +103,16 @@ void test_pop(void) {
 }
 
 int main(void) {
-    char *prefix = "ds";
-    run_test(test_create, prefix, "linked_stack_create");
-    run_test(test_init, prefix, "linked_stack_init");
-    run_test(test_clear, prefix, "linked_stack_clear");
-    run_test(test_is_empty, prefix, "linked_stack_is_empty");
-    run_test(test_peek, prefix, "linked_stack_peek");
-    run_test(test_push, prefix, "linked_stack_push");
-    run_test(test_pop, prefix, "linked_stack_pop");
+    char *mod    = "ds";
+    char *target = "linked_stack";
+
+    run_test(test_create, mod, target, "create");
+    run_test(test_init, mod, target, "init");
+    run_test(test_clear, mod, target, "clear");
+    run_test(test_is_empty, mod, target, "is_empty");
+    run_test(test_peek, mod, target, "peek");
+    run_test(test_push, mod, target, "push");
+    run_test(test_pop, mod, target, "pop");
 
     return 0;
 }

@@ -295,23 +295,25 @@ void test_pop_back(void) {
 }
 
 int main(void) {
-    char *prefix = "ds";
-    run_test(test_create, prefix, "sqlist_create");
-    run_test(test_init, prefix, "sqlist_init");
-    run_test(test_swap, prefix, "sqlist_swap");
-    run_test(test_reverse, prefix, "sqlist_reverse");
-    run_test(test_is_empty, prefix, "sqlist_is_empty");
-    run_test(test_get, prefix, "sqlist_get");
-    run_test(test_first, prefix, "sqlist_first");
-    run_test(test_last, prefix, "sqlist_last");
-    run_test(test_set, prefix, "sqlist_set");
-    run_test(test_find, prefix, "sqlist_find");
-    run_test(test_insert, prefix, "sqlist_insert");
-    run_test(test_push_front, prefix, "sqlist_push_front");
-    run_test(test_push_back, prefix, "sqlist_push_back");
-    run_test(test_del, prefix, "sqlist_del");
-    run_test(test_pop_front, prefix, "sqlist_pop_front");
-    run_test(test_pop_back, prefix, "sqlist_pop_back");
+    char *mod    = "ds";
+    char *target = "sqlist";
+
+    run_test(test_create, mod, target, "create");
+    run_test(test_init, mod, target, "init");
+    run_test(test_swap, mod, target, "swap");
+    run_test(test_reverse, mod, target, "reverse");
+    run_test(test_is_empty, mod, target, "is_empty");
+    run_test(test_get, mod, target, "get");
+    run_test(test_first, mod, target, "first");
+    run_test(test_last, mod, target, "last");
+    run_test(test_set, mod, target, "set");
+    run_test(test_find, mod, target, "find");
+    run_test(test_insert, mod, target, "insert");
+    run_test(test_push_front, mod, target, "push_front");
+    run_test(test_push_back, mod, target, "push_back");
+    run_test(test_del, mod, target, "del");
+    run_test(test_pop_front, mod, target, "pop_front");
+    run_test(test_pop_back, mod, target, "pop_back");
 
     return 0;
 }

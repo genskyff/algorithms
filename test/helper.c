@@ -1,17 +1,16 @@
 #include "helper.h"
 #include "utils.h"
 #include <stdlib.h>
+#include <string.h>
 
-void run_test(TestFunc test, char *prefix, char *test_name) {
-    if (prefix == NULL || *prefix == '\0') {
-        prefix = "test";
-    }
+void run_test(TestFunc test, char *mod, char *target, char *test_name) {
+    bool is_mod       = mod != NULL && *mod != '\0';
+    bool is_target    = target != NULL && *target != '\0';
+    bool is_test_name = test_name != NULL && *test_name != '\0';
 
-    if (test_name == NULL || *test_name == '\0') {
-        test_name = "unknown_test";
-    }
-
-    printf("%s\t%s", prefix, test_name);
+    printf("test %s%s%s%s%s%s", is_mod ? mod : "", is_mod ? " " : "",
+           is_target ? target : "", is_target ? " " : "",
+           is_test_name ? test_name : "", is_test_name ? " " : "");
 
     test();
     printf("\x1b[1;32m ... OK\x1b[0m\n");

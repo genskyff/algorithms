@@ -347,25 +347,27 @@ void test_drop(void) {
 }
 
 int main(void) {
-    char *prefix = "ds";
-    run_test(test_create, prefix, "vector_create");
-    run_test(test_init, prefix, "vector_init");
-    run_test(test_swap, prefix, "vector_swap");
-    run_test(test_reverse, prefix, "vector_reverse");
-    run_test(test_clear, prefix, "vector_clear");
-    run_test(test_is_empty, prefix, "vector_is_empty");
-    run_test(test_get, prefix, "vector_get");
-    run_test(test_first, prefix, "vector_first");
-    run_test(test_last, prefix, "vector_last");
-    run_test(test_set, prefix, "vector_set");
-    run_test(test_find, prefix, "vector_find");
-    run_test(test_insert, prefix, "vector_insert");
-    run_test(test_push_front, prefix, "vector_push_front");
-    run_test(test_push_back, prefix, "vector_push_back");
-    run_test(test_del, prefix, "vector_del");
-    run_test(test_pop_front, prefix, "vector_pop_front");
-    run_test(test_pop_back, prefix, "vector_pop_back");
-    run_test(test_drop, prefix, "vector_drop");
+    char *mod    = "ds";
+    char *target = "vector";
+
+    run_test(test_create, mod, target, "create");
+    run_test(test_init, mod, target, "init");
+    run_test(test_swap, mod, target, "swap");
+    run_test(test_reverse, mod, target, "reverse");
+    run_test(test_clear, mod, target, "clear");
+    run_test(test_is_empty, mod, target, "is_empty");
+    run_test(test_get, mod, target, "get");
+    run_test(test_first, mod, target, "first");
+    run_test(test_last, mod, target, "last");
+    run_test(test_set, mod, target, "set");
+    run_test(test_find, mod, target, "find");
+    run_test(test_insert, mod, target, "insert");
+    run_test(test_push_front, mod, target, "push_front");
+    run_test(test_push_back, mod, target, "push_back");
+    run_test(test_del, mod, target, "del");
+    run_test(test_pop_front, mod, target, "pop_front");
+    run_test(test_pop_back, mod, target, "pop_back");
+    run_test(test_drop, mod, target, "drop");
 
     return 0;
 }

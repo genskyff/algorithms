@@ -447,26 +447,28 @@ void test_rotate_right_slice(void) {
 }
 
 int main(void) {
-    char *prefix = "utils";
-    run_test(test_min, prefix, "min");
-    run_test(test_max, prefix, "max");
-    run_test(test_swap, prefix, "swap");
-    run_test(test_shuffle, prefix, "shuffle");
-    run_test(test_clear, prefix, "clear");
-    run_test(test_reverse, prefix, "reverse");
-    run_test(test_reverse_slice, prefix, "reverse_slice");
-    run_test(test_find, prefix, "find");
-    run_test(test_find_slice, prefix, "find_slice");
-    run_test(test_copy, prefix, "copy");
-    run_test(test_copy_slice, prefix, "copy_slice");
-    run_test(test_move_left, prefix, "move_left");
-    run_test(test_move_left_slice, prefix, "move_left_slice");
-    run_test(test_move_right, prefix, "move_right");
-    run_test(test_move_right_slice, prefix, "move_right_slice");
-    run_test(test_rotate_left, prefix, "rotate_left");
-    run_test(test_rotate_left_slice, prefix, "rotate_left_slice");
-    run_test(test_rotate_right, prefix, "rotate_right");
-    run_test(test_rotate_right_slice, prefix, "rotate_right_slice");
+    char *mod    = NULL;
+    char *target = "utils";
+
+    run_test(test_min, mod, target, "min");
+    run_test(test_max, mod, target, "max");
+    run_test(test_swap, mod, target, "swap");
+    run_test(test_shuffle, mod, target, "shuffle");
+    run_test(test_clear, mod, target, "clear");
+    run_test(test_reverse, mod, target, "reverse");
+    run_test(test_reverse_slice, mod, target, "reverse_slice");
+    run_test(test_find, mod, target, "find");
+    run_test(test_find_slice, mod, target, "find_slice");
+    run_test(test_copy, mod, target, "copy");
+    run_test(test_copy_slice, mod, target, "copy_slice");
+    run_test(test_move_left, mod, target, "move_left");
+    run_test(test_move_left_slice, mod, target, "move_left_slice");
+    run_test(test_move_right, mod, target, "move_right");
+    run_test(test_move_right_slice, mod, target, "move_right_slice");
+    run_test(test_rotate_left, mod, target, "rotate_left");
+    run_test(test_rotate_left_slice, mod, target, "rotate_left_slice");
+    run_test(test_rotate_right, mod, target, "rotate_right");
+    run_test(test_rotate_right_slice, mod, target, "rotate_right_slice");
 
     return 0;
 }
