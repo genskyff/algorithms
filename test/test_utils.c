@@ -114,18 +114,18 @@ void test_find(void) {
     size_t i;
     char  *msg;
 
-    msg         = "should find at [0]";
-    bool find_0 = _find(ARR, LEN, 0, &i);
-    assert(find_0 && i == 0, msg);
+    msg = "should find at [0]";
+    assert(_find(ARR, LEN, 0, &i), msg);
+    assert_eq(i, 0, msg);
 
-    msg            = "should find at tail";
-    bool find_tail = _find(ARR, LEN, LEN - 1, &i);
-    assert(find_tail && i == LEN - 1, msg);
+    msg = "should find at tail";
+    assert(_find(ARR, LEN, LEN - 1, &i), msg);
+    assert_eq(i, LEN - 1, msg);
 
-    msg            = "should not find when not exist";
-    i              = 0;
-    bool find_none = _find(ARR, LEN, 999, &i);
-    assert(!find_none && i == 0, msg);
+    msg = "should not find when not exist";
+    i   = 0;
+    assert_not(_find(ARR, LEN, 999, &i), msg);
+    assert_eq(i, 0, msg);
 }
 
 void test_find_slice(void) {

@@ -10,14 +10,18 @@ TEST_DATA(0, 1, 2, 3, 4, 5)
 
 void test_create(void) {
     ArrayQueue queue = create();
-    char      *msg   = "should get a empty array queue";
+    char      *msg;
+
+    msg = "should get a empty array queue";
     assert_eq(queue.len, 0, msg);
 }
 
 void test_init(void) {
-    ArrayQueue queue    = init(LEN, 0, 1, 2, 3, 4, 5);
-    char      *msg      = "should get a initialized array queue";
-    elem_t     tmp[LEN] = {0, 1, 2, 3, 4, 5};
+    ArrayQueue queue = init(LEN, 0, 1, 2, 3, 4, 5);
+    char      *msg;
+
+    msg             = "should get a initialized array queue";
+    elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
     assert_eq(queue.len, LEN, msg);
     assert_arr_eq(queue.data, queue.len, tmp, LEN, msg);
 }

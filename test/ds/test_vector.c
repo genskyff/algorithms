@@ -9,22 +9,28 @@
 TEST_DATA(0, 1, 2, 3, 4, 5)
 
 void test_create(void) {
-    char *msg   = "should get a empty vector";
-    Vec   empty = create();
-    assert(empty.data != NULL, msg);
-    assert_eq(empty.len, 0, msg);
-    assert_eq(empty.cap, INIT_CAP, msg);
-    drop(&empty);
+    Vec   v = create();
+    char *msg;
+
+    msg = "should get a empty vector";
+    assert(v.data != NULL, msg);
+    assert_eq(v.len, 0, msg);
+    assert_eq(v.cap, INIT_CAP, msg);
+
+    drop(&v);
 }
 
 void test_init(void) {
-    Vec   v   = init(LEN, 0, 1, 2, 3, 4, 5);
-    char *msg = "should get a initialized vector";
+    Vec   v = init(LEN, 0, 1, 2, 3, 4, 5);
+    char *msg;
+
+    msg = "should get a initialized vector";
     assert(v.data != NULL, msg);
     assert_eq(v.len, LEN, msg);
     assert_eq(v.cap, INIT_CAP, msg);
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
     assert_arr_eq(v.data, v.len, tmp, LEN, msg);
+
     drop(&v);
 }
 
@@ -50,20 +56,26 @@ void test_swap(void) {
 }
 
 void test_reverse(void) {
-    Vec   v   = test_data();
-    char *msg = "should reverse";
+    Vec   v = test_data();
+    char *msg;
+
+    msg = "should reverse";
     reverse(&v);
     elem_t rev[LEN] = {5, 4, 3, 2, 1, 0};
     assert_arr_eq(v.data, v.len, rev, LEN, msg);
+
     drop(&v);
 }
 
 void test_clear(void) {
-    Vec   v   = test_data();
-    char *msg = "should clear";
+    Vec   v = test_data();
+    char *msg;
+
+    msg = "should clear";
     clear(&v);
     assert_eq(v.len, 0, msg);
     assert_eq(v.cap, INIT_CAP, msg);
+
     drop(&v);
 }
 
@@ -97,6 +109,10 @@ void test_get(void) {
     msg = "should get";
     assert(get(&v, v.len - 1, &e), msg);
     assert_eq(e, v.data[v.len - 1], msg);
+
+    msg = "should not get when empty";
+    clear(&v);
+    assert_not(get(&v, 0, NULL), msg);
 
     drop(&v);
 }
@@ -320,8 +336,10 @@ void test_pop_back(void) {
 }
 
 void test_drop(void) {
-    Vec   v   = test_data();
-    char *msg = "should drop";
+    Vec   v = test_data();
+    char *msg;
+
+    msg = "should drop";
     drop(&v);
     assert(v.data == NULL, msg);
     assert_eq(v.len, 0, msg);

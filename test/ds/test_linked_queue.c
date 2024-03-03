@@ -10,7 +10,9 @@ TEST_DATA(0, 1, 2, 3, 4, 5)
 
 void test_create(void) {
     LinkedQueue queue = create();
-    char       *msg   = "should get a empty linked queue";
+    char       *msg;
+
+    msg = "should get a empty linked queue";
     assert(queue.front == NULL, msg);
     assert(queue.rear == NULL, msg);
     assert_eq(queue.len, 0, msg);
@@ -18,7 +20,9 @@ void test_create(void) {
 
 void test_init(void) {
     LinkedQueue queue = init(LEN, 0, 1, 2, 3, 4, 5);
-    char       *msg   = "should get a initialized linked queue";
+    char       *msg;
+
+    msg = "should get a initialized linked queue";
     assert(queue.front != NULL, msg);
     assert(queue.rear != NULL, msg);
     assert_eq(queue.len, LEN, msg);
@@ -29,7 +33,9 @@ void test_init(void) {
 
 void test_clear(void) {
     LinkedQueue queue = test_data();
-    char       *msg   = "should clear";
+    char       *msg;
+
+    msg = "should clear";
     clear(&queue);
     assert(queue.front == NULL, msg);
     assert(queue.rear == NULL, msg);

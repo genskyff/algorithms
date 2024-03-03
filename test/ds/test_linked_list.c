@@ -10,7 +10,9 @@ TEST_DATA(0, 1, 2, 3, 4, 5)
 
 void test_create(void) {
     LinkedList list = create();
-    char      *msg  = "should get a empty linked list";
+    char      *msg;
+
+    msg = "should get a empty linked list";
     assert(list.head == NULL, msg);
     assert(list.tail == NULL, msg);
     assert_eq(list.len, 0, msg);
@@ -18,7 +20,9 @@ void test_create(void) {
 
 void test_init(void) {
     LinkedList list = init(LEN, 0, 1, 2, 3, 4, 5);
-    char      *msg  = "should get a initialized linked list";
+    char      *msg;
+
+    msg = "should get a initialized linked list";
     assert(list.head != NULL, msg);
     assert(list.tail != NULL, msg);
     assert_eq(list.len, LEN, msg);
@@ -67,7 +71,9 @@ void test_swap(void) {
 
 void test_reverse(void) {
     LinkedList list = test_data();
-    char      *msg  = "should reverse";
+    char      *msg;
+
+    msg = "should reverse";
     reverse(&list);
     elem_t rev[LEN] = {5, 4, 3, 2, 1, 0};
     assert_list_arr_eq(list.head, FORWARD, rev, LEN, msg);
@@ -76,7 +82,9 @@ void test_reverse(void) {
 
 void test_clear(void) {
     LinkedList list = test_data();
-    char      *msg  = "should clear";
+    char      *msg;
+
+    msg = "should clear";
     clear(&list);
     assert(list.head == NULL, msg);
     assert(list.tail == NULL, msg);
@@ -101,18 +109,18 @@ void test_is_empty(void) {
 void test_get(void) {
     LinkedList list = test_data();
     elem_t     e;
-
-    char *msg;
-
-    msg = "should not get when NULL";
-    assert(!get(NULL, 0, &e), msg);
-
-    msg = "should get";
-    assert(get(&list, 0, &e), msg);
-    assert_eq(e, 0, msg);
+    char      *msg;
 
     msg = "should not get when out of range";
-    assert(!get(&list, list.len, &e), msg);
+    assert_not(get(&list, list.len, &e), msg);
+
+    msg = "should get";
+    assert(get(&list, list.len - 1, &e), msg);
+    assert_eq(e, list.tail->data, msg);
+
+    msg = "should not get when empty";
+    clear(&list);
+    assert_not(get(&list, 0, NULL), msg);
 }
 
 void test_first(void) {

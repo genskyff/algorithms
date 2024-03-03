@@ -10,14 +10,18 @@ TEST_DATA(0, 1, 2, 3, 4, 5)
 
 void test_create(void) {
     LinkedStack stack = create();
-    char       *msg   = "should get a empty linked stack";
+    char       *msg;
+
+    msg = "should get a empty linked stack";
     assert(stack.top == NULL, msg);
     assert_eq(stack.len, 0, msg);
 }
 
 void test_init(void) {
     LinkedStack stack = init(LEN, 0, 1, 2, 3, 4, 5);
-    char       *msg   = "should get a initialized linked stack";
+    char       *msg;
+
+    msg = "should get a initialized linked stack";
     assert(stack.top != NULL, msg);
     assert_eq(stack.len, LEN, msg);
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
@@ -27,7 +31,9 @@ void test_init(void) {
 
 void test_clear(void) {
     LinkedStack stack = test_data();
-    char       *msg   = "should clear";
+    char       *msg;
+
+    msg = "should clear";
     clear(&stack);
     assert(stack.top == NULL, msg);
     assert_eq(stack.len, 0, msg);

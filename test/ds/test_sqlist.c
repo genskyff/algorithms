@@ -10,13 +10,17 @@ TEST_DATA(0, 1, 2, 3, 4, 5)
 
 void test_create(void) {
     SqList list = create();
-    char  *msg  = "should get a empty sqlist";
+    char  *msg;
+
+    msg = "should get a empty sqlist";
     assert_eq(list.len, 0, msg);
 }
 
 void test_init(void) {
-    SqList list     = init(LEN, 0, 1, 2, 3, 4, 5);
-    char  *msg      = "should get a initialized sqlist";
+    SqList list = init(LEN, 0, 1, 2, 3, 4, 5);
+    char  *msg;
+
+    msg             = "should get a initialized sqlist";
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
     assert_eq(list.len, LEN, msg);
     assert_arr_eq(list.data, list.len, tmp, LEN, msg);
@@ -43,7 +47,9 @@ void test_swap(void) {
 
 void test_reverse(void) {
     SqList list = test_data();
-    char  *msg  = "should reverse";
+    char  *msg;
+
+    msg = "should reverse";
     reverse(&list);
     elem_t rev[LEN] = {5, 4, 3, 2, 1, 0};
     assert_arr_eq(list.data, list.len, rev, LEN, msg);
@@ -51,7 +57,9 @@ void test_reverse(void) {
 
 void test_clear(void) {
     SqList list = test_data();
-    char  *msg  = "should clear";
+    char  *msg;
+
+    msg = "should clear";
     clear(&list);
     assert_eq(list.len, 0, msg);
 }
@@ -84,6 +92,10 @@ void test_get(void) {
     msg = "should get";
     assert(get(&list, list.len - 1, &e), msg);
     assert_eq(e, list.data[list.len - 1], msg);
+
+    msg = "should not get when empty";
+    clear(&list);
+    assert_not(get(&list, 0, NULL), msg);
 }
 
 void test_first(void) {
