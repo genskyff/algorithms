@@ -1,7 +1,6 @@
 #include "helper.h"
 #include "utils.h"
 #include <stdlib.h>
-#include <string.h>
 
 void run_test(TestFunc test, char *mod, char *target, char *test_name) {
     bool is_mod       = mod != NULL && *mod != '\0';
