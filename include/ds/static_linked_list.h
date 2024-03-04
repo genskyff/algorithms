@@ -10,6 +10,8 @@ typedef struct {
     size_t next;
 } SNode;
 
+// node[0] is the head
+// node[len - 1] is the tail
 typedef struct {
     SNode  node[MAXLEN];
     size_t space;

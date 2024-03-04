@@ -4,6 +4,8 @@
 #include "type.h"
 #include <stdbool.h>
 
+// data[0] is the first
+// data[len - 1] is the last
 typedef struct {
     elem_t data[MAXLEN];
     size_t len;

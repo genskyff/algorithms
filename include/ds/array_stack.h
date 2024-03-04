@@ -4,6 +4,7 @@
 #include "type.h"
 #include <stdbool.h>
 
+// index [len - 1] is the top
 typedef struct {
     elem_t data[MAXLEN];
     size_t len;

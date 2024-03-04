@@ -4,6 +4,8 @@
 #include "type.h"
 #include <stdbool.h>
 
+// index [front] is the front
+// index [front + len - 1] is the rear
 typedef struct {
     elem_t data[MAXLEN];
     size_t front;

@@ -1,5 +1,5 @@
-#ifndef VEC_H
-#define VEC_H
+#ifndef VECTOR_H
+#define VECTOR_H
 
 #include "type.h"
 #include <stdbool.h>
@@ -7,6 +7,8 @@
 #define INIT_CAP     20
 #define EXTEND_RATIO 2
 
+// data[0] is the first
+// data[len - 1] is the last
 typedef struct {
     elem_t *data;
     size_t  len;

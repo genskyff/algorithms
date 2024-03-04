@@ -4,6 +4,8 @@
 #include "type.h"
 #include <stdbool.h>
 
+// index [0] is the front
+// index [len - 1] is the rear
 typedef struct {
     Node  *front;
     Node  *rear;
