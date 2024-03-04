@@ -67,8 +67,8 @@ void test_swap(void) {
 
     msg = "should swap when i > 0, j == len - 1";
     swap(&list, 1, list.len - 1);
-    elem_t swap_end[LEN] = {3, 0, 2, 1, 4, 5};
-    assert_list_arr_eq(list.head, FORWARD, swap_end, LEN, msg);
+    elem_t swap_tail[LEN] = {3, 0, 2, 1, 4, 5};
+    assert_list_arr_eq(list.head, FORWARD, swap_tail, LEN, msg);
     assert_eq(list.tail->data, 5, msg);
 }
 

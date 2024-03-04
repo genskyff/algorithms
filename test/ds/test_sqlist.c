@@ -42,7 +42,7 @@ void test_swap(void) {
     swap(&list, 0, LEN);
     assert_arr_eq(list.data, list.len, tmp, LEN, msg);
 
-    msg = "should swap";
+    msg = "should swap head and tail";
     swap(&list, 0, list.len - 1);
     elem_t swap_endpoint[LEN] = {5, 1, 2, 3, 4, 0};
     assert_arr_eq(list.data, list.len, swap_endpoint, LEN, msg);

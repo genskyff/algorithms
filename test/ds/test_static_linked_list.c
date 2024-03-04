@@ -76,10 +76,28 @@ void test_swap(void) {
     swap(&list, 0, LEN);
     assert_arr_eq(tmp, LEN, to_array(&list), LEN, msg);
 
-    msg = "should swap";
+    msg = "should swap head and tail";
     swap(&list, 0, list.len - 1);
     elem_t swap_endpoint[LEN] = {5, 1, 2, 3, 4, 0};
     assert_arr_eq(swap_endpoint, LEN, to_array(&list), LEN, msg);
+
+    msg = "should swap when |i - j| == 1";
+    swap(&list, 0, 1);
+    elem_t swap_adjacent[LEN] = {1, 5, 2, 3, 4, 0};
+    assert_arr_eq(swap_adjacent, LEN, to_array(&list), LEN, msg);
+    assert_eq(list.node[list.tail].data, 0, msg);
+
+    msg = "should swap when i == 0, j > 1";
+    swap(&list, 0, 3);
+    elem_t swap_head[LEN] = {3, 5, 2, 1, 4, 0};
+    assert_arr_eq(swap_head, LEN, to_array(&list), LEN, msg);
+    assert_eq(list.node[list.tail].data, 0, msg);
+
+    msg = "should swap when i > 0, j == len - 1";
+    swap(&list, 1, list.len - 1);
+    elem_t swap_tail[LEN] = {3, 0, 2, 1, 4, 5};
+    assert_arr_eq(swap_tail, LEN, to_array(&list), LEN, msg);
+    assert_eq(list.node[list.tail].data, 5, msg);
 }
 
 void test_reverse(void) {

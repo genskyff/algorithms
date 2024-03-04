@@ -50,7 +50,7 @@ void test_swap(void) {
     swap(&v, 0, LEN);
     assert_arr_eq(v.data, v.len, tmp, LEN, msg);
 
-    msg = "should swap";
+    msg = "should swap head and tail";
     swap(&v, 0, v.len - 1);
     elem_t swap_endpoint[LEN] = {5, 1, 2, 3, 4, 0};
     assert_arr_eq(v.data, v.len, swap_endpoint, LEN, msg);
