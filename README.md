@@ -42,9 +42,9 @@ xmake test-all
   - [ ] Radix sort
 - [ ] Data structures
   - [x] Vector
-  - [ ] Linear lists
+  - [x] Linear lists
     - [x] Sequential List
-    - [ ] Static linked list
+    - [x] Static linked list
     - [x] Linked list
   - [x] Queue
     - [x] Array queue
