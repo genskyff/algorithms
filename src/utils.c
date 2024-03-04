@@ -61,7 +61,7 @@ void _clear(elem_t *arr, size_t len) {
     memset(arr, 0, len * sizeof(elem_t));
 }
 
-void _show(FILE *stream, elem_t *arr, size_t len, char *sep) {
+void _show(FILE *stream, elem_t *arr, size_t len, const char *sep) {
     if (stream == NULL) {
         stream = stdout;
     }
@@ -71,7 +71,7 @@ void _show(FILE *stream, elem_t *arr, size_t len, char *sep) {
         return;
     }
 
-    char *_sep = (sep == NULL || *sep == '\0') ? ", " : sep;
+    const char *_sep = (sep == NULL || *sep == '\0') ? ", " : sep;
     fprintf(stream, "[");
     for (size_t i = 0; i < len; i++) {
         fprintf(stream, "%d%s", arr[i], i == len - 1 ? "]\n" : _sep);
@@ -79,7 +79,7 @@ void _show(FILE *stream, elem_t *arr, size_t len, char *sep) {
 }
 
 void _show_slice(FILE *stream, elem_t *arr, size_t len, size_t start,
-                 size_t end, char *sep) {
+                 size_t end, const char *sep) {
     if (stream == NULL) {
         stream = stdout;
     }
@@ -93,7 +93,7 @@ void _show_slice(FILE *stream, elem_t *arr, size_t len, size_t start,
     _show(stream, arr + start, end - start, sep);
 }
 
-void _show_list(FILE *stream, Node *node, Direction dir, char *sep) {
+void _show_list(FILE *stream, Node *node, Direction dir, const char *sep) {
     if (stream == NULL) {
         stream = stdout;
     }
@@ -103,7 +103,7 @@ void _show_list(FILE *stream, Node *node, Direction dir, char *sep) {
         return;
     }
 
-    char *_sep = (sep == NULL || *sep == '\0') ? " <-> " : sep;
+    const char *_sep = (sep == NULL || *sep == '\0') ? " <-> " : sep;
     fprintf(stream, "[");
 
     if (dir == BACKWARD) {
@@ -230,7 +230,7 @@ void _rotate_left(elem_t *arr, size_t len, size_t n) {
         return;
     }
 
-    n = n % len;
+    n           = n % len;
     elem_t *tmp = (elem_t *)malloc(n * sizeof(elem_t));
     if (tmp == NULL) {
         fprintf(stderr,
@@ -261,7 +261,7 @@ void _rotate_right(elem_t *arr, size_t len, size_t n) {
         return;
     }
 
-    n = n % len;
+    n           = n % len;
     elem_t *tmp = (elem_t *)malloc(n * sizeof(elem_t));
     if (tmp == NULL) {
         fprintf(stderr,

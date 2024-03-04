@@ -20,10 +20,10 @@ void   _shuffle(elem_t *arr, size_t len);
 void   _clear(elem_t *arr, size_t len);
 
 // [start, end)
-void _show(FILE *stream, elem_t *arr, size_t len, char *sep);
+void _show(FILE *stream, elem_t *arr, size_t len, const char *sep);
 void _show_slice(FILE *stream, elem_t *arr, size_t len, size_t start,
-                 size_t end, char *sep);
-void _show_list(FILE *stream, Node *node, Direction dir, char *sep);
+                 size_t end, const char *sep);
+void _show_list(FILE *stream, Node *node, Direction dir, const char *sep);
 
 void _reverse(elem_t *arr, size_t len);
 void _reverse_slice(elem_t *arr, size_t len, size_t start, size_t end);

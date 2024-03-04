@@ -5,26 +5,27 @@
 #include <stdbool.h>
 
 typedef void (*TestFunc)(void);
-void run_test(TestFunc test, char *mod, char *target, char *test_name);
+void run_test(TestFunc test, const char *mod, const char *target,
+              const char *test_name);
 
-void assert(bool cond, char *msg);
-void assert_not(bool cond, char *msg);
+void assert(bool cond, const char *msg);
+void assert_not(bool cond, const char *msg);
 
-void assert_eq(elem_t left, elem_t right, char *msg);
-void assert_ne(elem_t left, elem_t right, char *msg);
+void assert_eq(elem_t left, elem_t right, const char *msg);
+void assert_ne(elem_t left, elem_t right, const char *msg);
 
 void assert_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
-                   char *msg);
+                   const char *msg);
 void assert_arr_ne(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
-                   char *msg);
+                   const char *msg);
 
-void assert_list_eq(Node *left, Node *right, Direction dir, char *msg);
-void assert_list_ne(Node *left, Node *right, Direction dir, char *msg);
+void assert_list_eq(Node *left, Node *right, Direction dir, const char *msg);
+void assert_list_ne(Node *left, Node *right, Direction dir, const char *msg);
 
 void assert_list_arr_eq(Node *node, Direction dir, elem_t *arr, size_t len,
-                        char *msg);
+                        const char *msg);
 void assert_list_arr_ne(Node *node, Direction dir, elem_t *arr, size_t len,
-                        char *msg);
+                        const char *msg);
 
 #define SORT_DATA_LEN 7
 

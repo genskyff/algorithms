@@ -2,7 +2,8 @@
 #include "utils.h"
 #include <stdlib.h>
 
-void run_test(TestFunc test, char *mod, char *target, char *test_name) {
+void run_test(TestFunc test, const char *mod, const char *target,
+              const char *test_name) {
     bool is_mod       = mod != NULL && *mod != '\0';
     bool is_target    = target != NULL && *target != '\0';
     bool is_test_name = test_name != NULL && *test_name != '\0';
@@ -15,9 +16,9 @@ void run_test(TestFunc test, char *mod, char *target, char *test_name) {
     printf("\x1b[1;32m ... OK\x1b[0m\n");
 }
 
-void assert(bool cond, char *msg) {
+void assert(bool cond, const char *msg) {
     if (!cond) {
-        char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+        const char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
         fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
         fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mtrue\n");
@@ -26,9 +27,9 @@ void assert(bool cond, char *msg) {
     }
 }
 
-void assert_not(bool cond, char *msg) {
+void assert_not(bool cond, const char *msg) {
     if (cond) {
-        char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+        const char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
         fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
         fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mfalse\n");
@@ -41,8 +42,8 @@ bool _is_eq(elem_t left, elem_t right) {
     return left == right;
 }
 
-void _err_msg(elem_t left, elem_t right, char *msg) {
-    char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+void _err_msg(elem_t left, elem_t right, const char *msg) {
+    const char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
     fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
     fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
@@ -52,13 +53,13 @@ void _err_msg(elem_t left, elem_t right, char *msg) {
     exit(EXIT_FAILURE);
 }
 
-void assert_eq(elem_t left, elem_t right, char *msg) {
+void assert_eq(elem_t left, elem_t right, const char *msg) {
     if (!_is_eq(left, right)) {
         _err_msg(left, right, msg);
     }
 }
 
-void assert_ne(elem_t left, elem_t right, char *msg) {
+void assert_ne(elem_t left, elem_t right, const char *msg) {
     if (_is_eq(left, right)) {
         _err_msg(left, right, msg);
     }
@@ -83,8 +84,8 @@ bool _is_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len) {
 }
 
 void _arr_err_msg(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
-                  char *msg) {
-    char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+                  const char *msg) {
+    const char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
     fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
     fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
@@ -96,14 +97,14 @@ void _arr_err_msg(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
 }
 
 void assert_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
-                   char *msg) {
+                   const char *msg) {
     if (!_is_arr_eq(left, l_len, right, r_len)) {
         _arr_err_msg(left, l_len, right, r_len, msg);
     }
 }
 
 void assert_arr_ne(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
-                   char *msg) {
+                   const char *msg) {
     if (_is_arr_eq(left, l_len, right, r_len)) {
         _arr_err_msg(left, l_len, right, r_len, msg);
     }
@@ -121,8 +122,8 @@ bool _is_list_eq(Node *left, Node *right, Direction dir) {
     return left == NULL && right == NULL;
 }
 
-void _list_err_msg(Node *left, Node *right, Direction dir, char *msg) {
-    char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+void _list_err_msg(Node *left, Node *right, Direction dir, const char *msg) {
+    const char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
     fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
     fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
@@ -133,13 +134,13 @@ void _list_err_msg(Node *left, Node *right, Direction dir, char *msg) {
     exit(EXIT_FAILURE);
 }
 
-void assert_list_eq(Node *left, Node *right, Direction dir, char *msg) {
+void assert_list_eq(Node *left, Node *right, Direction dir, const char *msg) {
     if (!_is_list_eq(left, right, dir)) {
         _list_err_msg(left, right, dir, msg);
     }
 }
 
-void assert_list_ne(Node *left, Node *right, Direction dir, char *msg) {
+void assert_list_ne(Node *left, Node *right, Direction dir, const char *msg) {
     if (_is_list_eq(left, right, dir)) {
         _list_err_msg(left, right, dir, msg);
     }
@@ -166,8 +167,8 @@ bool _is_list_arr_eq(Node *node, Direction dir, elem_t *arr, size_t len) {
 }
 
 void _list_arr_err_msg(Node *node, Direction dir, elem_t *arr, size_t len,
-                       char *msg) {
-    char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+                       const char *msg) {
+    const char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
     fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
     fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
     fprintf(stderr, "\x1b[33m|-- list:    \x1b[0m");
@@ -179,14 +180,14 @@ void _list_arr_err_msg(Node *node, Direction dir, elem_t *arr, size_t len,
 }
 
 void assert_list_arr_eq(Node *node, Direction dir, elem_t *arr, size_t len,
-                        char *msg) {
+                        const char *msg) {
     if (!_is_list_arr_eq(node, dir, arr, len)) {
         _list_arr_err_msg(node, dir, arr, len, msg);
     }
 }
 
 void assert_list_arr_ne(Node *node, Direction dir, elem_t *arr, size_t len,
-                        char *msg) {
+                        const char *msg) {
     if (_is_list_arr_eq(node, dir, arr, len)) {
         _list_arr_err_msg(node, dir, arr, len, msg);
     }
