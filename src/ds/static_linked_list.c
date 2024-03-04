@@ -96,8 +96,7 @@ void swap(SLinkedList *list, size_t i, size_t j) {
     }
 
     size_t node_i, node_j;
-    size_t cur = list->head;
-    for (size_t k = 0; k <= j; k++) {
+    for (size_t k = 0, cur = list->head; k <= j; k++) {
         if (k == i) {
             node_i = cur;
         }
@@ -109,7 +108,61 @@ void swap(SLinkedList *list, size_t i, size_t j) {
         cur = list->node[cur].next;
     }
 
-    SWAP(list->node[node_i].data, list->node[node_j].data);
+    size_t i_prev = list->node[node_i].prev;
+    size_t i_next = list->node[node_i].next;
+    size_t j_prev = list->node[node_j].prev;
+    size_t j_next = list->node[node_j].next;
+
+    // adjacent nodes
+    if (i_next == node_j) { // node_i is directly connected to node_j
+        list->node[node_i].next = j_next;
+        if (j_next != SIZE_MAX) {
+            list->node[j_next].prev = node_i;
+        }
+
+        list->node[node_j].prev = i_prev;
+        if (i_prev != SIZE_MAX) {
+            list->node[i_prev].next = node_j;
+        }
+
+        list->node[node_j].next = node_i;
+        list->node[node_i].prev = node_j;
+    } else { // non-adjacent nodes
+        if (i_prev != SIZE_MAX) {
+            list->node[i_prev].next = node_j;
+        }
+
+        if (i_next != SIZE_MAX) {
+            list->node[i_next].prev = node_j;
+        }
+
+        if (j_prev != SIZE_MAX) {
+            list->node[j_prev].next = node_i;
+        }
+
+        if (j_next != SIZE_MAX) {
+            list->node[j_next].prev = node_i;
+        }
+
+        list->node[node_i].prev = j_prev;
+        list->node[node_j].prev = i_prev;
+
+        size_t tmp              = list->node[node_i].next;
+        list->node[node_i].next = list->node[node_j].next;
+        list->node[node_j].next = tmp;
+    }
+
+    if (list->head == node_i) {
+        list->head = node_j;
+    } else if (list->head == node_j) {
+        list->head = node_i;
+    }
+
+    if (list->tail == node_i) {
+        list->tail = node_j;
+    } else if (list->tail == node_j) {
+        list->tail = node_i;
+    }
 }
 
 void reverse(SLinkedList *list) {
