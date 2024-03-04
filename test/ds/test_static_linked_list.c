@@ -15,14 +15,14 @@ void test_create(void) {
 
     msg = "should get a empty static linked list";
     assert_eq(list.space, 0, msg);
-    assert_eq(list.head, SIZE_MAX, msg);
-    assert_eq(list.tail, SIZE_MAX, msg);
+    assert(list.head == SIZE_MAX, msg);
+    assert(list.tail == SIZE_MAX, msg);
     assert_eq(list.len, 0, msg);
 
     msg = "all nodes should be linked together";
     for (size_t i = 0, cur = list.space; cur != SIZE_MAX; i++) {
         assert_eq(cur, i, msg);
-        assert_eq(list.node[list.space].prev, SIZE_MAX, msg);
+        assert(list.node[list.space].prev == SIZE_MAX, msg);
         cur = list.node[cur].next;
     }
 }
@@ -42,10 +42,10 @@ void test_init(void) {
     msg = "all nodes should be linked together";
     for (size_t i = 0, cur = list.head; cur != SIZE_MAX; i++) {
         assert_eq(list.node[cur].data, i, msg);
-        assert_eq(list.node[cur].prev, cur == list.head ? SIZE_MAX : cur - 1,
-                  msg);
-        assert_eq(list.node[cur].next, cur == list.tail ? SIZE_MAX : cur + 1,
-                  msg);
+        assert(list.node[cur].prev == (cur == list.head ? SIZE_MAX : cur - 1),
+               msg);
+        assert(list.node[cur].next == (cur == list.tail ? SIZE_MAX : cur + 1),
+               msg);
         cur = list.node[cur].next;
     }
 }
@@ -117,14 +117,14 @@ void test_clear(void) {
     msg = "should clear";
     clear(&list);
     assert_eq(list.space, 0, msg);
-    assert_eq(list.head, SIZE_MAX, msg);
-    assert_eq(list.tail, SIZE_MAX, msg);
+    assert(list.head == SIZE_MAX, msg);
+    assert(list.tail == SIZE_MAX, msg);
     assert_eq(list.len, 0, msg);
 
     msg = "all nodes should be linked together";
     for (size_t i = 0, cur = list.space; cur != SIZE_MAX; i++) {
         assert_eq(cur, i, msg);
-        assert_eq(list.node[list.space].prev, SIZE_MAX, msg);
+        assert(list.node[list.space].prev == SIZE_MAX, msg);
         cur = list.node[cur].next;
     }
 }
@@ -278,7 +278,7 @@ void test_push_front(void) {
 
     msg      = "should not push_front when full";
     list.len = MAXLEN;
-    assert_not(push_front(&list, NULL), msg);
+    assert_not(push_front(&list, e), msg);
     assert_eq(list.len, MAXLEN, msg);
 
     msg = "should push_front when empty";
@@ -301,7 +301,7 @@ void test_push_back(void) {
 
     msg      = "should not push_back when full";
     list.len = MAXLEN;
-    assert_not(push_back(&list, NULL), msg);
+    assert_not(push_back(&list, e), msg);
     assert_eq(list.len, MAXLEN, msg);
 
     msg = "should push_back when empty";
@@ -349,8 +349,8 @@ void test_del(void) {
     assert(push_back(&list, 999), msg);
     assert(del(&list, 0, &e), msg);
     assert_eq(list.len, 0, msg);
-    assert_eq(list.node[list.head].data, e, msg);
-    assert_eq(list.node[list.tail].data, e, msg);
+    assert(list.head == SIZE_MAX, msg);
+    assert(list.tail == SIZE_MAX, msg);
 }
 
 void test_pop_front(void) {
