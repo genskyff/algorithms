@@ -345,16 +345,16 @@ bool del(LinkedList *list, size_t i, elem_t *e) {
         *e = node->data;
     }
 
-    if (node->prev != NULL) {
-        node->prev->next = node->next;
-    } else {
+    if (node->prev == NULL) {
         list->head = node->next;
+    } else {
+        node->prev->next = node->next;
     }
 
-    if (node->next != NULL) {
-        node->next->prev = node->prev;
-    } else {
+    if (node->next == NULL) {
         list->tail = node->prev;
+    } else {
+        node->next->prev = node->prev;
     }
 
     list->len--;
