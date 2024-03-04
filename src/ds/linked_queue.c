@@ -17,7 +17,6 @@ LinkedQueue init(size_t n, ...) {
 
     for (size_t i = 0; i < n; i++) {
         Node *node = (Node *)malloc(sizeof(Node));
-
         if (node == NULL) {
             fprintf(stderr,
                     "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
@@ -31,13 +30,12 @@ LinkedQueue init(size_t n, ...) {
         if (queue.front == NULL) {
             node->prev  = NULL;
             queue.front = node;
-            queue.rear  = node;
         } else {
             node->prev       = queue.rear;
             queue.rear->next = node;
-            queue.rear       = node;
         }
 
+        queue.rear = node;
         queue.len++;
     }
 
@@ -72,11 +70,11 @@ void clear(LinkedQueue *queue) {
 }
 
 bool is_empty(LinkedQueue *queue) {
-    return queue == NULL || queue->front == NULL;
+    return queue == NULL || queue->front == NULL || queue->len == 0;
 }
 
 bool front(LinkedQueue *queue, elem_t *e) {
-    if (queue == NULL || queue->front == NULL) {
+    if (queue == NULL || queue->front == NULL || queue->len == 0) {
         return false;
     }
 
@@ -88,7 +86,7 @@ bool front(LinkedQueue *queue, elem_t *e) {
 }
 
 bool back(LinkedQueue *queue, elem_t *e) {
-    if (queue == NULL || queue->rear == NULL) {
+    if (queue == NULL || queue->rear == NULL || queue->len == 0) {
         return false;
     }
 
@@ -113,15 +111,14 @@ bool push_front(LinkedQueue *queue, elem_t e) {
     node->prev = NULL;
 
     if (queue->front == NULL) {
-        node->next   = NULL;
-        queue->front = node;
-        queue->rear  = node;
+        node->next  = NULL;
+        queue->rear = node;
     } else {
         node->next         = queue->front;
         queue->front->prev = node;
-        queue->front       = node;
     }
 
+    queue->front = node;
     queue->len++;
 
     return true;
@@ -155,7 +152,7 @@ bool push_back(LinkedQueue *queue, elem_t e) {
 }
 
 bool pop_front(LinkedQueue *queue, elem_t *e) {
-    if (queue == NULL || queue->front == NULL) {
+    if (queue == NULL || queue->front == NULL || queue->len == 0) {
         return false;
     }
 
@@ -179,7 +176,7 @@ bool pop_front(LinkedQueue *queue, elem_t *e) {
 }
 
 bool pop_back(LinkedQueue *queue, elem_t *e) {
-    if (queue == NULL || queue->front == NULL) {
+    if (queue == NULL || queue->front == NULL || queue->len == 0) {
         return false;
     }
 

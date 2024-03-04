@@ -30,13 +30,12 @@ LinkedList init(size_t n, ...) {
         if (list.head == NULL) {
             node->prev = NULL;
             list.head  = node;
-            list.tail  = node;
         } else {
             node->prev      = list.tail;
             list.tail->next = node;
-            list.tail       = node;
         }
 
+        list.tail = node;
         list.len++;
     }
 
@@ -56,17 +55,17 @@ void swap(LinkedList *list, size_t i, size_t j) {
     }
 
     Node *node_i, *node_j;
-    Node *cur = list->head;
+    Node *node = list->head;
     for (size_t k = 0; k <= j; k++) {
         if (k == i) {
-            node_i = cur;
+            node_i = node;
         }
 
         if (k == j) {
-            node_j = cur;
+            node_j = node;
         }
 
-        cur = cur->next;
+        node = node->next;
     }
 
     Node *i_prev = node_i->prev;
@@ -127,7 +126,7 @@ void swap(LinkedList *list, size_t i, size_t j) {
 }
 
 void reverse(LinkedList *list) {
-    if (list == NULL || list->head == NULL) {
+    if (list == NULL || list->head == NULL || list->len < 2) {
         return;
     }
 
@@ -162,7 +161,7 @@ void clear(LinkedList *list) {
 }
 
 bool is_empty(LinkedList *list) {
-    return list == NULL || list->head == NULL;
+    return list == NULL || list->head == NULL || list->len == 0;
 }
 
 bool get(LinkedList *list, size_t i, elem_t *e) {
@@ -191,7 +190,7 @@ bool get(LinkedList *list, size_t i, elem_t *e) {
 }
 
 bool first(LinkedList *list, elem_t *e) {
-    if (list == NULL || list->head == NULL) {
+    if (list == NULL || list->head == NULL || list->len == 0) {
         return false;
     }
 
@@ -203,7 +202,7 @@ bool first(LinkedList *list, elem_t *e) {
 }
 
 bool last(LinkedList *list, elem_t *e) {
-    if (list == NULL || list->tail == NULL) {
+    if (list == NULL || list->tail == NULL || list->len == 0) {
         return false;
     }
 
@@ -238,12 +237,12 @@ bool set(LinkedList *list, size_t i, elem_t e) {
 }
 
 bool find(LinkedList *list, elem_t e, size_t *i) {
-    if (list == NULL || list->head == NULL) {
+    if (list == NULL || list->head == NULL || list->len == 0) {
         return false;
     }
 
     Node *node = list->head;
-    for (size_t j = 0; node != NULL; j++) {
+    for (size_t j = 0; node != NULL && j < list->len; j++) {
         if (node->data == e) {
             if (i != NULL) {
                 *i = j;
@@ -265,7 +264,6 @@ bool insert(LinkedList *list, size_t i, elem_t e) {
     if (node == NULL) {
         return false;
     }
-
     node->data = e;
 
     if (i == 0) {

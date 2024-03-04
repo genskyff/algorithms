@@ -17,7 +17,6 @@ LinkedStack init(size_t n, ...) {
 
     for (size_t i = 0; i < n; i++) {
         Node *node = (Node *)malloc(sizeof(Node));
-
         if (node == NULL) {
             fprintf(stderr,
                     "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
@@ -30,13 +29,12 @@ LinkedStack init(size_t n, ...) {
 
         if (stack.top == NULL) {
             node->prev = NULL;
-            stack.top  = node;
         } else {
             node->prev      = stack.top;
             stack.top->next = node;
-            stack.top       = node;
         }
 
+        stack.top = node;
         stack.len++;
     }
 
@@ -70,11 +68,11 @@ void clear(LinkedStack *stack) {
 }
 
 bool is_empty(LinkedStack *stack) {
-    return stack == NULL || stack->top == NULL;
+    return stack == NULL || stack->top == NULL || stack->len == 0;
 }
 
 bool peek(LinkedStack *stack, elem_t *e) {
-    if (stack == NULL || stack->top == NULL) {
+    if (stack == NULL || stack->top == NULL || stack->len == 0) {
         return false;
     }
 
@@ -100,20 +98,19 @@ bool push(LinkedStack *stack, elem_t e) {
 
     if (stack->top == NULL) {
         node->prev = NULL;
-        stack->top = node;
     } else {
         node->prev       = stack->top;
         stack->top->next = node;
-        stack->top       = node;
     }
 
+    stack->top = node;
     stack->len++;
 
     return true;
 }
 
 bool pop(LinkedStack *stack, elem_t *e) {
-    if (stack == NULL || stack->top == NULL) {
+    if (stack == NULL || stack->top == NULL || stack->len == 0) {
         return false;
     }
 
