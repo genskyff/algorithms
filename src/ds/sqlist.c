@@ -70,11 +70,7 @@ bool first(SqList *list, elem_t *e) {
 }
 
 bool last(SqList *list, elem_t *e) {
-    if (list == NULL || list->len == 0) {
-        return false;
-    }
-
-    return get(list, list->len - 1, e);
+    return list != NULL && list->len != 0 && get(list, list->len - 1, e);
 }
 
 bool set(SqList *list, size_t i, elem_t e) {
@@ -107,19 +103,11 @@ bool insert(SqList *list, size_t i, elem_t e) {
 }
 
 bool push_front(SqList *list, elem_t e) {
-    if (list == NULL || list->len == MAXLEN) {
-        return false;
-    } else {
-        return insert(list, 0, e);
-    }
+    return list != NULL && insert(list, 0, e);
 }
 
 bool push_back(SqList *list, elem_t e) {
-    if (list == NULL || list->len == MAXLEN) {
-        return false;
-    } else {
-        return insert(list, list->len, e);
-    }
+    return list != NULL && list->len != MAXLEN && insert(list, list->len, e);
 }
 
 bool del(SqList *list, size_t i, elem_t *e) {
@@ -141,17 +129,9 @@ bool del(SqList *list, size_t i, elem_t *e) {
 }
 
 bool pop_front(SqList *list, elem_t *e) {
-    if (list == NULL || list->len == 0) {
-        return false;
-    } else {
-        return del(list, 0, e);
-    }
+    return list != NULL && del(list, 0, e);
 }
 
 bool pop_back(SqList *list, elem_t *e) {
-    if (list == NULL || list->len == 0) {
-        return false;
-    } else {
-        return del(list, list->len - 1, e);
-    }
+    return list != NULL && list->len != 0 && del(list, list->len - 1, e);
 }

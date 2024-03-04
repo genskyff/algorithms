@@ -3,6 +3,37 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+bool _shrink(Vec *v) {
+    if (v->len > 0 && v->cap >= 2 * EXTEND_RATIO * INIT_CAP &&
+        v->len <= v->cap / (2 * EXTEND_RATIO)) {
+        size_t  new_cap  = v->len * EXTEND_RATIO;
+        elem_t *new_data = (elem_t *)realloc(v->data, new_cap * sizeof(elem_t));
+        if (new_data != NULL) {
+            v->data = new_data;
+            v->cap  = new_cap;
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool _extend(Vec *v) {
+    if (v->len == v->cap) {
+        size_t  new_cap  = v->cap * EXTEND_RATIO;
+        elem_t *new_data = (elem_t *)realloc(v->data, new_cap * sizeof(elem_t));
+        if (new_data != NULL) {
+            v->data = new_data;
+            v->cap  = new_cap;
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
 Vec create(void) {
     return init(0);
 }
@@ -33,7 +64,7 @@ Vec init(size_t n, ...) {
 }
 
 void swap(Vec *v, size_t i, size_t j) {
-    if (v != NULL && i < v->len && j < v->len) {
+    if (v != NULL && MAX(i, j) < v->len) {
         _swap(v->data, i, j);
     }
 }
@@ -79,11 +110,7 @@ bool first(Vec *v, elem_t *e) {
 }
 
 bool last(Vec *v, elem_t *e) {
-    if (v == NULL || v->len == 0) {
-        return false;
-    }
-
-    return get(v, v->len - 1, e);
+    return v != NULL && v->len != 0 && get(v, v->len - 1, e);
 }
 
 bool set(Vec *v, size_t i, elem_t e) {
@@ -105,15 +132,8 @@ bool insert(Vec *v, size_t i, elem_t e) {
         return false;
     }
 
-    if (v->len == v->cap) {
-        size_t  new_cap  = v->cap * EXTEND_RATIO;
-        elem_t *new_data = (elem_t *)realloc(v->data, new_cap * sizeof(elem_t));
-        if (new_data == NULL) {
-            return false;
-        }
-
-        v->cap  = new_cap;
-        v->data = new_data;
+    if (v->len == v->cap && !_extend(v)) {
+        return false;
     }
 
     if (i < v->len) {
@@ -148,15 +168,7 @@ bool del(Vec *v, size_t i, elem_t *e) {
     }
 
     v->len--;
-
-    if (v->len > 0 && v->cap >= 4 * INIT_CAP && v->len <= v->cap / 4) {
-        size_t  new_cap  = v->cap / 2;
-        elem_t *new_data = (elem_t *)realloc(v->data, new_cap * sizeof(elem_t));
-        if (new_data != NULL) {
-            v->data = new_data;
-            v->cap  = new_cap;
-        }
-    }
+    _shrink(v);
 
     return true;
 }
@@ -166,11 +178,7 @@ bool pop_front(Vec *v, elem_t *e) {
 }
 
 bool pop_back(Vec *v, elem_t *e) {
-    if (v == NULL || v->len == 0) {
-        return false;
-    }
-
-    return del(v, v->len - 1, e);
+    return v != NULL && v->len != 0 && del(v, v->len - 1, e);
 }
 
 void drop(Vec *v) {
