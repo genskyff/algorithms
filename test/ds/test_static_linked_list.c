@@ -94,8 +94,9 @@ void test_reverse(void) {
 
 void test_clear(void) {
     SLinkedList list = test_data();
+    char       *msg;
 
-    char *msg = "should clear";
+    msg = "should clear";
     clear(&list);
     assert_eq(list.space, 0, msg);
     assert_eq(list.head, SIZE_MAX, msg);
@@ -125,6 +126,251 @@ void test_is_empty(void) {
     assert(is_empty(&list), msg);
 }
 
+void test_get(void) {
+    SLinkedList list = test_data();
+    elem_t      e;
+    char       *msg;
+
+    msg = "should not get when out of range";
+    assert_not(get(&list, list.len, &e), msg);
+
+    msg = "should get";
+    assert(get(&list, list.len - 1, &e), msg);
+    assert_eq(e, list.node[list.tail].data, msg);
+
+    msg = "should not get when empty";
+    clear(&list);
+    assert_not(get(&list, 0, &e), msg);
+}
+
+void test_first(void) {
+    SLinkedList list = test_data();
+    elem_t      e;
+    char       *msg;
+
+    msg = "should get first";
+    assert(first(&list, &e), msg);
+    assert_eq(e, list.node[list.head].data, msg);
+
+    msg = "should not get first when empty";
+    clear(&list);
+    assert_not(first(&list, &e), msg);
+}
+
+void test_last(void) {
+    SLinkedList list = test_data();
+    elem_t      e;
+    char       *msg;
+
+    msg = "should get last";
+    assert(last(&list, &e), msg);
+    assert_eq(e, list.node[list.tail].data, msg);
+
+    msg = "should not get last when empty";
+    clear(&list);
+    assert_not(last(&list, &e), msg);
+}
+
+void test_set(void) {
+    SLinkedList list = test_data();
+    elem_t      e    = 999;
+    char       *msg;
+
+    msg = "should not set when out of range";
+    assert_not(set(&list, list.len, e), msg);
+    assert_not(find(&list, e, NULL), msg);
+
+    msg = "should set";
+    assert(set(&list, list.len - 1, e), msg);
+    assert_eq(list.node[list.tail].data, e, msg);
+
+    msg = "should not set when empty";
+    clear(&list);
+    assert_not(set(&list, 0, e), msg);
+}
+
+void test_find(void) {
+    SLinkedList list = test_data();
+    size_t      i;
+    char       *msg;
+
+    msg = "should find at [0]";
+    assert(find(&list, 0, &i), msg);
+    assert_eq(i, 0, msg);
+
+    msg = "should find at tail";
+    assert(find(&list, 5, &i), msg);
+    assert_eq(i, 5, msg);
+
+    msg = "should not find when no exist";
+    i   = 0;
+    assert_not(find(&list, 999, &i), msg);
+    assert_eq(i, 0, msg);
+}
+
+void test_insert(void) {
+    SLinkedList list = test_data();
+    elem_t      e    = 999;
+    char       *msg;
+
+    msg = "should not insert when out of range";
+    assert_not(insert(&list, list.len + 1, ++e), msg);
+    assert_eq(list.len, LEN, msg);
+    assert_not(find(&list, e, NULL), msg);
+
+    msg = "should insert at head";
+    assert(insert(&list, 0, ++e), msg);
+    assert_eq(list.len, LEN + 1, msg);
+    assert_eq(list.node[list.head].data, e, msg);
+
+    msg = "should insert at middle";
+    assert(insert(&list, list.len / 2, ++e), msg);
+    assert_eq(list.len, LEN + 2, msg);
+    elem_t mid;
+    assert(get(&list, list.len / 2, &mid), msg);
+    assert_eq(mid, e, msg);
+
+    msg = "should insert at tail";
+    assert(insert(&list, list.len, ++e), msg);
+    assert_eq(list.len, LEN + 3, msg);
+    assert_eq(list.node[list.tail].data, e, msg);
+
+    msg      = "should not insert when full";
+    list.len = MAXLEN;
+    assert_not(insert(&list, 0, ++e), msg);
+    assert_eq(list.len, MAXLEN, msg);
+
+    msg = "should insert when empty";
+    clear(&list);
+    assert(insert(&list, 0, ++e), msg);
+    assert_eq(list.len, 1, msg);
+    assert_eq(list.node[list.head].data, e, msg);
+    assert_eq(list.node[list.tail].data, e, msg);
+}
+
+void test_push_front(void) {
+    SLinkedList list = test_data();
+    elem_t      e    = 999;
+    char       *msg;
+
+    msg = "should push_front";
+    assert(push_front(&list, e), msg);
+    assert_eq(list.len, LEN + 1, msg);
+    assert_eq(list.node[list.head].data, e, msg);
+
+    msg      = "should not push_front when full";
+    list.len = MAXLEN;
+    assert_not(push_front(&list, e), msg);
+    assert_eq(list.len, MAXLEN, msg);
+
+    msg = "should push_front when empty";
+    clear(&list);
+    assert(push_front(&list, e), msg);
+    assert_eq(list.len, 1, msg);
+    assert_eq(list.node[list.head].data, e, msg);
+    assert_eq(list.node[list.tail].data, e, msg);
+}
+
+void test_push_back(void) {
+    SLinkedList list = test_data();
+    elem_t      e    = 999;
+    char       *msg;
+
+    msg = "should push_back";
+    assert(push_back(&list, e), msg);
+    assert_eq(list.len, LEN + 1, msg);
+    assert_eq(list.node[list.tail].data, e, msg);
+
+    msg      = "should not push_back when full";
+    list.len = MAXLEN;
+    assert_not(push_back(&list, e), msg);
+    assert_eq(list.len, MAXLEN, msg);
+
+    msg = "should push_back when empty";
+    clear(&list);
+    assert(push_back(&list, e), msg);
+    assert_eq(list.len, 1, msg);
+    assert_eq(list.node[list.head].data, e, msg);
+    assert_eq(list.node[list.tail].data, e, msg);
+}
+
+void test_del(void) {
+    SLinkedList list = test_data();
+    elem_t      e;
+    elem_t      deleted;
+    char       *msg;
+
+    msg = "should not del when out of range";
+    assert_not(del(&list, list.len, &e), msg);
+    assert_eq(list.len, LEN, msg);
+
+    msg     = "should del at head";
+    deleted = list.node[list.head].data;
+    assert(del(&list, 0, &e), msg);
+    assert_eq(list.len, LEN - 1, msg);
+    assert_eq(e, deleted, msg);
+
+    msg = "should del at middle";
+    assert(get(&list, list.len / 2, &deleted), msg);
+    assert(del(&list, list.len / 2, &e), msg);
+    assert_eq(list.len, LEN - 2, msg);
+    assert_eq(e, deleted, msg);
+
+    msg     = "should del at tail";
+    deleted = list.node[list.tail].data;
+    assert(del(&list, list.len - 1, &e), msg);
+    assert_eq(list.len, LEN - 3, msg);
+    assert_eq(e, deleted, msg);
+
+    msg = "should not del when empty";
+    clear(&list);
+    assert_not(del(&list, 0, &e), msg);
+    assert_eq(list.len, 0, msg);
+
+    msg = "should delete when len == 1";
+    assert(push_back(&list, 999), msg);
+    assert(del(&list, 0, &e), msg);
+    assert_eq(list.len, 0, msg);
+    assert_eq(list.node[list.head].data, e, msg);
+    assert_eq(list.node[list.tail].data, e, msg);
+}
+
+void test_pop_front(void) {
+    SLinkedList list = test_data();
+    elem_t      e;
+    elem_t      popped;
+    char       *msg;
+
+    msg    = "should pop_front";
+    popped = list.node[list.head].data;
+    assert(pop_front(&list, &e), msg);
+    assert_eq(list.len, LEN - 1, msg);
+    assert_eq(e, popped, msg);
+
+    msg = "should not pop_front when empty";
+    clear(&list);
+    assert_not(pop_front(&list, &e), msg);
+    assert_eq(list.len, 0, msg);
+}
+
+void test_pop_back(void) {
+    SLinkedList list = test_data();
+    elem_t      e;
+    elem_t      popped;
+    char       *msg;
+
+    msg    = "should pop_back";
+    popped = list.node[list.tail].data;
+    assert(pop_back(&list, &e), msg);
+    assert_eq(list.len, LEN - 1, msg);
+    assert_eq(e, popped, msg);
+
+    msg = "should not pop_back when empty";
+    clear(&list);
+    assert_not(pop_back(&list, &e), msg);
+    assert_eq(list.len, 0, msg);
+}
+
 int main(void) {
     char *mod    = "ds";
     char *target = "static_linked_list";
@@ -136,6 +382,17 @@ int main(void) {
     run_test(test_reverse, mod, target, "test_reverse");
     run_test(test_clear, mod, target, "test_clear");
     run_test(test_is_empty, mod, target, "test_is_empty");
+    run_test(test_get, mod, target, "test_get");
+    run_test(test_first, mod, target, "test_first");
+    run_test(test_last, mod, target, "test_last");
+    run_test(test_set, mod, target, "test_set");
+    run_test(test_find, mod, target, "test_find");
+    run_test(test_insert, mod, target, "test_insert");
+    run_test(test_push_front, mod, target, "test_push_front");
+    run_test(test_push_back, mod, target, "test_push_back");
+    run_test(test_del, mod, target, "test_del");
+    run_test(test_pop_front, mod, target, "test_pop_front");
+    run_test(test_pop_back, mod, target, "test_pop_back");
 
     return 0;
 }

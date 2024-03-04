@@ -27,7 +27,14 @@ void assert(bool cond, char *msg) {
 }
 
 void assert_not(bool cond, char *msg) {
-    return assert(!cond, msg);
+    if (cond) {
+        char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+        fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
+        fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
+        fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mfalse\n");
+        fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mtrue\n\n");
+        exit(EXIT_FAILURE);
+    }
 }
 
 bool _is_eq(elem_t left, elem_t right) {

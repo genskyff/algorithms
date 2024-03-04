@@ -45,6 +45,7 @@ void test_shuffle(void) {
 
     msg = "should shuffle";
     _copy(tmp, LEN, ARR, LEN);
+    // failed when the order remains unchanged after shuffling
     for (size_t i = 0; i < 2 * LEN; i++) {
         _shuffle(tmp, LEN);
         assert_arr_ne(tmp, LEN, ARR, LEN, msg);

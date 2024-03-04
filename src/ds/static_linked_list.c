@@ -166,3 +166,214 @@ void clear(SLinkedList *list) {
 bool is_empty(SLinkedList *list) {
     return list == NULL || list->len == 0;
 }
+
+bool get(SLinkedList *list, size_t i, elem_t *e) {
+    if (list == NULL || list->len == 0 || i >= list->len) {
+        return false;
+    }
+
+    size_t cur;
+    if (i <= (list->len + 1) / 2) {
+        cur = list->head;
+        for (size_t j = 0; j < i; j++) {
+            cur = list->node[cur].next;
+        }
+    } else {
+        cur = list->tail;
+        for (size_t j = list->len - 1; j > i; j--) {
+            cur = list->node[cur].prev;
+        }
+    }
+
+    if (e != NULL) {
+        *e = list->node[cur].data;
+    }
+
+    return true;
+}
+
+bool first(SLinkedList *list, elem_t *e) {
+    if (list == NULL || list->len == 0) {
+        return false;
+    }
+
+    if (e != NULL) {
+        *e = list->node[list->head].data;
+    }
+
+    return true;
+}
+
+bool last(SLinkedList *list, elem_t *e) {
+    if (list == NULL || list->len == 0) {
+        return false;
+    }
+
+    if (e != NULL) {
+        *e = list->node[list->tail].data;
+    }
+
+    return true;
+}
+
+bool set(SLinkedList *list, size_t i, elem_t e) {
+    if (list == NULL || list->len == 0 || i >= list->len) {
+        return false;
+    }
+
+    size_t cur;
+    if (i <= (list->len + 1) / 2) {
+        cur = list->head;
+        for (size_t j = 0; j < i; j++) {
+            cur = list->node[cur].next;
+        }
+    } else {
+        cur = list->tail;
+        for (size_t j = list->len - 1; j > i; j--) {
+            cur = list->node[cur].prev;
+        }
+    }
+
+    list->node[cur].data = e;
+
+    return true;
+}
+
+bool find(SLinkedList *list, elem_t e, size_t *i) {
+    if (list == NULL || list->len == 0) {
+        return false;
+    }
+
+    size_t cur = list->head;
+    for (size_t j = 0; j < list->len; j++) {
+        if (list->node[cur].data == e) {
+            if (i != NULL) {
+                *i = j;
+            }
+
+            return true;
+        }
+
+        cur = list->node[cur].next;
+    }
+
+    return false;
+}
+
+bool insert(SLinkedList *list, size_t i, elem_t e) {
+    if (list == NULL || list->len == MAXLEN || i > list->len) {
+        return false;
+    }
+
+    size_t idx = _alloc(list);
+    if (idx == SIZE_MAX) {
+        return false;
+    }
+
+    list->node[idx].data = e;
+
+    if (i == 0) {
+        list->node[idx].next = list->head;
+        list->node[idx].prev = SIZE_MAX;
+
+        if (list->head != SIZE_MAX) {
+            list->node[list->head].prev = idx;
+        }
+
+        list->head = idx;
+
+        if (list->tail == SIZE_MAX) {
+            list->tail = idx;
+        }
+    } else if (i == list->len) {
+        list->node[idx].next = SIZE_MAX;
+        list->node[idx].prev = list->tail;
+
+        if (list->tail != SIZE_MAX) {
+            list->node[list->tail].next = idx;
+        } else {
+            list->head = idx;
+        }
+
+        list->tail = idx;
+    } else {
+        size_t cur;
+        if (i <= (list->len + 1) / 2) {
+            cur = list->head;
+            for (size_t j = 0; j < i; j++) {
+                cur = list->node[cur].next;
+            }
+        } else {
+            cur = list->tail;
+            for (size_t j = list->len - 1; j > i; j--) {
+                cur = list->node[cur].prev;
+            }
+        }
+
+        list->node[idx].next                  = list->node[cur].next;
+        list->node[idx].prev                  = cur;
+        list->node[cur].next                  = idx;
+        list->node[list->node[idx].next].prev = idx;
+    }
+
+    list->len++;
+
+    return true;
+}
+
+bool push_front(SLinkedList *list, elem_t e) {
+    return insert(list, 0, e);
+}
+
+bool push_back(SLinkedList *list, elem_t e) {
+    return list != NULL && insert(list, list->len, e);
+}
+
+bool del(SLinkedList *list, size_t i, elem_t *e) {
+    if (list == NULL || list->len == 0 || i >= list->len) {
+        return false;
+    }
+
+    size_t cur;
+    if (i <= (list->len + 1) / 2) {
+        cur = list->head;
+        for (size_t j = 0; j < i; j++) {
+            cur = list->node[cur].next;
+        }
+    } else {
+        cur = list->tail;
+        for (size_t j = list->len - 1; j > i; j--) {
+            cur = list->node[cur].prev;
+        }
+    }
+
+    if (e != NULL) {
+        *e = list->node[cur].data;
+    }
+
+    if (cur != list->head) {
+        list->node[list->node[cur].prev].next = list->node[cur].next;
+
+    } else {
+        list->head = list->node[cur].next;
+    }
+
+    if (cur != list->tail) {
+        list->node[list->node[cur].next].prev = list->node[cur].prev;
+    } else {
+        list->tail = list->node[cur].prev;
+    }
+
+    list->len--;
+    _free(list, cur);
+
+    return true;
+}
+
+bool pop_front(SLinkedList *list, elem_t *e) {
+    return del(list, 0, e);
+}
+
+bool pop_back(SLinkedList *list, elem_t *e) {
+    return list != NULL && list->len != 0 && del(list, list->len - 1, e);
+}

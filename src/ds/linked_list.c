@@ -243,10 +243,10 @@ bool find(LinkedList *list, elem_t e, size_t *i) {
     }
 
     Node *node = list->head;
-    for (size_t k = 0; node != NULL; k++) {
+    for (size_t j = 0; node != NULL; j++) {
         if (node->data == e) {
             if (i != NULL) {
-                *i = k;
+                *i = j;
             }
             return true;
         }
@@ -265,26 +265,32 @@ bool insert(LinkedList *list, size_t i, elem_t e) {
     if (node == NULL) {
         return false;
     }
+
     node->data = e;
 
     if (i == 0) {
         node->next = list->head;
         node->prev = NULL;
+
         if (list->head != NULL) {
             list->head->prev = node;
         }
+
         list->head = node;
+
         if (list->len == 0) {
             list->tail = node;
         }
     } else if (i == list->len) {
         node->next = NULL;
         node->prev = list->tail;
+
         if (list->tail != NULL) {
             list->tail->next = node;
         } else {
             list->head = node;
         }
+
         list->tail = node;
     } else {
         Node *target;
@@ -316,11 +322,7 @@ bool push_front(LinkedList *list, elem_t e) {
 }
 
 bool push_back(LinkedList *list, elem_t e) {
-    if (list == NULL) {
-        return false;
-    }
-
-    return insert(list, list->len, e);
+    return list != NULL && insert(list, list->len, e);
 }
 
 bool del(LinkedList *list, size_t i, elem_t *e) {
@@ -368,9 +370,5 @@ bool pop_front(LinkedList *list, elem_t *e) {
 }
 
 bool pop_back(LinkedList *list, elem_t *e) {
-    if (list == NULL || list->head == NULL) {
-        return false;
-    }
-
-    return del(list, list->len - 1, e);
+    return list != NULL && list->head != NULL && del(list, list->len - 1, e);
 }

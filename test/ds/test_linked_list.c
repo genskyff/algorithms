@@ -120,7 +120,7 @@ void test_get(void) {
 
     msg = "should not get when empty";
     clear(&list);
-    assert_not(get(&list, 0, NULL), msg);
+    assert_not(get(&list, 0, &e), msg);
 }
 
 void test_first(void) {
@@ -134,7 +134,7 @@ void test_first(void) {
 
     msg = "should not get first when empty";
     clear(&list);
-    assert_not(first(&list, NULL), msg);
+    assert_not(first(&list, &e), msg);
 }
 
 void test_last(void) {
@@ -148,7 +148,7 @@ void test_last(void) {
 
     msg = "should not get last when empty";
     clear(&list);
-    assert_not(last(&list, NULL), msg);
+    assert_not(last(&list, &e), msg);
 }
 
 void test_set(void) {
@@ -163,6 +163,10 @@ void test_set(void) {
     msg = "should set";
     assert(set(&list, list.len - 1, e), msg);
     assert_eq(list.tail->data, e, msg);
+
+    msg = "should not set when empty";
+    clear(&list);
+    assert_not(set(&list, 0, e), msg);
 }
 
 void test_find(void) {
@@ -170,7 +174,7 @@ void test_find(void) {
     size_t     i;
     char      *msg;
 
-    msg = "should find at [0]";
+    msg = "should find at head";
     assert(find(&list, 0, &i), msg);
     assert_eq(i, 0, msg);
 
@@ -189,7 +193,12 @@ void test_insert(void) {
     elem_t     e    = 999;
     char      *msg;
 
-    msg = "should insert at [0]";
+    msg = "should not insert when out of range";
+    assert_not(insert(&list, list.len + 1, ++e), msg);
+    assert_eq(list.len, LEN, msg);
+    assert_not(find(&list, e, NULL), msg);
+
+    msg = "should insert at head";
     assert(insert(&list, 0, ++e), msg);
     assert_eq(list.len, LEN + 1, msg);
     assert_eq(list.head->data, e, msg);
@@ -212,11 +221,6 @@ void test_insert(void) {
     assert_eq(list.len, 1, msg);
     assert_eq(list.head->data, e, msg);
     assert_eq(list.tail->data, e, msg);
-
-    msg = "should not insert when out of range";
-    assert_not(insert(&list, list.len + 1, ++e), msg);
-    assert_eq(list.len, 1, msg);
-    assert_not(find(&list, e, NULL), msg);
 }
 
 void test_push_front(void) {
@@ -261,7 +265,11 @@ void test_del(void) {
     elem_t     deleted;
     char      *msg;
 
-    msg     = "should delete at [0]";
+    msg = "should not delete when out of range";
+    assert_not(del(&list, list.len, &e), msg);
+    assert_eq(list.len, LEN, msg);
+
+    msg     = "should delete at head";
     deleted = list.head->data;
     assert(del(&list, 0, &e), msg);
     assert_eq(list.len, LEN - 1, msg);
@@ -279,23 +287,18 @@ void test_del(void) {
     assert_eq(list.len, LEN - 3, msg);
     assert_eq(e, deleted, msg);
 
-    msg = "should not delete when out of range";
-    assert_not(del(&list, list.len, &e), msg);
-    assert_eq(list.len, LEN - 3, msg);
-    assert_eq(e, deleted, msg);
+    msg = "should not delete when empty";
+    clear(&list);
+    assert_not(del(&list, 0, NULL), msg);
+    assert_eq(list.len, 0, msg);
 
     msg = "should delete when len == 1";
-    clear(&list);
     assert(push_back(&list, 999), msg);
     assert(del(&list, 0, &e), msg);
     assert_eq(list.len, 0, msg);
     assert_eq(e, 999, msg);
     assert(list.head == NULL, msg);
     assert(list.tail == NULL, msg);
-
-    msg = "should not delete when empty";
-    clear(&list);
-    assert_not(del(&list, 0, NULL), msg);
 }
 
 void test_pop_front(void) {
@@ -313,6 +316,7 @@ void test_pop_front(void) {
     msg = "should not pop_front when empty";
     clear(&list);
     assert_not(pop_front(&list, NULL), msg);
+    assert_eq(list.len, 0, msg);
 }
 
 void test_pop_back(void) {
@@ -330,6 +334,7 @@ void test_pop_back(void) {
     msg = "should not pop_back when empty";
     clear(&list);
     assert_not(pop_back(&list, NULL), msg);
+    assert_eq(list.len, 0, msg);
 }
 
 int main(void) {
