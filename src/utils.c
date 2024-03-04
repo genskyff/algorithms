@@ -171,6 +171,7 @@ void _copy(elem_t *dst, size_t d_len, elem_t *src, size_t s_len) {
     if (dst == NULL || src == NULL || d_len == 0 || s_len == 0) {
         return;
     }
+
     memmove(dst, src, MIN(d_len, s_len) * sizeof(elem_t));
 }
 
@@ -230,7 +231,6 @@ void _rotate_left(elem_t *arr, size_t len, size_t n) {
     }
 
     n = n % len;
-
     elem_t *tmp = (elem_t *)malloc(n * sizeof(elem_t));
     if (tmp == NULL) {
         fprintf(stderr,
@@ -262,7 +262,6 @@ void _rotate_right(elem_t *arr, size_t len, size_t n) {
     }
 
     n = n % len;
-
     elem_t *tmp = (elem_t *)malloc(n * sizeof(elem_t));
     if (tmp == NULL) {
         fprintf(stderr,

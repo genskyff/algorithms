@@ -22,7 +22,7 @@ void binary_insertion_sort(elem_t *arr, size_t len) {
         size_t high = i;
 
         while (low < high) {
-            size_t mid = (low + high) / 2;
+            size_t mid = low + (high - low) / 2;
 
             if (arr[mid] > base) {
                 high = mid;
