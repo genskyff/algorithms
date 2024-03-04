@@ -62,6 +62,9 @@ void test_front(void) {
     elem_t      e;
     char       *msg;
 
+    msg = "should not get front when NULL";
+    assert_not(front(NULL, NULL), msg);
+
     msg = "should get front";
     assert(front(&queue, &e), msg);
     assert_eq(e, queue.front->data, msg);
@@ -76,6 +79,9 @@ void test_back(void) {
     elem_t      e;
     char       *msg;
 
+    msg = "should not get back when NULL";
+    assert_not(back(NULL, NULL), msg);
+
     msg = "should get back";
     assert(back(&queue, &e), msg);
     assert_eq(e, queue.rear->data, msg);
@@ -89,6 +95,9 @@ void test_push_front(void) {
     LinkedQueue queue = test_data();
     elem_t      e     = 999;
     char       *msg;
+
+    msg = "should not push_front when NULL";
+    assert_not(push_front(NULL, e), msg);
 
     msg = "should push_front";
     assert(push_front(&queue, e), msg);
@@ -107,6 +116,9 @@ void test_push_back(void) {
     LinkedQueue queue = test_data();
     elem_t      e     = 999;
     char       *msg;
+
+    msg = "should not push_back when NULL";
+    assert_not(push_back(NULL, e), msg);
 
     msg = "should push_back";
     assert(push_back(&queue, e), msg);
@@ -127,6 +139,9 @@ void test_pop_front(void) {
     elem_t      popped;
     char       *msg;
 
+    msg = "should not pop_front when NULL";
+    assert_not(pop_front(NULL, NULL), msg);
+
     msg    = "should pop_front";
     popped = queue.front->data;
     assert(pop_front(&queue, &e), msg);
@@ -136,6 +151,7 @@ void test_pop_front(void) {
     msg = "should not pop_front when empty";
     clear(&queue);
     assert_not(pop_front(&queue, NULL), msg);
+    assert_eq(queue.len, 0, msg);
 }
 
 void test_pop_back(void) {
@@ -143,6 +159,9 @@ void test_pop_back(void) {
     elem_t      e;
     elem_t      popped;
     char       *msg;
+
+    msg = "should not pop_back when NULL";
+    assert_not(pop_back(NULL, NULL), msg);
 
     msg    = "should pop_back";
     popped = queue.rear->data;
@@ -153,6 +172,7 @@ void test_pop_back(void) {
     msg = "should not pop_back when empty";
     clear(&queue);
     assert_not(pop_back(&queue, NULL), msg);
+    assert_eq(queue.len, 0, msg);
 }
 
 int main(void) {

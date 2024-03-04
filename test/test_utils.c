@@ -7,12 +7,16 @@
 elem_t ARR[LEN] = {0, 1, 2, 3, 4, 5};
 
 void test_min(void) {
-    char *msg = "should return min when len > 0";
+    char *msg;
+
+    msg = "should return min when len > 0";
     assert_eq(_min(ARR, LEN), ARR[0], msg);
 }
 
 void test_max(void) {
-    char *msg = "should return max when len > 0";
+    char *msg;
+
+    msg = "should return max when len > 0";
     assert_eq(_max(ARR, LEN), ARR[5], msg);
 }
 
@@ -54,7 +58,9 @@ void test_shuffle(void) {
 
 void test_clear(void) {
     elem_t tmp[LEN];
-    char  *msg = "should set all elements to 0";
+    char  *msg;
+
+    msg = "should set all elements to 0";
     _copy(tmp, LEN, ARR, LEN);
     _clear(tmp, LEN);
     elem_t zero[LEN] = {0, 0, 0, 0, 0, 0};
@@ -115,7 +121,10 @@ void test_find(void) {
     size_t i;
     char  *msg;
 
-    msg = "should find at [0]";
+    msg = "should not find when NULL";
+    assert_not(_find(NULL, 0, 0, &i), msg);
+
+    msg = "should find at head";
     assert(_find(ARR, LEN, 0, &i), msg);
     assert_eq(i, 0, msg);
 
@@ -132,6 +141,9 @@ void test_find(void) {
 void test_find_slice(void) {
     size_t i;
     char  *msg;
+
+    msg = "should not find slice when NULL";
+    assert_not(_find_slice(NULL, 0, 0, 0, 0, &i), msg);
 
     msg         = "should find at [0] in [0, len)";
     bool find_0 = _find_slice(ARR, LEN, 0, LEN, 0, &i);

@@ -26,6 +26,16 @@ void test_init(void) {
     assert_arr_eq(queue.data, queue.len, tmp, LEN, msg);
 }
 
+void test_clear(void) {
+    ArrayQueue queue = test_data();
+    char      *msg;
+
+    msg = "should clear";
+    clear(&queue);
+    assert_eq(queue.len, 0, msg);
+    assert_eq(queue.front, 0, msg);
+}
+
 void test_is_empty(void) {
     ArrayQueue queue = test_data();
     char      *msg;
@@ -46,6 +56,9 @@ void test_front(void) {
     elem_t     e;
     char      *msg;
 
+    msg = "should not get front when NULL";
+    assert_not(front(NULL, NULL), msg);
+
     msg = "should get front";
     assert(front(&queue, &e), msg);
     assert_eq(e, queue.data[0], msg);
@@ -60,6 +73,9 @@ void test_back(void) {
     elem_t     e;
     char      *msg;
 
+    msg = "should not get back when NULL";
+    assert_not(back(NULL, NULL), msg);
+
     msg = "should get back";
     assert(back(&queue, &e), msg);
     assert_eq(e, queue.data[queue.len - 1], msg);
@@ -73,6 +89,9 @@ void test_push_front(void) {
     ArrayQueue queue = create();
     elem_t     e     = 999;
     char      *msg;
+
+    msg = "should not push_front when NULL";
+    assert_not(push_front(NULL, 0), msg);
 
     msg = "should push_front";
     assert(push_front(&queue, e), msg);
@@ -90,6 +109,9 @@ void test_push_back(void) {
     ArrayQueue queue = create();
     elem_t     e     = 999;
     char      *msg;
+
+    msg = "should not push_back when NULL";
+    assert_not(push_back(NULL, 0), msg);
 
     msg = "should push_back";
     assert(push_back(&queue, e), msg);
@@ -109,6 +131,9 @@ void test_pop_front(void) {
     elem_t     popped;
     char      *msg;
 
+    msg = "should not pop_front when NULL";
+    assert_not(pop_front(NULL, NULL), msg);
+
     msg    = "should pop_front";
     popped = queue.data[0];
     assert(pop_front(&queue, &e), msg);
@@ -126,6 +151,9 @@ void test_pop_back(void) {
     elem_t     e;
     elem_t     popped;
     char      *msg;
+
+    msg = "should not pop_back when NULL";
+    assert_not(pop_back(NULL, NULL), msg);
 
     msg    = "should pop_back";
     popped = queue.data[queue.len - 1];

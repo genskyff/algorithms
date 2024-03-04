@@ -36,6 +36,9 @@ void test_swap(void) {
     elem_t     tmp[LEN] = {0, 1, 2, 3, 4, 5};
     char      *msg;
 
+    msg = "should not swap when NULL";
+    swap(NULL, 0, 1);
+
     msg = "should not swap when i == j";
     swap(&list, 1, 1);
     assert_list_arr_eq(list.head, FORWARD, tmp, LEN, msg);
@@ -111,6 +114,9 @@ void test_get(void) {
     elem_t     e;
     char      *msg;
 
+    msg = "should not get when NULL";
+    assert_not(get(NULL, 0, NULL), msg);
+
     msg = "should not get when out of range";
     assert_not(get(&list, list.len, &e), msg);
 
@@ -128,6 +134,9 @@ void test_first(void) {
     elem_t     e;
     char      *msg;
 
+    msg = "should not get first when NULL";
+    assert_not(first(NULL, NULL), msg);
+
     msg = "should get first";
     assert(first(&list, &e), msg);
     assert_eq(e, list.head->data, msg);
@@ -142,6 +151,9 @@ void test_last(void) {
     elem_t     e;
     char      *msg;
 
+    msg = "should not get last when NULL";
+    assert_not(last(NULL, NULL), msg);
+
     msg = "should get last";
     assert(last(&list, &e), msg);
     assert_eq(e, list.tail->data, msg);
@@ -155,6 +167,9 @@ void test_set(void) {
     LinkedList list = test_data();
     elem_t     e    = 999;
     char      *msg;
+
+    msg = "should not set when NULL";
+    assert_not(set(NULL, 0, e), msg);
 
     msg = "should not set when out of range";
     assert_not(set(&list, list.len, e), msg);
@@ -174,6 +189,9 @@ void test_find(void) {
     size_t     i;
     char      *msg;
 
+    msg = "should not find when NULL";
+    assert_not(find(NULL, 0, NULL), msg);
+
     msg = "should find at head";
     assert(find(&list, 0, &i), msg);
     assert_eq(i, 0, msg);
@@ -192,6 +210,9 @@ void test_insert(void) {
     LinkedList list = test_data();
     elem_t     e    = 999;
     char      *msg;
+
+    msg = "should not insert when NULL";
+    assert_not(insert(NULL, 0, e), msg);
 
     msg = "should not insert when out of range";
     assert_not(insert(&list, list.len + 1, ++e), msg);
@@ -228,6 +249,9 @@ void test_push_front(void) {
     elem_t     e    = 999;
     char      *msg;
 
+    msg = "should not push_front when NULL";
+    assert_not(push_front(NULL, 0), msg);
+
     msg = "should push_front";
     assert(push_front(&list, e), msg);
     assert_eq(list.len, LEN + 1, msg);
@@ -245,6 +269,9 @@ void test_push_back(void) {
     LinkedList list = test_data();
     elem_t     e    = 999;
     char      *msg;
+
+    msg = "should not push_back when NULL";
+    assert_not(push_back(NULL, 0), msg);
 
     msg = "should push_back";
     assert(push_back(&list, e), msg);
@@ -264,6 +291,9 @@ void test_del(void) {
     elem_t     e;
     elem_t     deleted;
     char      *msg;
+
+    msg = "should not delete when NULL";
+    assert_not(del(NULL, 0, NULL), msg);
 
     msg = "should not delete when out of range";
     assert_not(del(&list, list.len, &e), msg);
@@ -307,6 +337,9 @@ void test_pop_front(void) {
     elem_t     popped;
     char      *msg;
 
+    msg = "should not pop_front when NULL";
+    assert_not(pop_front(NULL, NULL), msg);
+
     msg    = "should pop_front";
     popped = list.head->data;
     assert(pop_front(&list, &e), msg);
@@ -324,6 +357,9 @@ void test_pop_back(void) {
     elem_t     e;
     elem_t     popped;
     char      *msg;
+
+    msg = "should not pop_back when NULL";
+    assert_not(pop_back(NULL, NULL), msg);
 
     msg    = "should pop_back";
     popped = list.tail->data;

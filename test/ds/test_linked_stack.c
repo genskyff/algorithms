@@ -59,6 +59,9 @@ void test_peek(void) {
     elem_t      e;
     char       *msg;
 
+    msg = "should not get peek when NULL";
+    assert_not(peek(NULL, NULL), msg);
+
     msg = "should get peek";
     assert(peek(&stack, &e), msg);
     assert_eq(e, stack.top->data, msg);
@@ -72,6 +75,9 @@ void test_push(void) {
     LinkedStack stack = test_data();
     elem_t      e     = 999;
     char       *msg;
+
+    msg = "should not push when NULL";
+    assert_not(push(NULL, e), msg);
 
     msg = "should push";
     assert(push(&stack, e), msg);
@@ -90,6 +96,9 @@ void test_pop(void) {
     elem_t      e;
     elem_t      popped;
     char       *msg;
+
+    msg = "should not pop when NULL";
+    assert_not(pop(NULL, NULL), msg);
 
     msg    = "should pop";
     popped = stack.top->data;

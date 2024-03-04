@@ -4,13 +4,13 @@
 
 void run_test(TestFunc test, const char *mod, const char *target,
               const char *test_name) {
-    bool is_mod       = mod != NULL && *mod != '\0';
-    bool is_target    = target != NULL && *target != '\0';
-    bool is_test_name = test_name != NULL && *test_name != '\0';
+    bool has_mod       = mod != NULL && *mod != '\0';
+    bool has_target    = target != NULL && *target != '\0';
+    bool has_test_name = test_name != NULL && *test_name != '\0';
 
-    printf("test %s%s%s%s%s%s", is_mod ? mod : "", is_mod ? " " : "",
-           is_target ? target : "", is_target ? " " : "",
-           is_test_name ? test_name : "", is_test_name ? " " : "");
+    printf("test %s%s%s%s%s%s", has_mod ? mod : "", has_mod ? " " : "",
+           has_target ? target : "", has_target ? " " : "",
+           has_test_name ? test_name : "", has_test_name ? " " : "");
 
     test();
     printf("\x1b[1;32m ... OK\x1b[0m\n");

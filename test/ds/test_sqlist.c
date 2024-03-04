@@ -31,6 +31,9 @@ void test_swap(void) {
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
     char  *msg;
 
+    msg = "should not swap when NULL";
+    swap(NULL, 0, 1);
+
     msg = "should not swap when i == j";
     swap(&list, 1, 1);
     assert_arr_eq(list.data, list.len, tmp, LEN, msg);
@@ -84,6 +87,9 @@ void test_get(void) {
     elem_t e;
     char  *msg;
 
+    msg = "should not get when NULL";
+    assert_not(get(NULL, 0, NULL), msg);
+
     msg = "should not get when out of range";
     e   = 0;
     assert_not(get(&list, list.len, &e), msg);
@@ -103,6 +109,9 @@ void test_first(void) {
     elem_t e;
     char  *msg;
 
+    msg = "should not get first when NULL";
+    assert_not(first(NULL, NULL), msg);
+
     msg = "should get first";
     assert(first(&list, &e), msg);
     assert_eq(e, list.data[0], msg);
@@ -116,6 +125,9 @@ void test_last(void) {
     SqList list = test_data();
     elem_t e;
     char  *msg;
+
+    msg = "should not get last when NULL";
+    assert_not(last(NULL, NULL), msg);
 
     msg = "should get last";
     assert(last(&list, &e), msg);
@@ -131,6 +143,9 @@ void test_set(void) {
     elem_t e    = 999;
     char  *msg;
 
+    msg = "should not set when NULL";
+    assert_not(set(NULL, 0, e), msg);
+
     msg = "should not set when out of range";
     assert_not(set(&list, list.len, e), msg);
     assert_not(find(&list, e, NULL), msg);
@@ -145,7 +160,10 @@ void test_find(void) {
     size_t i;
     char  *msg;
 
-    msg = "should find at [0]";
+    msg = "should not find when NULL";
+    assert_not(find(NULL, 0, NULL), msg);
+
+    msg = "should find at head";
     assert(find(&list, 0, &i), msg);
     assert_eq(i, 0, msg);
 
@@ -164,7 +182,10 @@ void test_insert(void) {
     elem_t e    = 999;
     char  *msg;
 
-    msg = "should insert at [0]";
+    msg = "should not insert when NULL";
+    assert_not(insert(NULL, 0, 0), msg);
+
+    msg = "should insert at head";
     assert(insert(&list, 0, ++e), msg);
     assert_eq(list.len, LEN + 1, msg);
     assert_eq(list.data[0], e, msg);
@@ -195,6 +216,9 @@ void test_push_front(void) {
     elem_t e    = 999;
     char  *msg;
 
+    msg = "should not push_front when NULL";
+    assert_not(push_front(NULL, 0), msg);
+
     msg = "should push_front";
     assert(push_front(&list, e), msg);
     assert_eq(list.len, 1, msg);
@@ -211,6 +235,9 @@ void test_push_back(void) {
     SqList list = create();
     elem_t e    = 999;
     char  *msg;
+
+    msg = "should not push_back when NULL";
+    assert_not(push_back(NULL, 0), msg);
 
     msg = "should push_back";
     assert(push_back(&list, e), msg);
@@ -230,7 +257,10 @@ void test_del(void) {
     elem_t deleted;
     char  *msg;
 
-    msg     = "should delete at [0]";
+    msg = "should not delete when NULL";
+    assert_not(del(NULL, 0, NULL), msg);
+
+    msg     = "should delete at head";
     deleted = list.data[0];
     assert(del(&list, 0, &e), msg);
     assert_eq(list.len, LEN - 1, msg);
@@ -256,6 +286,7 @@ void test_del(void) {
     msg = "should not delete when empty";
     clear(&list);
     assert_not(del(&list, 0, NULL), msg);
+    assert_eq(list.len, 0, msg);
 }
 
 void test_pop_front(void) {
@@ -263,6 +294,9 @@ void test_pop_front(void) {
     elem_t e;
     elem_t popped;
     char  *msg;
+
+    msg = "should not pop_front when NULL";
+    assert_not(pop_front(NULL, NULL), msg);
 
     msg    = "should pop_front";
     popped = list.data[0];
@@ -281,6 +315,9 @@ void test_pop_back(void) {
     elem_t e;
     elem_t popped;
     char  *msg;
+
+    msg = "should not pop_back when NULL";
+    assert_not(pop_back(NULL, NULL), msg);
 
     msg    = "should pop_back";
     popped = list.data[list.len - 1];

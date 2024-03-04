@@ -26,6 +26,15 @@ void test_init(void) {
     assert_arr_eq(stack.data, stack.len, tmp, LEN, msg);
 }
 
+void test_clear(void) {
+    ArrayStack stack = test_data();
+    char      *msg;
+
+    msg = "should clear";
+    clear(&stack);
+    assert_eq(stack.len, 0, msg);
+}
+
 void test_is_empty(void) {
     ArrayStack stack = test_data();
     char      *msg;
@@ -46,6 +55,9 @@ void test_peek(void) {
     elem_t     e;
     char      *msg;
 
+    msg = "should not get top when NULL";
+    assert_not(peek(NULL, NULL), msg);
+
     msg = "should get top";
     assert(peek(&stack, &e), msg);
     assert_eq(e, stack.data[stack.len - 1], msg);
@@ -59,6 +71,9 @@ void test_push(void) {
     ArrayStack stack = test_data();
     elem_t     e     = 999;
     char      *msg;
+
+    msg = "should not push when NULL";
+    assert_not(push(NULL, e), msg);
 
     msg = "should push";
     assert(push(&stack, e), msg);
@@ -76,6 +91,9 @@ void test_pop(void) {
     elem_t     e;
     elem_t     popped;
     char      *msg;
+
+    msg = "should not pop when NULL";
+    assert_not(pop(NULL, NULL), msg);
 
     msg    = "should pop";
     popped = stack.data[stack.len - 1];

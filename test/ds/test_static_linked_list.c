@@ -194,7 +194,7 @@ void test_find(void) {
     size_t      i;
     char       *msg;
 
-    msg = "should find at [0]";
+    msg = "should find at head";
     assert(find(&list, 0, &i), msg);
     assert_eq(i, 0, msg);
 
@@ -260,7 +260,7 @@ void test_push_front(void) {
 
     msg      = "should not push_front when full";
     list.len = MAXLEN;
-    assert_not(push_front(&list, e), msg);
+    assert_not(push_front(&list, NULL), msg);
     assert_eq(list.len, MAXLEN, msg);
 
     msg = "should push_front when empty";
@@ -283,7 +283,7 @@ void test_push_back(void) {
 
     msg      = "should not push_back when full";
     list.len = MAXLEN;
-    assert_not(push_back(&list, e), msg);
+    assert_not(push_back(&list, NULL), msg);
     assert_eq(list.len, MAXLEN, msg);
 
     msg = "should push_back when empty";
@@ -301,7 +301,7 @@ void test_del(void) {
     char       *msg;
 
     msg = "should not del when out of range";
-    assert_not(del(&list, list.len, &e), msg);
+    assert_not(del(&list, list.len, NULL), msg);
     assert_eq(list.len, LEN, msg);
 
     msg     = "should del at head";
@@ -324,7 +324,7 @@ void test_del(void) {
 
     msg = "should not del when empty";
     clear(&list);
-    assert_not(del(&list, 0, &e), msg);
+    assert_not(del(&list, 0, NULL), msg);
     assert_eq(list.len, 0, msg);
 
     msg = "should delete when len == 1";
@@ -349,7 +349,7 @@ void test_pop_front(void) {
 
     msg = "should not pop_front when empty";
     clear(&list);
-    assert_not(pop_front(&list, &e), msg);
+    assert_not(pop_front(&list, NULL), msg);
     assert_eq(list.len, 0, msg);
 }
 
@@ -367,7 +367,7 @@ void test_pop_back(void) {
 
     msg = "should not pop_back when empty";
     clear(&list);
-    assert_not(pop_back(&list, &e), msg);
+    assert_not(pop_back(&list, NULL), msg);
     assert_eq(list.len, 0, msg);
 }
 
