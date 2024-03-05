@@ -1,5 +1,5 @@
 #include "sqlist.h"
-#include "utils.h"
+#include "util.h"
 #include <stdarg.h>
 
 SqList create(void) {

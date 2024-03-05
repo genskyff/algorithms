@@ -1,6 +1,6 @@
 #include "bubble.h"
 #include "helper.h"
-#include "utils.h"
+#include "util.h"
 #include <stdlib.h>
 
 TestSortData DATA[SORT_DATA_LEN];

@@ -1,5 +1,5 @@
 #include "selection.h"
-#include "utils.h"
+#include "util.h"
 
 void selection_sort(elem_t *arr, size_t len) {
     if (len == 0) {

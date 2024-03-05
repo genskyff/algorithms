@@ -1,5 +1,5 @@
 #include "quick.h"
-#include "utils.h"
+#include "util.h"
 
 void _move_pivot_to_high(elem_t *arr, size_t low, size_t high) {
     size_t mid   = low + (high - low) / 2;

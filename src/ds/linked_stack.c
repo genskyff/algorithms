@@ -1,5 +1,5 @@
 #include "linked_stack.h"
-#include "utils.h"
+#include "util.h"
 #include <stdarg.h>
 #include <stdlib.h>
 

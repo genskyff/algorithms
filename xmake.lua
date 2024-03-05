@@ -21,8 +21,8 @@ rule_end()
 add_includedirs("include", "include/ds", "include/sort")
 
 on_load(function (target)
-    if target:name() ~= "utils" then
-        target:add("deps", "utils")
+    if target:name() ~= "util" then
+        target:add("deps", "util")
     end
 
     local group = target:get("group")
@@ -59,15 +59,15 @@ task("test-helper")
     }
 task_end()
 
-task("test-utils")
+task("test-util")
     on_run(function ()
         os.exec("xmake f -m test")
-        os.exec("xmake build -g test_utils")
-        os.exec("xmake run -g test_utils")
+        os.exec("xmake build -g test_util")
+        os.exec("xmake run -g test_util")
     end)
     set_menu{
-        usage = "xmake test-utils",
-        description = "Run all utils tests"
+        usage = "xmake test-util",
+        description = "Run all util tests"
     }
 task_end()
 
@@ -112,15 +112,15 @@ target("test_helper")
 --  utils
 -- -------
 
-target("utils")
+target("util")
     set_kind("static")
-    add_files("src/utils.c")
+    add_files("src/util.c")
 
-target("test_utils")
+target("test_util")
     set_kind("binary")
-    set_group("test_utils")
-    add_files("test/test_utils.c")
-    add_deps("utils")
+    set_group("test_util")
+    add_files("test/test_util.c")
+    add_deps("util")
 
 -- -----------------
 --  data structures

@@ -1,6 +1,6 @@
 #include "helper.h"
 #include "merge.h"
-#include "utils.h"
+#include "util.h"
 #include <stdlib.h>
 
 TestSortData DATA[SORT_DATA_LEN];

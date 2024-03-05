@@ -1,5 +1,5 @@
 #include "helper.h"
-#include "utils.h"
+#include "util.h"
 #include <stdlib.h>
 
 void run_test(TestFunc test, const char *mod, const char *target,

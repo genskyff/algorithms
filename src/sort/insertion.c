@@ -1,5 +1,5 @@
 #include "insertion.h"
-#include "utils.h"
+#include "util.h"
 
 void insertion_sort(elem_t *arr, size_t len) {
     for (size_t i = 1; i < len; i++) {
