@@ -393,24 +393,24 @@ int main(void) {
     char *mod    = "ds";
     char *target = "static_linked_list";
 
-    run_test(test_create, mod, target, "test_create");
-    run_test(test_init, mod, target, "test_init");
-    run_test(test_to_array, mod, target, "test_to_array");
-    run_test(test_swap, mod, target, "test_swap");
-    run_test(test_reverse, mod, target, "test_reverse");
-    run_test(test_clear, mod, target, "test_clear");
-    run_test(test_is_empty, mod, target, "test_is_empty");
-    run_test(test_get, mod, target, "test_get");
-    run_test(test_first, mod, target, "test_first");
-    run_test(test_last, mod, target, "test_last");
-    run_test(test_set, mod, target, "test_set");
-    run_test(test_find, mod, target, "test_find");
-    run_test(test_insert, mod, target, "test_insert");
-    run_test(test_push_front, mod, target, "test_push_front");
-    run_test(test_push_back, mod, target, "test_push_back");
-    run_test(test_del, mod, target, "test_del");
-    run_test(test_pop_front, mod, target, "test_pop_front");
-    run_test(test_pop_back, mod, target, "test_pop_back");
+    run_test(test_create, mod, target, "create");
+    run_test(test_init, mod, target, "init");
+    run_test(test_to_array, mod, target, "to_array");
+    run_test(test_swap, mod, target, "swap");
+    run_test(test_reverse, mod, target, "reverse");
+    run_test(test_clear, mod, target, "clear");
+    run_test(test_is_empty, mod, target, "is_empty");
+    run_test(test_get, mod, target, "get");
+    run_test(test_first, mod, target, "first");
+    run_test(test_last, mod, target, "last");
+    run_test(test_set, mod, target, "set");
+    run_test(test_find, mod, target, "find");
+    run_test(test_insert, mod, target, "insert");
+    run_test(test_push_front, mod, target, "push_front");
+    run_test(test_push_back, mod, target, "push_back");
+    run_test(test_del, mod, target, "del");
+    run_test(test_pop_front, mod, target, "pop_front");
+    run_test(test_pop_back, mod, target, "pop_back");
 
     return 0;
 }
