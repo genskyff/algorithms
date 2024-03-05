@@ -4,9 +4,9 @@
 #include <stdlib.h>
 
 bool _shrink(Vec *v) {
-    if (v->len > 0 && v->cap >= 2 * EXTEND_RATIO * INIT_CAP &&
-        v->len <= v->cap / (2 * EXTEND_RATIO)) {
-        size_t  new_cap  = v->len * EXTEND_RATIO;
+    if (v->len > 0 && v->cap >= 2 * GROWTH_FACTOR * INIT_CAP &&
+        v->len <= v->cap / (2 * GROWTH_FACTOR)) {
+        size_t  new_cap  = v->len * GROWTH_FACTOR;
         elem_t *new_data = (elem_t *)realloc(v->data, new_cap * sizeof(elem_t));
         if (new_data != NULL) {
             v->data = new_data;
@@ -19,9 +19,9 @@ bool _shrink(Vec *v) {
     return false;
 }
 
-bool _extend(Vec *v) {
+bool _grow(Vec *v) {
     if (v->len == v->cap) {
-        size_t  new_cap  = v->cap * EXTEND_RATIO;
+        size_t  new_cap  = v->cap * GROWTH_FACTOR;
         elem_t *new_data = (elem_t *)realloc(v->data, new_cap * sizeof(elem_t));
         if (new_data != NULL) {
             v->data = new_data;
@@ -39,7 +39,7 @@ Vec create(void) {
 }
 
 Vec init(size_t n, ...) {
-    size_t  cap  = n < INIT_CAP ? INIT_CAP : n * EXTEND_RATIO;
+    size_t  cap  = n < INIT_CAP ? INIT_CAP : n * GROWTH_FACTOR;
     elem_t *data = (elem_t *)malloc(cap * sizeof(elem_t));
 
     if (data == NULL) {
@@ -132,7 +132,7 @@ bool insert(Vec *v, size_t i, elem_t e) {
         return false;
     }
 
-    if (v->len == v->cap && !_extend(v)) {
+    if (v->len == v->cap && !_grow(v)) {
         return false;
     }
 

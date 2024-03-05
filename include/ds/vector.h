@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 #define INIT_CAP     20
-#define EXTEND_RATIO 2
+#define GROWTH_FACTOR 2
 
 // data[0] is the first
 // data[len - 1] is the last
