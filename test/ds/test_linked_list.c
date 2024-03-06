@@ -13,8 +13,8 @@ void test_create(void) {
     char      *msg;
 
     msg = "should get a empty linked list";
-    assert(list.head == NULL, msg);
-    assert(list.tail == NULL, msg);
+    assert_null(list.head, msg);
+    assert_null(list.tail, msg);
     assert_eq(list.len, 0, msg);
 }
 
@@ -23,8 +23,8 @@ void test_init(void) {
     char      *msg;
 
     msg = "should get a initialized linked list";
-    assert(list.head != NULL, msg);
-    assert(list.tail != NULL, msg);
+    assert_not_null(list.head, msg);
+    assert_not_null(list.tail, msg);
     assert_eq(list.len, LEN, msg);
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
     assert_list_arr_eq(list.head, FORWARD, tmp, LEN, msg);
@@ -89,8 +89,8 @@ void test_clear(void) {
 
     msg = "should clear";
     clear(&list);
-    assert(list.head == NULL, msg);
-    assert(list.tail == NULL, msg);
+    assert_null(list.head, msg);
+    assert_null(list.tail, msg);
     assert_eq(list.len, 0, msg);
 }
 
@@ -327,8 +327,8 @@ void test_del(void) {
     assert(del(&list, 0, &e), msg);
     assert_eq(list.len, 0, msg);
     assert_eq(e, 999, msg);
-    assert(list.head == NULL, msg);
-    assert(list.tail == NULL, msg);
+    assert_null(list.head, msg);
+    assert_null(list.tail, msg);
 }
 
 void test_pop_front(void) {

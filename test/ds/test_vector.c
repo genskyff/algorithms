@@ -13,7 +13,7 @@ void test_create(void) {
     char *msg;
 
     msg = "should get a empty vector";
-    assert(v.data != NULL, msg);
+    assert_not_null(v.data, msg);
     assert_eq(v.len, 0, msg);
     assert_eq(v.cap, INIT_CAP, msg);
 
@@ -25,7 +25,7 @@ void test_init(void) {
     char *msg;
 
     msg = "should get a initialized vector";
-    assert(v.data != NULL, msg);
+    assert_not_null(v.data, msg);
     assert_eq(v.len, LEN, msg);
     assert_eq(v.cap, INIT_CAP, msg);
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
@@ -380,7 +380,7 @@ void test_drop(void) {
 
     msg = "should drop";
     drop(&v);
-    assert(v.data == NULL, msg);
+    assert_null(v.data, msg);
     assert_eq(v.len, 0, msg);
     assert_eq(v.cap, 0, msg);
 }

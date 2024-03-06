@@ -13,7 +13,7 @@ void test_create(void) {
     char       *msg;
 
     msg = "should get a empty linked stack";
-    assert(stack.top == NULL, msg);
+    assert_null(stack.top, msg);
     assert_eq(stack.len, 0, msg);
 }
 
@@ -22,7 +22,7 @@ void test_init(void) {
     char       *msg;
 
     msg = "should get a initialized linked stack";
-    assert(stack.top != NULL, msg);
+    assert_not_null(stack.top, msg);
     assert_eq(stack.len, LEN, msg);
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
     assert_list_arr_eq(stack.top, BACKWARD, tmp, LEN, msg);
@@ -35,7 +35,7 @@ void test_clear(void) {
 
     msg = "should clear";
     clear(&stack);
-    assert(stack.top == NULL, msg);
+    assert_null(stack.top, msg);
     assert_eq(stack.len, 0, msg);
 }
 

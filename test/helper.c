@@ -38,6 +38,28 @@ void assert_not(bool cond, const char *msg) {
     }
 }
 
+void assert_null(void *ptr, const char *msg) {
+    if (ptr != NULL) {
+        const char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+        fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
+        fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
+        fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mNULL\n");
+        fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mNot NULL\n\n");
+        exit(EXIT_FAILURE);
+    }
+}
+
+void assert_not_null(void *ptr, const char *msg) {
+    if (ptr == NULL) {
+        const char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+        fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
+        fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
+        fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mNot NULL\n");
+        fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mNULL\n\n");
+        exit(EXIT_FAILURE);
+    }
+}
+
 bool _is_eq(elem_t left, elem_t right) {
     return left == right;
 }

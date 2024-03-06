@@ -1,9 +1,51 @@
 #include "hashmap.h"
 #include <stdlib.h>
 
+typedef void (*PrintFunc)(FILE *stream, Pair *p);
+void _print(FILE *stream, HashMap *map, PrintFunc print_func, const char *start,
+            const char *end, const char *sep) {
+    if (stream == NULL) {
+        stream = stdout;
+    }
+
+    if (map == NULL || map->len == 0) {
+        fprintf(stream, "%s%s\n", start, end);
+        return;
+    }
+
+    fprintf(stream, "%s", start);
+    bool is_first = false;
+    for (size_t i = 0; i < map->cap; ++i) {
+        Pair *p = map->bucket[i];
+        while (p != NULL) {
+            if (is_first) {
+                fprintf(stream, "%s", sep);
+            } else {
+                is_first = true;
+            }
+
+            print_func(stream, p);
+            p = p->next;
+        }
+    }
+    fprintf(stream, "%s\n", end);
+}
+
+void _print_pair(FILE *stream, Pair *p) {
+    fprintf(stream, "\"%zu\": %d", p->key, p->value);
+}
+
+void _print_key(FILE *stream, Pair *p) {
+    fprintf(stream, "\"%zu\"", p->key);
+}
+
+void _print_value(FILE *stream, Pair *p) {
+    fprintf(stream, "%d", p->value);
+}
+
 // 32-bit multiplication
 key_t _hash(key_t key) {
-    return key * 0x61c88647;
+    return key * 0x61c88647; // Magic number
 }
 
 HashMap create(void) {
@@ -62,54 +104,42 @@ HashMap init(key_t *keys, value_t *values, size_t len) {
     return map;
 }
 
-void show(FILE *stream, HashMap *map) {
-    if (stream == NULL) {
-        stream = stdout;
-    }
+key_t *keys(HashMap *map);
 
-    if (map == NULL || map->len == 0) {
-        fprintf(stream, "{}\n");
+value_t *values(HashMap *map);
+
+void show(FILE *stream, HashMap *map) {
+    _print(stream, map, _print_pair, "{", "}", ", ");
+}
+
+void show_keys(FILE *stream, HashMap *map) {
+    _print(stream, map, _print_key, "[", "]", ", ");
+}
+
+void show_values(FILE *stream, HashMap *map) {
+    _print(stream, map, _print_value, "[", "]", ", ");
+}
+
+void clear(HashMap *map) {
+    if (map == NULL) {
         return;
     }
 
-    fprintf(stream, "{");
-    int firstItemPrinted = 0;
     for (size_t i = 0; i < map->cap; ++i) {
         Pair *p = map->bucket[i];
-        if (p != NULL) {
-            if (firstItemPrinted) {
-                fprintf(stream, ", ");
-            } else {
-                firstItemPrinted = 1;
-            }
-
-            if (p->next != NULL) {
-                fprintf(stream, "{");
-            }
-
-            while (p != NULL) {
-                fprintf(stream, "\"%zu\": %d", p->key, p->value);
-                if (p->next != NULL) {
-                    fprintf(stream, ", ");
-                }
-                p = p->next;
-            }
-
-            if (map->bucket[i]->next != NULL) {
-                fprintf(stream, "}");
-            }
+        while (p != NULL) {
+            Pair *tmp = p;
+            p         = p->next;
+            free(tmp);
         }
+        map->bucket[i] = NULL;
     }
-    fprintf(stream, "}\n");
+    map->len = 0;
 }
 
-void show_keys(FILE *stream, HashMap *map);
-
-void show_values(FILE *stream, HashMap *map);
-
-void clear(HashMap *map);
-
-bool is_empty(HashMap *map);
+bool is_empty(HashMap *map) {
+    return map == NULL || map->len == 0;
+}
 
 bool get(HashMap *map, key_t key, value_t *value);
 

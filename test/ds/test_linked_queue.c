@@ -13,8 +13,8 @@ void test_create(void) {
     char       *msg;
 
     msg = "should get a empty linked queue";
-    assert(queue.front == NULL, msg);
-    assert(queue.rear == NULL, msg);
+    assert_null(queue.front, msg);
+    assert_null(queue.rear, msg);
     assert_eq(queue.len, 0, msg);
 }
 
@@ -23,8 +23,8 @@ void test_init(void) {
     char       *msg;
 
     msg = "should get a initialized linked queue";
-    assert(queue.front != NULL, msg);
-    assert(queue.rear != NULL, msg);
+    assert_not_null(queue.front, msg);
+    assert_not_null(queue.rear, msg);
     assert_eq(queue.len, LEN, msg);
     elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
     assert_list_arr_eq(queue.front, FORWARD, tmp, LEN, msg);
@@ -37,8 +37,8 @@ void test_clear(void) {
 
     msg = "should clear";
     clear(&queue);
-    assert(queue.front == NULL, msg);
-    assert(queue.rear == NULL, msg);
+    assert_null(queue.front, msg);
+    assert_null(queue.rear, msg);
     assert_eq(queue.len, 0, msg);
 }
 

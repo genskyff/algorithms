@@ -60,7 +60,7 @@ void test_to_array(void) {
 
     msg = "should get NULL when empty";
     clear(&list);
-    assert(to_array(&list) == NULL, msg);
+    assert_null(to_array(&list), msg);
 }
 
 void test_swap(void) {

@@ -11,6 +11,9 @@ void run_test(TestFunc test, const char *mod, const char *target,
 void assert(bool cond, const char *msg);
 void assert_not(bool cond, const char *msg);
 
+void assert_null(void *ptr, const char *msg);
+void assert_not_null(void *ptr, const char *msg);
+
 void assert_eq(elem_t left, elem_t right, const char *msg);
 void assert_ne(elem_t left, elem_t right, const char *msg);
 

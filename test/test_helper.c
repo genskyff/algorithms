@@ -10,6 +10,14 @@ void test_assert_not(void) {
     assert_not(false, MSG);
 }
 
+void test_assert_null(void) {
+    assert_null(NULL, MSG);
+}
+
+void test_assert_not_null(void) {
+    assert_not_null(&MSG, MSG);
+}
+
 void test_assert_eq(void) {
     assert_eq(1, 1, MSG);
 }
@@ -105,6 +113,8 @@ int main(void) {
 
     run_test(test_assert, mod, target, "assert");
     run_test(test_assert_not, mod, target, "assert_not");
+    run_test(test_assert_null, mod, target, "assert_null");
+    run_test(test_assert_not_null, mod, target, "assert_not_null");
     run_test(test_assert_eq, mod, target, "assert_eq");
     run_test(test_assert_ne, mod, target, "assert_ne");
     run_test(test_assert_arr_eq, mod, target, "assert_arr_eq");
