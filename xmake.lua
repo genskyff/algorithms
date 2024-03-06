@@ -148,6 +148,17 @@ target("test_array_stack")
     add_files("test/ds/test_array_stack.c")
     add_deps("array_stack")
 
+target("hashmap")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/hashmap.c")
+
+target("test_hashmap")
+    set_kind("binary")
+    set_group("test_ds")
+    add_files("test/ds/test_hashmap.c")
+    add_deps("hashmap")
+
 target("linked_list")
     set_kind("static")
     set_group("ds")

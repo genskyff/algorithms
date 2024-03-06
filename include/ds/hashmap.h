@@ -11,26 +11,26 @@
 typedef size_t key_t;
 typedef elem_t value_t;
 
-typedef struct {
-    key_t   key;
-    value_t value;
+typedef struct Pair {
+    key_t        key;
+    value_t      value;
+    struct Pair *next;
 } Pair;
 
 typedef struct {
-    Pair  *bucket;
+    Pair **bucket;
     size_t len;
     size_t cap;
 } HashMap;
 
 HashMap create(void);
 HashMap init(key_t *keys, value_t *values, size_t len);
-void    show_key_value(FILE *stream, HashMap *map);
-void    show_key(FILE *stream, HashMap *map);
-void    show_value(FILE *stream, HashMap *map);
+void    show(FILE *stream, HashMap *map);
+void    show_keys(FILE *stream, HashMap *map);
+void    show_values(FILE *stream, HashMap *map);
 void    clear(HashMap *map);
 bool    is_empty(HashMap *map);
 bool    get(HashMap *map, key_t key, value_t *value);
-bool    set(HashMap *map, key_t key, value_t value);
 bool    insert(HashMap *map, key_t key, value_t value);
 bool    del(HashMap *map, key_t key);
 void    drop(HashMap *map);
