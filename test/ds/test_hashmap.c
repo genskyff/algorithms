@@ -1,6 +1,5 @@
 #include "hashmap.h"
 #include "helper.h"
-#include <stdlib.h>
 
 #define LEN 6
 HashMap test_data() {

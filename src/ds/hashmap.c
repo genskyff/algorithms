@@ -14,32 +14,32 @@ void _print(FILE *stream, HashMap *map, PrintFunc print_func,
     }
 
     fprintf(stream, "%s", prefix);
-    bool is_first = true;
+    bool first_entry = true;
     for (size_t i = 0; i < map->cap; ++i) {
-        Pair *p             = map->bucket[i];
-        bool  has_conflict  = false;
-        bool  is_turn_first = true;
+        Pair *p = map->bucket[i];
+        if (p == NULL) {
+            continue;
+        }
+
+        if (first_entry) {
+            first_entry = false;
+        } else {
+            fprintf(stream, "%s", sep);
+        }
+
+        if (p->next != NULL) {
+            fprintf(stream, "%s", prefix);
+        }
+
         while (p != NULL) {
-            if (is_first) {
-                is_first = false;
-            } else {
+            print_func(stream, p);
+            if (p->next != NULL) {
                 fprintf(stream, "%s", sep);
             }
-
-            if (is_turn_first) {
-                is_turn_first = false;
-                has_conflict  = p->next != NULL;
-                if (has_conflict) {
-                    fprintf(stream, "%s", prefix);
-                }
-            } else {
-                has_conflict = true;
-            }
-
-            print_func(stream, p);
             p = p->next;
         }
-        if (has_conflict) {
+
+        if (map->bucket[i]->next != NULL) {
             fprintf(stream, "%s", suffix);
         }
     }
