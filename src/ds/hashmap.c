@@ -17,7 +17,7 @@ void _print(FILE *stream, HashMap *map, PrintFunc print_func,
     fprintf(stream, "%s", prefix);
     bool first_entry = true;
     for (size_t i = 0; i < map->cap; ++i) {
-        Pair *p = map->bucket[i];
+        Pair *p = map->buckets[i];
         if (p == NULL) {
             continue;
         }
@@ -40,7 +40,7 @@ void _print(FILE *stream, HashMap *map, PrintFunc print_func,
             p = p->next;
         }
 
-        if (map->bucket[i]->next != NULL) {
+        if (map->buckets[i]->next != NULL) {
             fprintf(stream, "%s", suffix);
         }
     }
@@ -48,15 +48,22 @@ void _print(FILE *stream, HashMap *map, PrintFunc print_func,
 }
 
 void _print_pair(FILE *stream, Pair *p) {
-    fprintf(stream, "\"%s\": %d", p->key, p->value);
+    if (p != NULL) {
+        fprintf(stream == NULL ? stdout : stream, "\"%s\": %d", p->key,
+                p->value);
+    }
 }
 
 void _print_key(FILE *stream, Pair *p) {
-    fprintf(stream, "\"%s\"", p->key);
+    if (p != NULL) {
+        fprintf(stream == NULL ? stdout : stream, "\"%s\"", p->key);
+    }
 }
 
 void _print_value(FILE *stream, Pair *p) {
-    fprintf(stream, "%d", p->value);
+    if (p != NULL) {
+        fprintf(stream == NULL ? stdout : stream, "%d", p->value);
+    }
 }
 
 // FNV-1a hash
@@ -75,42 +82,51 @@ uint64_t _hash(const char *str) {
 }
 
 bool _shrink(HashMap *map) {
-    size_t new_cap     = map->cap / GROWTH_FACTOR;
-    Pair **new_buckets = (Pair **)calloc(new_cap, sizeof(Pair *));
-    if (new_buckets == NULL) {
-        return false;
-    }
+    if (map != NULL && map->cap >= SHINK_CAP &&
+        map->len <= (size_t)(map->cap * LOW_FACTOR)) {
+        size_t new_cap     = MAX(INIT_CAP, map->len * GROWTH_FACTOR);
+        Pair **new_buckets = (Pair **)malloc(new_cap * sizeof(Pair *));
+        if (new_buckets != NULL) {
+            for (size_t i = 0; i < map->cap; ++i) {
+                Pair *p = map->buckets[i];
+                while (p != NULL) {
+                    Pair *tmp = p;
+                    p         = p->next;
 
-    for (size_t i = 0; i < map->cap; ++i) {
-        Pair *p = map->bucket[i];
-        while (p != NULL) {
-            Pair *tmp = p;
-            p         = p->next;
+                    size_t idx       = (size_t)_hash(tmp->key) % new_cap;
+                    tmp->next        = new_buckets[idx];
+                    new_buckets[idx] = tmp;
+                }
+            }
 
-            size_t idx       = (size_t)_hash(tmp->key) % new_cap;
-            tmp->next        = new_buckets[idx];
-            new_buckets[idx] = tmp;
+            free(map->buckets);
+            map->buckets = new_buckets;
+            map->cap     = new_cap;
+
+            return true;
         }
     }
 
-    free(map->bucket);
-    map->bucket = new_buckets;
-    map->cap    = new_cap;
-
-    return true;
+    return false;
 }
 
-bool _grow(HashMap *map);
+bool _grow(HashMap *map) {
+    if (map != NULL && map->len >= map->cap * LOAD_FACTOR) {
+        size_t new_cap = map->cap * GROWTH_FACTOR;
+    }
+
+    return false;
+}
 
 HashMap create(void) {
     return init(NULL, NULL, 0);
 }
 
 HashMap init(key_t *keys, value_t *values, size_t len) {
-    size_t cap =
-        keys == NULL || values == NULL || len < (size_t)(INIT_CAP * LOAD_FACTOR)
-            ? INIT_CAP
-            : len * GROWTH_FACTOR;
+    size_t cap     = keys == NULL || values == NULL ||
+                         len <= (size_t)(INIT_CAP * LOAD_FACTOR)
+                         ? INIT_CAP
+                         : len * GROWTH_FACTOR;
     Pair **buckets = (Pair **)calloc(cap, sizeof(Pair *));
 
     if (buckets == NULL) {
@@ -120,7 +136,7 @@ HashMap init(key_t *keys, value_t *values, size_t len) {
         exit(EXIT_FAILURE);
     }
 
-    HashMap map = {.bucket = buckets, .len = 0, .cap = cap};
+    HashMap map = {.buckets = buckets, .len = 0, .cap = cap};
 
     if (keys == NULL || values == NULL || len == 0) {
         return map;
@@ -130,8 +146,8 @@ HashMap init(key_t *keys, value_t *values, size_t len) {
         size_t idx = (size_t)_hash(keys[i]) % cap;
 
         bool has_key = false;
-        if (map.bucket[idx] != NULL) {
-            Pair *tmp = map.bucket[idx];
+        if (map.buckets[idx] != NULL) {
+            Pair *tmp = map.buckets[idx];
             while (tmp != NULL) {
                 if (tmp->key == keys[i]) {
                     tmp->value = values[i];
@@ -148,10 +164,10 @@ HashMap init(key_t *keys, value_t *values, size_t len) {
                 return map;
             }
 
-            p->key          = keys[i];
-            p->value        = values[i];
-            p->next         = map.bucket[idx];
-            map.bucket[idx] = p;
+            p->key           = keys[i];
+            p->value         = values[i];
+            p->next          = map.buckets[idx];
+            map.buckets[idx] = p;
             map.len++;
         }
     }
@@ -177,13 +193,13 @@ void clear(HashMap *map) {
     }
 
     for (size_t i = 0; i < map->cap; ++i) {
-        Pair *p = map->bucket[i];
+        Pair *p = map->buckets[i];
         while (p != NULL) {
             Pair *tmp = p;
             p         = p->next;
             free(tmp);
         }
-        map->bucket[i] = NULL;
+        map->buckets[i] = NULL;
     }
     map->len = 0;
 }
@@ -203,7 +219,7 @@ key_t *get_keys(HashMap *map) {
     }
 
     for (size_t i = 0, idx = 0; i < map->cap; ++i) {
-        Pair *p = map->bucket[i];
+        Pair *p = map->buckets[i];
         while (p != NULL) {
             keys[idx++] = p->key;
             p           = p->next;
@@ -224,7 +240,7 @@ value_t *get_values(HashMap *map) {
     }
 
     for (size_t i = 0, idx = 0; i < map->cap; ++i) {
-        Pair *p = map->bucket[i];
+        Pair *p = map->buckets[i];
         while (p != NULL) {
             values[idx++] = p->value;
             p             = p->next;
@@ -240,7 +256,7 @@ bool get(HashMap *map, key_t key, value_t *value) {
     }
 
     size_t idx = (size_t)_hash(key) % map->cap;
-    Pair  *p   = map->bucket[idx];
+    Pair  *p   = map->buckets[idx];
     while (p != NULL) {
         if (_cmp_str(p->key, key) == 0) {
             if (value != NULL) {
@@ -267,7 +283,7 @@ bool insert(HashMap *map, key_t key, value_t value) {
         }
 
         for (size_t i = 0; i < map->cap; ++i) {
-            Pair *p = map->bucket[i];
+            Pair *p = map->buckets[i];
             while (p != NULL) {
                 Pair *tmp = p;
                 p         = p->next;
@@ -278,13 +294,13 @@ bool insert(HashMap *map, key_t key, value_t value) {
             }
         }
 
-        free(map->bucket);
-        map->bucket = new_buckets;
-        map->cap    = new_cap;
+        free(map->buckets);
+        map->buckets = new_buckets;
+        map->cap     = new_cap;
     }
 
     size_t idx = (size_t)_hash(key) % map->cap;
-    Pair  *p   = map->bucket[idx];
+    Pair  *p   = map->buckets[idx];
     while (p != NULL) {
         if (_cmp_str(p->key, key) == 0) {
             p->value = value;
@@ -298,10 +314,10 @@ bool insert(HashMap *map, key_t key, value_t value) {
         return false;
     }
 
-    new_pair->key    = key;
-    new_pair->value  = value;
-    new_pair->next   = map->bucket[idx];
-    map->bucket[idx] = new_pair;
+    new_pair->key     = key;
+    new_pair->value   = value;
+    new_pair->next    = map->buckets[idx];
+    map->buckets[idx] = new_pair;
     map->len++;
 
     return true;

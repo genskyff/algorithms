@@ -4,7 +4,9 @@
 #include "type.h"
 #include <stdbool.h>
 
-#define INIT_CAP     20
+#define INIT_CAP      100
+#define SHINK_CAP     1000
+#define LOW_FACTOR   0.25
 #define GROWTH_FACTOR 2
 
 // data[0] is the first

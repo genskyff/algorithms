@@ -4,9 +4,9 @@
 #include <stdlib.h>
 
 bool _shrink(Vec *v) {
-    if (v->len > 0 && v->cap >= 2 * GROWTH_FACTOR * INIT_CAP &&
-        v->len <= v->cap / (2 * GROWTH_FACTOR)) {
-        size_t  new_cap  = v->len * GROWTH_FACTOR;
+    if (v != NULL && v->cap > SHINK_CAP &&
+        v->len < (size_t)(v->cap * LOW_FACTOR)) {
+        size_t  new_cap  = MAX(INIT_CAP, v->len * GROWTH_FACTOR);
         elem_t *new_data = (elem_t *)realloc(v->data, new_cap * sizeof(elem_t));
         if (new_data != NULL) {
             v->data = new_data;
@@ -20,7 +20,7 @@ bool _shrink(Vec *v) {
 }
 
 bool _grow(Vec *v) {
-    if (v->len == v->cap) {
+    if (v != NULL && v->len == v->cap) {
         size_t  new_cap  = v->cap * GROWTH_FACTOR;
         elem_t *new_data = (elem_t *)realloc(v->data, new_cap * sizeof(elem_t));
         if (new_data != NULL) {

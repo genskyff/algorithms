@@ -5,6 +5,8 @@
 #include <stdbool.h>
 
 #define INIT_CAP      100
+#define SHINK_CAP     1000
+#define LOW_FACTOR    0.25
 #define LOAD_FACTOR   0.75
 #define GROWTH_FACTOR 2
 
@@ -18,7 +20,7 @@ typedef struct Pair {
 } Pair;
 
 typedef struct {
-    Pair **bucket;
+    Pair **buckets;
     size_t len;
     size_t cap;
 } HashMap;

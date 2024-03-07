@@ -20,7 +20,7 @@ void test_create(void) {
     assert_eq(map.len, 0, msg);
     assert_eq(map.cap, INIT_CAP, msg);
     for (size_t i = 0; i < map.cap; ++i) {
-        assert_null(map.bucket[i], msg);
+        assert_null(map.buckets[i], msg);
     }
 }
 
@@ -42,7 +42,7 @@ void test_clear(void) {
     assert_eq(map.len, 0, msg);
     assert_eq(map.cap, INIT_CAP, msg);
     for (size_t i = 0; i < map.cap; ++i) {
-        assert_null(map.bucket[i], msg);
+        assert_null(map.buckets[i], msg);
     }
 }
 
