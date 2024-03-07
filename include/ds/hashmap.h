@@ -26,7 +26,7 @@ typedef struct {
 } HashMap;
 
 HashMap  create(void);
-HashMap  create_with_capacity(size_t cap);
+HashMap  create_with(size_t cap);
 HashMap  init(key_t *keys, value_t *values, size_t len);
 void     show(FILE *stream, HashMap *map);
 void     show_keys(FILE *stream, HashMap *map);

@@ -1,5 +1,6 @@
 #include "hashmap.h"
 #include "util.h"
+#include <stdint.h>
 #include <stdlib.h>
 
 typedef void (*PrintFunc)(FILE *stream, Pair *p);
@@ -66,8 +67,23 @@ void _print_value(FILE *stream, Pair *p) {
     }
 }
 
-// FNV-1a hash
-uint64_t _hash(const char *str) {
+// 32-Bit FNV-1a hash
+uint32_t _hash_fnv1a_32(const char *str) {
+    uint32_t prime        = 16777619U;
+    uint32_t offset_basis = 2166136261U;
+    uint32_t hash         = offset_basis;
+
+    while (*str != '\0') {
+        hash = hash ^ (uint8_t)*str;
+        hash = hash * prime;
+        str++;
+    }
+
+    return hash;
+}
+
+// 64-Bit FNV-1a hash
+uint64_t _hash_fnv1a_64(const char *str) {
     uint64_t prime        = 1099511628211ULL;
     uint64_t offset_basis = 14695981039346656037ULL;
     uint64_t hash         = offset_basis;
@@ -79,6 +95,10 @@ uint64_t _hash(const char *str) {
     }
 
     return hash;
+}
+
+size_t _hash(const char *str) {
+    return sizeof(size_t) == 4 ? _hash_fnv1a_32(str) : _hash_fnv1a_64(str);
 }
 
 void _migrate(HashMap *map, size_t new_cap) {
@@ -127,13 +147,13 @@ bool _grow(HashMap *map) {
 }
 
 HashMap create(void) {
-    return create_with_capacity(INIT_CAP);
+    return create_with(INIT_CAP);
 }
 
-HashMap create_with_capacity(size_t cap) {
+HashMap create_with(size_t cap) {
     if (cap == 0) {
         fprintf(stderr, "\x1b[1;31merror: \x1b[0mcapacity cannot be 0 (exec "
-                        "\x1b[33mcreate_with_capacity\x1b[0m)\n\n");
+                        "\x1b[33mcreate_with\x1b[0m)\n\n");
         exit(EXIT_FAILURE);
     }
 
@@ -141,7 +161,7 @@ HashMap create_with_capacity(size_t cap) {
     if (buckets == NULL) {
         fprintf(stderr,
                 "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
-                "\x1b[33mcreate_with_capacity\x1b[0m)\n\n");
+                "\x1b[33mcreate_with\x1b[0m)\n\n");
         exit(EXIT_FAILURE);
     }
 

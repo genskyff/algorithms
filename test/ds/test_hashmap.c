@@ -1,6 +1,5 @@
 #include "hashmap.h"
 #include "helper.h"
-#include "quick.h"
 #include "util.h"
 #include <stdlib.h>
 
@@ -24,8 +23,8 @@ void test_create(void) {
     }
 }
 
-void test_create_with_capacity(void) {
-    HashMap map = create_with_capacity(100);
+void test_create_with(void) {
+    HashMap map = create_with(100);
     char   *msg;
 
     msg = "should get a empty hashmap with capacity";
@@ -131,7 +130,7 @@ int main(void) {
     show_values(NULL, &map);
 
     run_test(test_create, mod, target, "create");
-    run_test(test_create_with_capacity, mod, target, "create_with_capacity");
+    run_test(test_create_with, mod, target, "create_with");
     run_test(test_init, mod, target, "init");
     run_test(test_clear, mod, target, "clear");
     run_test(test_is_empty, mod, target, "is_empty");
