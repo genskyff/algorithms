@@ -81,10 +81,32 @@ uint64_t _hash(const char *str) {
     return hash;
 }
 
-HashMap _migrate(HashMap *map, size_t new_cap) {
-    HashMap new_map = create_with_capacity(new_cap);
+void _migrate(HashMap *map, size_t new_cap) {
+    if (map != NULL && map->cap != 0 && map->cap != new_cap) {
+        Pair **new_buckets = (Pair **)calloc(new_cap, sizeof(Pair *));
+        if (new_buckets == NULL) {
+            return;
+        }
 
-    return new_map;
+        for (size_t i = 0; i < map->cap; ++i) {
+            Pair *p = map->buckets[i];
+            while (p != NULL) {
+                Pair  *tmp     = p;
+                size_t idx     = (size_t)_hash(tmp->key) % new_cap;
+                Pair  *new_tmp = new_buckets[idx];
+                while (new_tmp->next != NULL) {
+                    new_tmp = new_tmp->next;
+                }
+                new_tmp = tmp;
+
+                p = p->next;
+            }
+        }
+
+        free(map->buckets);
+        map->buckets = new_buckets;
+        map->cap     = new_cap;
+    }
 }
 
 bool _shrink(HashMap *map) {
