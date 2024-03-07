@@ -24,6 +24,18 @@ void test_create(void) {
     }
 }
 
+void test_create_with_capacity(void) {
+    HashMap map = create_with_capacity(100);
+    char   *msg;
+
+    msg = "should get a empty hashmap with capacity";
+    assert_eq(map.len, 0, msg);
+    assert_eq(map.cap, 100, msg);
+    for (size_t i = 0; i < map.cap; ++i) {
+        assert_null(map.buckets[i], msg);
+    }
+}
+
 void test_init(void) {
     HashMap map = test_data();
     char   *msg;
@@ -119,6 +131,7 @@ int main(void) {
     show_values(NULL, &map);
 
     run_test(test_create, mod, target, "create");
+    run_test(test_create_with_capacity, mod, target, "create_with_capacity");
     run_test(test_init, mod, target, "init");
     run_test(test_clear, mod, target, "clear");
     run_test(test_is_empty, mod, target, "is_empty");

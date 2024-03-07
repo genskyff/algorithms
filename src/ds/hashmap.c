@@ -81,30 +81,16 @@ uint64_t _hash(const char *str) {
     return hash;
 }
 
+HashMap _migrate(HashMap *map, size_t new_cap) {
+    HashMap new_map = create_with_capacity(new_cap);
+
+    return new_map;
+}
+
 bool _shrink(HashMap *map) {
     if (map != NULL && map->cap >= SHINK_CAP &&
         map->len <= (size_t)(map->cap * LOW_FACTOR)) {
-        size_t new_cap     = MAX(INIT_CAP, map->len * GROWTH_FACTOR);
-        Pair **new_buckets = (Pair **)malloc(new_cap * sizeof(Pair *));
-        if (new_buckets != NULL) {
-            for (size_t i = 0; i < map->cap; ++i) {
-                Pair *p = map->buckets[i];
-                while (p != NULL) {
-                    Pair *tmp = p;
-                    p         = p->next;
-
-                    size_t idx       = (size_t)_hash(tmp->key) % new_cap;
-                    tmp->next        = new_buckets[idx];
-                    new_buckets[idx] = tmp;
-                }
-            }
-
-            free(map->buckets);
-            map->buckets = new_buckets;
-            map->cap     = new_cap;
-
-            return true;
-        }
+        size_t new_cap = MAX(INIT_CAP, map->len * GROWTH_FACTOR);
     }
 
     return false;
@@ -119,16 +105,36 @@ bool _grow(HashMap *map) {
 }
 
 HashMap create(void) {
-    return init(NULL, NULL, 0);
+    return create_with_capacity(INIT_CAP);
+}
+
+HashMap create_with_capacity(size_t cap) {
+    if (cap == 0) {
+        fprintf(stderr, "\x1b[1;31merror: \x1b[0mcapacity cannot be 0 (exec "
+                        "\x1b[33mcreate_with_capacity\x1b[0m)\n\n");
+        exit(EXIT_FAILURE);
+    }
+
+    Pair **buckets = (Pair **)calloc(cap, sizeof(Pair *));
+    if (buckets == NULL) {
+        fprintf(stderr,
+                "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
+                "\x1b[33mcreate_with_capacity\x1b[0m)\n\n");
+        exit(EXIT_FAILURE);
+    }
+
+    HashMap map = {.buckets = buckets, .len = 0, .cap = cap};
+
+    return map;
 }
 
 HashMap init(key_t *keys, value_t *values, size_t len) {
-    size_t cap     = keys == NULL || values == NULL ||
+    size_t cap = keys == NULL || values == NULL ||
                          len <= (size_t)(INIT_CAP * LOAD_FACTOR)
-                         ? INIT_CAP
-                         : len * GROWTH_FACTOR;
-    Pair **buckets = (Pair **)calloc(cap, sizeof(Pair *));
+                     ? INIT_CAP
+                     : len * GROWTH_FACTOR;
 
+    Pair **buckets = (Pair **)calloc(cap, sizeof(Pair *));
     if (buckets == NULL) {
         fprintf(stderr,
                 "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
