@@ -26,6 +26,14 @@ void test_assert_ne(void) {
     assert_ne(1, 2, MSG);
 }
 
+void test_assert_str_eq(void) {
+    assert_str_eq("abc", "abc", MSG);
+}
+
+void test_assert_str_ne(void) {
+    assert_str_ne("abc", "abcd", MSG);
+}
+
 void test_assert_arr_eq(void) {
     elem_t a[] = {0, 1, 2};
     elem_t b[] = {0, 1, 2};
@@ -117,6 +125,8 @@ int main(void) {
     run_test(test_assert_not_null, mod, target, "assert_not_null");
     run_test(test_assert_eq, mod, target, "assert_eq");
     run_test(test_assert_ne, mod, target, "assert_ne");
+    run_test(test_assert_str_eq, mod, target, "assert_str_eq");
+    run_test(test_assert_str_ne, mod, target, "assert_str_ne");
     run_test(test_assert_arr_eq, mod, target, "assert_arr_eq");
     run_test(test_assert_arr_ne, mod, target, "assert_arr_ne");
     run_test(test_assert_list_eq, mod, target, "assert_list_eq");
