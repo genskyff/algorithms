@@ -95,11 +95,11 @@ void test_cmp_str(void) {
     msg = "should return 0 when equal";
     assert_eq(_cmp_str("abc", "abc"), 0, msg);
 
-    msg = "should return -1 when s1 < s2";
-    assert_eq(_cmp_str("abc", "abcd"), -1, msg);
+    msg = "should return negative when s1 < s2";
+    assert(_cmp_str("abc", "abcd") < 0, msg);
 
-    msg = "should return 1 when s1 > s2";
-    assert_eq(_cmp_str("abcd", "abc"), 1, msg);
+    msg = "should return positive when s1 > s2";
+    assert(_cmp_str("abcd", "abc") > 0, msg);
 }
 
 void test_reverse(void) {

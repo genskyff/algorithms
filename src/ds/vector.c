@@ -86,6 +86,7 @@ void show(FILE *stream, Vec *v) {
 void clear(Vec *v) {
     if (v != NULL) {
         v->len = 0;
+        _shrink(v);
     }
 }
 

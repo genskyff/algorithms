@@ -69,8 +69,7 @@ int _cmp(const void *v1, const void *v2) {
     } else if (v2 == NULL) {
         return 1;
     } else {
-        elem_t result = *(elem_t *)v1 - *(elem_t *)v2;
-        return result == 0 ? 0 : (result > 0 ? 1 : -1);
+        return *(elem_t *)v1 - *(elem_t *)v2;
     }
 }
 

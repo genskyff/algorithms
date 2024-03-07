@@ -74,6 +74,34 @@ uint64_t _hash(const char *str) {
     return hash;
 }
 
+bool _shrink(HashMap *map) {
+    size_t new_cap     = map->cap / GROWTH_FACTOR;
+    Pair **new_buckets = (Pair **)calloc(new_cap, sizeof(Pair *));
+    if (new_buckets == NULL) {
+        return false;
+    }
+
+    for (size_t i = 0; i < map->cap; ++i) {
+        Pair *p = map->bucket[i];
+        while (p != NULL) {
+            Pair *tmp = p;
+            p         = p->next;
+
+            size_t idx       = (size_t)_hash(tmp->key) % new_cap;
+            tmp->next        = new_buckets[idx];
+            new_buckets[idx] = tmp;
+        }
+    }
+
+    free(map->bucket);
+    map->bucket = new_buckets;
+    map->cap    = new_cap;
+
+    return true;
+}
+
+bool _grow(HashMap *map);
+
 HashMap create(void) {
     return init(NULL, NULL, 0);
 }
@@ -226,7 +254,58 @@ bool get(HashMap *map, key_t key, value_t *value) {
     return false;
 }
 
-bool insert(HashMap *map, key_t key, value_t value);
+bool insert(HashMap *map, key_t key, value_t value) {
+    if (map == NULL) {
+        return false;
+    }
+
+    if (map->len >= (size_t)(map->cap * LOAD_FACTOR)) {
+        size_t new_cap     = map->cap * GROWTH_FACTOR;
+        Pair **new_buckets = (Pair **)calloc(new_cap, sizeof(Pair *));
+        if (new_buckets == NULL) {
+            return false;
+        }
+
+        for (size_t i = 0; i < map->cap; ++i) {
+            Pair *p = map->bucket[i];
+            while (p != NULL) {
+                Pair *tmp = p;
+                p         = p->next;
+
+                size_t idx       = (size_t)_hash(tmp->key) % new_cap;
+                tmp->next        = new_buckets[idx];
+                new_buckets[idx] = tmp;
+            }
+        }
+
+        free(map->bucket);
+        map->bucket = new_buckets;
+        map->cap    = new_cap;
+    }
+
+    size_t idx = (size_t)_hash(key) % map->cap;
+    Pair  *p   = map->bucket[idx];
+    while (p != NULL) {
+        if (_cmp_str(p->key, key) == 0) {
+            p->value = value;
+            return true;
+        }
+        p = p->next;
+    }
+
+    Pair *new_pair = (Pair *)malloc(sizeof(Pair));
+    if (new_pair == NULL) {
+        return false;
+    }
+
+    new_pair->key    = key;
+    new_pair->value  = value;
+    new_pair->next   = map->bucket[idx];
+    map->bucket[idx] = new_pair;
+    map->len++;
+
+    return true;
+}
 
 bool del(HashMap *map, key_t key);
 
