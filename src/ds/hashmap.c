@@ -1,4 +1,5 @@
 #include "hashmap.h"
+#include "util.h"
 #include <stdlib.h>
 
 typedef void (*PrintFunc)(FILE *stream, Pair *p);
@@ -130,10 +131,6 @@ HashMap init(key_t *keys, value_t *values, size_t len) {
     return map;
 }
 
-key_t *keys(HashMap *map);
-
-value_t *values(HashMap *map);
-
 void show(FILE *stream, HashMap *map) {
     _print(stream, map, _print_pair, "{", "}", ", ");
 }
@@ -167,7 +164,67 @@ bool is_empty(HashMap *map) {
     return map == NULL || map->len == 0;
 }
 
-bool get(HashMap *map, key_t key, value_t *value);
+key_t *get_keys(HashMap *map) {
+    if (map == NULL || map->len == 0) {
+        return NULL;
+    }
+
+    key_t *keys = (key_t *)malloc(map->len * sizeof(key_t));
+    if (keys == NULL) {
+        return NULL;
+    }
+
+    for (size_t i = 0, idx = 0; i < map->cap; ++i) {
+        Pair *p = map->bucket[i];
+        while (p != NULL) {
+            keys[idx++] = p->key;
+            p           = p->next;
+        }
+    }
+
+    return keys;
+}
+
+value_t *get_values(HashMap *map) {
+    if (map == NULL || map->len == 0) {
+        return NULL;
+    }
+
+    value_t *values = (value_t *)malloc(map->len * sizeof(value_t));
+    if (values == NULL) {
+        return NULL;
+    }
+
+    for (size_t i = 0, idx = 0; i < map->cap; ++i) {
+        Pair *p = map->bucket[i];
+        while (p != NULL) {
+            values[idx++] = p->value;
+            p             = p->next;
+        }
+    }
+
+    return values;
+}
+
+bool get(HashMap *map, key_t key, value_t *value) {
+    if (map == NULL || map->len == 0) {
+        return false;
+    }
+
+    size_t idx = (size_t)_hash(key) % map->cap;
+    Pair  *p   = map->bucket[idx];
+    while (p != NULL) {
+        if (_cmp_str(p->key, key) == 0) {
+            if (value != NULL) {
+                *value = p->value;
+            }
+            return true;
+        }
+        p = p->next;
+    }
+
+    return false;
+}
 
 bool insert(HashMap *map, key_t key, value_t value);
 

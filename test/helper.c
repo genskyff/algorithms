@@ -1,6 +1,7 @@
 #include "helper.h"
 #include "util.h"
 #include <stdlib.h>
+#include <string.h>
 
 void run_test(TestFunc test, const char *mod, const char *target,
               const char *test_name) {
@@ -84,6 +85,32 @@ void assert_eq(elem_t left, elem_t right, const char *msg) {
 void assert_ne(elem_t left, elem_t right, const char *msg) {
     if (_is_eq(left, right)) {
         _err_msg(left, right, msg);
+    }
+}
+
+bool _is_str_eq(const char *left, const char *right) {
+    return _cmp_str(left, right) == 0;
+}
+
+void _str_err_msg(const char *left, const char *right, const char *msg) {
+    const char *_msg = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
+    fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
+    fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", _msg);
+    fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
+    fprintf(stderr, "\"%s\"\n", left);
+    fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
+    fprintf(stderr, "\"%s\"\n\n", right);
+    exit(EXIT_FAILURE);
+}
+
+void assert_str_eq(const char *left, const char *right, const char *msg) {
+    if (!_is_str_eq(left, right)) {
+        _str_err_msg(left, right, msg);
+    }
+}
+void assert_str_ne(const char *left, const char *right, const char *msg) {
+    if (_is_str_eq(left, right)) {
+        _str_err_msg(left, right, msg);
     }
 }
 

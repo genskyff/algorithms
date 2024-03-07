@@ -67,6 +67,41 @@ void test_clear(void) {
     assert_arr_eq(tmp, LEN, zero, LEN, msg);
 }
 
+void test_cmp(void) {
+    char *msg;
+
+    msg = "should return 0 when both NULL";
+    assert_eq(_cmp(NULL, NULL), 0, msg);
+
+    msg = "should return 0 when equal";
+    assert_eq(_cmp(0, 0), 0, msg);
+
+    msg                = "should return sorted array";
+    elem_t arr[LEN]    = {5, 4, 3, 2, 1, 0};
+    elem_t sorted[LEN] = {0, 1, 2, 3, 4, 5};
+    qsort(arr, LEN, sizeof(elem_t), _cmp);
+    assert_arr_eq(arr, LEN, sorted, LEN, msg);
+}
+
+void test_cmp_str(void) {
+    char *msg;
+
+    msg = "should return 0 when both NULL";
+    assert_eq(_cmp_str(NULL, NULL), 0, msg);
+
+    msg = "should return 0 when both empty";
+    assert_eq(_cmp_str("", ""), 0, msg);
+
+    msg = "should return 0 when equal";
+    assert_eq(_cmp_str("abc", "abc"), 0, msg);
+
+    msg = "should return -1 when s1 < s2";
+    assert_eq(_cmp_str("abc", "abcd"), -1, msg);
+
+    msg = "should return 1 when s1 > s2";
+    assert_eq(_cmp_str("abcd", "abc"), 1, msg);
+}
+
 void test_reverse(void) {
     elem_t tmp[LEN];
     char  *msg;
@@ -468,6 +503,7 @@ int main(void) {
     run_test(test_swap, mod, target, "swap");
     run_test(test_shuffle, mod, target, "shuffle");
     run_test(test_clear, mod, target, "clear");
+    run_test(test_cmp_str, mod, target, "cmp_str");
     run_test(test_reverse, mod, target, "reverse");
     run_test(test_reverse_slice, mod, target, "reverse_slice");
     run_test(test_find, mod, target, "find");

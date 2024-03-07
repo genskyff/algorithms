@@ -61,6 +61,31 @@ void _clear(elem_t *arr, size_t len) {
     memset(arr, 0, len * sizeof(elem_t));
 }
 
+int _cmp(const void *v1, const void *v2) {
+    if (v1 == NULL && v2 == NULL) {
+        return 0;
+    } else if (v1 == NULL) {
+        return -1;
+    } else if (v2 == NULL) {
+        return 1;
+    } else {
+        elem_t result = *(elem_t *)v1 - *(elem_t *)v2;
+        return result == 0 ? 0 : (result > 0 ? 1 : -1);
+    }
+}
+
+int _cmp_str(const void *s1, const void *s2) {
+    if (s1 == NULL && s2 == NULL) {
+        return 0;
+    } else if (s1 == NULL) {
+        return -1;
+    } else if (s2 == NULL) {
+        return 1;
+    } else {
+        return strcmp((char *)s1, (char *)s2);
+    }
+}
+
 void _show(FILE *stream, elem_t *arr, size_t len, const char *sep) {
     if (stream == NULL) {
         stream = stdout;

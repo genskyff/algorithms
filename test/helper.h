@@ -17,6 +17,9 @@ void assert_not_null(void *ptr, const char *msg);
 void assert_eq(elem_t left, elem_t right, const char *msg);
 void assert_ne(elem_t left, elem_t right, const char *msg);
 
+void assert_str_eq(const char *left, const char *right, const char *msg);
+void assert_str_ne(const char *left, const char *right, const char *msg);
+
 void assert_arr_eq(elem_t *left, size_t l_len, elem_t *right, size_t r_len,
                    const char *msg);
 void assert_arr_ne(elem_t *left, size_t l_len, elem_t *right, size_t r_len,

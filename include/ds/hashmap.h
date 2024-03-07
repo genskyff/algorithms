@@ -25,13 +25,13 @@ typedef struct {
 
 HashMap  create(void);
 HashMap  init(key_t *keys, value_t *values, size_t len);
-key_t   *keys(HashMap *map);
-value_t *values(HashMap *map);
 void     show(FILE *stream, HashMap *map);
 void     show_keys(FILE *stream, HashMap *map);
 void     show_values(FILE *stream, HashMap *map);
 void     clear(HashMap *map);
 bool     is_empty(HashMap *map);
+key_t   *get_keys(HashMap *map);
+value_t *get_values(HashMap *map);
 bool     get(HashMap *map, key_t key, value_t *value);
 bool     insert(HashMap *map, key_t key, value_t value);
 bool     del(HashMap *map, key_t key);
