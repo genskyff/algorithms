@@ -8,7 +8,7 @@
 #define LOAD_FACTOR   0.75
 #define GROWTH_FACTOR 2
 
-typedef size_t key_t;
+typedef char  *key_t;
 typedef elem_t value_t;
 
 typedef struct Pair {

@@ -2,50 +2,75 @@
 #include <stdlib.h>
 
 typedef void (*PrintFunc)(FILE *stream, Pair *p);
-void _print(FILE *stream, HashMap *map, PrintFunc print_func, const char *start,
-            const char *end, const char *sep) {
+void _print(FILE *stream, HashMap *map, PrintFunc print_func,
+            const char *prefix, const char *suffix, const char *sep) {
     if (stream == NULL) {
         stream = stdout;
     }
 
     if (map == NULL || map->len == 0) {
-        fprintf(stream, "%s%s\n", start, end);
+        fprintf(stream, "%s%s\n", prefix, suffix);
         return;
     }
 
-    fprintf(stream, "%s", start);
-    bool is_first = false;
+    fprintf(stream, "%s", prefix);
+    bool is_first = true;
     for (size_t i = 0; i < map->cap; ++i) {
-        Pair *p = map->bucket[i];
+        Pair *p             = map->bucket[i];
+        bool  has_conflict  = false;
+        bool  is_turn_first = true;
         while (p != NULL) {
             if (is_first) {
-                fprintf(stream, "%s", sep);
+                is_first = false;
             } else {
-                is_first = true;
+                fprintf(stream, "%s", sep);
+            }
+
+            if (is_turn_first) {
+                is_turn_first = false;
+                has_conflict  = p->next != NULL;
+                if (has_conflict) {
+                    fprintf(stream, "%s", prefix);
+                }
+            } else {
+                has_conflict = true;
             }
 
             print_func(stream, p);
             p = p->next;
         }
+        if (has_conflict) {
+            fprintf(stream, "%s", suffix);
+        }
     }
-    fprintf(stream, "%s\n", end);
+    fprintf(stream, "%s\n", suffix);
 }
 
 void _print_pair(FILE *stream, Pair *p) {
-    fprintf(stream, "\"%zu\": %d", p->key, p->value);
+    fprintf(stream, "\"%s\": %d", p->key, p->value);
 }
 
 void _print_key(FILE *stream, Pair *p) {
-    fprintf(stream, "\"%zu\"", p->key);
+    fprintf(stream, "\"%s\"", p->key);
 }
 
 void _print_value(FILE *stream, Pair *p) {
     fprintf(stream, "%d", p->value);
 }
 
-// 32-bit multiplication
-key_t _hash(key_t key) {
-    return key * 0x61c88647; // Magic number
+// FNV-1a hash
+uint64_t _hash(const char *str) {
+    uint64_t prime        = 1099511628211ULL;
+    uint64_t offset_basis = 14695981039346656037ULL;
+    uint64_t hash         = offset_basis;
+
+    while (*str != '\0') {
+        hash = hash ^ (uint8_t)*str;
+        hash = hash * prime;
+        str++;
+    }
+
+    return hash;
 }
 
 HashMap create(void) {
@@ -53,9 +78,10 @@ HashMap create(void) {
 }
 
 HashMap init(key_t *keys, value_t *values, size_t len) {
-    size_t cap = keys == NULL || values == NULL || len < INIT_CAP * LOAD_FACTOR
-                     ? INIT_CAP
-                     : len * GROWTH_FACTOR;
+    size_t cap =
+        keys == NULL || values == NULL || len < (size_t)(INIT_CAP * LOAD_FACTOR)
+            ? INIT_CAP
+            : len * GROWTH_FACTOR;
     Pair **buckets = (Pair **)calloc(cap, sizeof(Pair *));
 
     if (buckets == NULL) {
@@ -72,11 +98,11 @@ HashMap init(key_t *keys, value_t *values, size_t len) {
     }
 
     for (size_t i = 0; i < len; i++) {
-        key_t slot = _hash(keys[i]) % cap;
+        size_t idx = (size_t)_hash(keys[i]) % cap;
 
         bool has_key = false;
-        if (map.bucket[slot] != NULL) {
-            Pair *tmp = map.bucket[slot];
+        if (map.bucket[idx] != NULL) {
+            Pair *tmp = map.bucket[idx];
             while (tmp != NULL) {
                 if (tmp->key == keys[i]) {
                     tmp->value = values[i];
@@ -93,10 +119,10 @@ HashMap init(key_t *keys, value_t *values, size_t len) {
                 return map;
             }
 
-            p->key           = keys[i];
-            p->value         = values[i];
-            p->next          = map.bucket[slot];
-            map.bucket[slot] = p;
+            p->key          = keys[i];
+            p->value        = values[i];
+            p->next         = map.bucket[idx];
+            map.bucket[idx] = p;
             map.len++;
         }
     }
