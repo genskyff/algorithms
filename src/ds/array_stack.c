@@ -42,7 +42,7 @@ bool is_empty(ArrayStack *stack) {
 }
 
 bool peek(ArrayStack *stack, elem_t *e) {
-    if (stack == NULL || stack->len == 0) {
+    if (is_empty(stack)) {
         return false;
     }
 
@@ -64,7 +64,7 @@ bool push(ArrayStack *stack, elem_t e) {
 }
 
 bool pop(ArrayStack *stack, elem_t *e) {
-    if (stack == NULL || stack->len == 0) {
+    if (is_empty(stack)) {
         return false;
     }
 

@@ -195,27 +195,25 @@ void show(FILE *stream, SLinkedList *list) {
 }
 
 void clear(SLinkedList *list) {
-    if (list == NULL) {
-        return;
+    if (list != NULL) {
+        for (size_t i = list->head; i != SIZE_MAX;) {
+            size_t next = list->node[i].next;
+            _free(list, i);
+            i = next;
+        }
+
+        list->space = 0;
+        list->head  = SIZE_MAX;
+        list->tail  = SIZE_MAX;
+        list->len   = 0;
+
+        for (size_t i = 0; i < MAXLEN; i++) {
+            list->node[i].next = i + 1;
+            list->node[i].prev = SIZE_MAX;
+        }
+
+        list->node[MAXLEN - 1].next = SIZE_MAX;
     }
-
-    for (size_t i = list->head; i != SIZE_MAX;) {
-        size_t next = list->node[i].next;
-        _free(list, i);
-        i = next;
-    }
-
-    list->space = 0;
-    list->head  = SIZE_MAX;
-    list->tail  = SIZE_MAX;
-    list->len   = 0;
-
-    for (size_t i = 0; i < MAXLEN; i++) {
-        list->node[i].next = i + 1;
-        list->node[i].prev = SIZE_MAX;
-    }
-
-    list->node[MAXLEN - 1].next = SIZE_MAX;
 }
 
 bool is_empty(SLinkedList *list) {

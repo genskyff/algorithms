@@ -52,19 +52,17 @@ void show(FILE *stream, LinkedStack *stack) {
 }
 
 void clear(LinkedStack *stack) {
-    if (stack == NULL) {
-        return;
-    }
+    if (stack != NULL) {
+        Node *node = stack->top;
+        while (node != NULL) {
+            Node *tmp = node;
+            node      = node->prev;
+            free(tmp);
+        }
 
-    Node *node = stack->top;
-    while (node != NULL) {
-        Node *tmp = node;
-        node      = node->prev;
-        free(tmp);
+        stack->top = NULL;
+        stack->len = 0;
     }
-
-    stack->top = NULL;
-    stack->len = 0;
 }
 
 bool is_empty(LinkedStack *stack) {

@@ -19,7 +19,7 @@ void test_create(void) {
     assert_eq(map.len, 0, msg);
     assert_eq(map.cap, INIT_CAP, msg);
     for (size_t i = 0; i < map.cap; ++i) {
-        assert_null(map.buckets[i], msg);
+        assert_null(map.buckets[i].head, msg);
     }
 }
 
@@ -31,7 +31,7 @@ void test_create_with(void) {
     assert_eq(map.len, 0, msg);
     assert_eq(map.cap, 100, msg);
     for (size_t i = 0; i < map.cap; ++i) {
-        assert_null(map.buckets[i], msg);
+        assert_null(map.buckets[i].head, msg);
     }
 }
 
@@ -53,7 +53,7 @@ void test_clear(void) {
     assert_eq(map.len, 0, msg);
     assert_eq(map.cap, INIT_CAP, msg);
     for (size_t i = 0; i < map.cap; ++i) {
-        assert_null(map.buckets[i], msg);
+        assert_null(map.buckets[i].head, msg);
     }
 }
 
@@ -121,13 +121,13 @@ void test_get(void) {
 int main(void) {
     char   *mod    = "ds";
     char   *target = "hashmap";
-    HashMap map    = test_data();
-    show(NULL, NULL);
-    show_keys(NULL, NULL);
-    show_values(NULL, NULL);
-    show(NULL, &map);
-    show_keys(NULL, &map);
-    show_values(NULL, &map);
+    // HashMap map    = test_data();
+    // show(NULL, NULL);
+    // show_keys(NULL, NULL);
+    // show_values(NULL, NULL);
+    // show(NULL, &map);
+    // show_keys(NULL, &map);
+    // show_values(NULL, &map);
 
     run_test(test_create, mod, target, "create");
     run_test(test_create_with, mod, target, "create_with");

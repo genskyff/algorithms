@@ -39,7 +39,8 @@ Vec create(void) {
 }
 
 Vec init(size_t n, ...) {
-    size_t  cap  = n < INIT_CAP ? INIT_CAP : n * GROWTH_FACTOR;
+    size_t cap =
+        n < INIT_CAP ? INIT_CAP : (n + INIT_CAP - 1) / INIT_CAP * INIT_CAP;
     elem_t *data = (elem_t *)malloc(cap * sizeof(elem_t));
 
     if (data == NULL) {
@@ -95,7 +96,7 @@ bool is_empty(Vec *v) {
 }
 
 bool get(Vec *v, size_t i, elem_t *e) {
-    if (v == NULL || v->len == 0 || i >= v->len) {
+    if (is_empty(v) || i >= v->len) {
         return false;
     }
 
@@ -111,11 +112,11 @@ bool first(Vec *v, elem_t *e) {
 }
 
 bool last(Vec *v, elem_t *e) {
-    return v != NULL && v->len != 0 && get(v, v->len - 1, e);
+    return !is_empty(v) && get(v, v->len - 1, e);
 }
 
 bool set(Vec *v, size_t i, elem_t e) {
-    if (v == NULL || v->len == 0 || i >= v->len) {
+    if (is_empty(v) || i >= v->len) {
         return false;
     }
 
@@ -156,7 +157,7 @@ bool push_back(Vec *v, elem_t e) {
 }
 
 bool del(Vec *v, size_t i, elem_t *e) {
-    if (v == NULL || v->len == 0 || i >= v->len) {
+    if (is_empty(v) || i >= v->len) {
         return false;
     }
 
@@ -179,7 +180,7 @@ bool pop_front(Vec *v, elem_t *e) {
 }
 
 bool pop_back(Vec *v, elem_t *e) {
-    return v != NULL && v->len != 0 && del(v, v->len - 1, e);
+    return !is_empty(v) && del(v, v->len - 1, e);
 }
 
 void drop(Vec *v) {

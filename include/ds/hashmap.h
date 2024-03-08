@@ -6,6 +6,7 @@
 
 #define INIT_CAP      100
 #define SHINK_CAP     1000
+#define BUCKET_CAP    10
 #define LOW_FACTOR    0.25
 #define LOAD_FACTOR   0.75
 #define GROWTH_FACTOR 2
@@ -20,9 +21,14 @@ typedef struct Pair {
 } Pair;
 
 typedef struct {
-    Pair **buckets;
+    Pair  *head;
     size_t len;
-    size_t cap;
+} Bucket;
+
+typedef struct {
+    Bucket *buckets;
+    size_t  len;
+    size_t  cap;
 } HashMap;
 
 HashMap  create(void);

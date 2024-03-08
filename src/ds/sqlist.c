@@ -54,7 +54,7 @@ bool is_empty(SqList *list) {
 }
 
 bool get(SqList *list, size_t i, elem_t *e) {
-    if (list == NULL || list->len == 0 || i >= list->len) {
+    if (is_empty(list) || i >= list->len) {
         return false;
     }
 
@@ -74,7 +74,7 @@ bool last(SqList *list, elem_t *e) {
 }
 
 bool set(SqList *list, size_t i, elem_t e) {
-    if (list == NULL || list->len == 0 || i >= list->len) {
+    if (is_empty(list) || i >= list->len) {
         return false;
     }
 
@@ -111,7 +111,7 @@ bool push_back(SqList *list, elem_t e) {
 }
 
 bool del(SqList *list, size_t i, elem_t *e) {
-    if (list == NULL || list->len == 0 || i >= list->len) {
+    if (is_empty(list) || i >= list->len) {
         return false;
     }
 
@@ -133,5 +133,5 @@ bool pop_front(SqList *list, elem_t *e) {
 }
 
 bool pop_back(SqList *list, elem_t *e) {
-    return list != NULL && list->len != 0 && del(list, list->len - 1, e);
+    return !is_empty(list) && del(list, list->len - 1, e);
 }

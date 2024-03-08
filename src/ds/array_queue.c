@@ -43,7 +43,7 @@ bool is_empty(ArrayQueue *queue) {
 }
 
 bool front(ArrayQueue *queue, elem_t *e) {
-    if (queue == NULL || queue->len == 0) {
+    if (is_empty(queue)) {
         return false;
     }
 
@@ -55,7 +55,7 @@ bool front(ArrayQueue *queue, elem_t *e) {
 }
 
 bool back(ArrayQueue *queue, elem_t *e) {
-    if (queue == NULL || queue->len == 0) {
+    if (is_empty(queue)) {
         return false;
     }
 
@@ -91,7 +91,7 @@ bool push_back(ArrayQueue *queue, elem_t e) {
 }
 
 bool pop_front(ArrayQueue *queue, elem_t *e) {
-    if (queue == NULL || queue->len == 0) {
+    if (is_empty(queue)) {
         return false;
     }
 
@@ -106,7 +106,7 @@ bool pop_front(ArrayQueue *queue, elem_t *e) {
 }
 
 bool pop_back(ArrayQueue *queue, elem_t *e) {
-    if (queue == NULL || queue->len == 0) {
+    if (is_empty(queue)) {
         return false;
     }
 

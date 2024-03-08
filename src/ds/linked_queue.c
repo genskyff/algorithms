@@ -53,20 +53,18 @@ void show(FILE *stream, LinkedQueue *queue) {
 }
 
 void clear(LinkedQueue *queue) {
-    if (queue == NULL) {
-        return;
-    }
+    if (queue != NULL) {
+        Node *node = queue->front;
+        while (node != NULL) {
+            Node *tmp = node;
+            node      = node->next;
+            free(tmp);
+        }
 
-    Node *node = queue->front;
-    while (node != NULL) {
-        Node *tmp = node;
-        node      = node->next;
-        free(tmp);
+        queue->front = NULL;
+        queue->rear  = NULL;
+        queue->len   = 0;
     }
-
-    queue->front = NULL;
-    queue->rear  = NULL;
-    queue->len   = 0;
 }
 
 bool is_empty(LinkedQueue *queue) {

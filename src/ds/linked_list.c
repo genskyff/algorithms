@@ -45,8 +45,7 @@ LinkedList init(size_t n, ...) {
 }
 
 void swap(LinkedList *list, size_t i, size_t j) {
-    if (list == NULL || list->head == NULL || i == j ||
-        MAX(i, j) >= list->len) {
+    if (is_empty(list) || i == j || MAX(i, j) >= list->len) {
         return;
     }
 
@@ -126,7 +125,7 @@ void swap(LinkedList *list, size_t i, size_t j) {
 }
 
 void reverse(LinkedList *list) {
-    if (list == NULL || list->head == NULL || list->len < 2) {
+    if (is_empty(list) || list->len < 2) {
         return;
     }
 
@@ -144,28 +143,27 @@ void show(FILE *stream, LinkedList *list) {
 }
 
 void clear(LinkedList *list) {
-    if (list == NULL) {
-        return;
-    }
+    if (!is_empty(list)) {
+        Node *node = list->head;
+        while (node != NULL) {
+            Node *tmp = node;
+            node      = node->next;
+            free(tmp);
+        }
 
-    Node *node = list->head;
-    while (node != NULL) {
-        Node *tmp = node;
-        node      = node->next;
-        free(tmp);
+        list->head = NULL;
+        list->tail = NULL;
+        list->len  = 0;
     }
-
-    list->head = NULL;
-    list->tail = NULL;
-    list->len  = 0;
 }
 
 bool is_empty(LinkedList *list) {
-    return list == NULL || list->head == NULL || list->len == 0;
+    return list == NULL || list->head == NULL || list->tail == NULL ||
+           list->len == 0;
 }
 
 bool get(LinkedList *list, size_t i, elem_t *e) {
-    if (list == NULL || list->head == NULL || i >= list->len) {
+    if (is_empty(list) || i >= list->len) {
         return false;
     }
 
@@ -190,7 +188,7 @@ bool get(LinkedList *list, size_t i, elem_t *e) {
 }
 
 bool first(LinkedList *list, elem_t *e) {
-    if (list == NULL || list->head == NULL || list->len == 0) {
+    if (is_empty(list)) {
         return false;
     }
 
@@ -202,7 +200,7 @@ bool first(LinkedList *list, elem_t *e) {
 }
 
 bool last(LinkedList *list, elem_t *e) {
-    if (list == NULL || list->tail == NULL || list->len == 0) {
+    if (is_empty(list)) {
         return false;
     }
 
@@ -214,7 +212,7 @@ bool last(LinkedList *list, elem_t *e) {
 }
 
 bool set(LinkedList *list, size_t i, elem_t e) {
-    if (list == NULL || list->head == NULL || i >= list->len) {
+    if (is_empty(list) || i >= list->len) {
         return false;
     }
 
@@ -237,7 +235,7 @@ bool set(LinkedList *list, size_t i, elem_t e) {
 }
 
 bool find(LinkedList *list, elem_t e, size_t *i) {
-    if (list == NULL || list->head == NULL || list->len == 0) {
+    if (is_empty(list)) {
         return false;
     }
 
@@ -324,7 +322,7 @@ bool push_back(LinkedList *list, elem_t e) {
 }
 
 bool del(LinkedList *list, size_t i, elem_t *e) {
-    if (list == NULL || list->head == NULL || i >= list->len) {
+    if (is_empty(list) || i >= list->len) {
         return false;
     }
 
@@ -368,5 +366,5 @@ bool pop_front(LinkedList *list, elem_t *e) {
 }
 
 bool pop_back(LinkedList *list, elem_t *e) {
-    return list != NULL && list->head != NULL && del(list, list->len - 1, e);
+    return !is_empty(list) && del(list, list->len - 1, e);
 }
