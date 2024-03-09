@@ -52,9 +52,7 @@ xmake test-all
   - [x] Stack
     - [x] Array stack
     - [x] Linked stack
-  - [ ] Hash table
-    - [x] HashMap with separate chaining
-    - [ ] HashMap with open addressing
+  - [x] Hash table
   - [ ] Tree
   - [ ] Heap
   - [ ] Graph

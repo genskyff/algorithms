@@ -1,5 +1,5 @@
-#ifndef HASHMAP_SC_H
-#define HASHMAP_SC_H
+#ifndef HASHMAP_H
+#define HASHMAP_H
 
 #include "type.h"
 #include <stdbool.h>
