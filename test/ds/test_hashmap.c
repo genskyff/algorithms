@@ -195,6 +195,17 @@ void test_del(void) {
     assert_eq(map.cap % INIT_CAP, 0, msg);
 }
 
+void test_drop(void) {
+    HashMap map = test_data();
+    char   *msg;
+
+    msg = "should drop";
+    drop(&map);
+    assert_null(map.buckets, msg);
+    assert_eq(map.len, 0, msg);
+    assert_eq(map.cap, 0, msg);
+}
+
 int main(void) {
     char *mod    = "ds";
     char *target = "hashmap";
@@ -209,6 +220,7 @@ int main(void) {
     run_test(test_get, mod, target, "get");
     run_test(test_insert, mod, target, "insert");
     run_test(test_del, mod, target, "del");
+    run_test(test_drop, mod, target, "drop");
 
     return 0;
 }
