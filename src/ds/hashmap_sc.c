@@ -1,4 +1,4 @@
-#include "hashmap.h"
+#include "hashmap_sc.h"
 #include "util.h"
 #include <stdint.h>
 #include <stdlib.h>
@@ -84,7 +84,7 @@ void _print_value(FILE *stream, Pair *p) {
     }
 }
 
-// 32-Bit FNV-1a hash
+// 32-bit FNV-1a hash
 uint32_t _hash_fnv1a_32(const char *str) {
     uint32_t prime        = 16777619U;
     uint32_t offset_basis = 2166136261U;
@@ -99,7 +99,7 @@ uint32_t _hash_fnv1a_32(const char *str) {
     return hash;
 }
 
-// 64-Bit FNV-1a hash
+// 64-bit FNV-1a hash
 uint64_t _hash_fnv1a_64(const char *str) {
     uint64_t prime        = 1099511628211ULL;
     uint64_t offset_basis = 14695981039346656037ULL;

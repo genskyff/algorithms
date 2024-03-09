@@ -1,4 +1,4 @@
-#include "hashmap.h"
+#include "hashmap_sc.h"
 #include "helper.h"
 #include "util.h"
 #include <stdlib.h>

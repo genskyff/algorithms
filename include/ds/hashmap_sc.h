@@ -1,5 +1,5 @@
-#ifndef HASHMAP_H
-#define HASHMAP_H
+#ifndef HASHMAP_SC_H
+#define HASHMAP_SC_H
 
 #include "type.h"
 #include <stdbool.h>
@@ -20,6 +20,7 @@ typedef struct Pair {
     struct Pair *next;
 } Pair;
 
+// separate chaining
 typedef struct {
     Pair  *head;
     size_t len;
