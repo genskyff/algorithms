@@ -118,16 +118,86 @@ void test_get(void) {
     assert_eq(val, 999, msg);
 }
 
+void test_insert(void) {
+    HashMap map = create();
+    key_t   key = "a";
+    value_t val = 1;
+    char   *msg;
+
+    msg = "should not insert when NULL";
+    assert_not(insert(NULL, key, val), msg);
+
+    msg = "should insert";
+    assert(insert(&map, key, val), msg);
+    assert_eq(map.len, 1, msg);
+    assert(get(&map, key, NULL), msg);
+
+    msg = "should update value when key exists";
+    val = 2;
+    assert(insert(&map, key, val), msg);
+    assert_eq(map.len, 2, msg);
+    assert(get(&map, key, &val), msg);
+    assert_eq(val, 2, msg);
+
+    msg = "should extend when load factor > 0.75";
+    clear(&map);
+    char *keys[INIT_CAP];
+    for (size_t i = 0; i < INIT_CAP; ++i) {
+        keys[i] = (char *)calloc(10, sizeof(char));
+        sprintf(keys[i], "%zu", i);
+        assert(insert(&map, keys[i], i), msg);
+    }
+    assert_eq(map.len, INIT_CAP, msg);
+    assert_eq(map.cap, INIT_CAP * 2, msg);
+    for (size_t i = 0; i < INIT_CAP; ++i) {
+        assert(get(&map, keys[i], &val), key);
+        assert_eq(val, i, msg);
+        assert_eq(val, i, msg);
+    }
+}
+
+void test_del(void) {
+    HashMap map = test_data();
+    value_t val;
+    char   *msg;
+
+    msg = "should not delete when NULL";
+    assert_not(del(NULL, "a"), msg);
+
+    msg = "should delete";
+    assert(del(&map, "a"), msg);
+    assert_eq(map.len, LEN - 1, msg);
+    assert_not(get(&map, "a", NULL), msg);
+
+    msg = "should not delete when key not exists";
+    assert_not(del(&map, "z"), msg);
+    assert_eq(map.len, LEN - 1, msg);
+
+    msg = "should not delete when empty";
+    clear(&map);
+    assert_not(del(&map, "a"), msg);
+    assert_eq(map.len, 0, msg);
+
+    msg = "should shrink when load factor < LOWER_FACTOR";
+    clear(&map);
+    char *keys[SHINK_CAP];
+    for (size_t i = 0; i < SHINK_CAP; ++i) {
+        keys[i] = (char *)calloc(10, sizeof(char));
+        sprintf(keys[i], "%zu", i);
+        assert(insert(&map, keys[i], i), msg);
+    }
+    assert_eq(map.len, SHINK_CAP, msg);
+    assert_eq(map.cap % INIT_CAP, 0, msg);
+    for (size_t i = 0; i < SHINK_CAP; ++i) {
+        assert(del(&map, keys[i]), msg);
+    }
+    assert_eq(map.len, 0, msg);
+    assert_eq(map.cap % INIT_CAP, 0, msg);
+}
+
 int main(void) {
-    char   *mod    = "ds";
-    char   *target = "hashmap";
-    // HashMap map    = test_data();
-    // show(NULL, NULL);
-    // show_keys(NULL, NULL);
-    // show_values(NULL, NULL);
-    // show(NULL, &map);
-    // show_keys(NULL, &map);
-    // show_values(NULL, &map);
+    char *mod    = "ds";
+    char *target = "hashmap";
 
     run_test(test_create, mod, target, "create");
     run_test(test_create_with, mod, target, "create_with");
@@ -137,6 +207,8 @@ int main(void) {
     run_test(test_get_keys, mod, target, "get_keys");
     run_test(test_get_values, mod, target, "get_values");
     run_test(test_get, mod, target, "get");
+    run_test(test_insert, mod, target, "insert");
+    run_test(test_del, mod, target, "del");
 
     return 0;
 }

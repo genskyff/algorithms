@@ -1,6 +1,10 @@
 #include "quick.h"
 #include "util.h"
 
+void   _move_pivot_to_high(elem_t *arr, size_t low, size_t high);
+size_t _partition(elem_t *arr, size_t low, size_t high);
+void   _qsort(elem_t *arr, size_t low, size_t high);
+
 void _move_pivot_to_high(elem_t *arr, size_t low, size_t high) {
     size_t mid   = low + (high - low) / 2;
     size_t pivot = high;

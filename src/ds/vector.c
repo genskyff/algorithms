@@ -3,15 +3,18 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+bool _shrink(Vec *v);
+bool _grow(Vec *v);
+
 bool _shrink(Vec *v) {
     if (v != NULL && v->cap > SHINK_CAP &&
         v->len < (size_t)(v->cap * LOW_FACTOR)) {
-        size_t  new_cap  = MAX(INIT_CAP, v->len * GROWTH_FACTOR);
+        size_t  base_cap = MAX(INIT_CAP, v->len * GROWTH_FACTOR);
+        size_t  new_cap  = (base_cap + INIT_CAP - 1) / INIT_CAP * INIT_CAP;
         elem_t *new_data = (elem_t *)realloc(v->data, new_cap * sizeof(elem_t));
         if (new_data != NULL) {
             v->data = new_data;
             v->cap  = new_cap;
-
             return true;
         }
     }

@@ -4,6 +4,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+size_t _alloc(SLinkedList *list);
+void   _free(SLinkedList *list, size_t idx);
+
 size_t _alloc(SLinkedList *list) {
     size_t idx = list->space;
 

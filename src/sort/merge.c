@@ -1,6 +1,10 @@
 #include "merge.h"
 #include <stdlib.h>
 
+void _merge(elem_t *arr, elem_t *tmp, size_t low, size_t mid, size_t high);
+void _msort_iter(elem_t *arr, elem_t *tmp, size_t len);
+void _msort_recu(elem_t *arr, elem_t *tmp, size_t low, size_t high);
+
 void _merge(elem_t *arr, elem_t *tmp, size_t low, size_t mid, size_t high) {
     size_t l_pos = low;
     size_t h_pos = mid + 1;
