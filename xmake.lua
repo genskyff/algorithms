@@ -148,6 +148,17 @@ target("test_array_stack")
     add_files("test/ds/test_array_stack.c")
     add_deps("array_stack")
 
+target("hashmap_oa")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/hashmap_oa.c")
+
+target("test_hashmap_oa")
+    set_kind("binary")
+    set_group("test_ds")
+    add_files("test/ds/test_hashmap_oa.c")
+    add_deps("hashmap_oa")
+
 target("hashmap_sc")
     set_kind("static")
     set_group("ds")

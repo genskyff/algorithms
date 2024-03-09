@@ -208,7 +208,7 @@ void test_drop(void) {
 
 int main(void) {
     char *mod    = "ds";
-    char *target = "hashmap";
+    char *target = "hashmap_sc";
 
     run_test(test_create, mod, target, "create");
     run_test(test_create_with, mod, target, "create_with");
