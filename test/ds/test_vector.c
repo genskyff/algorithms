@@ -20,6 +20,19 @@ void test_create(void) {
     drop(&v);
 }
 
+void test_create_with(void) {
+    size_t cap = 100;
+    Vec    v   = create_with(cap);
+    char  *msg;
+
+    msg = "should get a empty vector with capacity";
+    assert_not_null(v.data, msg);
+    assert_eq(v.len, 0, msg);
+    assert_eq(v.cap, cap, msg);
+
+    drop(&v);
+}
+
 void test_init(void) {
     Vec   v = init(LEN, 0, 1, 2, 3, 4, 5);
     char *msg;
@@ -402,6 +415,7 @@ int main(void) {
     char *target = "vector";
 
     run_test(test_create, mod, target, "create");
+    run_test(test_create_with, mod, target, "create_with");
     run_test(test_init, mod, target, "init");
     run_test(test_swap, mod, target, "swap");
     run_test(test_reverse, mod, target, "reverse");

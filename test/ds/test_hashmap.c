@@ -24,12 +24,13 @@ void test_create(void) {
 }
 
 void test_create_with(void) {
-    HashMap map = create_with(100);
+    size_t  cap = 100;
+    HashMap map = create_with(cap);
     char   *msg;
 
     msg = "should get a empty hashmap with capacity";
     assert_eq(map.len, 0, msg);
-    assert_eq(map.cap, 100, msg);
+    assert_eq(map.cap, cap, msg);
     for (size_t i = 0; i < map.cap; ++i) {
         assert_null(map.buckets[i].head, msg);
     }

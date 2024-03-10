@@ -38,7 +38,26 @@ bool _grow(Vec *v) {
 }
 
 Vec create(void) {
-    return init(0);
+    return create_with(INIT_CAP);
+}
+
+Vec create_with(size_t cap) {
+    if (cap == 0) {
+        fprintf(stderr, "\x1b[1;31merror: \x1b[0mcapacity cannot be 0 (exec "
+                        "\x1b[33mcreate_with\x1b[0m)\n\n");
+        exit(EXIT_FAILURE);
+    }
+
+    elem_t *data = (elem_t *)malloc(cap * sizeof(elem_t));
+    if (data == NULL) {
+        fprintf(stderr, "\x1b[1;31merror: \x1b[0mfailed to allocate memory "
+                        "(exec \x1b[33mcreate_with\x1b[0m)\n\n");
+        exit(EXIT_FAILURE);
+    }
+
+    Vec v = {.data = data, .len = 0, .cap = cap};
+
+    return v;
 }
 
 Vec init(size_t n, ...) {

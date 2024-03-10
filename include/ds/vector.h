@@ -17,7 +17,8 @@ typedef struct {
     size_t  cap;
 } Vec;
 
-Vec  create(void);
+Vec create(void);
+Vec create_with(size_t cap);
 Vec  init(size_t n, ...);
 void swap(Vec *v, size_t i, size_t j);
 void reverse(Vec *v);
