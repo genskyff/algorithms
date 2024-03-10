@@ -22,8 +22,8 @@ void test_create(void) {
     msg = "all nodes should be linked together";
     for (size_t i = 0, cur = list.space; cur != SIZE_MAX; i++) {
         assert_eq(cur, i, msg);
-        assert(list.node[list.space].prev == SIZE_MAX, msg);
-        cur = list.node[cur].next;
+        assert(list.nodes[list.space].prev == SIZE_MAX, msg);
+        cur = list.nodes[cur].next;
     }
 }
 
@@ -41,12 +41,12 @@ void test_init(void) {
 
     msg = "all nodes should be linked together";
     for (size_t i = 0, cur = list.head; cur != SIZE_MAX; i++) {
-        assert_eq(list.node[cur].data, i, msg);
-        assert(list.node[cur].prev == (cur == list.head ? SIZE_MAX : cur - 1),
+        assert_eq(list.nodes[cur].data, i, msg);
+        assert(list.nodes[cur].prev == (cur == list.head ? SIZE_MAX : cur - 1),
                msg);
-        assert(list.node[cur].next == (cur == list.tail ? SIZE_MAX : cur + 1),
+        assert(list.nodes[cur].next == (cur == list.tail ? SIZE_MAX : cur + 1),
                msg);
-        cur = list.node[cur].next;
+        cur = list.nodes[cur].next;
     }
 }
 
@@ -85,19 +85,19 @@ void test_swap(void) {
     swap(&list, 0, 1);
     elem_t swap_adjacent[LEN] = {1, 5, 2, 3, 4, 0};
     assert_arr_eq(swap_adjacent, LEN, to_array(&list), LEN, msg);
-    assert_eq(list.node[list.tail].data, 0, msg);
+    assert_eq(list.nodes[list.tail].data, 0, msg);
 
     msg = "should swap when i == 0, j > 1";
     swap(&list, 0, 3);
     elem_t swap_head[LEN] = {3, 5, 2, 1, 4, 0};
     assert_arr_eq(swap_head, LEN, to_array(&list), LEN, msg);
-    assert_eq(list.node[list.tail].data, 0, msg);
+    assert_eq(list.nodes[list.tail].data, 0, msg);
 
     msg = "should swap when i > 0, j == len - 1";
     swap(&list, 1, list.len - 1);
     elem_t swap_tail[LEN] = {3, 0, 2, 1, 4, 5};
     assert_arr_eq(swap_tail, LEN, to_array(&list), LEN, msg);
-    assert_eq(list.node[list.tail].data, 5, msg);
+    assert_eq(list.nodes[list.tail].data, 5, msg);
 }
 
 void test_reverse(void) {
@@ -124,8 +124,8 @@ void test_clear(void) {
     msg = "all nodes should be linked together";
     for (size_t i = 0, cur = list.space; cur != SIZE_MAX; i++) {
         assert_eq(cur, i, msg);
-        assert(list.node[list.space].prev == SIZE_MAX, msg);
-        cur = list.node[cur].next;
+        assert(list.nodes[list.space].prev == SIZE_MAX, msg);
+        cur = list.nodes[cur].next;
     }
 }
 
@@ -154,7 +154,7 @@ void test_get(void) {
 
     msg = "should get";
     assert(get(&list, list.len - 1, &e), msg);
-    assert_eq(e, list.node[list.tail].data, msg);
+    assert_eq(e, list.nodes[list.tail].data, msg);
 
     msg = "should not get when empty";
     clear(&list);
@@ -168,7 +168,7 @@ void test_first(void) {
 
     msg = "should get first";
     assert(first(&list, &e), msg);
-    assert_eq(e, list.node[list.head].data, msg);
+    assert_eq(e, list.nodes[list.head].data, msg);
 
     msg = "should not get first when empty";
     clear(&list);
@@ -182,7 +182,7 @@ void test_last(void) {
 
     msg = "should get last";
     assert(last(&list, &e), msg);
-    assert_eq(e, list.node[list.tail].data, msg);
+    assert_eq(e, list.nodes[list.tail].data, msg);
 
     msg = "should not get last when empty";
     clear(&list);
@@ -200,7 +200,7 @@ void test_set(void) {
 
     msg = "should set";
     assert(set(&list, list.len - 1, e), msg);
-    assert_eq(list.node[list.tail].data, e, msg);
+    assert_eq(list.nodes[list.tail].data, e, msg);
 
     msg = "should not set when empty";
     clear(&list);
@@ -239,7 +239,7 @@ void test_insert(void) {
     msg = "should insert at head";
     assert(insert(&list, 0, ++e), msg);
     assert_eq(list.len, LEN + 1, msg);
-    assert_eq(list.node[list.head].data, e, msg);
+    assert_eq(list.nodes[list.head].data, e, msg);
 
     msg = "should insert at middle";
     assert(insert(&list, list.len / 2, ++e), msg);
@@ -251,7 +251,7 @@ void test_insert(void) {
     msg = "should insert at tail";
     assert(insert(&list, list.len, ++e), msg);
     assert_eq(list.len, LEN + 3, msg);
-    assert_eq(list.node[list.tail].data, e, msg);
+    assert_eq(list.nodes[list.tail].data, e, msg);
 
     msg      = "should not insert when full";
     list.len = MAXLEN;
@@ -262,8 +262,8 @@ void test_insert(void) {
     clear(&list);
     assert(insert(&list, 0, ++e), msg);
     assert_eq(list.len, 1, msg);
-    assert_eq(list.node[list.head].data, e, msg);
-    assert_eq(list.node[list.tail].data, e, msg);
+    assert_eq(list.nodes[list.head].data, e, msg);
+    assert_eq(list.nodes[list.tail].data, e, msg);
 }
 
 void test_push_front(void) {
@@ -274,7 +274,7 @@ void test_push_front(void) {
     msg = "should push_front";
     assert(push_front(&list, e), msg);
     assert_eq(list.len, LEN + 1, msg);
-    assert_eq(list.node[list.head].data, e, msg);
+    assert_eq(list.nodes[list.head].data, e, msg);
 
     msg      = "should not push_front when full";
     list.len = MAXLEN;
@@ -285,8 +285,8 @@ void test_push_front(void) {
     clear(&list);
     assert(push_front(&list, e), msg);
     assert_eq(list.len, 1, msg);
-    assert_eq(list.node[list.head].data, e, msg);
-    assert_eq(list.node[list.tail].data, e, msg);
+    assert_eq(list.nodes[list.head].data, e, msg);
+    assert_eq(list.nodes[list.tail].data, e, msg);
 }
 
 void test_push_back(void) {
@@ -297,7 +297,7 @@ void test_push_back(void) {
     msg = "should push_back";
     assert(push_back(&list, e), msg);
     assert_eq(list.len, LEN + 1, msg);
-    assert_eq(list.node[list.tail].data, e, msg);
+    assert_eq(list.nodes[list.tail].data, e, msg);
 
     msg      = "should not push_back when full";
     list.len = MAXLEN;
@@ -308,8 +308,8 @@ void test_push_back(void) {
     clear(&list);
     assert(push_back(&list, e), msg);
     assert_eq(list.len, 1, msg);
-    assert_eq(list.node[list.head].data, e, msg);
-    assert_eq(list.node[list.tail].data, e, msg);
+    assert_eq(list.nodes[list.head].data, e, msg);
+    assert_eq(list.nodes[list.tail].data, e, msg);
 }
 
 void test_del(void) {
@@ -323,7 +323,7 @@ void test_del(void) {
     assert_eq(list.len, LEN, msg);
 
     msg     = "should del at head";
-    deleted = list.node[list.head].data;
+    deleted = list.nodes[list.head].data;
     assert(del(&list, 0, &e), msg);
     assert_eq(list.len, LEN - 1, msg);
     assert_eq(e, deleted, msg);
@@ -335,7 +335,7 @@ void test_del(void) {
     assert_eq(e, deleted, msg);
 
     msg     = "should del at tail";
-    deleted = list.node[list.tail].data;
+    deleted = list.nodes[list.tail].data;
     assert(del(&list, list.len - 1, &e), msg);
     assert_eq(list.len, LEN - 3, msg);
     assert_eq(e, deleted, msg);
@@ -360,7 +360,7 @@ void test_pop_front(void) {
     char       *msg;
 
     msg    = "should pop_front";
-    popped = list.node[list.head].data;
+    popped = list.nodes[list.head].data;
     assert(pop_front(&list, &e), msg);
     assert_eq(list.len, LEN - 1, msg);
     assert_eq(e, popped, msg);
@@ -378,7 +378,7 @@ void test_pop_back(void) {
     char       *msg;
 
     msg    = "should pop_back";
-    popped = list.node[list.tail].data;
+    popped = list.nodes[list.tail].data;
     assert(pop_back(&list, &e), msg);
     assert_eq(list.len, LEN - 1, msg);
     assert_eq(e, popped, msg);

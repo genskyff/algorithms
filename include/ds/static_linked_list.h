@@ -13,7 +13,7 @@ typedef struct {
 // node[0] is the head
 // node[len - 1] is the tail
 typedef struct {
-    SNode  node[MAXLEN];
+    SNode  nodes[MAXLEN];
     size_t space;
     size_t head;
     size_t tail;
