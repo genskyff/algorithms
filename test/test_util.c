@@ -32,8 +32,8 @@ void test_swap(void) {
     msg = "should swap";
     _copy(tmp, LEN, ARR, LEN);
     _swap(tmp, 0, LEN - 1);
-    elem_t swap_endpoint[LEN] = {5, 1, 2, 3, 4, 0};
-    assert_arr_eq(tmp, LEN, swap_endpoint, LEN, msg);
+    elem_t swap_either_end[LEN] = {5, 1, 2, 3, 4, 0};
+    assert_arr_eq(tmp, LEN, swap_either_end, LEN, msg);
 }
 
 void test_shuffle(void) {

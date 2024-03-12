@@ -49,8 +49,8 @@ void test_swap(void) {
 
     msg = "should swap head and tail";
     swap(&list, 0, list.len - 1);
-    elem_t swap_endpoint[LEN] = {5, 1, 2, 3, 4, 0};
-    assert_list_arr_eq(list.head, FORWARD, swap_endpoint, LEN, msg);
+    elem_t swap_either_end[LEN] = {5, 1, 2, 3, 4, 0};
+    assert_list_arr_eq(list.head, FORWARD, swap_either_end, LEN, msg);
     assert_eq(list.tail->data, 0, msg);
 
     msg = "should swap when |i - j| == 1";
