@@ -441,15 +441,14 @@ bool insert(HashMap *map, key_t key, value_t value) {
     }
 
     size_t idx = (size_t)_hash(key) % map->cap;
-    if (map->buckets[idx].len > BUCKET_CAP && !_grow(map)) {
-        return false;
-    }
-
     if (!_insert_pair_bucket(&map->buckets[idx], key, value)) {
         return false;
     }
-
     map->len++;
+
+    if (map->buckets[idx].len > BUCKET_CAP) {
+        _grow(map);
+    }
 
     return true;
 }
