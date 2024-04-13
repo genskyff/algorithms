@@ -1,7 +1,7 @@
 # Algorithms implemented in C
 
 ## Overview
-This is a repository implemented in C for various basic algorithms and data structures, intended for learning and recording. It is licensed under the GPLv3 and designed to be modular, making it easy to be imported into other code.
+This is a repository implemented in C for various basic algorithms and data structures, intended for learning and recording. It is licensed under the MIT and designed to be modular, making it easy to be imported into other code.
 
 ## Features
 - Uses only the C standard library, with no 3rd-party libraries
