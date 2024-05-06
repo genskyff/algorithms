@@ -18,7 +18,7 @@ rule("mode.test")
     end)
 rule_end()
 
-add_includedirs("include", "include/ds", "include/sort")
+add_includedirs("include", "include/ds", "include/sort", "include/string")
 
 on_load(function (target)
     if target:name() ~= "util" then
@@ -92,6 +92,18 @@ task("test-sort")
     set_menu{
         usage = "xmake test-sort",
         description = "Run all sorting algorithms tests"
+    }
+task_end()
+
+task("test-string")
+    on_run(function ()
+        os.exec("xmake f -m test")
+        os.exec("xmake build -g test_string")
+        os.exec("xmake run -g test_string")
+    end)
+    set_menu{
+        usage = "xmake test-string",
+        description = "Run all string algorithms tests"
     }
 task_end()
 
@@ -283,3 +295,18 @@ target("test_selection")
     set_group("test_sort")
     add_files("test/sort/test_selection.c")
     add_deps("selection")
+
+-- --------------------
+--  string algorithms
+-- --------------------
+
+target("brute_force")
+    set_kind("static")
+    set_group("string")
+    add_files("src/string/brute_force.c")
+
+target("test_brute_force")
+    set_kind("binary")
+    set_group("test_string")
+    add_files("test/string/test_brute_force.c")
+    add_deps("brute_force")
