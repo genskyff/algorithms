@@ -1,7 +1,15 @@
 set_project("algorithms-c")
 set_version("0.1.0")
 set_languages("c17")
-set_toolchains("gcc")
+
+set_allowedplats("windows", "linux", "macosx")
+if is_plat("windows") then
+    set_toolchains("gcc")
+elseif is_plat("linux") then
+    set_toolchains("gcc")
+elseif is_plat("macosx") then
+    set_toolchains("clang")
+end
 
 add_rules("mode.debug", "mode.release", "mode.test")
 rule("mode.test")
