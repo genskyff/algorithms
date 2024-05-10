@@ -1,6 +1,6 @@
 set_project("algorithms-c")
 set_version("0.1.0")
-set_languages("c17")
+set_languages("c23")
 
 set_allowedplats("windows", "linux", "macosx")
 if is_plat("windows") then
