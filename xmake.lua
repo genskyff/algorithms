@@ -160,6 +160,17 @@ target("test_array_stack")
     add_files("test/ds/test_array_stack.c")
     add_deps("array_stack")
 
+target("binary_tree")
+    set_kind("static")
+    set_group("ds")
+    add_files("src/ds/binary_tree.c")
+
+target("test_binary_tree")
+    set_kind("binary")
+    set_group("test_ds")
+    add_files("test/ds/test_binary_tree.c")
+    add_deps("binary_tree")
+
 target("hashmap")
     set_kind("static")
     set_group("ds")

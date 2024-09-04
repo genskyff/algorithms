@@ -12,6 +12,12 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
+typedef struct TreeNode {
+    elem_t           data;
+    struct TreeNode *left;
+    struct TreeNode *right;
+} TreeNode;
+
 typedef enum { FORWARD, BACKWARD } Direction;
 
 #endif
