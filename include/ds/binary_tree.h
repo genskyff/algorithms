@@ -6,6 +6,7 @@
 
 typedef struct {
     TreeNode *root;
+    size_t    height;
     size_t    vertex_count;
     size_t    edge_count;
 } BinaryTree;

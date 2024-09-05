@@ -7,6 +7,7 @@ void test_create(void) {
 
     msg = "should get a empty binary tree";
     assert_null(tree.root, msg);
+    assert_eq(tree.height, 0, msg);
     assert_eq(tree.vertex_count, 0, msg);
     assert_eq(tree.edge_count, 0, msg);
 }
@@ -20,6 +21,7 @@ void test_create_root(void) {
     assert_eq(tree.root->data, 10, msg);
     assert_null(tree.root->left, msg);
     assert_null(tree.root->right, msg);
+    assert_eq(tree.height, 0, msg);
     assert_eq(tree.vertex_count, 1, msg);
     assert_eq(tree.edge_count, 0, msg);
 }

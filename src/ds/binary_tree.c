@@ -23,14 +23,16 @@ TreeNode *_create_node(elem_t e, TreeNode *left, TreeNode *right,
 }
 
 BinaryTree create(void) {
-    BinaryTree tree = {.root = NULL, .vertex_count = 0, .edge_count = 0};
+    BinaryTree tree = {
+        .root = NULL, .height = 0, .vertex_count = 0, .edge_count = 0};
 
     return tree;
 }
 
 BinaryTree create_root(elem_t e) {
     TreeNode  *root = _create_node(e, NULL, NULL, __func__);
-    BinaryTree tree = {.root = root, .vertex_count = 1, .edge_count = 0};
+    BinaryTree tree = {
+        .root = root, .height = 0, .vertex_count = 1, .edge_count = 0};
 
     return tree;
 }
@@ -39,5 +41,6 @@ BinaryTree init(size_t n, ...);
 void       clear(BinaryTree *tree);
 
 bool is_empty(BinaryTree *tree) {
-    return tree == NULL || tree->root == NULL || tree->vertex_count == 0;
+    return tree == NULL || tree->root == NULL || tree->height == 0 ||
+           tree->vertex_count == 0;
 }
