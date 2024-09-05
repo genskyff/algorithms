@@ -12,12 +12,12 @@ void test_create(void) {
 }
 
 void test_create_root(void) {
-    BinaryTree tree = create_root(0);
+    BinaryTree tree = create_root(10);
     char      *msg;
 
     msg = "should get a binary tree with only one root node";
     assert_not_null(tree.root, msg);
-    assert_eq(tree.root->data, 0, msg);
+    assert_eq(tree.root->data, 10, msg);
     assert_null(tree.root->left, msg);
     assert_null(tree.root->right, msg);
     assert_eq(tree.vertex_count, 1, msg);

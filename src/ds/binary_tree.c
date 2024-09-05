@@ -10,7 +10,7 @@ BinaryTree create(void) {
     return tree;
 }
 
-BinaryTree create_root(elem_t data) {
+BinaryTree create_root(elem_t e) {
     TreeNode *root = (TreeNode *)malloc(sizeof(TreeNode));
     if (root == NULL) {
         fprintf(stderr,
@@ -19,7 +19,7 @@ BinaryTree create_root(elem_t data) {
         exit(EXIT_FAILURE);
     }
 
-    root->data      = 0;
+    root->data      = e;
     root->left      = NULL;
     root->right     = NULL;
     BinaryTree tree = {.root = root, .vertex_count = 1, .edge_count = 0};

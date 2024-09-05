@@ -11,7 +11,7 @@ typedef struct {
 } BinaryTree;
 
 BinaryTree create(void);
-BinaryTree create_root(elem_t data);
+BinaryTree create_root(elem_t e);
 BinaryTree init(size_t n, ...);
 void       clear(BinaryTree *tree);
 bool       is_empty(BinaryTree *tree);
