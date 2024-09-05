@@ -37,7 +37,16 @@ end)
 
 task("lint")
     on_run(function ()
-        os.exec("cd %s && clang-format -i -style=file **/*.c **/*.h", os.projectdir())
+        if os.host() == "windows" then
+            os.execv("powershell", {"-command", string.format([[
+                cd %s
+                Get-ChildItem -Recurse -Include *.c,*.h | ForEach-Object {
+                    clang-format -i -style=file $_.FullName
+                }
+            ]], os.projectdir())})
+        else
+            os.exec("cd %s && clang-format -i -style=file **/*.c **/*.h", os.projectdir())
+        end
     end)
     set_menu{
         usage = "xmake lint",
