@@ -35,6 +35,16 @@ end)
 --  tasks
 -- -------
 
+task("lint")
+    on_run(function ()
+        os.exec("cd %s && clang-format -i -style=file **/*.c **/*.h", os.projectdir())
+    end)
+    set_menu{
+        usage = "xmake lint",
+        description = "Run clang-format on all .c and .h files"
+    }
+task_end()
+
 task("test-all")
     on_run(function ()
         os.exec("xmake f -m test")
