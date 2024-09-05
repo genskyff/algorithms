@@ -20,5 +20,6 @@ typedef struct TreeNode {
 } TreeNode;
 
 typedef enum { FORWARD, BACKWARD } Direction;
+typedef enum { LEVEL_ORDER, PRE_ORDER, IN_ORDER, POST_ORDER } Order;
 
 #endif

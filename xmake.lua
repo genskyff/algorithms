@@ -45,7 +45,10 @@ task("lint")
                 }
             ]], os.projectdir())})
         else
-            os.exec("cd %s && clang-format -i -style=file **/*.c **/*.h", os.projectdir())
+            os.execv("bash", {"-c", string.format([[
+                cd %s &&
+                find . -type f \( -name '*.c' -o -name '*.h' \) -exec clang-format -i -style=file {} +
+            ]], os.projectdir())})
         end
     end)
     set_menu{
