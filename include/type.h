@@ -8,6 +8,7 @@ typedef int elem_t;
 
 typedef struct Node {
     elem_t       data;
+    size_t       height;
     struct Node *prev;
     struct Node *next;
 } Node;
