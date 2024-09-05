@@ -61,6 +61,18 @@ void _clear(elem_t *arr, size_t len) {
     memset(arr, 0, len * sizeof(elem_t));
 }
 
+void _has_alloc_err(void *data, const char *location) {
+    const char *_location =
+        (location == NULL || *location == '\0') ? "unkonwn" : location;
+    if (data == NULL) {
+        fprintf(stderr,
+                "\x1b[1;31merror: \x1b[0mfailed to allocate memory at "
+                "\x1b[33m`%s`\x1b[0m\n\n",
+                _location);
+        exit(EXIT_FAILURE);
+    }
+}
+
 int _cmp(const void *v1, const void *v2) {
     if (v1 == NULL && v2 == NULL) {
         return 0;

@@ -18,6 +18,7 @@ elem_t _max(elem_t *arr, size_t len);
 void   _swap(elem_t *arr, size_t i, size_t j);
 void   _shuffle(elem_t *arr, size_t len);
 void   _clear(elem_t *arr, size_t len);
+void   _has_alloc_err(void *data, const char *location);
 int    _cmp(const void *v1, const void *v2);
 int    _cmp_str(const void *s1, const void *s2);
 
