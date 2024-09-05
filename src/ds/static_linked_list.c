@@ -19,7 +19,7 @@ size_t _alloc(SLinkedList *list) {
 
 void _free(SLinkedList *list, size_t idx) {
     list->nodes[idx].next = list->space;
-    list->space          = idx;
+    list->space           = idx;
 }
 
 SLinkedList create(void) {
@@ -53,7 +53,7 @@ SLinkedList init(size_t n, ...) {
 
         if (list.head == SIZE_MAX) {
             list.nodes[idx].prev = SIZE_MAX;
-            list.head           = idx;
+            list.head            = idx;
         } else {
             list.nodes[idx].prev       = list.tail;
             list.nodes[list.tail].next = idx;
@@ -150,7 +150,7 @@ void swap(SLinkedList *list, size_t i, size_t j) {
         list->nodes[node_i].prev = j_prev;
         list->nodes[node_j].prev = i_prev;
 
-        size_t tmp              = list->nodes[node_i].next;
+        size_t tmp               = list->nodes[node_i].next;
         list->nodes[node_i].next = list->nodes[node_j].next;
         list->nodes[node_j].next = tmp;
     }
@@ -191,7 +191,8 @@ void show(FILE *stream, SLinkedList *list) {
     }
 
     fprintf(stream, "[");
-    for (size_t cur = list->head; cur != SIZE_MAX; cur = list->nodes[cur].next) {
+    for (size_t cur = list->head; cur != SIZE_MAX;
+         cur        = list->nodes[cur].next) {
         fprintf(stream, "%d%s", list->nodes[cur].data,
                 list->nodes[cur].next == SIZE_MAX ? "]\n" : " <-> ");
     }
@@ -307,7 +308,8 @@ bool find(SLinkedList *list, elem_t e, size_t *i) {
     }
 
     size_t cur = list->head;
-    for (size_t j = 0; list->nodes[cur].data != SIZE_MAX && j < list->len; j++) {
+    for (size_t j = 0; list->nodes[cur].data != SIZE_MAX && j < list->len;
+         j++) {
         if (list->nodes[cur].data == e) {
             if (i != NULL) {
                 *i = j;
@@ -372,9 +374,9 @@ bool insert(SLinkedList *list, size_t i, elem_t e) {
             }
         }
 
-        list->nodes[idx].next                  = list->nodes[cur].next;
-        list->nodes[idx].prev                  = cur;
-        list->nodes[cur].next                  = idx;
+        list->nodes[idx].next                   = list->nodes[cur].next;
+        list->nodes[idx].prev                   = cur;
+        list->nodes[cur].next                   = idx;
         list->nodes[list->nodes[idx].next].prev = idx;
     }
 

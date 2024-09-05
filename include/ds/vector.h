@@ -6,7 +6,7 @@
 
 #define INIT_CAP      100
 #define SHINK_CAP     1000
-#define LOW_FACTOR   0.25
+#define LOW_FACTOR    0.25
 #define GROWTH_FACTOR 2
 
 // data[0] is the first
@@ -17,8 +17,8 @@ typedef struct {
     size_t  cap;
 } Vec;
 
-Vec create(void);
-Vec create_with(size_t cap);
+Vec  create(void);
+Vec  create_with(size_t cap);
 Vec  init(size_t n, ...);
 void swap(Vec *v, size_t i, size_t j);
 void reverse(Vec *v);

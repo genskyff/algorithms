@@ -268,12 +268,7 @@ void _rotate_left(elem_t *arr, size_t len, size_t n) {
 
     n           = n % len;
     elem_t *tmp = (elem_t *)malloc(n * sizeof(elem_t));
-    if (tmp == NULL) {
-        fprintf(stderr,
-                "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
-                "\x1b[33mrotate_left\x1b[0m)\n\n");
-        exit(EXIT_FAILURE);
-    }
+    _has_alloc_err(tmp, __func__);
 
     memmove(tmp, arr, n * sizeof(elem_t));
     memmove(arr, arr + n, (len - n) * sizeof(elem_t));
@@ -299,12 +294,7 @@ void _rotate_right(elem_t *arr, size_t len, size_t n) {
 
     n           = n % len;
     elem_t *tmp = (elem_t *)malloc(n * sizeof(elem_t));
-    if (tmp == NULL) {
-        fprintf(stderr,
-                "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
-                "\x1b[33mrotate_right\x1b[0m)\n\n");
-        exit(EXIT_FAILURE);
-    }
+    _has_alloc_err(tmp, __func__);
 
     memmove(tmp, arr + len - n, n * sizeof(elem_t));
     memmove(arr + n, arr, (len - n) * sizeof(elem_t));

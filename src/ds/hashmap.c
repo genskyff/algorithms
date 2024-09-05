@@ -270,12 +270,7 @@ HashMap create_with(size_t cap) {
     }
 
     Bucket *buckets = (Bucket *)calloc(cap, sizeof(Bucket));
-    if (buckets == NULL) {
-        fprintf(stderr,
-                "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
-                "\x1b[33mcreate_with\x1b[0m)\n\n");
-        exit(EXIT_FAILURE);
-    }
+    _has_alloc_err(buckets, __func__);
 
     HashMap map = {.buckets = buckets, .len = 0, .cap = cap};
 
@@ -289,12 +284,7 @@ HashMap init(key_t *keys, value_t *values, size_t len) {
             : (MAX(len, INIT_CAP) + INIT_CAP - 1) / INIT_CAP * INIT_CAP;
 
     Bucket *buckets = (Bucket *)calloc(cap, sizeof(Bucket));
-    if (buckets == NULL) {
-        fprintf(stderr,
-                "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
-                "\x1b[33minit\x1b[0m)\n\n");
-        exit(EXIT_FAILURE);
-    }
+    _has_alloc_err(buckets, __func__);
 
     HashMap map = {.buckets = buckets, .len = 0, .cap = cap};
 

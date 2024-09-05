@@ -17,12 +17,7 @@ LinkedList init(size_t n, ...) {
 
     for (size_t i = 0; i < n; i++) {
         Node *node = (Node *)malloc(sizeof(Node));
-        if (node == NULL) {
-            fprintf(stderr,
-                    "\x1b[1;31merror: \x1b[0mfailed to allocate memory (exec "
-                    "\x1b[33minit\x1b[0m)\n\n");
-            exit(EXIT_FAILURE);
-        }
+        _has_alloc_err(node, __func__);
 
         node->data = va_arg(ap, elem_t);
         node->next = NULL;
