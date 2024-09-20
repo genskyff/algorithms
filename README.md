@@ -6,7 +6,7 @@ This is a repository implemented in C for various basic algorithms and data stru
 ## Features
 - Uses only the C standard library, with no 3rd-party libraries
 - Unit tests for almost all function
-- Strict adherence to the C17 standard, tested on MSVC, GCC, and Clang
+- Strict adherence to the C23 standard, tested on MSVC, GCC, and Clang
 
 ## Usage
 First, you need any C compiler. GCC is used by default on Linux, clang is used by default on macOS. On Windows, you can choose to install Visual Studio to use MSVC or install MinGW64.
