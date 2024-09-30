@@ -8,13 +8,13 @@ typedef int elem_t;
 
 typedef struct Node {
     elem_t       data;
-    size_t       height;
     struct Node *prev;
     struct Node *next;
 } Node;
 
 typedef struct TreeNode {
     elem_t           data;
+    size_t           level;
     struct TreeNode *left;
     struct TreeNode *right;
 } TreeNode;
