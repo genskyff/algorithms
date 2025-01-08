@@ -14,11 +14,11 @@ end
 add_rules("mode.debug", "mode.release", "mode.test")
 rule("mode.test")
     on_load(function (target)
-        target:add("includedirs", "test")
+        target:add("includedirs", "test/include")
     end)
 rule_end()
 
-add_includedirs("include", "include/ds", "include/sort", "include/string")
+add_includedirs("src/include", "include", "include/ds", "include/sort", "include/string")
 
 on_load(function (target)
     if target:name() ~= "util" then
