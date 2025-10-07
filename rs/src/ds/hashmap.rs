@@ -195,7 +195,7 @@ impl<K: Clone + Eq + Hash, V: Clone> HashMap<K, V> {
     fn shrink(&mut self) {
         if self.cap() > SHINK_CAP && self.len() < (self.cap() as f64 * LOW_FACTOR) as usize {
             let base_cap = std::cmp::max(INIT_CAP, self.len() * GROWTH_FACTOR);
-            let new_cap = (base_cap + INIT_CAP - 1) / INIT_CAP * INIT_CAP;
+            let new_cap = base_cap.div_ceil(INIT_CAP) * INIT_CAP;
             self.migrate(new_cap);
         }
     }
@@ -217,7 +217,7 @@ impl<K: Clone + Eq + Hash, V: Clone> HashMap<K, V> {
         let cap = if pairs.len() < (INIT_CAP as f64 * LOAD_FACTOR) as usize {
             INIT_CAP
         } else {
-            (std::cmp::max(pairs.len(), INIT_CAP) + INIT_CAP - 1) / INIT_CAP * INIT_CAP
+            std::cmp::max(pairs.len(), INIT_CAP).div_ceil(INIT_CAP) * INIT_CAP
         };
         let mut map = Self::with_cap(cap);
 
