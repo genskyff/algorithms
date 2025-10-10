@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "deno.ns"]
+  },
+  "tasks": {
+    "lint:fix": "deno lint --fix && deno fmt"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1",
+    "@/": "./src/"
+  }
+}
