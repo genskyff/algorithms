@@ -1,4 +1,4 @@
-import { assertEquals, assert, assertFalse } from "@std/assert";
+import { assert, assertEquals, assertFalse } from "@std/assert";
 import { createLinkedList } from "@/ds/linked_list.ts";
 
 Deno.test("LinkedList - create empty", () => {

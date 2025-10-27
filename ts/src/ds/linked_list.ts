@@ -40,7 +40,10 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
       throw new Error("Index out of bounds");
     }
   };
-  const _checkNode = (node: Node<T>, type: "linked" | "detached" = "linked") => {
+  const _checkNode = (
+    node: Node<T>,
+    type: "linked" | "detached" = "linked",
+  ) => {
     if (type === "linked" && !node.prev && !node.next) {
       throw new Error("Node is detached");
     } else if (type === "detached" && (node.prev || node.next)) {
