@@ -24,6 +24,9 @@ jobs:
         deno-version: v2.x
         cache: true
 
+    - name: Install Packages
+      run: deno install --frozen
+
     - name: Run lint
       run: deno lint
 
