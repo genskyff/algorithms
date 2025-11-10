@@ -1,6 +1,6 @@
 pub mod constant {
     pub const INIT_CAP: usize = 100;
-    pub const SHINK_CAP: usize = 1000;
+    pub const SHRINK_CAP: usize = 1000;
     pub const BUCKET_CAP: usize = 10;
     pub const LOW_FACTOR: f64 = 0.25;
     pub const LOAD_FACTOR: f64 = 0.75;
@@ -193,7 +193,7 @@ impl<K: Clone + Eq + Hash, V: Clone> HashMap<K, V> {
     }
 
     fn shrink(&mut self) {
-        if self.cap() > SHINK_CAP && self.len() < (self.cap() as f64 * LOW_FACTOR) as usize {
+        if self.cap() > SHRINK_CAP && self.len() < (self.cap() as f64 * LOW_FACTOR) as usize {
             let base_cap = std::cmp::max(INIT_CAP, self.len() * GROWTH_FACTOR);
             let new_cap = base_cap.div_ceil(INIT_CAP) * INIT_CAP;
             self.migrate(new_cap);

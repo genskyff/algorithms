@@ -154,7 +154,7 @@ bool _migrate(HashMap *map, size_t new_cap) {
 }
 
 bool _shrink(HashMap *map) {
-    if (map != NULL && map->cap > SHINK_CAP &&
+    if (map != NULL && map->cap > SHRINK_CAP &&
         map->len < (size_t)(map->cap * LOW_FACTOR)) {
         size_t base_cap = MAX(INIT_CAP, map->len * GROWTH_FACTOR);
         size_t new_cap  = (base_cap + INIT_CAP - 1) / INIT_CAP * INIT_CAP;

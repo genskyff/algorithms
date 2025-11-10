@@ -339,12 +339,12 @@ void test_del(void) {
     assert_eq(v.len, 0, msg);
 
     msg = "should shrink when load factor < LOWER_FACTOR";
-    for (size_t i = 0; i < SHINK_CAP; ++i) {
+    for (size_t i = 0; i < SHRINK_CAP; ++i) {
         assert(push_back(&v, i), msg);
     }
-    assert_eq(v.len, SHINK_CAP, msg);
+    assert_eq(v.len, SHRINK_CAP, msg);
     assert_eq(v.cap % INIT_CAP, 0, msg);
-    for (size_t i = 0; i < SHINK_CAP; ++i) {
+    for (size_t i = 0; i < SHRINK_CAP; ++i) {
         assert(del(&v, 0, NULL), msg);
     }
     assert_eq(v.len, 0, msg);

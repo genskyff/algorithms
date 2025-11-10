@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 #define INIT_CAP      100
-#define SHINK_CAP     1000
+#define SHRINK_CAP    1000
 #define BUCKET_CAP    10
 #define LOW_FACTOR    0.25
 #define LOAD_FACTOR   0.75
