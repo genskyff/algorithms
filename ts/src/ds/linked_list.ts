@@ -159,20 +159,20 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     nodeB.val = temp;
   };
   const reverse = () => {
-    let left_node = _getNode(0);
-    let right_node = _getNode(_len - 1);
-    let left = 0;
-    let right = _len - 1;
+    let leftNode = _getNode(0);
+    let rightNode = _getNode(_len - 1);
+    let leftIdx = 0;
+    let rightIdx = _len - 1;
 
-    while (left < right) {
-      const temp = left_node.val;
-      left_node.val = right_node.val;
-      right_node.val = temp;
+    while (leftIdx < rightIdx) {
+      const temp = leftNode.val;
+      leftNode.val = rightNode.val;
+      rightNode.val = temp;
 
-      left++;
-      right--;
-      left_node = left_node.next!;
-      right_node = right_node.prev!;
+      leftIdx++;
+      rightIdx--;
+      leftNode = leftNode.next!;
+      rightNode = rightNode.prev!;
     }
   };
   const map = (fn: (val: T, idx?: number) => T) => {
