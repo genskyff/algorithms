@@ -41,6 +41,28 @@ task("lint")
             os.execv("powershell", {"-command", string.format([[
                 cd %s
                 Get-ChildItem -Recurse -Include *.c,*.h | ForEach-Object {
+                    clang-format --dry-run -Werror -i -style=file $_.FullName
+                }
+            ]], os.projectdir())})
+        else
+            os.execv("bash", {"-c", string.format([[
+                cd %s &&
+                find . -type f \( -name '*.c' -o -name '*.h' \) -exec clang-format --dry-run -Werror -i -style=file {} +
+            ]], os.projectdir())})
+        end
+    end)
+    set_menu{
+        usage = "xmake lint",
+        description = "Run clang-format to check code format"
+    }
+task_end()
+
+task("lint:fix")
+    on_run(function ()
+        if os.host() == "windows" then
+            os.execv("powershell", {"-command", string.format([[
+                cd %s
+                Get-ChildItem -Recurse -Include *.c,*.h | ForEach-Object {
                     clang-format -i -style=file $_.FullName
                 }
             ]], os.projectdir())})
@@ -52,79 +74,79 @@ task("lint")
         end
     end)
     set_menu{
-        usage = "xmake lint",
-        description = "Run clang-format on all .c and .h files"
+        usage = "xmake lint:fix",
+        description = "Run clang-format to fix code format"
     }
 task_end()
 
-task("test-all")
+task("test:all")
     on_run(function ()
         os.exec("xmake f -m test")
         os.exec("xmake build -g test*")
         os.exec("xmake run -g test*")
     end)
     set_menu{
-        usage = "xmake test-all",
+        usage = "xmake test:all",
         description = "Run all tests"
     }
 task_end()
 
-task("test-helper")
+task("test:helper")
     on_run(function ()
         os.exec("xmake f -m test")
         os.exec("xmake build -g test_helper")
         os.exec("xmake run -g test_helper")
     end)
     set_menu{
-        usage = "xmake test-helper",
+        usage = "xmake test:helper",
         description = "Run all helper tests"
     }
 task_end()
 
-task("test-util")
+task("test:util")
     on_run(function ()
         os.exec("xmake f -m test")
         os.exec("xmake build -g test_util")
         os.exec("xmake run -g test_util")
     end)
     set_menu{
-        usage = "xmake test-util",
+        usage = "xmake test:util",
         description = "Run all util tests"
     }
 task_end()
 
-task("test-ds")
+task("test:ds")
     on_run(function ()
         os.exec("xmake f -m test")
         os.exec("xmake build -g test_ds")
         os.exec("xmake run -g test_ds")
     end)
     set_menu{
-        usage = "xmake test-ds",
+        usage = "xmake test:ds",
         description = "Run all data structures tests"
     }
 task_end()
 
-task("test-sort")
+task("test:sort")
     on_run(function ()
         os.exec("xmake f -m test")
         os.exec("xmake build -g test_sort")
         os.exec("xmake run -g test_sort")
     end)
     set_menu{
-        usage = "xmake test-sort",
+        usage = "xmake test:sort",
         description = "Run all sorting algorithms tests"
     }
 task_end()
 
-task("test-string")
+task("test:string")
     on_run(function ()
         os.exec("xmake f -m test")
         os.exec("xmake build -g test_string")
         os.exec("xmake run -g test_string")
     end)
     set_menu{
-        usage = "xmake test-string",
+        usage = "xmake test:string",
         description = "Run all string algorithms tests"
     }
 task_end()
