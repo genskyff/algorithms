@@ -30,6 +30,7 @@ Deno.test("Vector - cap should grow", () => {
   assertEquals(list.cap(), 100);
   list.push(0, 0);
   assertEquals(list.cap(), 200);
+  assertEquals(list.toArray(), Array(101).fill(0));
 });
 
 Deno.test("Vector - cap should shrink", () => {
@@ -37,6 +38,7 @@ Deno.test("Vector - cap should shrink", () => {
   assertEquals(list.cap(), 1100);
   list.clear();
   assertEquals(list.cap(), 199);
+  assertEquals(list.toArray(), []);
 });
 
 Deno.test("Vector - get and set", () => {
