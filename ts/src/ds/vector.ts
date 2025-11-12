@@ -6,6 +6,7 @@ type Inner<T> = {
 
 type Vector<T> = {
   len(): number;
+  cap(): number;
   get(idx: number): T | undefined;
   set(idx: number, val: T): void;
   isEmpty(): boolean;
@@ -80,6 +81,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
   };
 
   const len = () => inner.len;
+  const cap = () => inner.cap;
   const get = (idx: number) => {
     _checkIdx(idx);
 
@@ -199,6 +201,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
 
   const api = {
     len,
+    cap,
     get,
     set,
     isEmpty,

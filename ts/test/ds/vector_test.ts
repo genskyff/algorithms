@@ -5,6 +5,7 @@ Deno.test("Vector - create empty", () => {
   const list = createVector<number>();
   assertEquals(list.toArray(), []);
   assertEquals(list.len(), 0);
+  assertEquals(list.cap(), 100);
   assert(list.isEmpty());
 });
 
@@ -12,15 +13,31 @@ Deno.test("Vector - create with initial values", () => {
   const list = createVector(1, 2, 3);
   assertEquals(list.toArray(), [1, 2, 3]);
   assertEquals(list.len(), 3);
+  assertEquals(list.cap(), 100);
   assertFalse(list.isEmpty());
 });
 
 Deno.test("Vector - clear", () => {
   const list = createVector(1, 2, 3);
   list.clear();
-  assertEquals(list.toArray(), []);
-  assertEquals(list.len(), 0);
   assert(list.isEmpty());
+  assertEquals(list.cap(), 100);
+  assertEquals(list.toArray(), []);
+});
+
+Deno.test("Vector - cap should grow", () => {
+  const list = createVector(...Array(99).fill(0));
+  assertEquals(list.cap(), 100);
+  list.push(0);
+  list.push(0);
+  assertEquals(list.cap(), 200);
+});
+
+Deno.test("Vector - cap should shrink", () => {
+  const list = createVector(...Array(1001).fill(0));
+  assertEquals(list.cap(), 1100);
+  list.clear();
+  assertEquals(list.cap(), 199);
 });
 
 Deno.test("Vector - get and set", () => {
