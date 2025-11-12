@@ -52,10 +52,10 @@ Deno.test("LinkedList - insert and remove", () => {
 
 Deno.test("LinkedList - push and unshift", () => {
   const list = createLinkedList(1, 2, 3);
-  list.push(4);
-  list.unshift(0);
-  assertEquals(list.toArray(), [0, 1, 2, 3, 4]);
-  assertEquals(list.len(), 5);
+  list.push(4, 5, 6);
+  list.unshift(-2, -1, 0);
+  assertEquals(list.toArray(), [-2, -1, 0, 1, 2, 3, 4, 5, 6]);
+  assertEquals(list.len(), 9);
 });
 
 Deno.test("LinkedList - pop and shift", () => {

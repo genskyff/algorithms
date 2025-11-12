@@ -12,9 +12,9 @@ type LinkedList<T> = {
   clear(): void;
   insert(idx: number, val: T): void;
   remove(idx: number): T | undefined;
-  unshift(val: T): void;
+  unshift(...vals: T[]): void;
   shift(): T | undefined;
-  push(val: T): void;
+  push(...vals: T[]): void;
   pop(): T | undefined;
   first(): T | undefined;
   last(): T | undefined;
@@ -122,14 +122,18 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     _unlink(node);
     return node.val;
   };
-  const unshift = (val: T) => {
-    insert(0, val);
+  const unshift = (...vals: T[]) => {
+    for (const val of vals.reverse()) {
+      insert(0, val);
+    }
   };
   const shift = () => {
     return remove(0);
   };
-  const push = (val: T) => {
-    insert(_len, val);
+  const push = (...vals: T[]) => {
+    for (const val of vals) {
+      insert(_len, val);
+    }
   };
   const pop = () => {
     return remove(_len - 1);

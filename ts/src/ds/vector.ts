@@ -36,8 +36,9 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
   const GROWTH_FACTOR = 2;
 
   const _len = vals.length;
-  const _cap =
-    _len < INIT_CAP ? INIT_CAP : ((_len + INIT_CAP - 1) / INIT_CAP) * INIT_CAP;
+  const _cap = _len < INIT_CAP
+    ? INIT_CAP
+    : ((_len + INIT_CAP - 1) / INIT_CAP) * INIT_CAP;
   const _data = Array<T>(_cap);
   for (let i = 0; i < _len; i++) {
     _data[i] = vals[i];
