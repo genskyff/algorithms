@@ -13,9 +13,9 @@ type Vector<T> = {
   clear(): void;
   insert(idx: number, val: T): void;
   remove(idx: number): T | undefined;
-  unshift(val: T): void;
+  unshift(...vals: T[]): void;
   shift(): T | undefined;
-  push(val: T): void;
+  push(...vals: T[]): void;
   pop(): T | undefined;
   first(): T | undefined;
   last(): T | undefined;
@@ -36,9 +36,8 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
   const GROWTH_FACTOR = 2;
 
   const _len = vals.length;
-  const _cap = _len < INIT_CAP
-    ? INIT_CAP
-    : ((_len + INIT_CAP - 1) / INIT_CAP) * INIT_CAP;
+  const _cap =
+    _len < INIT_CAP ? INIT_CAP : ((_len + INIT_CAP - 1) / INIT_CAP) * INIT_CAP;
   const _data = Array<T>(_cap);
   for (let i = 0; i < _len; i++) {
     _data[i] = vals[i];
@@ -120,14 +119,18 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
 
     return val;
   };
-  const unshift = (val: T) => {
-    insert(0, val);
+  const unshift = (...vals: T[]) => {
+    for (const val of vals.reverse()) {
+      insert(0, val);
+    }
   };
   const shift = () => {
     return remove(0);
   };
-  const push = (val: T) => {
-    insert(inner.len, val);
+  const push = (...vals: T[]) => {
+    for (const val of vals) {
+      insert(inner.len, val);
+    }
   };
   const pop = () => {
     return remove(inner.len - 1);

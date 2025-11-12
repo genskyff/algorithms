@@ -28,8 +28,7 @@ Deno.test("Vector - clear", () => {
 Deno.test("Vector - cap should grow", () => {
   const list = createVector(...Array(99).fill(0));
   assertEquals(list.cap(), 100);
-  list.push(0);
-  list.push(0);
+  list.push(0, 0);
   assertEquals(list.cap(), 200);
 });
 
@@ -69,10 +68,10 @@ Deno.test("Vector - insert and remove", () => {
 
 Deno.test("Vector - push and unshift", () => {
   const list = createVector(1, 2, 3);
-  list.push(4);
-  list.unshift(0);
-  assertEquals(list.toArray(), [0, 1, 2, 3, 4]);
-  assertEquals(list.len(), 5);
+  list.push(4, 5, 6);
+  list.unshift(-2, -1, 0);
+  assertEquals(list.toArray(), [-2, -1, 0, 1, 2, 3, 4, 5, 6]);
+  assertEquals(list.len(), 9);
 });
 
 Deno.test("Vector - pop and shift", () => {
