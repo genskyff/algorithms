@@ -43,12 +43,6 @@ export const createDeque = <T>(...vals: T[]): Deque<T> => {
     cap: _cap,
   };
 
-  const _checkIdx = (idx: number, closed = false) => {
-    if (idx < 0 || idx >= (closed ? inner.len + 1 : inner.len)) {
-      throw new Error("Index out of bounds");
-    }
-  };
-
   const _shrink = () => {
     if (inner.cap > SHRINK_CAP && inner.len < inner.cap * LOW_FACTOR) {
       const baseCap = Math.max(INIT_CAP, inner.len * GROWTH_FACTOR);
