@@ -37,7 +37,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
 
   const _checkIdx = (idx: number, closed = false) => {
     if (idx < 0 || idx >= (closed ? _len + 1 : _len)) {
-      throw new Error("Index out of bounds");
+      throw new Error(`Index out of bounds: ${idx}`);
     }
   };
   const _checkNode = (

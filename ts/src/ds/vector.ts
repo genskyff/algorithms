@@ -51,7 +51,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
 
   const _checkIdx = (idx: number, closed = false) => {
     if (idx < 0 || idx >= (closed ? inner.len + 1 : inner.len)) {
-      throw new Error("Index out of bounds");
+      throw new Error(`Index out of bounds: ${idx}`);
     }
   };
 
