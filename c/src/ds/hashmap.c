@@ -353,6 +353,7 @@ void clear(HashMap *map) {
         map->buckets[i].head = NULL;
     }
     map->len = 0;
+    _shrink(map);
 }
 
 bool is_empty(HashMap *map) {
