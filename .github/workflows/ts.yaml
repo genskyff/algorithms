@@ -30,7 +30,7 @@ jobs:
         deno-version: v2.x
         cache: true
 
-    - name: Install Packages
+    - name: Install packages
       run: deno install --frozen
 
     - name: Run lint
