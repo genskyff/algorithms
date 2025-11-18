@@ -75,12 +75,14 @@ export const createDeque = <T>(...vals: T[]): Deque<T> => {
   const len = () => inner.len;
   const cap = () => inner.cap;
   const isEmpty = () => inner.len === 0;
+
   const clear = () => {
     inner.len = 0;
     inner.start = 0;
     inner.end = 0;
     _shrink();
   };
+
   const unshift = (...vals: T[]) => {
     for (const val of vals.reverse()) {
       _grow();
@@ -89,6 +91,7 @@ export const createDeque = <T>(...vals: T[]): Deque<T> => {
       inner.len++;
     }
   };
+
   const shift = () => {
     if (inner.len === 0) return undefined;
     const val = inner.data[inner.start];
@@ -97,6 +100,7 @@ export const createDeque = <T>(...vals: T[]): Deque<T> => {
     _shrink();
     return val;
   };
+
   const push = (...vals: T[]) => {
     for (const val of vals) {
       _grow();
@@ -105,6 +109,7 @@ export const createDeque = <T>(...vals: T[]): Deque<T> => {
       inner.len++;
     }
   };
+
   const pop = () => {
     if (inner.len === 0) return undefined;
     const val = inner.data[(inner.end - 1 + inner.cap) % inner.cap];
@@ -113,14 +118,17 @@ export const createDeque = <T>(...vals: T[]): Deque<T> => {
     _shrink();
     return val;
   };
+
   const first = () => {
     if (inner.len === 0) return undefined;
     return inner.data[inner.start];
   };
+
   const last = () => {
     if (inner.len === 0) return undefined;
     return inner.data[(inner.end - 1 + inner.cap) % inner.cap];
   };
+
   const toArray = () => {
     const result = Array<T>(inner.len);
     for (let i = 0; i < inner.len; i++) {

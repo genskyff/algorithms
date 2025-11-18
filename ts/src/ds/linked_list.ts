@@ -40,6 +40,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
       throw new Error(`Index out of bounds: ${idx}`);
     }
   };
+
   const _checkNode = (
     node: Node<T>,
     type: "linked" | "detached" = "linked",
@@ -50,6 +51,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
       throw new Error("Node is already linked");
     }
   };
+
   const _getNode = (idx: number, closed = false): Node<T> => {
     _checkIdx(idx, closed);
 
@@ -68,6 +70,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
 
     return cur;
   };
+
   const _link = (target: Node<T>, node: Node<T>) => {
     _checkNode(target);
     _checkNode(node, "detached");
@@ -80,6 +83,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
 
     _len++;
   };
+
   const _unlink = (node: Node<T>) => {
     _checkNode(node);
 
@@ -94,20 +98,25 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
   };
 
   const len = () => _len;
+
   const get = (idx: number) => {
     const node = _getNode(idx);
     return node.val;
   };
+
   const set = (idx: number, val: T) => {
     const node = _getNode(idx);
     if (node) node.val = val;
   };
+
   const isEmpty = () => _len === 0;
+
   const clear = () => {
     _head.next = _tail;
     _tail.prev = _head;
     _len = 0;
   };
+
   const insert = (idx: number, val: T) => {
     _checkIdx(idx, true);
 
@@ -115,6 +124,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     const target = idx === 0 ? _head : _getNode(idx - 1, true);
     _link(target, node);
   };
+
   const remove = (idx: number) => {
     _checkIdx(idx);
 
@@ -122,28 +132,35 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     _unlink(node);
     return node.val;
   };
+
   const unshift = (...vals: T[]) => {
     for (const val of vals.reverse()) {
       insert(0, val);
     }
   };
+
   const shift = () => {
     return remove(0);
   };
+
   const push = (...vals: T[]) => {
     for (const val of vals) {
       insert(_len, val);
     }
   };
+
   const pop = () => {
     return remove(_len - 1);
   };
+
   const first = () => {
     return get(0);
   };
+
   const last = () => {
     return get(_len - 1);
   };
+
   const indexOf = (val: T) => {
     let cur = _getNode(0);
     for (let i = 0; i < _len; i++) {
@@ -151,6 +168,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
       cur = cur.next!;
     }
   };
+
   const swap = (i: number, j: number) => {
     _checkIdx(i);
     _checkIdx(j);
@@ -162,6 +180,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     nodeA.val = nodeB.val;
     nodeB.val = temp;
   };
+
   const reverse = () => {
     let leftNode = _getNode(0);
     let rightNode = _getNode(_len - 1);
@@ -179,6 +198,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
       rightNode = rightNode.prev!;
     }
   };
+
   const map = (fn: (val: T, idx?: number) => T) => {
     const result = createLinkedList<T>();
     let cur: Node<T> = _head.next;
@@ -188,6 +208,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     }
     return result;
   };
+
   const filter = (fn: (val: T, idx?: number) => boolean) => {
     const result = createLinkedList<T>();
     let cur: Node<T> = _head.next;
@@ -199,6 +220,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     }
     return result;
   };
+
   const reduce = <U>(fn: (acc: U, val: T, idx?: number) => U, init: U) => {
     let acc = init;
     let cur: Node<T> = _head.next;
@@ -208,6 +230,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     }
     return acc;
   };
+
   const forEach = (fn: (val: T, idx?: number) => void) => {
     let cur: Node<T> = _head.next;
     for (let i = 0; i < _len; i++) {
@@ -215,6 +238,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
       cur = cur.next;
     }
   };
+
   const toArray = () => {
     const result: T[] = [];
     let cur: Node<T> = _head.next;
