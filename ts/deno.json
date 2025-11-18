@@ -7,6 +7,6 @@
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
-    "@/": "./src/"
+    "@/ds": "./src/ds/index.ts"
   }
 }

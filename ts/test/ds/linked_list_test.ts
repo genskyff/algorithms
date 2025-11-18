@@ -1,5 +1,5 @@
 import { assert, assertEquals, assertFalse } from "@std/assert";
-import { createLinkedList } from "@/ds/linked_list.ts";
+import { createLinkedList } from "@/ds";
 
 Deno.test("LinkedList - create empty", () => {
   const list = createLinkedList<number>();

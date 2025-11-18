@@ -4,7 +4,7 @@ type Node<T> = {
   next: Node<T>;
 };
 
-type LinkedList<T> = {
+export type LinkedList<T> = {
   len(): number;
   get(idx: number): T | undefined;
   set(idx: number, val: T): void;

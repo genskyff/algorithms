@@ -1,5 +1,5 @@
 import { assertEquals, assertFalse } from "@std/assert";
-import { createBitset } from "@/ds/bitset.ts";
+import { createBitset } from "@/ds";
 
 Deno.test("Bitset - create less than 64", () => {
   const bitset = createBitset(4);

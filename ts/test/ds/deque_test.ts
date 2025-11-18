@@ -1,5 +1,5 @@
 import { assert, assertEquals, assertFalse } from "@std/assert";
-import { createDeque } from "@/ds/deque.ts";
+import { createDeque } from "@/ds";
 
 Deno.test("Deque - create empty", () => {
   const list = createDeque<number>();

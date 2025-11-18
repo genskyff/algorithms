@@ -4,7 +4,7 @@ type Inner<T> = {
   cap: number;
 };
 
-type Vector<T> = {
+export type Vector<T> = {
   len(): number;
   cap(): number;
   get(idx: number): T | undefined;

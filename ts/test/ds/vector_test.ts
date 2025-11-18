@@ -1,5 +1,5 @@
 import { assert, assertEquals, assertFalse } from "@std/assert";
-import { createVector } from "@/ds/vector.ts";
+import { createVector } from "@/ds";
 
 Deno.test("Vector - create empty", () => {
   const list = createVector<number>();

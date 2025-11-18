@@ -7,7 +7,7 @@ type Inner<T> = {
   cap: number;
 };
 
-type Deque<T> = {
+export type Deque<T> = {
   len(): number;
   cap(): number;
   isEmpty(): boolean;

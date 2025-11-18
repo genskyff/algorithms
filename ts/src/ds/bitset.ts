@@ -1,4 +1,4 @@
-type Bitset = {
+export type Bitset = {
   size(): number;
   arrayLen(): number;
   get(idx: number): boolean;
