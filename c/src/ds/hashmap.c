@@ -115,7 +115,7 @@ uint64_t _hash_fnv1a_64(const char *str) {
 }
 
 size_t _hash(const char *str) {
-    return sizeof(size_t) == 4 ? _hash_fnv1a_32(str) : _hash_fnv1a_64(str);
+    return sizeof(size_t) == 8 ? _hash_fnv1a_64(str) : _hash_fnv1a_32(str);
 }
 
 bool _migrate(HashMap *map, size_t new_cap) {
