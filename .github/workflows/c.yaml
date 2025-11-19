@@ -21,18 +21,18 @@ jobs:
         working-directory: c
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Install Xmake
-      uses: xmake-io/github-action-setup-xmake@v1
-      with:
-        xmake-version: latest
-        actions-cache-folder: '.xmake-cache'
-        build-cache: true
+      - name: Install Xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: latest
+          actions-cache-folder: '.xmake-cache'
+          build-cache: true
 
-    - name: Run lint
-      run: xmake lint
+      - name: Run lint
+        run: xmake lint
 
-    - name: Run test
-      run: xmake test:all
+      - name: Run test
+        run: xmake test:all
