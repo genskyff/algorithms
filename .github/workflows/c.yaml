@@ -21,10 +21,10 @@ jobs:
         working-directory: c
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-      - name: Install Xmake
+      - name: Setup Xmake
         uses: xmake-io/github-action-setup-xmake@v1
         with:
           xmake-version: latest

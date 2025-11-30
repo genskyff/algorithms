@@ -21,10 +21,10 @@ jobs:
         working-directory: ts
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-      - name: Install Deno
+      - name: Setup Deno
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
