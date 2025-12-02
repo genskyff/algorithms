@@ -2,12 +2,12 @@ name: C
 
 on:
   push:
-    branches: [ "**" ]
+    branches: ["**"]
     paths:
       - c/**
       - .github/workflows/c.yaml
   pull_request:
-    branches: [ "**" ]
+    branches: ["**"]
     paths:
       - c/**
       - .github/workflows/c.yaml
@@ -28,7 +28,7 @@ jobs:
         uses: xmake-io/github-action-setup-xmake@v1
         with:
           xmake-version: latest
-          actions-cache-folder: '.xmake-cache'
+          actions-cache-folder: .xmake-cache
           build-cache: true
 
       - name: Run lint

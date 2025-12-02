@@ -2,12 +2,12 @@ name: Typescript
 
 on:
   push:
-    branches: [ "**" ]
+    branches: ["**"]
     paths:
       - ts/**
       - .github/workflows/ts.yaml
   pull_request:
-    branches: [ "**" ]
+    branches: ["**"]
     paths:
       - ts/**
       - .github/workflows/ts.yaml
