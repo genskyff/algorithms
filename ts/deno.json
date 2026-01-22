@@ -6,7 +6,7 @@
     "lint:fix": "deno lint --fix && deno fmt"
   },
   "imports": {
-    "@std/assert": "jsr:@std/assert@1",
+    "@std/assert": "jsr:@std/assert@^1.0.17",
     "@/ds": "./src/ds/index.ts"
   }
 }
