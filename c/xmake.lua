@@ -14,15 +14,15 @@ end
 add_rules("mode.debug", "mode.release", "mode.test")
 rule("mode.test")
     on_load(function (target)
-        target:add("includedirs", "tests/include")
+        target:add("includedirs", "tests")
     end)
 rule_end()
 
-add_includedirs("src/include", "include", "include/ds", "include/sort", "include/string")
+add_includedirs("src/", "include", "include/ds", "include/sort", "include/string")
 
 on_load(function (target)
-    if target:name() ~= "util" then
-        target:add("deps", "util")
+    if target:name() ~= "utils" then
+        target:add("deps", "utils")
     end
 
     local group = target:get("group")
@@ -99,19 +99,19 @@ task("test:helper")
     end)
     set_menu{
         usage = "xmake test:helper",
-        description = "Run all helper tests"
+        description = "Run helper tests"
     }
 task_end()
 
-task("test:util")
+task("test:utils")
     on_run(function ()
         os.exec("xmake f -m test")
-        os.exec("xmake build -g test_util")
-        os.exec("xmake run -g test_util")
+        os.exec("xmake build -g test_utils")
+        os.exec("xmake run -g test_utils")
     end)
     set_menu{
-        usage = "xmake test:util",
-        description = "Run all util tests"
+        usage = "xmake test:utils",
+        description = "Run util tests"
     }
 task_end()
 
@@ -123,7 +123,7 @@ task("test:ds")
     end)
     set_menu{
         usage = "xmake test:ds",
-        description = "Run all data structures tests"
+        description = "Run data structure tests"
     }
 task_end()
 
@@ -135,7 +135,7 @@ task("test:sort")
     end)
     set_menu{
         usage = "xmake test:sort",
-        description = "Run all sorting algorithms tests"
+        description = "Run sorting algorithm tests"
     }
 task_end()
 
@@ -147,7 +147,7 @@ task("test:string")
     end)
     set_menu{
         usage = "xmake test:string",
-        description = "Run all string algorithms tests"
+        description = "Run string algorithm tests"
     }
 task_end()
 
@@ -168,15 +168,15 @@ target("test_helper")
 --  utils
 -- -------
 
-target("util")
+target("utils")
     set_kind("static")
-    add_files("src/util.c")
+    add_files("src/utils.c")
 
-target("test_util")
+target("test_utils")
     set_kind("binary")
-    set_group("test_util")
-    add_files("tests/test_util.c")
-    add_deps("util")
+    set_group("test_utils")
+    add_files("tests/test_utils.c")
+    add_deps("utils")
 
 -- -----------------
 --  data structures

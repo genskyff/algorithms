@@ -1,5 +1,5 @@
 #include "array_stack.h"
-#include "util.h"
+#include "utils.h"
 #include <stdarg.h>
 
 ArrayStack create(void) {

@@ -1,6 +1,6 @@
 #include "binary_tree.h"
 #include "type.h"
-#include "util.h"
+#include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 

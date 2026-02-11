@@ -1,6 +1,6 @@
 #include "helper.h"
 #include "selection.h"
-#include "util.h"
+#include "utils.h"
 #include <stdlib.h>
 
 TestSortData DATA[SORT_DATA_LEN];

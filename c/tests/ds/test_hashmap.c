@@ -1,6 +1,6 @@
 #include "hashmap.h"
 #include "helper.h"
-#include "util.h"
+#include "utils.h"
 #include <stdlib.h>
 
 #define LEN 6

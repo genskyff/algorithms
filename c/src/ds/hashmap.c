@@ -1,5 +1,5 @@
 #include "hashmap.h"
-#include "util.h"
+#include "utils.h"
 #include <stdint.h>
 #include <stdlib.h>
 

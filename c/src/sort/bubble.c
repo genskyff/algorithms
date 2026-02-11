@@ -1,5 +1,5 @@
 #include "bubble.h"
-#include "util.h"
+#include "utils.h"
 
 void bubble_sort(elem_t *arr, size_t len) {
     for (size_t i = 0; i < len; i++) {

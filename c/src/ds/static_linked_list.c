@@ -1,5 +1,5 @@
 #include "static_linked_list.h"
-#include "util.h"
+#include "utils.h"
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdlib.h>

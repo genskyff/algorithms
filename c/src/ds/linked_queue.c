@@ -1,5 +1,5 @@
 #include "linked_queue.h"
-#include "util.h"
+#include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 
