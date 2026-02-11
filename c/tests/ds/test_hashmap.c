@@ -159,7 +159,6 @@ void test_insert(void) {
 
 void test_del(void) {
     HashMap map = test_data();
-    value_t val;
     char   *msg;
 
     msg = "should not delete when NULL";

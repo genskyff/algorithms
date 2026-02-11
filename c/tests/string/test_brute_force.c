@@ -7,8 +7,6 @@
 void test_brute_force(void) {
     char  *s   = "AABAACAADAABAABA";
     char  *pat = "AABA";
-    size_t n   = strlen(s);
-    size_t m   = strlen(pat);
     size_t indices[LEN];
     size_t count;
     char  *msg;

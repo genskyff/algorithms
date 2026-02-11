@@ -69,8 +69,7 @@ SLinkedList init(size_t n, ...) {
 }
 
 elem_t *to_array(SLinkedList *list) {
-    if (list == NULL || list->nodes[list->head].data == SIZE_MAX ||
-        list->len == 0) {
+    if (list == NULL || list->len == 0) {
         return NULL;
     }
 
@@ -89,8 +88,7 @@ elem_t *to_array(SLinkedList *list) {
 }
 
 void swap(SLinkedList *list, size_t i, size_t j) {
-    if (list == NULL || list->nodes[list->head].data == SIZE_MAX || i == j ||
-        MAX(i, j) >= list->len) {
+    if (list == NULL || list->len == 0 || i == j || MAX(i, j) >= list->len) {
         return;
     }
 
@@ -169,8 +167,7 @@ void swap(SLinkedList *list, size_t i, size_t j) {
 }
 
 void reverse(SLinkedList *list) {
-    if (list == NULL || list->nodes[list->head].data == SIZE_MAX ||
-        list->len == 0) {
+    if (list == NULL || list->len == 0) {
         return;
     }
 
@@ -184,8 +181,7 @@ void show(FILE *stream, SLinkedList *list) {
         stream = stdout;
     }
 
-    if (list == NULL || list->nodes[list->head].data == SIZE_MAX ||
-        list->len == 0) {
+    if (list == NULL || list->len == 0) {
         fprintf(stream, "[]\n");
         return;
     }
@@ -221,13 +217,11 @@ void clear(SLinkedList *list) {
 }
 
 bool is_empty(SLinkedList *list) {
-    return list == NULL || list->nodes[list->head].data == SIZE_MAX ||
-           list->len == 0;
+    return list == NULL || list->len == 0;
 }
 
 bool get(SLinkedList *list, size_t i, elem_t *e) {
-    if (list == NULL || list->nodes[list->head].data == SIZE_MAX ||
-        list->len == 0 || i >= list->len) {
+    if (list == NULL || list->len == 0 || i >= list->len) {
         return false;
     }
 
@@ -252,8 +246,7 @@ bool get(SLinkedList *list, size_t i, elem_t *e) {
 }
 
 bool first(SLinkedList *list, elem_t *e) {
-    if (list == NULL || list->nodes[list->head].data == SIZE_MAX ||
-        list->len == 0) {
+    if (list == NULL || list->len == 0) {
         return false;
     }
 
@@ -265,8 +258,7 @@ bool first(SLinkedList *list, elem_t *e) {
 }
 
 bool last(SLinkedList *list, elem_t *e) {
-    if (list == NULL || list->nodes[list->head].data == SIZE_MAX ||
-        list->len == 0) {
+    if (list == NULL || list->len == 0) {
         return false;
     }
 
@@ -278,8 +270,7 @@ bool last(SLinkedList *list, elem_t *e) {
 }
 
 bool set(SLinkedList *list, size_t i, elem_t e) {
-    if (list == NULL || list->nodes[list->head].data == SIZE_MAX ||
-        list->len == 0 || i >= list->len) {
+    if (list == NULL || list->len == 0 || i >= list->len) {
         return false;
     }
 
@@ -302,14 +293,12 @@ bool set(SLinkedList *list, size_t i, elem_t e) {
 }
 
 bool find(SLinkedList *list, elem_t e, size_t *i) {
-    if (list == NULL || list->nodes[list->head].data == SIZE_MAX ||
-        list->len == 0) {
+    if (list == NULL || list->len == 0) {
         return false;
     }
 
     size_t cur = list->head;
-    for (size_t j = 0; list->nodes[cur].data != SIZE_MAX && j < list->len;
-         j++) {
+    for (size_t j = 0; cur != SIZE_MAX && j < list->len; j++) {
         if (list->nodes[cur].data == e) {
             if (i != NULL) {
                 *i = j;
@@ -394,8 +383,7 @@ bool push_back(SLinkedList *list, elem_t e) {
 }
 
 bool del(SLinkedList *list, size_t i, elem_t *e) {
-    if (list == NULL || list->nodes[list->head].data == SIZE_MAX ||
-        list->len == 0 || i >= list->len) {
+    if (list == NULL || list->len == 0 || i >= list->len) {
         return false;
     }
 
