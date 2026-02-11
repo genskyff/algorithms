@@ -1,14 +1,13 @@
 set_project("algorithms-c")
 set_version("0.1.0")
 set_languages("c23")
+set_warnings("all", "extra")
 
 set_allowedplats("windows", "linux", "macosx")
-if is_plat("windows") then
-    set_toolchains("gcc")
-elseif is_plat("linux") then
-    set_toolchains("gcc")
-elseif is_plat("macosx") then
+if is_plat("macosx") then
     set_toolchains("clang")
+else
+    set_toolchains("gcc")
 end
 
 add_rules("mode.debug", "mode.release", "mode.test")
@@ -80,77 +79,49 @@ task("lint:fix")
     }
 task_end()
 
-task("test:all")
-    on_run(function ()
-        os.exec("xmake f -m test")
-        os.exec("xmake build -g test*")
-        os.exec("xmake run -g test*")
-    end)
-    set_menu{
-        usage = "xmake test:all",
-        description = "Run all tests"
-    }
-task_end()
+-- ------------
+--  test tasks
+-- ------------
 
-task("test:helper")
-    on_run(function ()
-        os.exec("xmake f -m test")
-        os.exec("xmake build -g test_helper")
-        os.exec("xmake run -g test_helper")
-    end)
-    set_menu{
-        usage = "xmake test:helper",
-        description = "Run helper tests"
-    }
-task_end()
+function add_test_task(name, group, desc)
+    task("test:" .. name)
+        on_run(function ()
+            os.exec("xmake f -m test")
+            os.exec("xmake build -g " .. group)
+            os.exec("xmake run -g " .. group)
+        end)
+        set_menu{
+            usage = "xmake test:" .. name,
+            description = "Run " .. desc .. " tests"
+        }
+    task_end()
+end
 
-task("test:utils")
-    on_run(function ()
-        os.exec("xmake f -m test")
-        os.exec("xmake build -g test_utils")
-        os.exec("xmake run -g test_utils")
-    end)
-    set_menu{
-        usage = "xmake test:utils",
-        description = "Run util tests"
-    }
-task_end()
+add_test_task("all", "test*", "all")
+add_test_task("helper", "test_helper", "helper")
+add_test_task("utils", "test_utils", "util")
+add_test_task("ds", "test_ds", "data structure")
+add_test_task("sort", "test_sort", "sorting algorithm")
+add_test_task("string", "test_string", "string algorithm")
 
-task("test:ds")
-    on_run(function ()
-        os.exec("xmake f -m test")
-        os.exec("xmake build -g test_ds")
-        os.exec("xmake run -g test_ds")
-    end)
-    set_menu{
-        usage = "xmake test:ds",
-        description = "Run data structure tests"
-    }
-task_end()
+-- ---------------
+--  module helper
+-- ---------------
 
-task("test:sort")
-    on_run(function ()
-        os.exec("xmake f -m test")
-        os.exec("xmake build -g test_sort")
-        os.exec("xmake run -g test_sort")
-    end)
-    set_menu{
-        usage = "xmake test:sort",
-        description = "Run sorting algorithm tests"
-    }
-task_end()
+function add_module(name, group, dir)
+    target(name)
+        set_kind("static")
+        set_group(group)
+        add_files("src/" .. dir .. "/" .. name .. ".c")
+    target_end()
 
-task("test:string")
-    on_run(function ()
-        os.exec("xmake f -m test")
-        os.exec("xmake build -g test_string")
-        os.exec("xmake run -g test_string")
-    end)
-    set_menu{
-        usage = "xmake test:string",
-        description = "Run string algorithm tests"
-    }
-task_end()
+    target("test_" .. name)
+        set_kind("binary")
+        set_group("test_" .. group)
+        add_files("tests/" .. dir .. "/test_" .. name .. ".c")
+        add_deps(name)
+    target_end()
+end
 
 -- -------------
 --  test helper
@@ -159,11 +130,13 @@ task_end()
 target("helper")
     set_kind("static")
     add_files("tests/helper.c")
+target_end()
 
 target("test_helper")
     set_kind("binary")
     set_group("test_helper")
     add_files("tests/test_helper.c")
+target_end()
 
 -- -------
 --  utils
@@ -172,197 +145,43 @@ target("test_helper")
 target("utils")
     set_kind("static")
     add_files("src/utils.c")
+target_end()
 
 target("test_utils")
     set_kind("binary")
     set_group("test_utils")
     add_files("tests/test_utils.c")
     add_deps("utils")
+target_end()
 
 -- -----------------
 --  data structures
 -- -----------------
 
-target("array_queue")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/array_queue.c")
-
-target("test_array_queue")
-    set_kind("binary")
-    set_group("test_ds")
-    add_files("tests/ds/test_array_queue.c")
-    add_deps("array_queue")
-
-target("array_stack")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/array_stack.c")
-
-target("test_array_stack")
-    set_kind("binary")
-    set_group("test_ds")
-    add_files("tests/ds/test_array_stack.c")
-    add_deps("array_stack")
-
-target("binary_tree")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/binary_tree.c")
-
-target("test_binary_tree")
-    set_kind("binary")
-    set_group("test_ds")
-    add_files("tests/ds/test_binary_tree.c")
-    add_deps("binary_tree")
-
-target("hashmap")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/hashmap.c")
-
-target("test_hashmap")
-    set_kind("binary")
-    set_group("test_ds")
-    add_files("tests/ds/test_hashmap.c")
-    add_deps("hashmap")
-
-target("linked_list")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/linked_list.c")
-
-target("test_linked_list")
-    set_kind("binary")
-    set_group("test_ds")
-    add_files("tests/ds/test_linked_list.c")
-    add_deps("linked_list")
-
-target("linked_queue")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/linked_queue.c")
-
-target("test_linked_queue")
-    set_kind("binary")
-    set_group("test_ds")
-    add_files("tests/ds/test_linked_queue.c")
-    add_deps("linked_queue")
-
-target("linked_stack")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/linked_stack.c")
-
-target("test_linked_stack")
-    set_kind("binary")
-    set_group("test_ds")
-    add_files("tests/ds/test_linked_stack.c")
-    add_deps("linked_stack")
-
-target("sqlist")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/sqlist.c")
-
-target("test_sqlist")
-    set_kind("binary")
-    set_group("test_ds")
-    add_files("tests/ds/test_sqlist.c")
-    add_deps("sqlist")
-
-target("static_linked_list")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/static_linked_list.c")
-
-target("test_static_linked_list")
-    set_kind("binary")
-    set_group("test_ds")
-    add_files("tests/ds/test_static_linked_list.c")
-    add_deps("static_linked_list")
-
-target("vector")
-    set_kind("static")
-    set_group("ds")
-    add_files("src/ds/vector.c")
-
-target("test_vector")
-    set_kind("binary")
-    set_group("test_ds")
-    add_files("tests/ds/test_vector.c")
-    add_deps("vector")
+for _, name in ipairs({
+    "array_queue", "array_stack", "binary_tree", "hashmap",
+    "linked_list", "linked_queue", "linked_stack",
+    "sqlist", "static_linked_list", "vector",
+}) do
+    add_module(name, "ds", "ds")
+end
 
 -- --------------------
 --  sorting algorithms
 -- --------------------
 
-target("bubble")
-    set_kind("static")
-    set_group("sort")
-    add_files("src/sort/bubble.c")
-
-target("test_bubble")
-    set_kind("binary")
-    set_group("test_sort")
-    add_files("tests/sort/test_bubble.c")
-    add_deps("bubble")
-
-target("insertion")
-    set_kind("static")
-    set_group("sort")
-    add_files("src/sort/insertion.c")
-
-target("test_insertion")
-    set_kind("binary")
-    set_group("test_sort")
-    add_files("tests/sort/test_insertion.c")
-    add_deps("insertion")
-
-target("merge")
-    set_kind("static")
-    set_group("sort")
-    add_files("src/sort/merge.c")
-
-target("test_merge")
-    set_kind("binary")
-    set_group("test_sort")
-    add_files("tests/sort/test_merge.c")
-    add_deps("merge")
-
-target("quick")
-    set_kind("static")
-    set_group("sort")
-    add_files("src/sort/quick.c")
-
-target("test_quick")
-    set_kind("binary")
-    set_group("test_sort")
-    add_files("tests/sort/test_quick.c")
-    add_deps("quick")
-
-target("selection")
-    set_kind("static")
-    set_group("sort")
-    add_files("src/sort/selection.c")
-
-target("test_selection")
-    set_kind("binary")
-    set_group("test_sort")
-    add_files("tests/sort/test_selection.c")
-    add_deps("selection")
+for _, name in ipairs({
+    "bubble", "insertion", "merge", "quick", "selection",
+}) do
+    add_module(name, "sort", "sort")
+end
 
 -- --------------------
 --  string algorithms
 -- --------------------
 
-target("brute_force")
-    set_kind("static")
-    set_group("string")
-    add_files("src/string/brute_force.c")
-
-target("test_brute_force")
-    set_kind("binary")
-    set_group("test_string")
-    add_files("tests/string/test_brute_force.c")
-    add_deps("brute_force")
+for _, name in ipairs({
+    "brute_force",
+}) do
+    add_module(name, "string", "string")
+end
