@@ -1,4 +1,4 @@
-#include "binary_tree.h"
+#include "alg/ds/binary_tree.h"
 #include "helper.h"
 
 void test_create(void) {

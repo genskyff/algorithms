@@ -1,7 +1,7 @@
-#ifndef ARRAY_STACK_H
-#define ARRAY_STACK_H
+#ifndef ALG_ARRAY_STACK_H
+#define ALG_ARRAY_STACK_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 // index [len - 1] is the top

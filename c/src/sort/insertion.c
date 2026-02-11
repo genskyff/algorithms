@@ -1,4 +1,4 @@
-#include "insertion.h"
+#include "alg/sort/insertion.h"
 #include "utils.h"
 
 void insertion_sort(elem_t *arr, size_t len) {

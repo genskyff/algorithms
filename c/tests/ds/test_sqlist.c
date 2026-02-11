@@ -1,5 +1,5 @@
+#include "alg/ds/sqlist.h"
 #include "helper.h"
-#include "sqlist.h"
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \

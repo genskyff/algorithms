@@ -18,7 +18,8 @@ rule("mode.test")
     end)
 rule_end()
 
-add_includedirs("src/", "include", "include/ds", "include/sort", "include/string")
+add_includedirs("include", {public = true})
+add_includedirs("src")
 
 on_load(function (target)
     if target:name() ~= "utils" then

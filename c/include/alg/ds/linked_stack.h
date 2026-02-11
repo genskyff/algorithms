@@ -1,7 +1,7 @@
-#ifndef LINKED_STACK_H
-#define LINKED_STACK_H
+#ifndef ALG_LINKED_STACK_H
+#define ALG_LINKED_STACK_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 // index [len - 1] is the top

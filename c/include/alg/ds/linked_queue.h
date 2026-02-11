@@ -1,7 +1,7 @@
-#ifndef LINKED_QUEUE_H
-#define LINKED_QUEUE_H
+#ifndef ALG_LINKED_QUEUE_H
+#define ALG_LINKED_QUEUE_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 // index [0] is the front

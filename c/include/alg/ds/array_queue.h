@@ -1,7 +1,7 @@
-#ifndef ARRAY_QUEUE_H
-#define ARRAY_QUEUE_H
+#ifndef ALG_ARRAY_QUEUE_H
+#define ALG_ARRAY_QUEUE_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 // index [front] is the front

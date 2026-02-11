@@ -1,4 +1,4 @@
-#include "quick.h"
+#include "alg/sort/quick.h"
 #include "utils.h"
 
 void   _move_pivot_to_high(elem_t *arr, size_t low, size_t high);

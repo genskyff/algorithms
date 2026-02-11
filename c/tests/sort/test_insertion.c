@@ -1,5 +1,5 @@
+#include "alg/sort/insertion.h"
 #include "helper.h"
-#include "insertion.h"
 #include "utils.h"
 #include <stdlib.h>
 

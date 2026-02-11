@@ -1,7 +1,7 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef ALG_VECTOR_H
+#define ALG_VECTOR_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 #define INIT_CAP      100

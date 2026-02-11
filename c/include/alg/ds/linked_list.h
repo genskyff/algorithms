@@ -1,7 +1,7 @@
-#ifndef LINKED_LIST_H
-#define LINKED_LIST_H
+#ifndef ALG_LINKED_LIST_H
+#define ALG_LINKED_LIST_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 // index [0] is the head

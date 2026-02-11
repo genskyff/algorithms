@@ -1,4 +1,4 @@
-#include "bubble.h"
+#include "alg/sort/bubble.h"
 #include "utils.h"
 
 void bubble_sort(elem_t *arr, size_t len) {

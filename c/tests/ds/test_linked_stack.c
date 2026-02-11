@@ -1,5 +1,5 @@
+#include "alg/ds/linked_stack.h"
 #include "helper.h"
-#include "linked_stack.h"
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \

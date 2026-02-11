@@ -1,4 +1,4 @@
-#include "linked_list.h"
+#include "alg/ds/linked_list.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>

@@ -1,7 +1,7 @@
-#ifndef STATIC_LINKED_LIST_H
-#define STATIC_LINKED_LIST_H
+#ifndef ALG_STATIC_LINKED_LIST_H
+#define ALG_STATIC_LINKED_LIST_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 typedef struct {

@@ -1,5 +1,5 @@
+#include "alg/ds/linked_list.h"
 #include "helper.h"
-#include "linked_list.h"
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \

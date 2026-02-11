@@ -1,4 +1,4 @@
-#include "brute_force.h"
+#include "alg/string/brute_force.h"
 #include "helper.h"
 #include <string.h>
 

@@ -1,4 +1,4 @@
-#include "linked_stack.h"
+#include "alg/ds/linked_stack.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>

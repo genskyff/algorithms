@@ -1,5 +1,5 @@
+#include "alg/ds/linked_queue.h"
 #include "helper.h"
-#include "linked_queue.h"
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \

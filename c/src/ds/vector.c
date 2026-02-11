@@ -1,4 +1,4 @@
-#include "vector.h"
+#include "alg/ds/vector.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>

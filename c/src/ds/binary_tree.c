@@ -1,5 +1,5 @@
-#include "binary_tree.h"
-#include "type.h"
+#include "alg/ds/binary_tree.h"
+#include "alg/type.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>

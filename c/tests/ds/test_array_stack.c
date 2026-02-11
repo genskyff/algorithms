@@ -1,4 +1,4 @@
-#include "array_stack.h"
+#include "alg/ds/array_stack.h"
 #include "helper.h"
 
 #define LEN 6

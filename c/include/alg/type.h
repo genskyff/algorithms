@@ -1,5 +1,5 @@
-#ifndef TYPE_H
-#define TYPE_H
+#ifndef ALG_TYPE_H
+#define ALG_TYPE_H
 
 #include <stdio.h>
 #define MAXLEN 100

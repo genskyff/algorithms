@@ -1,4 +1,4 @@
-#include "bubble.h"
+#include "alg/sort/bubble.h"
 #include "helper.h"
 #include "utils.h"
 #include <stdlib.h>

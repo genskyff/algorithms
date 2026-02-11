@@ -1,7 +1,7 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef ALG_UTILS_H
+#define ALG_UTILS_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))

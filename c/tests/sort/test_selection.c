@@ -1,5 +1,5 @@
+#include "alg/sort/selection.h"
 #include "helper.h"
-#include "selection.h"
 #include "utils.h"
 #include <stdlib.h>
 

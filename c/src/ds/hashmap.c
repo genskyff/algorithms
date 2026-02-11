@@ -1,4 +1,4 @@
-#include "hashmap.h"
+#include "alg/ds/hashmap.h"
 #include "utils.h"
 #include <stdint.h>
 #include <stdlib.h>

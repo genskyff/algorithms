@@ -1,4 +1,4 @@
-#include "array_queue.h"
+#include "alg/ds/array_queue.h"
 #include "utils.h"
 #include <stdarg.h>
 

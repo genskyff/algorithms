@@ -1,4 +1,4 @@
-#include "brute_force.h"
+#include "alg/string/brute_force.h"
 #include <string.h>
 
 size_t brute_force(char *s, char *pat, size_t *indices, size_t len) {

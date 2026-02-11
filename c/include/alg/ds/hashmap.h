@@ -1,7 +1,7 @@
-#ifndef HASHMAP_H
-#define HASHMAP_H
+#ifndef ALG_HASHMAP_H
+#define ALG_HASHMAP_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 #define INIT_CAP      100

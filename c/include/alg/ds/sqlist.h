@@ -1,7 +1,7 @@
-#ifndef SQLIST_H
-#define SQLIST_H
+#ifndef ALG_SQLIST_H
+#define ALG_SQLIST_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 // data[0] is the first

@@ -1,7 +1,7 @@
-#ifndef BINARY_TREE_H
-#define BINARY_TREE_H
+#ifndef ALG_BINARY_TREE_H
+#define ALG_BINARY_TREE_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 typedef struct {

@@ -1,4 +1,4 @@
-#include "merge.h"
+#include "alg/sort/merge.h"
 #include <stdlib.h>
 
 void _merge(elem_t *arr, elem_t *tmp, size_t low, size_t mid, size_t high);

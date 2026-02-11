@@ -1,7 +1,7 @@
-#ifndef HELPER_H
-#define HELPER_H
+#ifndef ALG_HELPER_H
+#define ALG_HELPER_H
 
-#include "type.h"
+#include "alg/type.h"
 #include <stdbool.h>
 
 typedef void (*TestFunc)(void);

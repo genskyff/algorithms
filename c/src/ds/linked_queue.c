@@ -1,4 +1,4 @@
-#include "linked_queue.h"
+#include "alg/ds/linked_queue.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>

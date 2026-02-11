@@ -1,5 +1,5 @@
+#include "alg/sort/merge.h"
 #include "helper.h"
-#include "merge.h"
 #include "utils.h"
 #include <stdlib.h>
 

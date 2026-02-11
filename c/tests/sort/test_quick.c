@@ -1,5 +1,5 @@
+#include "alg/sort/quick.h"
 #include "helper.h"
-#include "quick.h"
 #include "utils.h"
 #include <stdlib.h>
 

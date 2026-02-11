@@ -1,5 +1,5 @@
+#include "alg/ds/vector.h"
 #include "helper.h"
-#include "vector.h"
 
 #define LEN 6
 #define TEST_DATA(...)                                                         \
