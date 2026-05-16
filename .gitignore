@@ -1,2 +1,4 @@
-/target
-/.vscode
+*.local
+*.log*
+.DS_Store
+.idea

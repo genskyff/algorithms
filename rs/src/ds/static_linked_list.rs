@@ -452,7 +452,7 @@ impl<T> SLinkedList<T> {
         self.remove(self.len.saturating_sub(1))
     }
 
-    pub fn iter(&self) -> Iter<T> {
+    pub fn iter(&self) -> Iter<'_, T> {
         Iter {
             head: self.head,
             tail: self.tail,
@@ -460,7 +460,7 @@ impl<T> SLinkedList<T> {
         }
     }
 
-    pub fn iter_mut(&mut self) -> IterMut<T> {
+    pub fn iter_mut(&mut self) -> IterMut<'_, T> {
         IterMut {
             head: self.head,
             tail: self.tail,

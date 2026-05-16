@@ -22,7 +22,7 @@ xmake project -k compile_commands
 Then, you can execute the program using the following command:
 
 ```shell
-xmake test-all
+xmake test:all
 ```
 
 ## Roadmap

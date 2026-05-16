@@ -11,7 +11,7 @@ pub trait Kmp {
 impl<T: AsRef<str>> Kmp for T {
     type Pattern = T;
 
-    fn kmp(&self, pattern: Self::Pattern) -> Vec<usize> {
+    fn kmp(&self, _pattern: Self::Pattern) -> Vec<usize> {
         todo!()
     }
 }
