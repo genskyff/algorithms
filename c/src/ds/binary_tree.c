@@ -1,19 +1,20 @@
-#include "alg/ds/binary_tree.h"
-#include "alg/type.h"
+﻿#include "alg/ds/binary_tree.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 
-TreeNode *_create_node(elem_t e, TreeNode *left, TreeNode *right,
-                       const char *location);
+static AlgTreeNode *binary_tree_create_node(alg_elem_t e, AlgTreeNode *left,
+                                            AlgTreeNode *right,
+                                            const char  *location);
 
-TreeNode *_create_node(elem_t e, TreeNode *left, TreeNode *right,
-                       const char *location) {
-    const char *_location =
+static AlgTreeNode *binary_tree_create_node(alg_elem_t e, AlgTreeNode *left,
+                                            AlgTreeNode *right,
+                                            const char  *location) {
+    const char *location_label =
         (location == NULL || *location == '\0') ? __func__ : location;
 
-    TreeNode *node = (TreeNode *)malloc(sizeof(TreeNode));
-    _has_alloc_err(node, _location);
+    AlgTreeNode *node = (AlgTreeNode *)malloc(sizeof(AlgTreeNode));
+    alg_internal_has_alloc_err(node, location_label);
 
     node->data  = e;
     node->left  = left;
@@ -22,26 +23,26 @@ TreeNode *_create_node(elem_t e, TreeNode *left, TreeNode *right,
     return node;
 }
 
-BinaryTree create(void) {
-    BinaryTree tree = {
+AlgBinaryTree alg_binary_tree_create(void) {
+    AlgBinaryTree tree = {
         .root = NULL, .height = 0, .vertex_count = 0, .edge_count = 0};
 
     return tree;
 }
 
-BinaryTree create_root(elem_t e) {
-    TreeNode  *root = _create_node(e, NULL, NULL, __func__);
-    BinaryTree tree = {
+AlgBinaryTree alg_binary_tree_create_root(alg_elem_t e) {
+    AlgTreeNode  *root = binary_tree_create_node(e, NULL, NULL, __func__);
+    AlgBinaryTree tree = {
         .root = root, .height = 0, .vertex_count = 1, .edge_count = 0};
 
     return tree;
 }
 
-BinaryTree init(size_t n, ...);
-void       show(FILE *stream, BinaryTree *list);
-void       clear(BinaryTree *tree);
+AlgBinaryTree alg_binary_tree_init(size_t n, ...);
+void          alg_binary_tree_show(FILE *stream, AlgBinaryTree *list);
+void          alg_binary_tree_clear(AlgBinaryTree *tree);
 
-bool is_empty(BinaryTree *tree) {
+bool alg_binary_tree_is_empty(AlgBinaryTree *tree) {
     return tree == NULL || tree->root == NULL || tree->height == 0 ||
            tree->vertex_count == 0;
 }

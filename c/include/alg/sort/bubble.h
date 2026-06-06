@@ -1,9 +1,9 @@
-#ifndef ALG_BUBBLE_H
+﻿#ifndef ALG_BUBBLE_H
 #define ALG_BUBBLE_H
 
-#include "alg/type.h"
+#include "alg/core.h"
 
-void bubble_sort(elem_t *arr, size_t len);
-void cocktail_sort(elem_t *arr, size_t len);
+void alg_bubble_sort(alg_elem_t *arr, size_t len);
+void alg_cocktail_sort(alg_elem_t *arr, size_t len);
 
 #endif

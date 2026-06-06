@@ -1,27 +1,27 @@
-#ifndef ALG_LINKED_QUEUE_H
+﻿#ifndef ALG_LINKED_QUEUE_H
 #define ALG_LINKED_QUEUE_H
 
-#include "alg/type.h"
+#include "alg/ds/node.h"
 #include <stdbool.h>
 
 // index [0] is the front
 // index [len - 1] is the rear
 typedef struct {
-    Node  *front;
-    Node  *rear;
-    size_t len;
-} LinkedQueue;
+    AlgNode *front;
+    AlgNode *rear;
+    size_t   len;
+} AlgLinkedQueue;
 
-LinkedQueue create(void);
-LinkedQueue init(size_t n, ...);
-void        show(FILE *stream, LinkedQueue *queue);
-void        clear(LinkedQueue *queue);
-bool        is_empty(LinkedQueue *queue);
-bool        front(LinkedQueue *queue, elem_t *e);
-bool        back(LinkedQueue *queue, elem_t *e);
-bool        push_front(LinkedQueue *queue, elem_t e);
-bool        push_back(LinkedQueue *queue, elem_t e);
-bool        pop_front(LinkedQueue *queue, elem_t *e);
-bool        pop_back(LinkedQueue *queue, elem_t *e);
+AlgLinkedQueue alg_linked_queue_create(void);
+AlgLinkedQueue alg_linked_queue_init(size_t n, ...);
+void           alg_linked_queue_show(FILE *stream, AlgLinkedQueue *queue);
+void           alg_linked_queue_clear(AlgLinkedQueue *queue);
+bool           alg_linked_queue_is_empty(AlgLinkedQueue *queue);
+bool           alg_linked_queue_front(AlgLinkedQueue *queue, alg_elem_t *e);
+bool           alg_linked_queue_back(AlgLinkedQueue *queue, alg_elem_t *e);
+bool           alg_linked_queue_push_front(AlgLinkedQueue *queue, alg_elem_t e);
+bool           alg_linked_queue_push_back(AlgLinkedQueue *queue, alg_elem_t e);
+bool           alg_linked_queue_pop_front(AlgLinkedQueue *queue, alg_elem_t *e);
+bool           alg_linked_queue_pop_back(AlgLinkedQueue *queue, alg_elem_t *e);
 
 #endif

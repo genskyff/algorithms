@@ -1,34 +1,34 @@
-#ifndef ALG_LINKED_LIST_H
+﻿#ifndef ALG_LINKED_LIST_H
 #define ALG_LINKED_LIST_H
 
-#include "alg/type.h"
+#include "alg/ds/node.h"
 #include <stdbool.h>
 
 // index [0] is the head
 // index [len - 1] is the tail
 typedef struct {
-    Node  *head;
-    Node  *tail;
-    size_t len;
-} LinkedList;
+    AlgNode *head;
+    AlgNode *tail;
+    size_t   len;
+} AlgLinkedList;
 
-LinkedList create(void);
-LinkedList init(size_t n, ...);
-void       swap(LinkedList *list, size_t i, size_t j);
-void       reverse(LinkedList *list);
-void       show(FILE *stream, LinkedList *list);
-void       clear(LinkedList *list);
-bool       is_empty(LinkedList *list);
-bool       get(LinkedList *list, size_t i, elem_t *e);
-bool       first(LinkedList *list, elem_t *e);
-bool       last(LinkedList *list, elem_t *e);
-bool       set(LinkedList *list, size_t i, elem_t e);
-bool       find(LinkedList *list, elem_t e, size_t *i);
-bool       insert(LinkedList *list, size_t i, elem_t e);
-bool       push_front(LinkedList *list, elem_t e);
-bool       push_back(LinkedList *list, elem_t e);
-bool       del(LinkedList *list, size_t i, elem_t *e);
-bool       pop_front(LinkedList *list, elem_t *e);
-bool       pop_back(LinkedList *list, elem_t *e);
+AlgLinkedList alg_linked_list_create(void);
+AlgLinkedList alg_linked_list_init(size_t n, ...);
+void          alg_linked_list_swap(AlgLinkedList *list, size_t i, size_t j);
+void          alg_linked_list_reverse(AlgLinkedList *list);
+void          alg_linked_list_show(FILE *stream, AlgLinkedList *list);
+void          alg_linked_list_clear(AlgLinkedList *list);
+bool          alg_linked_list_is_empty(AlgLinkedList *list);
+bool          alg_linked_list_get(AlgLinkedList *list, size_t i, alg_elem_t *e);
+bool          alg_linked_list_first(AlgLinkedList *list, alg_elem_t *e);
+bool          alg_linked_list_last(AlgLinkedList *list, alg_elem_t *e);
+bool          alg_linked_list_set(AlgLinkedList *list, size_t i, alg_elem_t e);
+bool alg_linked_list_find(AlgLinkedList *list, alg_elem_t e, size_t *i);
+bool alg_linked_list_insert(AlgLinkedList *list, size_t i, alg_elem_t e);
+bool alg_linked_list_push_front(AlgLinkedList *list, alg_elem_t e);
+bool alg_linked_list_push_back(AlgLinkedList *list, alg_elem_t e);
+bool alg_linked_list_del(AlgLinkedList *list, size_t i, alg_elem_t *e);
+bool alg_linked_list_pop_front(AlgLinkedList *list, alg_elem_t *e);
+bool alg_linked_list_pop_back(AlgLinkedList *list, alg_elem_t *e);
 
 #endif

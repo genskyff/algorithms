@@ -1,11 +1,11 @@
-#include "alg/sort/quick.h"
+﻿#include "alg/sort/quick.h"
 #include "utils.h"
 
-void   _move_pivot_to_high(elem_t *arr, size_t low, size_t high);
-size_t _partition(elem_t *arr, size_t low, size_t high);
-void   _qsort(elem_t *arr, size_t low, size_t high);
+static void quick_move_pivot_to_high(alg_elem_t *arr, size_t low, size_t high);
+static size_t quick_partition(alg_elem_t *arr, size_t low, size_t high);
+static void   quick_sort_range(alg_elem_t *arr, size_t low, size_t high);
 
-void _move_pivot_to_high(elem_t *arr, size_t low, size_t high) {
+static void quick_move_pivot_to_high(alg_elem_t *arr, size_t low, size_t high) {
     size_t mid   = low + (high - low) / 2;
     size_t pivot = high;
 
@@ -15,45 +15,45 @@ void _move_pivot_to_high(elem_t *arr, size_t low, size_t high) {
         pivot = mid;
     }
 
-    _swap(arr, pivot, high);
+    alg_internal_swap(arr, pivot, high);
 }
 
-size_t _partition(elem_t *arr, size_t low, size_t high) {
-    _move_pivot_to_high(arr, low, high);
-    elem_t pivot = arr[high];
-    size_t cur   = low;
+static size_t quick_partition(alg_elem_t *arr, size_t low, size_t high) {
+    quick_move_pivot_to_high(arr, low, high);
+    alg_elem_t pivot = arr[high];
+    size_t     cur   = low;
 
     for (size_t i = low; i < high; i++) {
         if (arr[i] < pivot) {
-            _swap(arr, i, cur);
+            alg_internal_swap(arr, i, cur);
             cur++;
         }
     }
-    _swap(arr, cur, high);
+    alg_internal_swap(arr, cur, high);
 
     return cur;
 }
 
-void _qsort(elem_t *arr, size_t low, size_t high) {
+static void quick_sort_range(alg_elem_t *arr, size_t low, size_t high) {
     while (low < high) {
-        size_t pivot = _partition(arr, low, high);
+        size_t pivot = quick_partition(arr, low, high);
 
         if (pivot - low < high - pivot) {
             if (pivot > 0) {
-                _qsort(arr, low, pivot - 1);
+                quick_sort_range(arr, low, pivot - 1);
             }
             low = pivot + 1;
         } else {
-            _qsort(arr, pivot + 1, high);
+            quick_sort_range(arr, pivot + 1, high);
             high = pivot - 1;
         }
     }
 }
 
-void quick_sort(elem_t *arr, size_t len) {
+void alg_quick_sort(alg_elem_t *arr, size_t len) {
     if (len == 0) {
         return;
     }
 
-    _qsort(arr, 0, len - 1);
+    quick_sort_range(arr, 0, len - 1);
 }

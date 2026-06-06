@@ -1,7 +1,7 @@
-#include "alg/sort/selection.h"
+﻿#include "alg/sort/selection.h"
 #include "utils.h"
 
-void selection_sort(elem_t *arr, size_t len) {
+void alg_selection_sort(alg_elem_t *arr, size_t len) {
     if (len == 0) {
         return;
     }
@@ -15,6 +15,6 @@ void selection_sort(elem_t *arr, size_t len) {
             }
         }
 
-        _swap(arr, i, min);
+        alg_internal_swap(arr, i, min);
     }
 }

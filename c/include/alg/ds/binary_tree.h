@@ -1,21 +1,21 @@
-#ifndef ALG_BINARY_TREE_H
+﻿#ifndef ALG_BINARY_TREE_H
 #define ALG_BINARY_TREE_H
 
-#include "alg/type.h"
+#include "alg/ds/tree_node.h"
 #include <stdbool.h>
 
 typedef struct {
-    TreeNode *root;
-    size_t    height;
-    size_t    vertex_count;
-    size_t    edge_count;
-} BinaryTree;
+    AlgTreeNode *root;
+    size_t       height;
+    size_t       vertex_count;
+    size_t       edge_count;
+} AlgBinaryTree;
 
-BinaryTree create(void);
-BinaryTree create_root(elem_t e);
-BinaryTree init(size_t n, ...);
-void       show(FILE *stream, BinaryTree *list);
-void       clear(BinaryTree *tree);
-bool       is_empty(BinaryTree *tree);
+AlgBinaryTree alg_binary_tree_create(void);
+AlgBinaryTree alg_binary_tree_create_root(alg_elem_t e);
+AlgBinaryTree alg_binary_tree_init(size_t n, ...);
+void          alg_binary_tree_show(FILE *stream, AlgBinaryTree *list);
+void          alg_binary_tree_clear(AlgBinaryTree *tree);
+bool          alg_binary_tree_is_empty(AlgBinaryTree *tree);
 
 #endif

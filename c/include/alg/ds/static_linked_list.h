@@ -1,43 +1,48 @@
-#ifndef ALG_STATIC_LINKED_LIST_H
+﻿#ifndef ALG_STATIC_LINKED_LIST_H
 #define ALG_STATIC_LINKED_LIST_H
 
-#include "alg/type.h"
+#include "alg/core.h"
 #include <stdbool.h>
 
 typedef struct {
-    elem_t data;
-    size_t prev;
-    size_t next;
+    alg_elem_t data;
+    size_t     prev;
+    size_t     next;
 } SNode;
 
 // node[0] is the head
 // node[len - 1] is the tail
 typedef struct {
-    SNode  nodes[MAXLEN];
+    SNode  nodes[ALG_MAX_LEN];
     size_t space;
     size_t head;
     size_t tail;
     size_t len;
-} SLinkedList;
+} AlgStaticLinkedList;
 
-SLinkedList create(void);
-SLinkedList init(size_t n, ...);
-elem_t     *to_array(SLinkedList *list);
-void        swap(SLinkedList *list, size_t i, size_t j);
-void        reverse(SLinkedList *list);
-void        show(FILE *stream, SLinkedList *list);
-void        clear(SLinkedList *list);
-bool        is_empty(SLinkedList *list);
-bool        get(SLinkedList *list, size_t i, elem_t *e);
-bool        first(SLinkedList *list, elem_t *e);
-bool        last(SLinkedList *list, elem_t *e);
-bool        set(SLinkedList *list, size_t i, elem_t e);
-bool        find(SLinkedList *list, elem_t e, size_t *i);
-bool        insert(SLinkedList *list, size_t i, elem_t e);
-bool        push_front(SLinkedList *list, elem_t e);
-bool        push_back(SLinkedList *list, elem_t e);
-bool        del(SLinkedList *list, size_t i, elem_t *e);
-bool        pop_front(SLinkedList *list, elem_t *e);
-bool        pop_back(SLinkedList *list, elem_t *e);
+AlgStaticLinkedList alg_static_linked_list_create(void);
+AlgStaticLinkedList alg_static_linked_list_init(size_t n, ...);
+alg_elem_t         *alg_static_linked_list_to_array(AlgStaticLinkedList *list);
+void alg_static_linked_list_swap(AlgStaticLinkedList *list, size_t i, size_t j);
+void alg_static_linked_list_reverse(AlgStaticLinkedList *list);
+void alg_static_linked_list_show(FILE *stream, AlgStaticLinkedList *list);
+void alg_static_linked_list_clear(AlgStaticLinkedList *list);
+bool alg_static_linked_list_is_empty(AlgStaticLinkedList *list);
+bool alg_static_linked_list_get(AlgStaticLinkedList *list, size_t i,
+                                alg_elem_t *e);
+bool alg_static_linked_list_first(AlgStaticLinkedList *list, alg_elem_t *e);
+bool alg_static_linked_list_last(AlgStaticLinkedList *list, alg_elem_t *e);
+bool alg_static_linked_list_set(AlgStaticLinkedList *list, size_t i,
+                                alg_elem_t e);
+bool alg_static_linked_list_find(AlgStaticLinkedList *list, alg_elem_t e,
+                                 size_t *i);
+bool alg_static_linked_list_insert(AlgStaticLinkedList *list, size_t i,
+                                   alg_elem_t e);
+bool alg_static_linked_list_push_front(AlgStaticLinkedList *list, alg_elem_t e);
+bool alg_static_linked_list_push_back(AlgStaticLinkedList *list, alg_elem_t e);
+bool alg_static_linked_list_del(AlgStaticLinkedList *list, size_t i,
+                                alg_elem_t *e);
+bool alg_static_linked_list_pop_front(AlgStaticLinkedList *list, alg_elem_t *e);
+bool alg_static_linked_list_pop_back(AlgStaticLinkedList *list, alg_elem_t *e);
 
 #endif

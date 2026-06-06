@@ -1,25 +1,25 @@
-#include "alg/ds/linked_stack.h"
+﻿#include "alg/ds/linked_stack.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 
-LinkedStack create(void) {
-    LinkedStack stack = {.top = NULL, .len = 0};
+AlgLinkedStack alg_linked_stack_create(void) {
+    AlgLinkedStack stack = {.top = NULL, .len = 0};
 
     return stack;
 }
 
-LinkedStack init(size_t n, ...) {
-    LinkedStack stack = create();
+AlgLinkedStack alg_linked_stack_init(size_t n, ...) {
+    AlgLinkedStack stack = alg_linked_stack_create();
 
     va_list ap;
     va_start(ap, n);
 
     for (size_t i = 0; i < n; i++) {
-        Node *node = (Node *)malloc(sizeof(Node));
-        _has_alloc_err(node, __func__);
+        AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
+        alg_internal_has_alloc_err(node, __func__);
 
-        node->data = va_arg(ap, elem_t);
+        node->data = va_arg(ap, alg_elem_t);
         node->next = NULL;
 
         if (stack.top == NULL) {
@@ -38,20 +38,20 @@ LinkedStack init(size_t n, ...) {
     return stack;
 }
 
-void show(FILE *stream, LinkedStack *stack) {
+void alg_linked_stack_show(FILE *stream, AlgLinkedStack *stack) {
     if (stack != NULL) {
-        _show_list(stream, stack->top, BACKWARD, " -> ");
+        alg_internal_show_list(stream, stack->top, ALG_BACKWARD, " -> ");
     } else {
-        _show_list(stream, NULL, BACKWARD, NULL);
+        alg_internal_show_list(stream, NULL, ALG_BACKWARD, NULL);
     }
 }
 
-void clear(LinkedStack *stack) {
+void alg_linked_stack_clear(AlgLinkedStack *stack) {
     if (stack != NULL) {
-        Node *node = stack->top;
+        AlgNode *node = stack->top;
         while (node != NULL) {
-            Node *tmp = node;
-            node      = node->prev;
+            AlgNode *tmp = node;
+            node         = node->prev;
             free(tmp);
         }
 
@@ -60,11 +60,11 @@ void clear(LinkedStack *stack) {
     }
 }
 
-bool is_empty(LinkedStack *stack) {
+bool alg_linked_stack_is_empty(AlgLinkedStack *stack) {
     return stack == NULL || stack->top == NULL || stack->len == 0;
 }
 
-bool peek(LinkedStack *stack, elem_t *e) {
+bool alg_linked_stack_peek(AlgLinkedStack *stack, alg_elem_t *e) {
     if (stack == NULL || stack->top == NULL || stack->len == 0) {
         return false;
     }
@@ -76,12 +76,12 @@ bool peek(LinkedStack *stack, elem_t *e) {
     return true;
 }
 
-bool push(LinkedStack *stack, elem_t e) {
+bool alg_linked_stack_push(AlgLinkedStack *stack, alg_elem_t e) {
     if (stack == NULL) {
         return false;
     }
 
-    Node *node = (Node *)malloc(sizeof(Node));
+    AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
     if (node == NULL) {
         return false;
     }
@@ -102,7 +102,7 @@ bool push(LinkedStack *stack, elem_t e) {
     return true;
 }
 
-bool pop(LinkedStack *stack, elem_t *e) {
+bool alg_linked_stack_pop(AlgLinkedStack *stack, alg_elem_t *e) {
     if (stack == NULL || stack->top == NULL || stack->len == 0) {
         return false;
     }
@@ -111,8 +111,8 @@ bool pop(LinkedStack *stack, elem_t *e) {
         *e = stack->top->data;
     }
 
-    Node *node = stack->top;
-    stack->top = node->prev;
+    AlgNode *node = stack->top;
+    stack->top    = node->prev;
     if (stack->top != NULL) {
         stack->top->next = NULL;
     }

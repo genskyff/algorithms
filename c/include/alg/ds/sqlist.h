@@ -1,33 +1,33 @@
-#ifndef ALG_SQLIST_H
+﻿#ifndef ALG_SQLIST_H
 #define ALG_SQLIST_H
 
-#include "alg/type.h"
+#include "alg/core.h"
 #include <stdbool.h>
 
 // data[0] is the first
 // data[len - 1] is the last
 typedef struct {
-    elem_t data[MAXLEN];
-    size_t len;
-} SqList;
+    alg_elem_t data[ALG_MAX_LEN];
+    size_t     len;
+} AlgSqList;
 
-SqList create(void);
-SqList init(size_t n, ...);
-void   swap(SqList *list, size_t i, size_t j);
-void   reverse(SqList *list);
-void   show(FILE *stream, SqList *list);
-void   clear(SqList *list);
-bool   is_empty(SqList *list);
-bool   get(SqList *list, size_t i, elem_t *e);
-bool   first(SqList *list, elem_t *e);
-bool   last(SqList *list, elem_t *e);
-bool   set(SqList *list, size_t i, elem_t e);
-bool   find(SqList *list, elem_t e, size_t *i);
-bool   insert(SqList *list, size_t i, elem_t e);
-bool   push_front(SqList *list, elem_t e);
-bool   push_back(SqList *list, elem_t e);
-bool   del(SqList *list, size_t i, elem_t *e);
-bool   pop_front(SqList *list, elem_t *e);
-bool   pop_back(SqList *list, elem_t *e);
+AlgSqList alg_sqlist_create(void);
+AlgSqList alg_sqlist_init(size_t n, ...);
+void      alg_sqlist_swap(AlgSqList *list, size_t i, size_t j);
+void      alg_sqlist_reverse(AlgSqList *list);
+void      alg_sqlist_show(FILE *stream, AlgSqList *list);
+void      alg_sqlist_clear(AlgSqList *list);
+bool      alg_sqlist_is_empty(AlgSqList *list);
+bool      alg_sqlist_get(AlgSqList *list, size_t i, alg_elem_t *e);
+bool      alg_sqlist_first(AlgSqList *list, alg_elem_t *e);
+bool      alg_sqlist_last(AlgSqList *list, alg_elem_t *e);
+bool      alg_sqlist_set(AlgSqList *list, size_t i, alg_elem_t e);
+bool      alg_sqlist_find(AlgSqList *list, alg_elem_t e, size_t *i);
+bool      alg_sqlist_insert(AlgSqList *list, size_t i, alg_elem_t e);
+bool      alg_sqlist_push_front(AlgSqList *list, alg_elem_t e);
+bool      alg_sqlist_push_back(AlgSqList *list, alg_elem_t e);
+bool      alg_sqlist_del(AlgSqList *list, size_t i, alg_elem_t *e);
+bool      alg_sqlist_pop_front(AlgSqList *list, alg_elem_t *e);
+bool      alg_sqlist_pop_back(AlgSqList *list, alg_elem_t *e);
 
 #endif

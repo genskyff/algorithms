@@ -1,25 +1,25 @@
-#include "alg/ds/linked_list.h"
+﻿#include "alg/ds/linked_list.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 
-LinkedList create(void) {
-    LinkedList list = {.head = NULL, .tail = NULL, .len = 0};
+AlgLinkedList alg_linked_list_create(void) {
+    AlgLinkedList list = {.head = NULL, .tail = NULL, .len = 0};
 
     return list;
 }
 
-LinkedList init(size_t n, ...) {
-    LinkedList list = create();
+AlgLinkedList alg_linked_list_init(size_t n, ...) {
+    AlgLinkedList list = alg_linked_list_create();
 
     va_list ap;
     va_start(ap, n);
 
     for (size_t i = 0; i < n; i++) {
-        Node *node = (Node *)malloc(sizeof(Node));
-        _has_alloc_err(node, __func__);
+        AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
+        alg_internal_has_alloc_err(node, __func__);
 
-        node->data = va_arg(ap, elem_t);
+        node->data = va_arg(ap, alg_elem_t);
         node->next = NULL;
 
         if (list.head == NULL) {
@@ -39,17 +39,18 @@ LinkedList init(size_t n, ...) {
     return list;
 }
 
-void swap(LinkedList *list, size_t i, size_t j) {
-    if (is_empty(list) || i == j || MAX(i, j) >= list->len) {
+void alg_linked_list_swap(AlgLinkedList *list, size_t i, size_t j) {
+    if (alg_linked_list_is_empty(list) || i == j ||
+        ALG_INTERNAL_MAX(i, j) >= list->len) {
         return;
     }
 
     if (i > j) {
-        SWAP(i, j);
+        ALG_INTERNAL_SWAP(i, j);
     }
 
-    Node *node_i, *node_j;
-    Node *node = list->head;
+    AlgNode *node_i, *node_j;
+    AlgNode *node = list->head;
     for (size_t k = 0; k <= j; k++) {
         if (k == i) {
             node_i = node;
@@ -62,10 +63,10 @@ void swap(LinkedList *list, size_t i, size_t j) {
         node = node->next;
     }
 
-    Node *i_prev = node_i->prev;
-    Node *i_next = node_i->next;
-    Node *j_prev = node_j->prev;
-    Node *j_next = node_j->next;
+    AlgNode *i_prev = node_i->prev;
+    AlgNode *i_next = node_i->next;
+    AlgNode *j_prev = node_j->prev;
+    AlgNode *j_next = node_j->next;
 
     // adjacent nodes
     if (i_next == node_j) { // node_i is directly connected to node_j
@@ -101,7 +102,7 @@ void swap(LinkedList *list, size_t i, size_t j) {
         node_i->prev = j_prev;
         node_j->prev = i_prev;
 
-        Node *tmp    = node_i->next;
+        AlgNode *tmp = node_i->next;
         node_i->next = node_j->next;
         node_j->next = tmp;
     }
@@ -119,30 +120,30 @@ void swap(LinkedList *list, size_t i, size_t j) {
     }
 }
 
-void reverse(LinkedList *list) {
-    if (is_empty(list) || list->len < 2) {
+void alg_linked_list_reverse(AlgLinkedList *list) {
+    if (alg_linked_list_is_empty(list) || list->len < 2) {
         return;
     }
 
     for (size_t i = 0; i < list->len / 2; i++) {
-        swap(list, i, list->len - i - 1);
+        alg_linked_list_swap(list, i, list->len - i - 1);
     }
 }
 
-void show(FILE *stream, LinkedList *list) {
+void alg_linked_list_show(FILE *stream, AlgLinkedList *list) {
     if (list != NULL) {
-        _show_list(stream, list->head, FORWARD, NULL);
+        alg_internal_show_list(stream, list->head, ALG_FORWARD, NULL);
     } else {
-        _show_list(stream, NULL, FORWARD, NULL);
+        alg_internal_show_list(stream, NULL, ALG_FORWARD, NULL);
     }
 }
 
-void clear(LinkedList *list) {
-    if (!is_empty(list)) {
-        Node *node = list->head;
+void alg_linked_list_clear(AlgLinkedList *list) {
+    if (!alg_linked_list_is_empty(list)) {
+        AlgNode *node = list->head;
         while (node != NULL) {
-            Node *tmp = node;
-            node      = node->next;
+            AlgNode *tmp = node;
+            node         = node->next;
             free(tmp);
         }
 
@@ -152,17 +153,17 @@ void clear(LinkedList *list) {
     }
 }
 
-bool is_empty(LinkedList *list) {
+bool alg_linked_list_is_empty(AlgLinkedList *list) {
     return list == NULL || list->head == NULL || list->tail == NULL ||
            list->len == 0;
 }
 
-bool get(LinkedList *list, size_t i, elem_t *e) {
-    if (is_empty(list) || i >= list->len) {
+bool alg_linked_list_get(AlgLinkedList *list, size_t i, alg_elem_t *e) {
+    if (alg_linked_list_is_empty(list) || i >= list->len) {
         return false;
     }
 
-    Node *node;
+    AlgNode *node;
     if (i <= (list->len + 1) / 2) {
         node = list->head;
         for (size_t j = 0; j < i; j++) {
@@ -182,8 +183,8 @@ bool get(LinkedList *list, size_t i, elem_t *e) {
     return true;
 }
 
-bool first(LinkedList *list, elem_t *e) {
-    if (is_empty(list)) {
+bool alg_linked_list_first(AlgLinkedList *list, alg_elem_t *e) {
+    if (alg_linked_list_is_empty(list)) {
         return false;
     }
 
@@ -194,8 +195,8 @@ bool first(LinkedList *list, elem_t *e) {
     return true;
 }
 
-bool last(LinkedList *list, elem_t *e) {
-    if (is_empty(list)) {
+bool alg_linked_list_last(AlgLinkedList *list, alg_elem_t *e) {
+    if (alg_linked_list_is_empty(list)) {
         return false;
     }
 
@@ -206,12 +207,12 @@ bool last(LinkedList *list, elem_t *e) {
     return true;
 }
 
-bool set(LinkedList *list, size_t i, elem_t e) {
-    if (is_empty(list) || i >= list->len) {
+bool alg_linked_list_set(AlgLinkedList *list, size_t i, alg_elem_t e) {
+    if (alg_linked_list_is_empty(list) || i >= list->len) {
         return false;
     }
 
-    Node *node;
+    AlgNode *node;
     if (i <= (list->len + 1) / 2) {
         node = list->head;
         for (size_t j = 0; j < i; j++) {
@@ -229,12 +230,12 @@ bool set(LinkedList *list, size_t i, elem_t e) {
     return true;
 }
 
-bool find(LinkedList *list, elem_t e, size_t *i) {
-    if (is_empty(list)) {
+bool alg_linked_list_find(AlgLinkedList *list, alg_elem_t e, size_t *i) {
+    if (alg_linked_list_is_empty(list)) {
         return false;
     }
 
-    Node *node = list->head;
+    AlgNode *node = list->head;
     for (size_t j = 0; node != NULL && j < list->len; j++) {
         if (node->data == e) {
             if (i != NULL) {
@@ -248,12 +249,12 @@ bool find(LinkedList *list, elem_t e, size_t *i) {
     return false;
 }
 
-bool insert(LinkedList *list, size_t i, elem_t e) {
+bool alg_linked_list_insert(AlgLinkedList *list, size_t i, alg_elem_t e) {
     if (list == NULL || i > list->len) {
         return false;
     }
 
-    Node *node = (Node *)malloc(sizeof(Node));
+    AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
     if (node == NULL) {
         return false;
     }
@@ -284,7 +285,7 @@ bool insert(LinkedList *list, size_t i, elem_t e) {
 
         list->tail = node;
     } else {
-        Node *target;
+        AlgNode *target;
         if (i <= (list->len + 1) / 2) {
             target = list->head;
             for (size_t j = 0; j < i - 1; j++) {
@@ -308,20 +309,20 @@ bool insert(LinkedList *list, size_t i, elem_t e) {
     return true;
 }
 
-bool push_front(LinkedList *list, elem_t e) {
-    return insert(list, 0, e);
+bool alg_linked_list_push_front(AlgLinkedList *list, alg_elem_t e) {
+    return alg_linked_list_insert(list, 0, e);
 }
 
-bool push_back(LinkedList *list, elem_t e) {
-    return list != NULL && insert(list, list->len, e);
+bool alg_linked_list_push_back(AlgLinkedList *list, alg_elem_t e) {
+    return list != NULL && alg_linked_list_insert(list, list->len, e);
 }
 
-bool del(LinkedList *list, size_t i, elem_t *e) {
-    if (is_empty(list) || i >= list->len) {
+bool alg_linked_list_del(AlgLinkedList *list, size_t i, alg_elem_t *e) {
+    if (alg_linked_list_is_empty(list) || i >= list->len) {
         return false;
     }
 
-    Node *node;
+    AlgNode *node;
     if (i <= (list->len + 1) / 2) {
         node = list->head;
         for (size_t j = 0; j < i; j++) {
@@ -356,10 +357,11 @@ bool del(LinkedList *list, size_t i, elem_t *e) {
     return true;
 }
 
-bool pop_front(LinkedList *list, elem_t *e) {
-    return del(list, 0, e);
+bool alg_linked_list_pop_front(AlgLinkedList *list, alg_elem_t *e) {
+    return alg_linked_list_del(list, 0, e);
 }
 
-bool pop_back(LinkedList *list, elem_t *e) {
-    return !is_empty(list) && del(list, list->len - 1, e);
+bool alg_linked_list_pop_back(AlgLinkedList *list, alg_elem_t *e) {
+    return !alg_linked_list_is_empty(list) &&
+           alg_linked_list_del(list, list->len - 1, e);
 }

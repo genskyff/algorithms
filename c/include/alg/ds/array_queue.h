@@ -1,27 +1,27 @@
-#ifndef ALG_ARRAY_QUEUE_H
+﻿#ifndef ALG_ARRAY_QUEUE_H
 #define ALG_ARRAY_QUEUE_H
 
-#include "alg/type.h"
+#include "alg/core.h"
 #include <stdbool.h>
 
 // index [front] is the front
 // index [front + len - 1] is the rear
 typedef struct {
-    elem_t data[MAXLEN];
-    size_t front;
-    size_t len;
-} ArrayQueue;
+    alg_elem_t data[ALG_MAX_LEN];
+    size_t     front;
+    size_t     len;
+} AlgArrayQueue;
 
-ArrayQueue create(void);
-ArrayQueue init(size_t n, ...);
-void       show(FILE *stream, ArrayQueue *queue);
-void       clear(ArrayQueue *queue);
-bool       is_empty(ArrayQueue *queue);
-bool       front(ArrayQueue *queue, elem_t *e);
-bool       back(ArrayQueue *queue, elem_t *e);
-bool       push_front(ArrayQueue *queue, elem_t e);
-bool       push_back(ArrayQueue *queue, elem_t e);
-bool       pop_front(ArrayQueue *queue, elem_t *e);
-bool       pop_back(ArrayQueue *queue, elem_t *e);
+AlgArrayQueue alg_array_queue_create(void);
+AlgArrayQueue alg_array_queue_init(size_t n, ...);
+void          alg_array_queue_show(FILE *stream, AlgArrayQueue *queue);
+void          alg_array_queue_clear(AlgArrayQueue *queue);
+bool          alg_array_queue_is_empty(AlgArrayQueue *queue);
+bool          alg_array_queue_front(AlgArrayQueue *queue, alg_elem_t *e);
+bool          alg_array_queue_back(AlgArrayQueue *queue, alg_elem_t *e);
+bool          alg_array_queue_push_front(AlgArrayQueue *queue, alg_elem_t e);
+bool          alg_array_queue_push_back(AlgArrayQueue *queue, alg_elem_t e);
+bool          alg_array_queue_pop_front(AlgArrayQueue *queue, alg_elem_t *e);
+bool          alg_array_queue_pop_back(AlgArrayQueue *queue, alg_elem_t *e);
 
 #endif

@@ -1,25 +1,25 @@
-#include "alg/ds/linked_queue.h"
+﻿#include "alg/ds/linked_queue.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 
-LinkedQueue create(void) {
-    LinkedQueue queue = {.front = NULL, .rear = NULL, .len = 0};
+AlgLinkedQueue alg_linked_queue_create(void) {
+    AlgLinkedQueue queue = {.front = NULL, .rear = NULL, .len = 0};
 
     return queue;
 }
 
-LinkedQueue init(size_t n, ...) {
-    LinkedQueue queue = create();
+AlgLinkedQueue alg_linked_queue_init(size_t n, ...) {
+    AlgLinkedQueue queue = alg_linked_queue_create();
 
     va_list ap;
     va_start(ap, n);
 
     for (size_t i = 0; i < n; i++) {
-        Node *node = (Node *)malloc(sizeof(Node));
-        _has_alloc_err(node, __func__);
+        AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
+        alg_internal_has_alloc_err(node, __func__);
 
-        node->data = va_arg(ap, elem_t);
+        node->data = va_arg(ap, alg_elem_t);
         node->next = NULL;
 
         if (queue.front == NULL) {
@@ -39,20 +39,20 @@ LinkedQueue init(size_t n, ...) {
     return queue;
 }
 
-void show(FILE *stream, LinkedQueue *queue) {
+void alg_linked_queue_show(FILE *stream, AlgLinkedQueue *queue) {
     if (queue != NULL) {
-        _show_list(stream, queue->front, FORWARD, NULL);
+        alg_internal_show_list(stream, queue->front, ALG_FORWARD, NULL);
     } else {
-        _show_list(stream, NULL, FORWARD, NULL);
+        alg_internal_show_list(stream, NULL, ALG_FORWARD, NULL);
     }
 }
 
-void clear(LinkedQueue *queue) {
+void alg_linked_queue_clear(AlgLinkedQueue *queue) {
     if (queue != NULL) {
-        Node *node = queue->front;
+        AlgNode *node = queue->front;
         while (node != NULL) {
-            Node *tmp = node;
-            node      = node->next;
+            AlgNode *tmp = node;
+            node         = node->next;
             free(tmp);
         }
 
@@ -62,11 +62,11 @@ void clear(LinkedQueue *queue) {
     }
 }
 
-bool is_empty(LinkedQueue *queue) {
+bool alg_linked_queue_is_empty(AlgLinkedQueue *queue) {
     return queue == NULL || queue->front == NULL || queue->len == 0;
 }
 
-bool front(LinkedQueue *queue, elem_t *e) {
+bool alg_linked_queue_front(AlgLinkedQueue *queue, alg_elem_t *e) {
     if (queue == NULL || queue->front == NULL || queue->len == 0) {
         return false;
     }
@@ -78,7 +78,7 @@ bool front(LinkedQueue *queue, elem_t *e) {
     return true;
 }
 
-bool back(LinkedQueue *queue, elem_t *e) {
+bool alg_linked_queue_back(AlgLinkedQueue *queue, alg_elem_t *e) {
     if (queue == NULL || queue->rear == NULL || queue->len == 0) {
         return false;
     }
@@ -90,12 +90,12 @@ bool back(LinkedQueue *queue, elem_t *e) {
     return true;
 }
 
-bool push_front(LinkedQueue *queue, elem_t e) {
+bool alg_linked_queue_push_front(AlgLinkedQueue *queue, alg_elem_t e) {
     if (queue == NULL) {
         return false;
     }
 
-    Node *node = (Node *)malloc(sizeof(Node));
+    AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
     if (node == NULL) {
         return false;
     }
@@ -117,12 +117,12 @@ bool push_front(LinkedQueue *queue, elem_t e) {
     return true;
 }
 
-bool push_back(LinkedQueue *queue, elem_t e) {
+bool alg_linked_queue_push_back(AlgLinkedQueue *queue, alg_elem_t e) {
     if (queue == NULL) {
         return false;
     }
 
-    Node *node = (Node *)malloc(sizeof(Node));
+    AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
     if (node == NULL) {
         return false;
     }
@@ -144,7 +144,7 @@ bool push_back(LinkedQueue *queue, elem_t e) {
     return true;
 }
 
-bool pop_front(LinkedQueue *queue, elem_t *e) {
+bool alg_linked_queue_pop_front(AlgLinkedQueue *queue, alg_elem_t *e) {
     if (queue == NULL || queue->front == NULL || queue->len == 0) {
         return false;
     }
@@ -153,7 +153,7 @@ bool pop_front(LinkedQueue *queue, elem_t *e) {
         *e = queue->front->data;
     }
 
-    Node *node = queue->front;
+    AlgNode *node = queue->front;
     if (queue->front == queue->rear) {
         queue->front = NULL;
         queue->rear  = NULL;
@@ -168,7 +168,7 @@ bool pop_front(LinkedQueue *queue, elem_t *e) {
     return true;
 }
 
-bool pop_back(LinkedQueue *queue, elem_t *e) {
+bool alg_linked_queue_pop_back(AlgLinkedQueue *queue, alg_elem_t *e) {
     if (queue == NULL || queue->front == NULL || queue->len == 0) {
         return false;
     }
@@ -177,7 +177,7 @@ bool pop_back(LinkedQueue *queue, elem_t *e) {
         *e = queue->rear->data;
     }
 
-    Node *node = queue->rear;
+    AlgNode *node = queue->rear;
     if (queue->front == queue->rear) {
         queue->front = NULL;
         queue->rear  = NULL;

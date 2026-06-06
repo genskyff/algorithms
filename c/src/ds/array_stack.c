@@ -1,21 +1,21 @@
-#include "alg/ds/array_stack.h"
+﻿#include "alg/ds/array_stack.h"
 #include "utils.h"
 #include <stdarg.h>
 
-ArrayStack create(void) {
-    ArrayStack stack = {.len = 0};
+AlgArrayStack alg_array_stack_create(void) {
+    AlgArrayStack stack = {.len = 0};
 
     return stack;
 }
 
-ArrayStack init(size_t n, ...) {
-    ArrayStack stack = create();
+AlgArrayStack alg_array_stack_init(size_t n, ...) {
+    AlgArrayStack stack = alg_array_stack_create();
 
     va_list ap;
     va_start(ap, n);
 
-    for (size_t i = 0; i < MIN(n, MAXLEN); i++) {
-        stack.data[stack.len++] = va_arg(ap, elem_t);
+    for (size_t i = 0; i < ALG_INTERNAL_MIN(n, ALG_MAX_LEN); i++) {
+        stack.data[stack.len++] = va_arg(ap, alg_elem_t);
     }
 
     va_end(ap);
@@ -23,26 +23,26 @@ ArrayStack init(size_t n, ...) {
     return stack;
 }
 
-void show(FILE *stream, ArrayStack *stack) {
+void alg_array_stack_show(FILE *stream, AlgArrayStack *stack) {
     if (stack != NULL) {
-        _show(stream, stack->data, stack->len, NULL);
+        alg_internal_show(stream, stack->data, stack->len, NULL);
     } else {
-        _show(stream, NULL, 0, NULL);
+        alg_internal_show(stream, NULL, 0, NULL);
     }
 }
 
-void clear(ArrayStack *stack) {
+void alg_array_stack_clear(AlgArrayStack *stack) {
     if (stack != NULL) {
         stack->len = 0;
     }
 }
 
-bool is_empty(ArrayStack *stack) {
+bool alg_array_stack_is_empty(AlgArrayStack *stack) {
     return stack == NULL || stack->len == 0;
 }
 
-bool peek(ArrayStack *stack, elem_t *e) {
-    if (is_empty(stack)) {
+bool alg_array_stack_peek(AlgArrayStack *stack, alg_elem_t *e) {
+    if (alg_array_stack_is_empty(stack)) {
         return false;
     }
 
@@ -53,8 +53,8 @@ bool peek(ArrayStack *stack, elem_t *e) {
     return true;
 }
 
-bool push(ArrayStack *stack, elem_t e) {
-    if (stack == NULL || stack->len == MAXLEN) {
+bool alg_array_stack_push(AlgArrayStack *stack, alg_elem_t e) {
+    if (stack == NULL || stack->len == ALG_MAX_LEN) {
         return false;
     }
 
@@ -63,8 +63,8 @@ bool push(ArrayStack *stack, elem_t e) {
     return true;
 }
 
-bool pop(ArrayStack *stack, elem_t *e) {
-    if (is_empty(stack)) {
+bool alg_array_stack_pop(AlgArrayStack *stack, alg_elem_t *e) {
+    if (alg_array_stack_is_empty(stack)) {
         return false;
     }
 

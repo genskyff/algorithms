@@ -1,9 +1,9 @@
-#include "alg/ds/binary_tree.h"
+﻿#include "alg/ds/binary_tree.h"
 #include "helper.h"
 
 void test_create(void) {
-    BinaryTree tree = create();
-    char      *msg;
+    AlgBinaryTree tree = alg_binary_tree_create();
+    char         *msg;
 
     msg = "should get a empty binary tree";
     assert_null(tree.root, msg);
@@ -13,8 +13,8 @@ void test_create(void) {
 }
 
 void test_create_root(void) {
-    BinaryTree tree = create_root(10);
-    char      *msg;
+    AlgBinaryTree tree = alg_binary_tree_create_root(10);
+    char         *msg;
 
     msg = "should get a binary tree with only one root node";
     assert_not_null(tree.root, msg);
@@ -27,18 +27,18 @@ void test_create_root(void) {
 }
 
 // void test_is_empty(void) {
-//     BinaryTree tree = test_data();
+//     AlgBinaryTree tree = test_data();
 //     char      *msg;
 
 //     msg = "should be empty when NULL";
-//     assert(is_empty(NULL), msg);
+//     assert(alg_binary_tree_is_empty(NULL), msg);
 
 //     msg = "should not be empty";
-//     assert_not(is_empty(&tree), msg);
+//     assert_not(alg_binary_tree_is_empty(&tree), msg);
 
 //     msg = "should be empty when len == 0";
-//     clear(&tree);
-//     assert(is_empty(&tree), msg);
+//     alg_binary_tree_clear(&tree);
+//     assert(alg_binary_tree_is_empty(&tree), msg);
 // }
 
 int main(void) {

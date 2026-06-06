@@ -1,4 +1,4 @@
-#include "alg/sort/quick.h"
+﻿#include "alg/sort/quick.h"
 #include "helper.h"
 #include "utils.h"
 #include <stdlib.h>
@@ -7,10 +7,10 @@ TestSortData DATA[SORT_DATA_LEN];
 
 void test_quick_sort(void) {
     for (size_t i = 0; i < SORT_DATA_LEN; i++) {
-        elem_t  len = DATA[i].len;
-        elem_t *tmp = len == 0 ? NULL : malloc(len * sizeof(elem_t));
-        _copy(tmp, len, DATA[i].unsorted, len);
-        quick_sort(tmp, len);
+        alg_elem_t  len = DATA[i].len;
+        alg_elem_t *tmp = len == 0 ? NULL : malloc(len * sizeof(alg_elem_t));
+        alg_internal_copy(tmp, len, DATA[i].unsorted, len);
+        alg_quick_sort(tmp, len);
         assert_arr_eq(tmp, len, DATA[i].sorted, len, NULL);
         free(tmp);
     }

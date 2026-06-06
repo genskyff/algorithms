@@ -1,22 +1,22 @@
-#ifndef ALG_LINKED_STACK_H
+﻿#ifndef ALG_LINKED_STACK_H
 #define ALG_LINKED_STACK_H
 
-#include "alg/type.h"
+#include "alg/ds/node.h"
 #include <stdbool.h>
 
 // index [len - 1] is the top
 typedef struct {
-    Node  *top;
-    size_t len;
-} LinkedStack;
+    AlgNode *top;
+    size_t   len;
+} AlgLinkedStack;
 
-LinkedStack create(void);
-LinkedStack init(size_t n, ...);
-void        show(FILE *stream, LinkedStack *stack);
-void        clear(LinkedStack *stack);
-bool        is_empty(LinkedStack *stack);
-bool        peek(LinkedStack *stack, elem_t *e);
-bool        push(LinkedStack *stack, elem_t e);
-bool        pop(LinkedStack *stack, elem_t *e);
+AlgLinkedStack alg_linked_stack_create(void);
+AlgLinkedStack alg_linked_stack_init(size_t n, ...);
+void           alg_linked_stack_show(FILE *stream, AlgLinkedStack *stack);
+void           alg_linked_stack_clear(AlgLinkedStack *stack);
+bool           alg_linked_stack_is_empty(AlgLinkedStack *stack);
+bool           alg_linked_stack_peek(AlgLinkedStack *stack, alg_elem_t *e);
+bool           alg_linked_stack_push(AlgLinkedStack *stack, alg_elem_t e);
+bool           alg_linked_stack_pop(AlgLinkedStack *stack, alg_elem_t *e);
 
 #endif

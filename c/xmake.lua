@@ -1,4 +1,4 @@
-set_project("algorithms-c")
+﻿set_project("algorithms-c")
 set_version("0.1.0")
 set_languages("c23")
 set_warnings("all", "extra")
@@ -21,7 +21,7 @@ add_includedirs("include", {public = true})
 add_includedirs("src")
 
 on_load(function (target)
-    if target:name() ~= "utils" then
+    if target:name() ~= "utils" and target:name() ~= "alg" then
         target:add("deps", "utils")
     end
 
@@ -99,7 +99,7 @@ end
 
 add_test_task("all", "test*", "all")
 add_test_task("helper", "test_helper", "helper")
-add_test_task("utils", "test_utils", "util")
+add_test_task("utils", "test_utils", "utils")
 add_test_task("ds", "test_ds", "data structure")
 add_test_task("sort", "test_sort", "sorting algorithm")
 add_test_task("string", "test_string", "string algorithm")
@@ -136,6 +136,16 @@ target("test_helper")
     set_kind("binary")
     set_group("test_helper")
     add_files("tests/test_helper.c")
+target_end()
+
+-- ---------
+--  library
+-- ---------
+
+target("alg")
+    set_kind("static")
+    set_group("lib")
+    add_files("src/*.c", "src/*/*.c")
 target_end()
 
 -- -------

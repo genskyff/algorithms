@@ -1,17 +1,20 @@
-#include "alg/ds/vector.h"
+﻿#include "alg/ds/vector.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 
-bool _shrink(Vec *v);
-bool _grow(Vec *v);
+static bool vec_shrink(AlgVec *v);
+static bool vec_grow(AlgVec *v);
 
-bool _shrink(Vec *v) {
-    if (v != NULL && v->cap > SHRINK_CAP &&
-        v->len < (size_t)(v->cap * LOW_FACTOR)) {
-        size_t  base_cap = MAX(INIT_CAP, v->len * GROWTH_FACTOR);
-        size_t  new_cap  = (base_cap + INIT_CAP - 1) / INIT_CAP * INIT_CAP;
-        elem_t *new_data = (elem_t *)realloc(v->data, new_cap * sizeof(elem_t));
+static bool vec_shrink(AlgVec *v) {
+    if (v != NULL && v->cap > ALG_VEC_SHRINK_CAP &&
+        v->len < (size_t)(v->cap * ALG_VEC_LOW_FACTOR)) {
+        size_t base_cap =
+            ALG_INTERNAL_MAX(ALG_VEC_INIT_CAP, v->len * ALG_VEC_GROWTH_FACTOR);
+        size_t new_cap = (base_cap + ALG_VEC_INIT_CAP - 1) / ALG_VEC_INIT_CAP *
+                         ALG_VEC_INIT_CAP;
+        alg_elem_t *new_data =
+            (alg_elem_t *)realloc(v->data, new_cap * sizeof(alg_elem_t));
         if (new_data != NULL) {
             v->data = new_data;
             v->cap  = new_cap;
@@ -22,10 +25,11 @@ bool _shrink(Vec *v) {
     return false;
 }
 
-bool _grow(Vec *v) {
+static bool vec_grow(AlgVec *v) {
     if (v != NULL && v->len == v->cap) {
-        size_t  new_cap  = v->cap * GROWTH_FACTOR;
-        elem_t *new_data = (elem_t *)realloc(v->data, new_cap * sizeof(elem_t));
+        size_t      new_cap = v->cap * ALG_VEC_GROWTH_FACTOR;
+        alg_elem_t *new_data =
+            (alg_elem_t *)realloc(v->data, new_cap * sizeof(alg_elem_t));
         if (new_data != NULL) {
             v->data = new_data;
             v->cap  = new_cap;
@@ -37,38 +41,39 @@ bool _grow(Vec *v) {
     return false;
 }
 
-Vec create(void) {
-    return create_with(INIT_CAP);
+AlgVec alg_vec_create(void) {
+    return alg_vec_create_with(ALG_VEC_INIT_CAP);
 }
 
-Vec create_with(size_t cap) {
+AlgVec alg_vec_create_with(size_t cap) {
     if (cap == 0) {
         fprintf(stderr, "\x1b[1;31merror: \x1b[0mcapacity cannot be 0 (exec "
                         "\x1b[33mcreate_with\x1b[0m)\n\n");
         exit(EXIT_FAILURE);
     }
 
-    elem_t *data = (elem_t *)malloc(cap * sizeof(elem_t));
-    _has_alloc_err(data, __func__);
+    alg_elem_t *data = (alg_elem_t *)malloc(cap * sizeof(alg_elem_t));
+    alg_internal_has_alloc_err(data, __func__);
 
-    Vec v = {.data = data, .len = 0, .cap = cap};
+    AlgVec v = {.data = data, .len = 0, .cap = cap};
 
     return v;
 }
 
-Vec init(size_t n, ...) {
-    size_t cap =
-        n < INIT_CAP ? INIT_CAP : (n + INIT_CAP - 1) / INIT_CAP * INIT_CAP;
-    elem_t *data = (elem_t *)malloc(cap * sizeof(elem_t));
-    _has_alloc_err(data, __func__);
+AlgVec alg_vec_init(size_t n, ...) {
+    size_t cap = n < ALG_VEC_INIT_CAP ? ALG_VEC_INIT_CAP
+                                      : (n + ALG_VEC_INIT_CAP - 1) /
+                                            ALG_VEC_INIT_CAP * ALG_VEC_INIT_CAP;
+    alg_elem_t *data = (alg_elem_t *)malloc(cap * sizeof(alg_elem_t));
+    alg_internal_has_alloc_err(data, __func__);
 
-    Vec v = {.data = data, .len = 0, .cap = cap};
+    AlgVec v = {.data = data, .len = 0, .cap = cap};
 
     va_list ap;
     va_start(ap, n);
 
     for (size_t i = 0; i < n; i++) {
-        v.data[v.len++] = va_arg(ap, elem_t);
+        v.data[v.len++] = va_arg(ap, alg_elem_t);
     }
 
     va_end(ap);
@@ -76,39 +81,39 @@ Vec init(size_t n, ...) {
     return v;
 }
 
-void swap(Vec *v, size_t i, size_t j) {
-    if (v != NULL && MAX(i, j) < v->len) {
-        _swap(v->data, i, j);
+void alg_vec_swap(AlgVec *v, size_t i, size_t j) {
+    if (v != NULL && ALG_INTERNAL_MAX(i, j) < v->len) {
+        alg_internal_swap(v->data, i, j);
     }
 }
 
-void reverse(Vec *v) {
+void alg_vec_reverse(AlgVec *v) {
     if (v != NULL) {
-        _reverse(v->data, v->len);
+        alg_internal_reverse(v->data, v->len);
     }
 }
 
-void show(FILE *stream, Vec *v) {
+void alg_vec_show(FILE *stream, AlgVec *v) {
     if (v != NULL) {
-        _show(stream, v->data, v->len, NULL);
+        alg_internal_show(stream, v->data, v->len, NULL);
     } else {
-        _show(stream, NULL, 0, NULL);
+        alg_internal_show(stream, NULL, 0, NULL);
     }
 }
 
-void clear(Vec *v) {
+void alg_vec_clear(AlgVec *v) {
     if (v != NULL) {
         v->len = 0;
-        _shrink(v);
+        vec_shrink(v);
     }
 }
 
-bool is_empty(Vec *v) {
+bool alg_vec_is_empty(AlgVec *v) {
     return v == NULL || v->len == 0;
 }
 
-bool get(Vec *v, size_t i, elem_t *e) {
-    if (is_empty(v) || i >= v->len) {
+bool alg_vec_get(AlgVec *v, size_t i, alg_elem_t *e) {
+    if (alg_vec_is_empty(v) || i >= v->len) {
         return false;
     }
 
@@ -119,16 +124,16 @@ bool get(Vec *v, size_t i, elem_t *e) {
     return true;
 }
 
-bool first(Vec *v, elem_t *e) {
-    return get(v, 0, e);
+bool alg_vec_first(AlgVec *v, alg_elem_t *e) {
+    return alg_vec_get(v, 0, e);
 }
 
-bool last(Vec *v, elem_t *e) {
-    return !is_empty(v) && get(v, v->len - 1, e);
+bool alg_vec_last(AlgVec *v, alg_elem_t *e) {
+    return !alg_vec_is_empty(v) && alg_vec_get(v, v->len - 1, e);
 }
 
-bool set(Vec *v, size_t i, elem_t e) {
-    if (is_empty(v) || i >= v->len) {
+bool alg_vec_set(AlgVec *v, size_t i, alg_elem_t e) {
+    if (alg_vec_is_empty(v) || i >= v->len) {
         return false;
     }
 
@@ -137,21 +142,21 @@ bool set(Vec *v, size_t i, elem_t e) {
     return true;
 }
 
-bool find(Vec *v, elem_t e, size_t *i) {
-    return v != NULL && _find(v->data, v->len, e, i);
+bool alg_vec_find(AlgVec *v, alg_elem_t e, size_t *i) {
+    return v != NULL && alg_internal_find(v->data, v->len, e, i);
 }
 
-bool insert(Vec *v, size_t i, elem_t e) {
+bool alg_vec_insert(AlgVec *v, size_t i, alg_elem_t e) {
     if (v == NULL || i > v->len) {
         return false;
     }
 
-    if (v->len == v->cap && !_grow(v)) {
+    if (v->len == v->cap && !vec_grow(v)) {
         return false;
     }
 
     if (i < v->len) {
-        _move_right_slice(v->data, v->len, i, v->len, 1);
+        alg_internal_move_right_slice(v->data, v->len, i, v->len, 1);
     }
 
     v->data[i] = e;
@@ -160,16 +165,16 @@ bool insert(Vec *v, size_t i, elem_t e) {
     return true;
 }
 
-bool push_front(Vec *v, elem_t e) {
-    return insert(v, 0, e);
+bool alg_vec_push_front(AlgVec *v, alg_elem_t e) {
+    return alg_vec_insert(v, 0, e);
 }
 
-bool push_back(Vec *v, elem_t e) {
-    return v != NULL && insert(v, v->len, e);
+bool alg_vec_push_back(AlgVec *v, alg_elem_t e) {
+    return v != NULL && alg_vec_insert(v, v->len, e);
 }
 
-bool del(Vec *v, size_t i, elem_t *e) {
-    if (is_empty(v) || i >= v->len) {
+bool alg_vec_del(AlgVec *v, size_t i, alg_elem_t *e) {
+    if (alg_vec_is_empty(v) || i >= v->len) {
         return false;
     }
 
@@ -178,24 +183,24 @@ bool del(Vec *v, size_t i, elem_t *e) {
     }
 
     if (i < v->len - 1) {
-        _move_left_slice(v->data, v->len, i, v->len, 1);
+        alg_internal_move_left_slice(v->data, v->len, i, v->len, 1);
     }
 
     v->len--;
-    _shrink(v);
+    vec_shrink(v);
 
     return true;
 }
 
-bool pop_front(Vec *v, elem_t *e) {
-    return del(v, 0, e);
+bool alg_vec_pop_front(AlgVec *v, alg_elem_t *e) {
+    return alg_vec_del(v, 0, e);
 }
 
-bool pop_back(Vec *v, elem_t *e) {
-    return !is_empty(v) && del(v, v->len - 1, e);
+bool alg_vec_pop_back(AlgVec *v, alg_elem_t *e) {
+    return !alg_vec_is_empty(v) && alg_vec_del(v, v->len - 1, e);
 }
 
-void drop(Vec *v) {
+void alg_vec_drop(AlgVec *v) {
     if (v != NULL) {
         free(v->data);
         v->data = NULL;

@@ -1,10 +1,10 @@
-#ifndef ALG_INSERTION_H
+﻿#ifndef ALG_INSERTION_H
 #define ALG_INSERTION_H
 
-#include "alg/type.h"
+#include "alg/core.h"
 
-void insertion_sort(elem_t *arr, size_t len);
-void binary_insertion_sort(elem_t *arr, size_t len);
-void shell_sort(elem_t *arr, size_t len);
+void alg_insertion_sort(alg_elem_t *arr, size_t len);
+void alg_binary_insertion_sort(alg_elem_t *arr, size_t len);
+void alg_shell_sort(alg_elem_t *arr, size_t len);
 
 #endif

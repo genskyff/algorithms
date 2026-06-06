@@ -1,13 +1,13 @@
-#include "alg/ds/static_linked_list.h"
+﻿#include "alg/ds/static_linked_list.h"
 #include "utils.h"
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdlib.h>
 
-size_t _alloc(SLinkedList *list);
-void   _free(SLinkedList *list, size_t idx);
+static size_t static_linked_list_alloc(AlgStaticLinkedList *list);
+static void   static_linked_list_free(AlgStaticLinkedList *list, size_t idx);
 
-size_t _alloc(SLinkedList *list) {
+static size_t static_linked_list_alloc(AlgStaticLinkedList *list) {
     size_t idx = list->space;
 
     if (idx != SIZE_MAX) {
@@ -17,38 +17,38 @@ size_t _alloc(SLinkedList *list) {
     return idx;
 }
 
-void _free(SLinkedList *list, size_t idx) {
+static void static_linked_list_free(AlgStaticLinkedList *list, size_t idx) {
     list->nodes[idx].next = list->space;
     list->space           = idx;
 }
 
-SLinkedList create(void) {
-    SLinkedList list = {
+AlgStaticLinkedList alg_static_linked_list_create(void) {
+    AlgStaticLinkedList list = {
         .space = 0, .head = SIZE_MAX, .tail = SIZE_MAX, .len = 0};
 
-    for (size_t i = 0; i < MAXLEN; i++) {
+    for (size_t i = 0; i < ALG_MAX_LEN; i++) {
         list.nodes[i].next = i + 1;
         list.nodes[i].prev = SIZE_MAX;
     }
 
-    list.nodes[MAXLEN - 1].next = SIZE_MAX;
+    list.nodes[ALG_MAX_LEN - 1].next = SIZE_MAX;
 
     return list;
 }
 
-SLinkedList init(size_t n, ...) {
-    SLinkedList list = create();
+AlgStaticLinkedList alg_static_linked_list_init(size_t n, ...) {
+    AlgStaticLinkedList list = alg_static_linked_list_create();
 
     va_list ap;
     va_start(ap, n);
 
-    for (size_t i = 0; i < MIN(n, MAXLEN); i++) {
-        size_t idx = _alloc(&list);
+    for (size_t i = 0; i < ALG_INTERNAL_MIN(n, ALG_MAX_LEN); i++) {
+        size_t idx = static_linked_list_alloc(&list);
         if (idx == SIZE_MAX) {
             break;
         }
 
-        list.nodes[idx].data = va_arg(ap, elem_t);
+        list.nodes[idx].data = va_arg(ap, alg_elem_t);
         list.nodes[idx].next = SIZE_MAX;
 
         if (list.head == SIZE_MAX) {
@@ -68,12 +68,12 @@ SLinkedList init(size_t n, ...) {
     return list;
 }
 
-elem_t *to_array(SLinkedList *list) {
+alg_elem_t *alg_static_linked_list_to_array(AlgStaticLinkedList *list) {
     if (list == NULL || list->len == 0) {
         return NULL;
     }
 
-    elem_t *arr = (elem_t *)malloc(list->len * sizeof(elem_t));
+    alg_elem_t *arr = (alg_elem_t *)malloc(list->len * sizeof(alg_elem_t));
     if (arr == NULL) {
         return NULL;
     }
@@ -87,13 +87,15 @@ elem_t *to_array(SLinkedList *list) {
     return arr;
 }
 
-void swap(SLinkedList *list, size_t i, size_t j) {
-    if (list == NULL || list->len == 0 || i == j || MAX(i, j) >= list->len) {
+void alg_static_linked_list_swap(AlgStaticLinkedList *list, size_t i,
+                                 size_t j) {
+    if (list == NULL || list->len == 0 || i == j ||
+        ALG_INTERNAL_MAX(i, j) >= list->len) {
         return;
     }
 
     if (i > j) {
-        SWAP(i, j);
+        ALG_INTERNAL_SWAP(i, j);
     }
 
     size_t node_i, node_j;
@@ -166,17 +168,17 @@ void swap(SLinkedList *list, size_t i, size_t j) {
     }
 }
 
-void reverse(SLinkedList *list) {
+void alg_static_linked_list_reverse(AlgStaticLinkedList *list) {
     if (list == NULL || list->len == 0) {
         return;
     }
 
     for (size_t i = 0; i < list->len / 2; i++) {
-        swap(list, i, list->len - i - 1);
+        alg_static_linked_list_swap(list, i, list->len - i - 1);
     }
 }
 
-void show(FILE *stream, SLinkedList *list) {
+void alg_static_linked_list_show(FILE *stream, AlgStaticLinkedList *list) {
     if (stream == NULL) {
         stream = stdout;
     }
@@ -194,11 +196,11 @@ void show(FILE *stream, SLinkedList *list) {
     }
 }
 
-void clear(SLinkedList *list) {
+void alg_static_linked_list_clear(AlgStaticLinkedList *list) {
     if (list != NULL) {
         for (size_t i = list->head; i != SIZE_MAX;) {
             size_t next = list->nodes[i].next;
-            _free(list, i);
+            static_linked_list_free(list, i);
             i = next;
         }
 
@@ -207,20 +209,21 @@ void clear(SLinkedList *list) {
         list->tail  = SIZE_MAX;
         list->len   = 0;
 
-        for (size_t i = 0; i < MAXLEN; i++) {
+        for (size_t i = 0; i < ALG_MAX_LEN; i++) {
             list->nodes[i].next = i + 1;
             list->nodes[i].prev = SIZE_MAX;
         }
 
-        list->nodes[MAXLEN - 1].next = SIZE_MAX;
+        list->nodes[ALG_MAX_LEN - 1].next = SIZE_MAX;
     }
 }
 
-bool is_empty(SLinkedList *list) {
+bool alg_static_linked_list_is_empty(AlgStaticLinkedList *list) {
     return list == NULL || list->len == 0;
 }
 
-bool get(SLinkedList *list, size_t i, elem_t *e) {
+bool alg_static_linked_list_get(AlgStaticLinkedList *list, size_t i,
+                                alg_elem_t *e) {
     if (list == NULL || list->len == 0 || i >= list->len) {
         return false;
     }
@@ -245,7 +248,7 @@ bool get(SLinkedList *list, size_t i, elem_t *e) {
     return true;
 }
 
-bool first(SLinkedList *list, elem_t *e) {
+bool alg_static_linked_list_first(AlgStaticLinkedList *list, alg_elem_t *e) {
     if (list == NULL || list->len == 0) {
         return false;
     }
@@ -257,7 +260,7 @@ bool first(SLinkedList *list, elem_t *e) {
     return true;
 }
 
-bool last(SLinkedList *list, elem_t *e) {
+bool alg_static_linked_list_last(AlgStaticLinkedList *list, alg_elem_t *e) {
     if (list == NULL || list->len == 0) {
         return false;
     }
@@ -269,7 +272,8 @@ bool last(SLinkedList *list, elem_t *e) {
     return true;
 }
 
-bool set(SLinkedList *list, size_t i, elem_t e) {
+bool alg_static_linked_list_set(AlgStaticLinkedList *list, size_t i,
+                                alg_elem_t e) {
     if (list == NULL || list->len == 0 || i >= list->len) {
         return false;
     }
@@ -292,7 +296,8 @@ bool set(SLinkedList *list, size_t i, elem_t e) {
     return true;
 }
 
-bool find(SLinkedList *list, elem_t e, size_t *i) {
+bool alg_static_linked_list_find(AlgStaticLinkedList *list, alg_elem_t e,
+                                 size_t *i) {
     if (list == NULL || list->len == 0) {
         return false;
     }
@@ -313,12 +318,13 @@ bool find(SLinkedList *list, elem_t e, size_t *i) {
     return false;
 }
 
-bool insert(SLinkedList *list, size_t i, elem_t e) {
-    if (list == NULL || list->len == MAXLEN || i > list->len) {
+bool alg_static_linked_list_insert(AlgStaticLinkedList *list, size_t i,
+                                   alg_elem_t e) {
+    if (list == NULL || list->len == ALG_MAX_LEN || i > list->len) {
         return false;
     }
 
-    size_t idx = _alloc(list);
+    size_t idx = static_linked_list_alloc(list);
     if (idx == SIZE_MAX) {
         return false;
     }
@@ -374,15 +380,17 @@ bool insert(SLinkedList *list, size_t i, elem_t e) {
     return true;
 }
 
-bool push_front(SLinkedList *list, elem_t e) {
-    return insert(list, 0, e);
+bool alg_static_linked_list_push_front(AlgStaticLinkedList *list,
+                                       alg_elem_t           e) {
+    return alg_static_linked_list_insert(list, 0, e);
 }
 
-bool push_back(SLinkedList *list, elem_t e) {
-    return list != NULL && insert(list, list->len, e);
+bool alg_static_linked_list_push_back(AlgStaticLinkedList *list, alg_elem_t e) {
+    return list != NULL && alg_static_linked_list_insert(list, list->len, e);
 }
 
-bool del(SLinkedList *list, size_t i, elem_t *e) {
+bool alg_static_linked_list_del(AlgStaticLinkedList *list, size_t i,
+                                alg_elem_t *e) {
     if (list == NULL || list->len == 0 || i >= list->len) {
         return false;
     }
@@ -417,15 +425,17 @@ bool del(SLinkedList *list, size_t i, elem_t *e) {
     }
 
     list->len--;
-    _free(list, cur);
+    static_linked_list_free(list, cur);
 
     return true;
 }
 
-bool pop_front(SLinkedList *list, elem_t *e) {
-    return del(list, 0, e);
+bool alg_static_linked_list_pop_front(AlgStaticLinkedList *list,
+                                      alg_elem_t          *e) {
+    return alg_static_linked_list_del(list, 0, e);
 }
 
-bool pop_back(SLinkedList *list, elem_t *e) {
-    return list != NULL && list->len != 0 && del(list, list->len - 1, e);
+bool alg_static_linked_list_pop_back(AlgStaticLinkedList *list, alg_elem_t *e) {
+    return list != NULL && list->len != 0 &&
+           alg_static_linked_list_del(list, list->len - 1, e);
 }

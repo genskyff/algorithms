@@ -1,41 +1,41 @@
-#ifndef ALG_VECTOR_H
+﻿#ifndef ALG_VECTOR_H
 #define ALG_VECTOR_H
 
-#include "alg/type.h"
+#include "alg/core.h"
 #include <stdbool.h>
 
-#define INIT_CAP      100
-#define SHRINK_CAP    1000
-#define LOW_FACTOR    0.25
-#define GROWTH_FACTOR 2
+#define ALG_VEC_INIT_CAP      100
+#define ALG_VEC_SHRINK_CAP    1000
+#define ALG_VEC_LOW_FACTOR    0.25
+#define ALG_VEC_GROWTH_FACTOR 2
 
 // data[0] is the first
 // data[len - 1] is the last
 typedef struct {
-    elem_t *data;
-    size_t  len;
-    size_t  cap;
-} Vec;
+    alg_elem_t *data;
+    size_t      len;
+    size_t      cap;
+} AlgVec;
 
-Vec  create(void);
-Vec  create_with(size_t cap);
-Vec  init(size_t n, ...);
-void swap(Vec *v, size_t i, size_t j);
-void reverse(Vec *v);
-void show(FILE *stream, Vec *v);
-void clear(Vec *v);
-bool is_empty(Vec *v);
-bool get(Vec *v, size_t i, elem_t *e);
-bool first(Vec *v, elem_t *e);
-bool last(Vec *v, elem_t *e);
-bool set(Vec *v, size_t i, elem_t e);
-bool find(Vec *v, elem_t e, size_t *i);
-bool insert(Vec *v, size_t i, elem_t e);
-bool push_front(Vec *v, elem_t e);
-bool push_back(Vec *v, elem_t e);
-bool del(Vec *v, size_t i, elem_t *e);
-bool pop_front(Vec *v, elem_t *e);
-bool pop_back(Vec *v, elem_t *e);
-void drop(Vec *v);
+AlgVec alg_vec_create(void);
+AlgVec alg_vec_create_with(size_t cap);
+AlgVec alg_vec_init(size_t n, ...);
+void   alg_vec_swap(AlgVec *v, size_t i, size_t j);
+void   alg_vec_reverse(AlgVec *v);
+void   alg_vec_show(FILE *stream, AlgVec *v);
+void   alg_vec_clear(AlgVec *v);
+bool   alg_vec_is_empty(AlgVec *v);
+bool   alg_vec_get(AlgVec *v, size_t i, alg_elem_t *e);
+bool   alg_vec_first(AlgVec *v, alg_elem_t *e);
+bool   alg_vec_last(AlgVec *v, alg_elem_t *e);
+bool   alg_vec_set(AlgVec *v, size_t i, alg_elem_t e);
+bool   alg_vec_find(AlgVec *v, alg_elem_t e, size_t *i);
+bool   alg_vec_insert(AlgVec *v, size_t i, alg_elem_t e);
+bool   alg_vec_push_front(AlgVec *v, alg_elem_t e);
+bool   alg_vec_push_back(AlgVec *v, alg_elem_t e);
+bool   alg_vec_del(AlgVec *v, size_t i, alg_elem_t *e);
+bool   alg_vec_pop_front(AlgVec *v, alg_elem_t *e);
+bool   alg_vec_pop_back(AlgVec *v, alg_elem_t *e);
+void   alg_vec_drop(AlgVec *v);
 
 #endif
