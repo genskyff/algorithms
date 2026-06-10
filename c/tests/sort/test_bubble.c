@@ -1,6 +1,6 @@
 ﻿#include "alg/sort/bubble.h"
 #include "helper.h"
-#include "utils.h"
+#include "internal/utils.h"
 #include <stdlib.h>
 
 TestSortData DATA[SORT_DATA_LEN];

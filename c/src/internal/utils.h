@@ -1,5 +1,5 @@
-﻿#ifndef ALG_UTILS_H
-#define ALG_UTILS_H
+﻿#ifndef ALG_INTERNAL_UTILS_H
+#define ALG_INTERNAL_UTILS_H
 
 #include "alg/ds/node.h"
 #include <stdbool.h>

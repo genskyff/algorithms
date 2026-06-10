@@ -1,5 +1,5 @@
 ﻿#include "alg/ds/array_queue.h"
-#include "utils.h"
+#include "internal/utils.h"
 #include <stdarg.h>
 
 AlgArrayQueue alg_array_queue_create(void) {

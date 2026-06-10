@@ -1,5 +1,5 @@
 ﻿#include "alg/ds/static_linked_list.h"
-#include "utils.h"
+#include "internal/utils.h"
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdlib.h>

@@ -1,5 +1,5 @@
 ﻿#include "alg/sort/quick.h"
-#include "utils.h"
+#include "internal/utils.h"
 
 static void quick_move_pivot_to_high(alg_elem_t *arr, size_t low, size_t high);
 static size_t quick_partition(alg_elem_t *arr, size_t low, size_t high);

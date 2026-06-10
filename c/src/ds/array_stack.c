@@ -1,5 +1,5 @@
 ﻿#include "alg/ds/array_stack.h"
-#include "utils.h"
+#include "internal/utils.h"
 #include <stdarg.h>
 
 AlgArrayStack alg_array_stack_create(void) {

@@ -1,5 +1,5 @@
 ﻿#include "alg/sort/insertion.h"
-#include "utils.h"
+#include "internal/utils.h"
 
 void alg_insertion_sort(alg_elem_t *arr, size_t len) {
     for (size_t i = 1; i < len; i++) {

@@ -1,5 +1,5 @@
 ﻿#include "alg/sort/bubble.h"
-#include "utils.h"
+#include "internal/utils.h"
 
 void alg_bubble_sort(alg_elem_t *arr, size_t len) {
     for (size_t i = 0; i < len; i++) {

@@ -1,5 +1,5 @@
 ﻿#include "alg/ds/hashmap.h"
-#include "utils.h"
+#include "internal/utils.h"
 #include <stdint.h>
 #include <stdlib.h>
 

@@ -1,5 +1,5 @@
 ﻿#include "helper.h"
-#include "utils.h"
+#include "internal/utils.h"
 #include <stdlib.h>
 #include <string.h>
 

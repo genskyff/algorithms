@@ -1,5 +1,5 @@
 ﻿#include "alg/ds/sqlist.h"
-#include "utils.h"
+#include "internal/utils.h"
 #include <stdarg.h>
 
 AlgSqList alg_sqlist_create(void) {

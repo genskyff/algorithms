@@ -1,5 +1,5 @@
 ﻿#include "alg/ds/linked_queue.h"
-#include "utils.h"
+#include "internal/utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 
