@@ -17,7 +17,6 @@ AlgLinkedQueue alg_linked_queue_init(size_t n, ...) {
 
     for (size_t i = 0; i < n; i++) {
         AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
-        alg_internal_has_alloc_err(node, __func__);
 
         node->data = va_arg(ap, alg_elem_t);
         node->next = NULL;
@@ -96,9 +95,6 @@ bool alg_linked_queue_push_front(AlgLinkedQueue *queue, alg_elem_t e) {
     }
 
     AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
-    if (node == NULL) {
-        return false;
-    }
 
     node->data = e;
     node->prev = NULL;
@@ -123,9 +119,6 @@ bool alg_linked_queue_push_back(AlgLinkedQueue *queue, alg_elem_t e) {
     }
 
     AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
-    if (node == NULL) {
-        return false;
-    }
 
     node->data = e;
     node->next = NULL;

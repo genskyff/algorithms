@@ -75,9 +75,6 @@ alg_elem_t *alg_static_linked_list_to_array(AlgStaticLinkedList *list) {
     }
 
     alg_elem_t *arr = (alg_elem_t *)malloc(list->len * sizeof(alg_elem_t));
-    if (arr == NULL) {
-        return NULL;
-    }
 
     size_t cur = list->head;
     for (size_t i = 0; cur != SIZE_MAX && i < list->len; i++) {

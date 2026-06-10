@@ -65,9 +65,6 @@ void alg_merge_sort_recu(alg_elem_t *arr, size_t len) {
     }
 
     alg_elem_t *tmp = (alg_elem_t *)malloc(len * sizeof(alg_elem_t));
-    if (tmp == NULL) {
-        return;
-    }
 
     merge_sort_recu_impl(arr, tmp, 0, len - 1);
     free(tmp);
@@ -79,9 +76,6 @@ void alg_merge_sort_iter(alg_elem_t *arr, size_t len) {
     }
 
     alg_elem_t *tmp = (alg_elem_t *)malloc(len * sizeof(alg_elem_t));
-    if (tmp == NULL) {
-        return;
-    }
 
     merge_sort_iter_impl(arr, tmp, len);
     free(tmp);

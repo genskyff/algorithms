@@ -4,42 +4,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static bool vec_shrink(AlgVec *v);
-static bool vec_grow(AlgVec *v);
+static void vec_shrink(AlgVec *v);
+static void vec_grow(AlgVec *v);
 
-static bool vec_shrink(AlgVec *v) {
+static void vec_shrink(AlgVec *v) {
     if (v != NULL && v->cap > ALG_VEC_SHRINK_CAP &&
         v->len < (size_t)(v->cap * ALG_VEC_LOW_FACTOR)) {
         size_t base_cap =
             ALG_INTERNAL_MAX(ALG_VEC_INIT_CAP, v->len * ALG_VEC_GROWTH_FACTOR);
         size_t new_cap = (base_cap + ALG_VEC_INIT_CAP - 1) / ALG_VEC_INIT_CAP *
                          ALG_VEC_INIT_CAP;
-        alg_elem_t *new_data =
-            (alg_elem_t *)realloc(v->data, new_cap * sizeof(alg_elem_t));
-        if (new_data != NULL) {
-            v->data = new_data;
-            v->cap  = new_cap;
-            return true;
-        }
+        v->data = (alg_elem_t *)realloc(v->data, new_cap * sizeof(alg_elem_t));
+        v->cap  = new_cap;
     }
-
-    return false;
 }
 
-static bool vec_grow(AlgVec *v) {
+static void vec_grow(AlgVec *v) {
     if (v != NULL && v->len == v->cap) {
-        size_t      new_cap = v->cap * ALG_VEC_GROWTH_FACTOR;
-        alg_elem_t *new_data =
-            (alg_elem_t *)realloc(v->data, new_cap * sizeof(alg_elem_t));
-        if (new_data != NULL) {
-            v->data = new_data;
-            v->cap  = new_cap;
-
-            return true;
-        }
+        size_t new_cap = v->cap * ALG_VEC_GROWTH_FACTOR;
+        v->data = (alg_elem_t *)realloc(v->data, new_cap * sizeof(alg_elem_t));
+        v->cap  = new_cap;
     }
-
-    return false;
 }
 
 AlgVec alg_vec_create(void) {
@@ -54,7 +39,6 @@ AlgVec alg_vec_create_with(size_t cap) {
     }
 
     alg_elem_t *data = (alg_elem_t *)malloc(cap * sizeof(alg_elem_t));
-    alg_internal_has_alloc_err(data, __func__);
 
     AlgVec v = {.data = data, .len = 0, .cap = cap};
 
@@ -66,7 +50,6 @@ AlgVec alg_vec_init(size_t n, ...) {
                                       : (n + ALG_VEC_INIT_CAP - 1) /
                                             ALG_VEC_INIT_CAP * ALG_VEC_INIT_CAP;
     alg_elem_t *data = (alg_elem_t *)malloc(cap * sizeof(alg_elem_t));
-    alg_internal_has_alloc_err(data, __func__);
 
     AlgVec v = {.data = data, .len = 0, .cap = cap};
 
@@ -152,8 +135,8 @@ bool alg_vec_insert(AlgVec *v, size_t i, alg_elem_t e) {
         return false;
     }
 
-    if (v->len == v->cap && !vec_grow(v)) {
-        return false;
+    if (v->len == v->cap) {
+        vec_grow(v);
     }
 
     if (i < v->len) {

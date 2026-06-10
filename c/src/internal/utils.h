@@ -20,7 +20,6 @@ alg_elem_t alg_internal_max(alg_elem_t *arr, size_t len);
 void       alg_internal_swap(alg_elem_t *arr, size_t i, size_t j);
 void       alg_internal_shuffle(alg_elem_t *arr, size_t len);
 void       alg_internal_clear(alg_elem_t *arr, size_t len);
-void       alg_internal_has_alloc_err(void *data, const char *location);
 int        alg_internal_cmp(const void *v1, const void *v2);
 int        alg_internal_cmp_str(const void *s1, const void *s2);
 

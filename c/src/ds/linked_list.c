@@ -17,7 +17,6 @@ AlgLinkedList alg_linked_list_init(size_t n, ...) {
 
     for (size_t i = 0; i < n; i++) {
         AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
-        alg_internal_has_alloc_err(node, __func__);
 
         node->data = va_arg(ap, alg_elem_t);
         node->next = NULL;
@@ -255,10 +254,7 @@ bool alg_linked_list_insert(AlgLinkedList *list, size_t i, alg_elem_t e) {
     }
 
     AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
-    if (node == NULL) {
-        return false;
-    }
-    node->data = e;
+    node->data    = e;
 
     if (i == 0) {
         node->next = list->head;

@@ -20,7 +20,10 @@ void test_create(void) {
     assert_eq(map.cap, ALG_HASHMAP_INIT_CAP, msg);
     for (size_t i = 0; i < map.cap; ++i) {
         assert_null(map.buckets[i].head, msg);
+        assert_eq(map.buckets[i].len, 0, msg);
     }
+
+    alg_hashmap_drop(&map);
 }
 
 void test_create_with(void) {
@@ -34,6 +37,8 @@ void test_create_with(void) {
     for (size_t i = 0; i < map.cap; ++i) {
         assert_null(map.buckets[i].head, msg);
     }
+
+    alg_hashmap_drop(&map);
 }
 
 void test_init(void) {
@@ -43,6 +48,8 @@ void test_init(void) {
     msg = "should get a initialized hashmap";
     assert_eq(map.len, LEN, msg);
     assert_eq(map.cap, ALG_HASHMAP_INIT_CAP, msg);
+
+    alg_hashmap_drop(&map);
 }
 
 void test_clear(void) {
@@ -55,7 +62,10 @@ void test_clear(void) {
     assert_eq(map.cap, ALG_HASHMAP_INIT_CAP, msg);
     for (size_t i = 0; i < map.cap; ++i) {
         assert_null(map.buckets[i].head, msg);
+        assert_eq(map.buckets[i].len, 0, msg);
     }
+
+    alg_hashmap_drop(&map);
 }
 
 void test_is_empty(void) {
@@ -71,6 +81,8 @@ void test_is_empty(void) {
     msg = "should be empty when len == 0";
     alg_hashmap_clear(&map);
     assert(alg_hashmap_is_empty(&map), msg);
+
+    alg_hashmap_drop(&map);
 }
 
 void test_get_keys(void) {
@@ -85,6 +97,9 @@ void test_get_keys(void) {
     alg_hashmap_key_t  tmp[LEN] = {"a", "b", "c", "d", "e", "f"};
     qsort(keys, LEN, sizeof(alg_hashmap_key_t), alg_internal_cmp_str);
     assert_arr_eq((alg_elem_t *)keys, map.len, (alg_elem_t *)tmp, LEN, msg);
+
+    free(keys);
+    alg_hashmap_drop(&map);
 }
 
 void test_get_values(void) {
@@ -99,6 +114,9 @@ void test_get_values(void) {
     alg_hashmap_value_t  tmp[LEN] = {1, 2, 3, 4, 5, 6};
     qsort(vals, LEN, sizeof(alg_hashmap_value_t), alg_internal_cmp);
     assert_arr_eq((alg_elem_t *)vals, map.len, (alg_elem_t *)tmp, LEN, msg);
+
+    free(vals);
+    alg_hashmap_drop(&map);
 }
 
 void test_get(void) {
@@ -117,6 +135,8 @@ void test_get(void) {
     val = 999;
     assert_not(alg_hashmap_get(&map, "z", NULL), msg);
     assert_eq(val, 999, msg);
+
+    alg_hashmap_drop(&map);
 }
 
 void test_insert(void) {
@@ -154,7 +174,10 @@ void test_insert(void) {
         assert(alg_hashmap_get(&map, keys[i], &val), key);
         assert_eq(val, i, msg);
         assert_eq(val, i, msg);
+        free(keys[i]);
     }
+
+    alg_hashmap_drop(&map);
 }
 
 void test_del(void) {
@@ -190,9 +213,12 @@ void test_del(void) {
     assert_eq(map.cap % ALG_HASHMAP_INIT_CAP, 0, msg);
     for (size_t i = 0; i < ALG_HASHMAP_SHRINK_CAP; ++i) {
         assert(alg_hashmap_del(&map, keys[i]), msg);
+        free(keys[i]);
     }
     assert_eq(map.len, 0, msg);
     assert_eq(map.cap % ALG_HASHMAP_INIT_CAP, 0, msg);
+
+    alg_hashmap_drop(&map);
 }
 
 void test_drop(void) {

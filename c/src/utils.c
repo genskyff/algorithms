@@ -62,18 +62,6 @@ void alg_internal_clear(alg_elem_t *arr, size_t len) {
     memset(arr, 0, len * sizeof(alg_elem_t));
 }
 
-void alg_internal_has_alloc_err(void *data, const char *location) {
-    const char *location_label =
-        (location == NULL || *location == '\0') ? "unkonwn" : location;
-    if (data == NULL) {
-        fprintf(stderr,
-                "\x1b[1;31merror: \x1b[0mfailed to allocate memory at "
-                "\x1b[33m`%s`\x1b[0m\n\n",
-                location_label);
-        exit(EXIT_FAILURE);
-    }
-}
-
 int alg_internal_cmp(const void *v1, const void *v2) {
     if (v1 == NULL && v2 == NULL) {
         return 0;
@@ -275,7 +263,6 @@ void alg_internal_rotate_left(alg_elem_t *arr, size_t len, size_t n) {
 
     n               = n % len;
     alg_elem_t *tmp = (alg_elem_t *)malloc(n * sizeof(alg_elem_t));
-    alg_internal_has_alloc_err(tmp, __func__);
 
     memmove(tmp, arr, n * sizeof(alg_elem_t));
     memmove(arr, arr + n, (len - n) * sizeof(alg_elem_t));
@@ -301,7 +288,6 @@ void alg_internal_rotate_right(alg_elem_t *arr, size_t len, size_t n) {
 
     n               = n % len;
     alg_elem_t *tmp = (alg_elem_t *)malloc(n * sizeof(alg_elem_t));
-    alg_internal_has_alloc_err(tmp, __func__);
 
     memmove(tmp, arr + len - n, n * sizeof(alg_elem_t));
     memmove(arr + n, arr, (len - n) * sizeof(alg_elem_t));

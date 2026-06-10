@@ -14,9 +14,9 @@ static void hashmap_print_value(FILE *stream, AlgHashMapPair *p);
 static uint32_t        hashmap_hash_fnv1a_32(const char *str);
 static uint64_t        hashmap_hash_fnv1a_64(const char *str);
 static size_t          hashmap_hash(const char *str);
-static bool            hashmap_migrate(AlgHashMap *map, size_t new_cap);
-static bool            hashmap_shrink(AlgHashMap *map);
-static bool            hashmap_grow(AlgHashMap *map);
+static void            hashmap_migrate(AlgHashMap *map, size_t new_cap);
+static void            hashmap_shrink(AlgHashMap *map);
+static void            hashmap_grow(AlgHashMap *map);
 static void            hashmap_clear_bucket(AlgHashMapBucket *bucket);
 static bool            hashmap_is_empty_bucket(AlgHashMapBucket *bucket);
 static AlgHashMapPair *hashmap_get_pair_bucket(AlgHashMapBucket *bucket,
@@ -126,32 +126,20 @@ static size_t hashmap_hash(const char *str) {
                                : hashmap_hash_fnv1a_32(str);
 }
 
-static bool hashmap_migrate(AlgHashMap *map, size_t new_cap) {
+static void hashmap_migrate(AlgHashMap *map, size_t new_cap) {
     if (map != NULL && map->cap != 0 && map->cap != new_cap) {
         AlgHashMapBucket *new_buckets =
             (AlgHashMapBucket *)calloc(new_cap, sizeof(AlgHashMapBucket));
-        if (new_buckets == NULL) {
-            return false;
-        }
 
         for (size_t i = 0; i < map->cap; ++i) {
             AlgHashMapPair *p = map->buckets[i].head;
             while (p != NULL) {
-                size_t idx = (size_t)hashmap_hash(p->key) % new_cap;
-                if (!hashmap_insert_pair_bucket(&new_buckets[idx], p->key,
-                                                p->value)) {
-                    for (size_t j = 0; j < new_cap; ++j) {
-                        AlgHashMapPair *cur = new_buckets[j].head;
-                        while (cur != NULL) {
-                            AlgHashMapPair *to_free = cur;
-                            cur                     = cur->next;
-                            free(to_free);
-                        }
-                    }
-                    free(new_buckets);
-                    return false;
-                }
-                p = p->next;
+                AlgHashMapPair *next  = p->next;
+                size_t          idx   = (size_t)hashmap_hash(p->key) % new_cap;
+                p->next               = new_buckets[idx].head;
+                new_buckets[idx].head = p;
+                new_buckets[idx].len++;
+                p = next;
             }
         }
 
@@ -159,30 +147,24 @@ static bool hashmap_migrate(AlgHashMap *map, size_t new_cap) {
         map->buckets = new_buckets;
         map->cap     = new_cap;
     }
-
-    return true;
 }
 
-static bool hashmap_shrink(AlgHashMap *map) {
+static void hashmap_shrink(AlgHashMap *map) {
     if (map != NULL && map->cap > ALG_HASHMAP_SHRINK_CAP &&
         map->len < (size_t)(map->cap * ALG_HASHMAP_LOW_FACTOR)) {
         size_t base_cap = ALG_INTERNAL_MAX(
             ALG_HASHMAP_INIT_CAP, map->len * ALG_HASHMAP_GROWTH_FACTOR);
         size_t new_cap = (base_cap + ALG_HASHMAP_INIT_CAP - 1) /
                          ALG_HASHMAP_INIT_CAP * ALG_HASHMAP_INIT_CAP;
-        return hashmap_migrate(map, new_cap);
+        hashmap_migrate(map, new_cap);
     }
-
-    return false;
 }
 
-static bool hashmap_grow(AlgHashMap *map) {
+static void hashmap_grow(AlgHashMap *map) {
     if (map != NULL && map->len > map->cap * ALG_HASHMAP_LOAD_FACTOR) {
         size_t new_cap = map->cap * ALG_HASHMAP_GROWTH_FACTOR;
-        return hashmap_migrate(map, new_cap);
+        hashmap_migrate(map, new_cap);
     }
-
-    return false;
 }
 
 static void hashmap_clear_bucket(AlgHashMapBucket *bucket) {
@@ -233,9 +215,6 @@ static bool hashmap_insert_pair_bucket(AlgHashMapBucket   *bucket,
     }
 
     AlgHashMapPair *new_pair = (AlgHashMapPair *)malloc(sizeof(AlgHashMapPair));
-    if (new_pair == NULL) {
-        return false;
-    }
 
     new_pair->key   = key;
     new_pair->value = value;
@@ -287,7 +266,6 @@ AlgHashMap alg_hashmap_create_with(size_t cap) {
 
     AlgHashMapBucket *buckets =
         (AlgHashMapBucket *)calloc(cap, sizeof(AlgHashMapBucket));
-    alg_internal_has_alloc_err(buckets, __func__);
 
     AlgHashMap map = {.buckets = buckets, .len = 0, .cap = cap};
 
@@ -306,7 +284,6 @@ AlgHashMap alg_hashmap_init(alg_hashmap_key_t   *keys,
 
     AlgHashMapBucket *buckets =
         (AlgHashMapBucket *)calloc(cap, sizeof(AlgHashMapBucket));
-    alg_internal_has_alloc_err(buckets, __func__);
 
     AlgHashMap map = {.buckets = buckets, .len = 0, .cap = cap};
 
@@ -333,9 +310,6 @@ AlgHashMap alg_hashmap_init(alg_hashmap_key_t   *keys,
         if (!has_key) {
             AlgHashMapPair *p =
                 (AlgHashMapPair *)malloc(sizeof(AlgHashMapPair));
-            if (p == NULL) {
-                return map;
-            }
 
             p->key                = keys[i];
             p->value              = values[i];
@@ -367,13 +341,7 @@ void alg_hashmap_clear(AlgHashMap *map) {
     }
 
     for (size_t i = 0; i < map->cap; ++i) {
-        AlgHashMapPair *p = map->buckets[i].head;
-        while (p != NULL) {
-            AlgHashMapPair *tmp = p;
-            p                   = p->next;
-            free(tmp);
-        }
-        map->buckets[i].head = NULL;
+        hashmap_clear_bucket(&map->buckets[i]);
     }
     map->len = 0;
     hashmap_shrink(map);
@@ -390,9 +358,6 @@ alg_hashmap_key_t *alg_hashmap_get_keys(AlgHashMap *map) {
 
     alg_hashmap_key_t *keys =
         (alg_hashmap_key_t *)malloc(map->len * sizeof(alg_hashmap_key_t));
-    if (keys == NULL) {
-        return NULL;
-    }
 
     for (size_t i = 0, idx = 0; i < map->cap; ++i) {
         AlgHashMapPair *p = map->buckets[i].head;
@@ -412,9 +377,6 @@ alg_hashmap_value_t *alg_hashmap_get_values(AlgHashMap *map) {
 
     alg_hashmap_value_t *values =
         (alg_hashmap_value_t *)malloc(map->len * sizeof(alg_hashmap_value_t));
-    if (values == NULL) {
-        return NULL;
-    }
 
     for (size_t i = 0, idx = 0; i < map->cap; ++i) {
         AlgHashMapPair *p = map->buckets[i].head;
@@ -454,8 +416,8 @@ bool alg_hashmap_insert(AlgHashMap *map, alg_hashmap_key_t key,
         return false;
     }
 
-    if (map->len > map->cap * ALG_HASHMAP_LOAD_FACTOR && !hashmap_grow(map)) {
-        return false;
+    if (map->len > map->cap * ALG_HASHMAP_LOAD_FACTOR) {
+        hashmap_grow(map);
     }
 
     size_t idx = (size_t)hashmap_hash(key) % map->cap;

@@ -1,20 +1,13 @@
 ﻿#include "alg/ds/binary_tree.h"
-#include "internal/utils.h"
 #include <stdarg.h>
 #include <stdlib.h>
 
 static AlgTreeNode *binary_tree_create_node(alg_elem_t e, AlgTreeNode *left,
-                                            AlgTreeNode *right,
-                                            const char  *location);
+                                            AlgTreeNode *right);
 
 static AlgTreeNode *binary_tree_create_node(alg_elem_t e, AlgTreeNode *left,
-                                            AlgTreeNode *right,
-                                            const char  *location) {
-    const char *location_label =
-        (location == NULL || *location == '\0') ? __func__ : location;
-
+                                            AlgTreeNode *right) {
     AlgTreeNode *node = (AlgTreeNode *)malloc(sizeof(AlgTreeNode));
-    alg_internal_has_alloc_err(node, location_label);
 
     node->data  = e;
     node->left  = left;
@@ -31,7 +24,7 @@ AlgBinaryTree alg_binary_tree_create(void) {
 }
 
 AlgBinaryTree alg_binary_tree_create_root(alg_elem_t e) {
-    AlgTreeNode  *root = binary_tree_create_node(e, NULL, NULL, __func__);
+    AlgTreeNode  *root = binary_tree_create_node(e, NULL, NULL);
     AlgBinaryTree tree = {
         .root = root, .height = 0, .vertex_count = 1, .edge_count = 0};
 
