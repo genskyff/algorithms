@@ -2,6 +2,7 @@
 #include "internal/utils.h"
 #include <stdarg.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 static size_t static_linked_list_alloc(AlgStaticLinkedList *list);

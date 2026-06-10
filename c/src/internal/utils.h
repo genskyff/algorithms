@@ -3,6 +3,8 @@
 
 #include "alg/ds/node.h"
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
 
 #define ALG_INTERNAL_MIN(a, b) ((a) < (b) ? (a) : (b))
 #define ALG_INTERNAL_MAX(a, b) ((a) > (b) ? (a) : (b))

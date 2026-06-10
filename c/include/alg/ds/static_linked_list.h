@@ -3,6 +3,8 @@
 
 #include "alg/core.h"
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
 
 typedef struct {
     alg_elem_t data;

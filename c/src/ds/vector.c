@@ -1,6 +1,7 @@
 ﻿#include "alg/ds/vector.h"
 #include "internal/utils.h"
 #include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 static bool vec_shrink(AlgVec *v);

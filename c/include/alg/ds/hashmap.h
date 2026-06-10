@@ -3,6 +3,8 @@
 
 #include "alg/core.h"
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
 
 #define ALG_HASHMAP_INIT_CAP      100
 #define ALG_HASHMAP_SHRINK_CAP    1000

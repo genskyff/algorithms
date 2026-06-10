@@ -3,6 +3,8 @@
 
 #include "alg/core.h"
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
 
 // data[0] is the first
 // data[len - 1] is the last

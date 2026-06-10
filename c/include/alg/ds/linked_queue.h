@@ -3,6 +3,8 @@
 
 #include "alg/ds/node.h"
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
 
 // index [0] is the front
 // index [len - 1] is the rear

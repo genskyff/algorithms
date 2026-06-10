@@ -2,6 +2,7 @@
 #define ALG_INSERTION_H
 
 #include "alg/core.h"
+#include <stddef.h>
 
 void alg_insertion_sort(alg_elem_t *arr, size_t len);
 void alg_binary_insertion_sort(alg_elem_t *arr, size_t len);

@@ -3,6 +3,7 @@
 
 #include "alg/ds/node.h"
 #include <stdbool.h>
+#include <stddef.h>
 
 typedef void (*TestFunc)(void);
 void run_test(TestFunc test, const char *mod, const char *target,

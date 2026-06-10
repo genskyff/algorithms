@@ -1,6 +1,7 @@
 ﻿#include "alg/ds/hashmap.h"
 #include "internal/utils.h"
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 typedef void (*PrintFunc)(FILE *stream, AlgHashMapPair *p);

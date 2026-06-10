@@ -3,6 +3,8 @@
 
 #include "alg/core.h"
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
 
 // index [len - 1] is the top
 typedef struct {

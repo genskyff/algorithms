@@ -3,6 +3,8 @@
 
 #include "alg/ds/tree_node.h"
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
 
 typedef struct {
     AlgTreeNode *root;

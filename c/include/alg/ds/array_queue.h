@@ -3,6 +3,8 @@
 
 #include "alg/core.h"
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
 
 // index [front] is the front
 // index [front + len - 1] is the rear

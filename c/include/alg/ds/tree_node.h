@@ -2,6 +2,7 @@
 #define ALG_DS_TREE_NODE_H
 
 #include "alg/core.h"
+#include <stddef.h>
 
 typedef struct AlgTreeNode {
     alg_elem_t          data;
