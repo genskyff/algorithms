@@ -1,5 +1,5 @@
 ﻿#include "alg/string/brute_force.h"
-#include "helper.h"
+#include "support/helper.h"
 #include <string.h>
 
 #define LEN 5

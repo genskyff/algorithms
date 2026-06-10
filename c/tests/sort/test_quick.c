@@ -1,6 +1,6 @@
 ﻿#include "alg/sort/quick.h"
-#include "helper.h"
 #include "internal/utils.h"
+#include "support/helper.h"
 #include <stdlib.h>
 
 TestSortData DATA[SORT_DATA_LEN];

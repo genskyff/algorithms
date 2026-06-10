@@ -129,7 +129,7 @@ end
 
 target("helper")
     set_kind("static")
-    add_files("tests/helper.c")
+    add_files("tests/support/helper.c")
 target_end()
 
 target("test_helper")

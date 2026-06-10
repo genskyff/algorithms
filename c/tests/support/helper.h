@@ -1,5 +1,5 @@
-﻿#ifndef ALG_HELPER_H
-#define ALG_HELPER_H
+﻿#ifndef ALG_TEST_SUPPORT_HELPER_H
+#define ALG_TEST_SUPPORT_HELPER_H
 
 #include "alg/ds/node.h"
 #include <stdbool.h>
