@@ -37,19 +37,14 @@ end)
 
 task("lint")
     on_run(function ()
-        if os.host() == "windows" then
-            os.execv("powershell", {"-command", string.format([[
-                cd %s
-                Get-ChildItem -Recurse -Include *.c,*.h | ForEach-Object {
-                    clang-format --dry-run -Werror -i -style=file $_.FullName
-                }
-            ]], os.projectdir())})
-        else
-            os.execv("bash", {"-c", string.format([[
-                cd %s &&
-                find . -type f \( -name '*.c' -o -name '*.h' \) -exec clang-format --dry-run -Werror -i -style=file {} +
-            ]], os.projectdir())})
-        end
+        local projectdir = os.projectdir()
+        local files = os.iorunv("git", {
+            "ls-files", "*.h", "*.hpp", "*.c", "*.cc", "*.cpp", "*.cxx"
+        }, {curdir = projectdir})
+        io.writefile(path.join(projectdir, ".clang-format-files"), files)
+        os.execv("mise", {
+            "x", "--", "clang-format", "--dry-run", "-Werror", "-style=file", "--files=.clang-format-files"
+        }, {curdir = projectdir})
     end)
     set_menu{
         usage = "xmake lint",
@@ -59,19 +54,14 @@ task_end()
 
 task("lint:fix")
     on_run(function ()
-        if os.host() == "windows" then
-            os.execv("powershell", {"-command", string.format([[
-                cd %s
-                Get-ChildItem -Recurse -Include *.c,*.h | ForEach-Object {
-                    clang-format -i -style=file $_.FullName
-                }
-            ]], os.projectdir())})
-        else
-            os.execv("bash", {"-c", string.format([[
-                cd %s &&
-                find . -type f \( -name '*.c' -o -name '*.h' \) -exec clang-format -i -style=file {} +
-            ]], os.projectdir())})
-        end
+        local projectdir = os.projectdir()
+        local files = os.iorunv("git", {
+            "ls-files", "*.h", "*.hpp", "*.c", "*.cc", "*.cpp", "*.cxx"
+        }, {curdir = projectdir})
+        io.writefile(path.join(projectdir, ".clang-format-files"), files)
+        os.execv("mise", {
+            "x", "--", "clang-format", "-i", "-style=file", "--files=.clang-format-files"
+        }, {curdir = projectdir})
     end)
     set_menu{
         usage = "xmake lint:fix",
