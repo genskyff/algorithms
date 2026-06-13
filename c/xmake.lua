@@ -12,61 +12,102 @@ end
 
 add_rules("mode.debug", "mode.release", "mode.test")
 rule("mode.test")
-    on_load(function (target)
+on_load(
+    function(target)
         target:add("includedirs", "tests")
-    end)
+    end
+)
 rule_end()
 
 add_includedirs("include", {public = true})
 add_includedirs("src")
 
-on_load(function (target)
-    if target:name() ~= "utils" and target:name() ~= "alg" then
-        target:add("deps", "utils")
-    end
+on_load(
+    function(target)
+        if target:name() ~= "utils" and target:name() ~= "alg" then
+            target:add("deps", "utils")
+        end
 
-    local group = target:get("group")
-    if group and string.find(group, "^test") == 1 then
-        target:add("deps", "helper")
+        local group = target:get("group")
+        if group and string.find(group, "^test") == 1 then
+            target:add("deps", "helper")
+        end
     end
-end)
+)
 
 -- -------
 --  tasks
 -- -------
 
 task("lint")
-    on_run(function ()
+on_run(
+    function()
         local projectdir = os.projectdir()
-        local files = os.iorunv("git", {
-            "ls-files", "*.h", "*.hpp", "*.c", "*.cc", "*.cpp", "*.cxx"
-        }, {curdir = projectdir})
+        local files =
+            os.iorunv(
+            "git",
+            {
+                "ls-files",
+                "*.h",
+                "*.c"
+            },
+            {curdir = projectdir}
+        )
         io.writefile(path.join(projectdir, ".clang-format-files"), files)
-        os.execv("mise", {
-            "x", "--", "clang-format", "--dry-run", "-Werror", "-style=file", "--files=.clang-format-files"
-        }, {curdir = projectdir})
-    end)
-    set_menu{
-        usage = "xmake lint",
-        description = "Run clang-format to check code format"
-    }
+        os.execv(
+            "mise",
+            {
+                "x",
+                "--",
+                "clang-format",
+                "--dry-run",
+                "-Werror",
+                "-style=file",
+                "--files=.clang-format-files"
+            },
+            {curdir = projectdir}
+        )
+    end
+)
+set_menu {
+    usage = "xmake lint",
+    description = "Run clang-format to check code format"
+}
 task_end()
 
 task("lint:fix")
-    on_run(function ()
+on_run(
+    function()
         local projectdir = os.projectdir()
-        local files = os.iorunv("git", {
-            "ls-files", "*.h", "*.hpp", "*.c", "*.cc", "*.cpp", "*.cxx"
-        }, {curdir = projectdir})
+        local files =
+            os.iorunv(
+            "git",
+            {
+                "ls-files",
+                "*.h",
+                "*.c"
+            },
+            {curdir = projectdir}
+        )
         io.writefile(path.join(projectdir, ".clang-format-files"), files)
-        os.execv("mise", {
-            "x", "--", "clang-format", "-i", "-style=file", "--files=.clang-format-files"
-        }, {curdir = projectdir})
-    end)
-    set_menu{
-        usage = "xmake lint:fix",
-        description = "Run clang-format to fix code format"
-    }
+        os.execv(
+            "mise",
+            {
+                "x",
+                "--",
+                "clang-format",
+                "-i",
+                "-style=file",
+                "--files=.clang-format-files"
+            },
+            {curdir = projectdir}
+        )
+    end
+)
+set_menu {
+    usage = "xmake lint:fix",
+    description = "Run clang-format to fix code format"
+}
 task_end()
 
 -- ------------
@@ -75,15 +116,17 @@ task_end()
 
 function add_test_task(name, group, desc)
     task("test:" .. name)
-        on_run(function ()
+    on_run(
+        function()
             os.exec("xmake f -m test")
             os.exec("xmake build -g " .. group)
             os.exec("xmake run -g " .. group)
-        end)
-        set_menu{
-            usage = "xmake test:" .. name,
-            description = "Run " .. desc .. " tests"
-        }
+        end
+    )
+    set_menu {
+        usage = "xmake test:" .. name,
+        description = "Run " .. desc .. " tests"
+    }
     task_end()
 end
 
@@ -100,16 +143,16 @@ add_test_task("string", "test_string", "string algorithm")
 
 function add_module(name, group, dir)
     target(name)
-        set_kind("static")
-        set_group(group)
-        add_files("src/" .. dir .. "/" .. name .. ".c")
+    set_kind("static")
+    set_group(group)
+    add_files("src/" .. dir .. "/" .. name .. ".c")
     target_end()
 
     target("test_" .. name)
-        set_kind("binary")
-        set_group("test_" .. group)
-        add_files("tests/" .. dir .. "/test_" .. name .. ".c")
-        add_deps(name)
+    set_kind("binary")
+    set_group("test_" .. group)
+    add_files("tests/" .. dir .. "/test_" .. name .. ".c")
+    add_deps(name)
     target_end()
 end
 
@@ -118,14 +161,14 @@ end
 -- -------------
 
 target("helper")
-    set_kind("static")
-    add_files("tests/support/helper.c")
+set_kind("static")
+add_files("tests/support/helper.c")
 target_end()
 
 target("test_helper")
-    set_kind("binary")
-    set_group("test_helper")
-    add_files("tests/test_helper.c")
+set_kind("binary")
+set_group("test_helper")
+add_files("tests/test_helper.c")
 target_end()
 
 -- ---------
@@ -133,9 +176,9 @@ target_end()
 -- ---------
 
 target("alg")
-    set_kind("static")
-    set_group("lib")
-    add_files("src/*.c", "src/*/*.c")
+set_kind("static")
+set_group("lib")
+add_files("src/*.c", "src/*/*.c")
 target_end()
 
 -- -------
@@ -143,26 +186,35 @@ target_end()
 -- -------
 
 target("utils")
-    set_kind("static")
-    add_files("src/utils.c")
+set_kind("static")
+add_files("src/utils.c")
 target_end()
 
 target("test_utils")
-    set_kind("binary")
-    set_group("test_utils")
-    add_files("tests/test_utils.c")
-    add_deps("utils")
+set_kind("binary")
+set_group("test_utils")
+add_files("tests/test_utils.c")
+add_deps("utils")
 target_end()
 
 -- -----------------
 --  data structures
 -- -----------------
 
-for _, name in ipairs({
-    "array_queue", "array_stack", "binary_tree", "hashmap",
-    "linked_list", "linked_queue", "linked_stack",
-    "sqlist", "static_linked_list", "vector",
-}) do
+for _, name in ipairs(
+    {
+        "array_queue",
+        "array_stack",
+        "binary_tree",
+        "hashmap",
+        "linked_list",
+        "linked_queue",
+        "linked_stack",
+        "sqlist",
+        "static_linked_list",
+        "vector"
+    }
+) do
     add_module(name, "ds", "ds")
 end
 
@@ -170,9 +222,15 @@ end
 --  sorting algorithms
 -- --------------------
 
-for _, name in ipairs({
-    "bubble", "insertion", "merge", "quick", "selection",
-}) do
+for _, name in ipairs(
+    {
+        "bubble",
+        "insertion",
+        "merge",
+        "quick",
+        "selection"
+    }
+) do
     add_module(name, "sort", "sort")
 end
 
@@ -180,8 +238,10 @@ end
 --  string algorithms
 -- --------------------
 
-for _, name in ipairs({
-    "brute_force",
-}) do
+for _, name in ipairs(
+    {
+        "brute_force"
+    }
+) do
     add_module(name, "string", "string")
 end
