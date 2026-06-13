@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-alg_elem_t alg_internal_min(alg_elem_t *arr, size_t len) {
+alg_elem_t alg_internal_min(const alg_elem_t *arr, size_t len) {
     if (arr == NULL || len == 0) {
         return 0;
     }
@@ -18,7 +18,7 @@ alg_elem_t alg_internal_min(alg_elem_t *arr, size_t len) {
     return min;
 }
 
-alg_elem_t alg_internal_max(alg_elem_t *arr, size_t len) {
+alg_elem_t alg_internal_max(const alg_elem_t *arr, size_t len) {
     if (arr == NULL || len == 0) {
         return 0;
     }
@@ -70,7 +70,7 @@ int alg_internal_cmp(const void *v1, const void *v2) {
     } else if (v2 == NULL) {
         return 1;
     } else {
-        return *(alg_elem_t *)v1 - *(alg_elem_t *)v2;
+        return *(const alg_elem_t *)v1 - *(const alg_elem_t *)v2;
     }
 }
 
@@ -82,11 +82,11 @@ int alg_internal_cmp_str(const void *s1, const void *s2) {
     } else if (s2 == NULL) {
         return 1;
     } else {
-        return strcmp((char *)s1, (char *)s2);
+        return strcmp((const char *)s1, (const char *)s2);
     }
 }
 
-void alg_internal_show(FILE *stream, alg_elem_t *arr, size_t len,
+void alg_internal_show(FILE *stream, const alg_elem_t *arr, size_t len,
                        const char *sep) {
     if (stream == NULL) {
         stream = stdout;
@@ -104,7 +104,7 @@ void alg_internal_show(FILE *stream, alg_elem_t *arr, size_t len,
     }
 }
 
-void alg_internal_show_slice(FILE *stream, alg_elem_t *arr, size_t len,
+void alg_internal_show_slice(FILE *stream, const alg_elem_t *arr, size_t len,
                              size_t start, size_t end, const char *sep) {
     if (stream == NULL) {
         stream = stdout;
@@ -119,7 +119,7 @@ void alg_internal_show_slice(FILE *stream, alg_elem_t *arr, size_t len,
     alg_internal_show(stream, arr + start, end - start, sep);
 }
 
-void alg_internal_show_list(FILE *stream, AlgNode *node, AlgDirection dir,
+void alg_internal_show_list(FILE *stream, const AlgNode *node, AlgDirection dir,
                             const char *sep) {
     if (stream == NULL) {
         stream = stdout;
@@ -162,7 +162,8 @@ void alg_internal_reverse_slice(alg_elem_t *arr, size_t len, size_t start,
     alg_internal_reverse(arr + start, end - start);
 }
 
-bool alg_internal_find(alg_elem_t *arr, size_t len, alg_elem_t e, size_t *i) {
+bool alg_internal_find(const alg_elem_t *arr, size_t len, alg_elem_t e,
+                       size_t *i) {
     if (arr == NULL || len == 0) {
         return false;
     }
@@ -179,7 +180,7 @@ bool alg_internal_find(alg_elem_t *arr, size_t len, alg_elem_t e, size_t *i) {
     return false;
 }
 
-bool alg_internal_find_slice(alg_elem_t *arr, size_t len, size_t start,
+bool alg_internal_find_slice(const alg_elem_t *arr, size_t len, size_t start,
                              size_t end, alg_elem_t e, size_t *i) {
     end = ALG_INTERNAL_MIN(len, end);
     if (arr == NULL || start >= end) {
@@ -196,7 +197,7 @@ bool alg_internal_find_slice(alg_elem_t *arr, size_t len, size_t start,
     return false;
 }
 
-void alg_internal_copy(alg_elem_t *dst, size_t d_len, alg_elem_t *src,
+void alg_internal_copy(alg_elem_t *dst, size_t d_len, const alg_elem_t *src,
                        size_t s_len) {
     if (dst == NULL || src == NULL || d_len == 0 || s_len == 0) {
         return;
@@ -206,7 +207,7 @@ void alg_internal_copy(alg_elem_t *dst, size_t d_len, alg_elem_t *src,
 }
 
 void alg_internal_copy_slice(alg_elem_t *dst, size_t d_len, size_t d_start,
-                             size_t d_end, alg_elem_t *src, size_t s_len,
+                             size_t d_end, const alg_elem_t *src, size_t s_len,
                              size_t s_start, size_t s_end) {
     d_end = ALG_INTERNAL_MIN(d_len, d_end);
     s_end = ALG_INTERNAL_MIN(s_len, s_end);

@@ -37,7 +37,7 @@ AlgLinkedStack alg_linked_stack_init(size_t n, ...) {
     return stack;
 }
 
-void alg_linked_stack_show(FILE *stream, AlgLinkedStack *stack) {
+void alg_linked_stack_show(FILE *stream, const AlgLinkedStack *stack) {
     if (stack != NULL) {
         alg_internal_show_list(stream, stack->top, ALG_BACKWARD, " -> ");
     } else {
@@ -59,11 +59,11 @@ void alg_linked_stack_clear(AlgLinkedStack *stack) {
     }
 }
 
-bool alg_linked_stack_is_empty(AlgLinkedStack *stack) {
+bool alg_linked_stack_is_empty(const AlgLinkedStack *stack) {
     return stack == NULL || stack->top == NULL || stack->len == 0;
 }
 
-bool alg_linked_stack_peek(AlgLinkedStack *stack, alg_elem_t *e) {
+bool alg_linked_stack_peek(const AlgLinkedStack *stack, alg_elem_t *e) {
     if (stack == NULL || stack->top == NULL || stack->len == 0) {
         return false;
     }

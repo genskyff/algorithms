@@ -13,8 +13,8 @@
 #define ALG_HASHMAP_LOAD_FACTOR   0.75
 #define ALG_HASHMAP_GROWTH_FACTOR 2
 
-typedef char      *alg_hashmap_key_t;
-typedef alg_elem_t alg_hashmap_value_t;
+typedef const char *alg_hashmap_key_t;
+typedef alg_elem_t  alg_hashmap_value_t;
 
 typedef struct AlgHashMapPair {
     alg_hashmap_key_t      key;
@@ -34,22 +34,22 @@ typedef struct {
     size_t            cap;
 } AlgHashMap;
 
-AlgHashMap           alg_hashmap_create(void);
-AlgHashMap           alg_hashmap_create_with(size_t cap);
-AlgHashMap           alg_hashmap_init(alg_hashmap_key_t   *keys,
-                                      alg_hashmap_value_t *values, size_t len);
-void                 alg_hashmap_show(FILE *stream, AlgHashMap *map);
-void                 alg_hashmap_show_keys(FILE *stream, AlgHashMap *map);
-void                 alg_hashmap_show_values(FILE *stream, AlgHashMap *map);
-void                 alg_hashmap_clear(AlgHashMap *map);
-bool                 alg_hashmap_is_empty(AlgHashMap *map);
-alg_hashmap_key_t   *alg_hashmap_get_keys(AlgHashMap *map);
-alg_hashmap_value_t *alg_hashmap_get_values(AlgHashMap *map);
-bool                 alg_hashmap_get(AlgHashMap *map, alg_hashmap_key_t key,
-                                     alg_hashmap_value_t *value);
-bool                 alg_hashmap_insert(AlgHashMap *map, alg_hashmap_key_t key,
-                                        alg_hashmap_value_t value);
-bool                 alg_hashmap_del(AlgHashMap *map, alg_hashmap_key_t key);
-void                 alg_hashmap_drop(AlgHashMap *map);
+AlgHashMap alg_hashmap_create(void);
+AlgHashMap alg_hashmap_create_with(size_t cap);
+AlgHashMap alg_hashmap_init(const alg_hashmap_key_t   *keys,
+                            const alg_hashmap_value_t *values, size_t len);
+void       alg_hashmap_show(FILE *stream, const AlgHashMap *map);
+void       alg_hashmap_show_keys(FILE *stream, const AlgHashMap *map);
+void       alg_hashmap_show_values(FILE *stream, const AlgHashMap *map);
+void       alg_hashmap_clear(AlgHashMap *map);
+bool       alg_hashmap_is_empty(const AlgHashMap *map);
+alg_hashmap_key_t   *alg_hashmap_get_keys(const AlgHashMap *map);
+alg_hashmap_value_t *alg_hashmap_get_values(const AlgHashMap *map);
+bool alg_hashmap_get(const AlgHashMap *map, alg_hashmap_key_t key,
+                     alg_hashmap_value_t *value);
+bool alg_hashmap_insert(AlgHashMap *map, alg_hashmap_key_t key,
+                        alg_hashmap_value_t value);
+bool alg_hashmap_del(AlgHashMap *map, alg_hashmap_key_t key);
+void alg_hashmap_drop(AlgHashMap *map);
 
 #endif

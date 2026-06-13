@@ -38,7 +38,7 @@ AlgLinkedQueue alg_linked_queue_init(size_t n, ...) {
     return queue;
 }
 
-void alg_linked_queue_show(FILE *stream, AlgLinkedQueue *queue) {
+void alg_linked_queue_show(FILE *stream, const AlgLinkedQueue *queue) {
     if (queue != NULL) {
         alg_internal_show_list(stream, queue->front, ALG_FORWARD, NULL);
     } else {
@@ -61,11 +61,11 @@ void alg_linked_queue_clear(AlgLinkedQueue *queue) {
     }
 }
 
-bool alg_linked_queue_is_empty(AlgLinkedQueue *queue) {
+bool alg_linked_queue_is_empty(const AlgLinkedQueue *queue) {
     return queue == NULL || queue->front == NULL || queue->len == 0;
 }
 
-bool alg_linked_queue_front(AlgLinkedQueue *queue, alg_elem_t *e) {
+bool alg_linked_queue_front(const AlgLinkedQueue *queue, alg_elem_t *e) {
     if (queue == NULL || queue->front == NULL || queue->len == 0) {
         return false;
     }
@@ -77,7 +77,7 @@ bool alg_linked_queue_front(AlgLinkedQueue *queue, alg_elem_t *e) {
     return true;
 }
 
-bool alg_linked_queue_back(AlgLinkedQueue *queue, alg_elem_t *e) {
+bool alg_linked_queue_back(const AlgLinkedQueue *queue, alg_elem_t *e) {
     if (queue == NULL || queue->rear == NULL || queue->len == 0) {
         return false;
     }

@@ -77,7 +77,7 @@ void alg_vec_reverse(AlgVec *v) {
     }
 }
 
-void alg_vec_show(FILE *stream, AlgVec *v) {
+void alg_vec_show(FILE *stream, const AlgVec *v) {
     if (v != NULL) {
         alg_internal_show(stream, v->data, v->len, NULL);
     } else {
@@ -92,11 +92,11 @@ void alg_vec_clear(AlgVec *v) {
     }
 }
 
-bool alg_vec_is_empty(AlgVec *v) {
+bool alg_vec_is_empty(const AlgVec *v) {
     return v == NULL || v->len == 0;
 }
 
-bool alg_vec_get(AlgVec *v, size_t i, alg_elem_t *e) {
+bool alg_vec_get(const AlgVec *v, size_t i, alg_elem_t *e) {
     if (alg_vec_is_empty(v) || i >= v->len) {
         return false;
     }
@@ -108,11 +108,11 @@ bool alg_vec_get(AlgVec *v, size_t i, alg_elem_t *e) {
     return true;
 }
 
-bool alg_vec_first(AlgVec *v, alg_elem_t *e) {
+bool alg_vec_first(const AlgVec *v, alg_elem_t *e) {
     return alg_vec_get(v, 0, e);
 }
 
-bool alg_vec_last(AlgVec *v, alg_elem_t *e) {
+bool alg_vec_last(const AlgVec *v, alg_elem_t *e) {
     return !alg_vec_is_empty(v) && alg_vec_get(v, v->len - 1, e);
 }
 
@@ -126,7 +126,7 @@ bool alg_vec_set(AlgVec *v, size_t i, alg_elem_t e) {
     return true;
 }
 
-bool alg_vec_find(AlgVec *v, alg_elem_t e, size_t *i) {
+bool alg_vec_find(const AlgVec *v, alg_elem_t e, size_t *i) {
     return v != NULL && alg_internal_find(v->data, v->len, e, i);
 }
 

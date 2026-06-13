@@ -14,10 +14,10 @@ typedef struct {
 
 AlgArrayStack alg_array_stack_create(void);
 AlgArrayStack alg_array_stack_init(size_t n, ...);
-void          alg_array_stack_show(FILE *stream, AlgArrayStack *stack);
+void          alg_array_stack_show(FILE *stream, const AlgArrayStack *stack);
 void          alg_array_stack_clear(AlgArrayStack *stack);
-bool          alg_array_stack_is_empty(AlgArrayStack *stack);
-bool          alg_array_stack_peek(AlgArrayStack *stack, alg_elem_t *e);
+bool          alg_array_stack_is_empty(const AlgArrayStack *stack);
+bool          alg_array_stack_peek(const AlgArrayStack *stack, alg_elem_t *e);
 bool          alg_array_stack_push(AlgArrayStack *stack, alg_elem_t e);
 bool          alg_array_stack_pop(AlgArrayStack *stack, alg_elem_t *e);
 

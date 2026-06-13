@@ -23,7 +23,7 @@ AlgArrayQueue alg_array_queue_init(size_t n, ...) {
     return queue;
 }
 
-void alg_array_queue_show(FILE *stream, AlgArrayQueue *queue) {
+void alg_array_queue_show(FILE *stream, const AlgArrayQueue *queue) {
     if (queue != NULL) {
         alg_internal_show(stream, queue->data, queue->len, " <-> ");
     } else {
@@ -38,11 +38,11 @@ void alg_array_queue_clear(AlgArrayQueue *queue) {
     }
 }
 
-bool alg_array_queue_is_empty(AlgArrayQueue *queue) {
+bool alg_array_queue_is_empty(const AlgArrayQueue *queue) {
     return queue == NULL || queue->len == 0;
 }
 
-bool alg_array_queue_front(AlgArrayQueue *queue, alg_elem_t *e) {
+bool alg_array_queue_front(const AlgArrayQueue *queue, alg_elem_t *e) {
     if (alg_array_queue_is_empty(queue)) {
         return false;
     }
@@ -54,7 +54,7 @@ bool alg_array_queue_front(AlgArrayQueue *queue, alg_elem_t *e) {
     return true;
 }
 
-bool alg_array_queue_back(AlgArrayQueue *queue, alg_elem_t *e) {
+bool alg_array_queue_back(const AlgArrayQueue *queue, alg_elem_t *e) {
     if (alg_array_queue_is_empty(queue)) {
         return false;
     }

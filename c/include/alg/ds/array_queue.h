@@ -16,11 +16,11 @@ typedef struct {
 
 AlgArrayQueue alg_array_queue_create(void);
 AlgArrayQueue alg_array_queue_init(size_t n, ...);
-void          alg_array_queue_show(FILE *stream, AlgArrayQueue *queue);
+void          alg_array_queue_show(FILE *stream, const AlgArrayQueue *queue);
 void          alg_array_queue_clear(AlgArrayQueue *queue);
-bool          alg_array_queue_is_empty(AlgArrayQueue *queue);
-bool          alg_array_queue_front(AlgArrayQueue *queue, alg_elem_t *e);
-bool          alg_array_queue_back(AlgArrayQueue *queue, alg_elem_t *e);
+bool          alg_array_queue_is_empty(const AlgArrayQueue *queue);
+bool          alg_array_queue_front(const AlgArrayQueue *queue, alg_elem_t *e);
+bool          alg_array_queue_back(const AlgArrayQueue *queue, alg_elem_t *e);
 bool          alg_array_queue_push_front(AlgArrayQueue *queue, alg_elem_t e);
 bool          alg_array_queue_push_back(AlgArrayQueue *queue, alg_elem_t e);
 bool          alg_array_queue_pop_front(AlgArrayQueue *queue, alg_elem_t *e);

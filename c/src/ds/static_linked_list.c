@@ -69,7 +69,7 @@ AlgStaticLinkedList alg_static_linked_list_init(size_t n, ...) {
     return list;
 }
 
-alg_elem_t *alg_static_linked_list_to_array(AlgStaticLinkedList *list) {
+alg_elem_t *alg_static_linked_list_to_array(const AlgStaticLinkedList *list) {
     if (list == NULL || list->len == 0) {
         return NULL;
     }
@@ -176,7 +176,8 @@ void alg_static_linked_list_reverse(AlgStaticLinkedList *list) {
     }
 }
 
-void alg_static_linked_list_show(FILE *stream, AlgStaticLinkedList *list) {
+void alg_static_linked_list_show(FILE                      *stream,
+                                 const AlgStaticLinkedList *list) {
     if (stream == NULL) {
         stream = stdout;
     }
@@ -216,11 +217,11 @@ void alg_static_linked_list_clear(AlgStaticLinkedList *list) {
     }
 }
 
-bool alg_static_linked_list_is_empty(AlgStaticLinkedList *list) {
+bool alg_static_linked_list_is_empty(const AlgStaticLinkedList *list) {
     return list == NULL || list->len == 0;
 }
 
-bool alg_static_linked_list_get(AlgStaticLinkedList *list, size_t i,
+bool alg_static_linked_list_get(const AlgStaticLinkedList *list, size_t i,
                                 alg_elem_t *e) {
     if (list == NULL || list->len == 0 || i >= list->len) {
         return false;
@@ -246,7 +247,8 @@ bool alg_static_linked_list_get(AlgStaticLinkedList *list, size_t i,
     return true;
 }
 
-bool alg_static_linked_list_first(AlgStaticLinkedList *list, alg_elem_t *e) {
+bool alg_static_linked_list_first(const AlgStaticLinkedList *list,
+                                  alg_elem_t                *e) {
     if (list == NULL || list->len == 0) {
         return false;
     }
@@ -258,7 +260,8 @@ bool alg_static_linked_list_first(AlgStaticLinkedList *list, alg_elem_t *e) {
     return true;
 }
 
-bool alg_static_linked_list_last(AlgStaticLinkedList *list, alg_elem_t *e) {
+bool alg_static_linked_list_last(const AlgStaticLinkedList *list,
+                                 alg_elem_t                *e) {
     if (list == NULL || list->len == 0) {
         return false;
     }
@@ -294,7 +297,7 @@ bool alg_static_linked_list_set(AlgStaticLinkedList *list, size_t i,
     return true;
 }
 
-bool alg_static_linked_list_find(AlgStaticLinkedList *list, alg_elem_t e,
+bool alg_static_linked_list_find(const AlgStaticLinkedList *list, alg_elem_t e,
                                  size_t *i) {
     if (list == NULL || list->len == 0) {
         return false;

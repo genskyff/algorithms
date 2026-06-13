@@ -5,11 +5,11 @@
 #define LEN 5
 
 void test_brute_force(void) {
-    char  *s   = "AABAACAADAABAABA";
-    char  *pat = "AABA";
-    size_t indices[LEN];
-    size_t count;
-    char  *msg;
+    const char *s   = "AABAACAADAABAABA";
+    const char *pat = "AABA";
+    size_t      indices[LEN];
+    size_t      count;
+    char       *msg;
 
     msg   = "should return 0 when s is NULL";
     count = alg_brute_force(NULL, pat, indices, LEN);

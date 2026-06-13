@@ -129,7 +129,7 @@ void alg_linked_list_reverse(AlgLinkedList *list) {
     }
 }
 
-void alg_linked_list_show(FILE *stream, AlgLinkedList *list) {
+void alg_linked_list_show(FILE *stream, const AlgLinkedList *list) {
     if (list != NULL) {
         alg_internal_show_list(stream, list->head, ALG_FORWARD, NULL);
     } else {
@@ -152,17 +152,17 @@ void alg_linked_list_clear(AlgLinkedList *list) {
     }
 }
 
-bool alg_linked_list_is_empty(AlgLinkedList *list) {
+bool alg_linked_list_is_empty(const AlgLinkedList *list) {
     return list == NULL || list->head == NULL || list->tail == NULL ||
            list->len == 0;
 }
 
-bool alg_linked_list_get(AlgLinkedList *list, size_t i, alg_elem_t *e) {
+bool alg_linked_list_get(const AlgLinkedList *list, size_t i, alg_elem_t *e) {
     if (alg_linked_list_is_empty(list) || i >= list->len) {
         return false;
     }
 
-    AlgNode *node;
+    const AlgNode *node;
     if (i <= (list->len + 1) / 2) {
         node = list->head;
         for (size_t j = 0; j < i; j++) {
@@ -182,7 +182,7 @@ bool alg_linked_list_get(AlgLinkedList *list, size_t i, alg_elem_t *e) {
     return true;
 }
 
-bool alg_linked_list_first(AlgLinkedList *list, alg_elem_t *e) {
+bool alg_linked_list_first(const AlgLinkedList *list, alg_elem_t *e) {
     if (alg_linked_list_is_empty(list)) {
         return false;
     }
@@ -194,7 +194,7 @@ bool alg_linked_list_first(AlgLinkedList *list, alg_elem_t *e) {
     return true;
 }
 
-bool alg_linked_list_last(AlgLinkedList *list, alg_elem_t *e) {
+bool alg_linked_list_last(const AlgLinkedList *list, alg_elem_t *e) {
     if (alg_linked_list_is_empty(list)) {
         return false;
     }
@@ -229,12 +229,12 @@ bool alg_linked_list_set(AlgLinkedList *list, size_t i, alg_elem_t e) {
     return true;
 }
 
-bool alg_linked_list_find(AlgLinkedList *list, alg_elem_t e, size_t *i) {
+bool alg_linked_list_find(const AlgLinkedList *list, alg_elem_t e, size_t *i) {
     if (alg_linked_list_is_empty(list)) {
         return false;
     }
 
-    AlgNode *node = list->head;
+    const AlgNode *node = list->head;
     for (size_t j = 0; node != NULL && j < list->len; j++) {
         if (node->data == e) {
             if (i != NULL) {

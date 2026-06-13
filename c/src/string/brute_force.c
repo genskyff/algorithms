@@ -1,7 +1,8 @@
 ﻿#include "alg/string/brute_force.h"
 #include <string.h>
 
-size_t alg_brute_force(char *s, char *pat, size_t *indices, size_t len) {
+size_t alg_brute_force(const char *s, const char *pat, size_t *indices,
+                       size_t len) {
     if (s == NULL || pat == NULL) {
         return 0;
     }

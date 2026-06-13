@@ -14,11 +14,11 @@ typedef struct {
 
 AlgLinkedStack alg_linked_stack_create(void);
 AlgLinkedStack alg_linked_stack_init(size_t n, ...);
-void           alg_linked_stack_show(FILE *stream, AlgLinkedStack *stack);
+void           alg_linked_stack_show(FILE *stream, const AlgLinkedStack *stack);
 void           alg_linked_stack_clear(AlgLinkedStack *stack);
-bool           alg_linked_stack_is_empty(AlgLinkedStack *stack);
-bool           alg_linked_stack_peek(AlgLinkedStack *stack, alg_elem_t *e);
-bool           alg_linked_stack_push(AlgLinkedStack *stack, alg_elem_t e);
-bool           alg_linked_stack_pop(AlgLinkedStack *stack, alg_elem_t *e);
+bool           alg_linked_stack_is_empty(const AlgLinkedStack *stack);
+bool alg_linked_stack_peek(const AlgLinkedStack *stack, alg_elem_t *e);
+bool alg_linked_stack_push(AlgLinkedStack *stack, alg_elem_t e);
+bool alg_linked_stack_pop(AlgLinkedStack *stack, alg_elem_t *e);
 
 #endif
