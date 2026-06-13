@@ -50,6 +50,20 @@ void test_init(void) {
     assert_eq(map.cap, ALG_HASHMAP_INIT_CAP, msg);
 
     alg_hashmap_drop(&map);
+
+    char                first_key[] = "same";
+    char                equal_key[] = "same";
+    alg_hashmap_key_t   keys[]      = {first_key, equal_key};
+    alg_hashmap_value_t values[]    = {1, 2};
+    map                             = alg_hashmap_init(keys, values, 2);
+
+    msg = "should update duplicate string key";
+    assert_eq(map.len, 1, msg);
+    alg_hashmap_value_t value;
+    assert(alg_hashmap_get(&map, first_key, &value), msg);
+    assert_eq(value, 2, msg);
+
+    alg_hashmap_drop(&map);
 }
 
 void test_clear(void) {
@@ -96,7 +110,9 @@ void test_get_keys(void) {
     alg_hashmap_key_t *keys     = alg_hashmap_get_keys(&map);
     alg_hashmap_key_t  tmp[LEN] = {"a", "b", "c", "d", "e", "f"};
     qsort(keys, LEN, sizeof(alg_hashmap_key_t), alg_internal_cmp_str);
-    assert_arr_eq((alg_elem_t *)keys, map.len, (alg_elem_t *)tmp, LEN, msg);
+    for (size_t i = 0; i < LEN; ++i) {
+        assert_str_eq(keys[i], tmp[i], msg);
+    }
 
     free(keys);
     alg_hashmap_drop(&map);
@@ -140,9 +156,10 @@ void test_get(void) {
 }
 
 void test_insert(void) {
-    AlgHashMap          map = alg_hashmap_create();
-    alg_hashmap_key_t   key = "a";
-    alg_hashmap_value_t val = 1;
+    AlgHashMap          map         = alg_hashmap_create();
+    char                key[]       = "a";
+    char                equal_key[] = "a";
+    alg_hashmap_value_t val         = 1;
     char               *msg;
 
     msg = "should not insert when NULL";
@@ -155,10 +172,13 @@ void test_insert(void) {
 
     msg = "should update value when key exists";
     val = 2;
-    assert(alg_hashmap_insert(&map, key, val), msg);
-    assert_eq(map.len, 2, msg);
+    assert(alg_hashmap_insert(&map, equal_key, val), msg);
+    assert_eq(map.len, 1, msg);
     assert(alg_hashmap_get(&map, key, &val), msg);
     assert_eq(val, 2, msg);
+    alg_hashmap_key_t *stored_keys = alg_hashmap_get_keys(&map);
+    assert(stored_keys[0] == key, msg);
+    free(stored_keys);
 
     msg = "should extend when load factor > 0.75";
     alg_hashmap_clear(&map);
@@ -174,10 +194,12 @@ void test_insert(void) {
         assert(alg_hashmap_get(&map, keys[i], &val), key);
         assert_eq(val, i, msg);
         assert_eq(val, i, msg);
-        free(keys[i]);
     }
 
     alg_hashmap_drop(&map);
+    for (size_t i = 0; i < ALG_HASHMAP_INIT_CAP; ++i) {
+        free(keys[i]);
+    }
 }
 
 void test_del(void) {
