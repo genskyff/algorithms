@@ -15,7 +15,7 @@ typedef struct {
 
 AlgBinaryTree alg_binary_tree_create(void);
 AlgBinaryTree alg_binary_tree_create_root(alg_elem_t e);
-AlgBinaryTree alg_binary_tree_init(size_t n, ...);
+AlgBinaryTree alg_binary_tree_from_array(const alg_elem_t *arr, size_t len);
 void          alg_binary_tree_show(FILE *stream, const AlgBinaryTree *tree);
 void          alg_binary_tree_clear(AlgBinaryTree *tree);
 bool          alg_binary_tree_is_empty(const AlgBinaryTree *tree);

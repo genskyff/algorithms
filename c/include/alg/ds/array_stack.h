@@ -13,7 +13,7 @@ typedef struct {
 } AlgArrayStack;
 
 AlgArrayStack alg_array_stack_create(void);
-AlgArrayStack alg_array_stack_init(size_t n, ...);
+AlgArrayStack alg_array_stack_from_array(const alg_elem_t *arr, size_t len);
 void          alg_array_stack_show(FILE *stream, const AlgArrayStack *stack);
 void          alg_array_stack_clear(AlgArrayStack *stack);
 bool          alg_array_stack_is_empty(const AlgArrayStack *stack);

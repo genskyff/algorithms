@@ -15,7 +15,7 @@ typedef struct {
 } AlgLinkedQueue;
 
 AlgLinkedQueue alg_linked_queue_create(void);
-AlgLinkedQueue alg_linked_queue_init(size_t n, ...);
+AlgLinkedQueue alg_linked_queue_from_array(const alg_elem_t *arr, size_t len);
 void           alg_linked_queue_show(FILE *stream, const AlgLinkedQueue *queue);
 void           alg_linked_queue_clear(AlgLinkedQueue *queue);
 bool           alg_linked_queue_is_empty(const AlgLinkedQueue *queue);

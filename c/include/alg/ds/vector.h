@@ -21,7 +21,7 @@ typedef struct {
 
 AlgVec alg_vec_create(void);
 AlgVec alg_vec_create_with(size_t cap);
-AlgVec alg_vec_init(size_t n, ...);
+AlgVec alg_vec_from_array(const alg_elem_t *arr, size_t len);
 void   alg_vec_swap(AlgVec *v, size_t i, size_t j);
 void   alg_vec_reverse(AlgVec *v);
 void   alg_vec_show(FILE *stream, const AlgVec *v);

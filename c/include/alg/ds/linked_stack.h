@@ -13,7 +13,7 @@ typedef struct {
 } AlgLinkedStack;
 
 AlgLinkedStack alg_linked_stack_create(void);
-AlgLinkedStack alg_linked_stack_init(size_t n, ...);
+AlgLinkedStack alg_linked_stack_from_array(const alg_elem_t *arr, size_t len);
 void           alg_linked_stack_show(FILE *stream, const AlgLinkedStack *stack);
 void           alg_linked_stack_clear(AlgLinkedStack *stack);
 bool           alg_linked_stack_is_empty(const AlgLinkedStack *stack);

@@ -1,6 +1,5 @@
 ﻿#include "alg/ds/vector.h"
 #include "internal/utils.h"
-#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -45,22 +44,16 @@ AlgVec alg_vec_create_with(size_t cap) {
     return v;
 }
 
-AlgVec alg_vec_init(size_t n, ...) {
-    size_t cap = n < ALG_VEC_INIT_CAP ? ALG_VEC_INIT_CAP
-                                      : (n + ALG_VEC_INIT_CAP - 1) /
-                                            ALG_VEC_INIT_CAP * ALG_VEC_INIT_CAP;
+AlgVec alg_vec_from_array(const alg_elem_t *arr, size_t len) {
+    size_t data_len = arr == NULL ? 0 : len;
+    size_t cap = data_len < ALG_VEC_INIT_CAP
+                     ? ALG_VEC_INIT_CAP
+                     : (data_len + ALG_VEC_INIT_CAP - 1) / ALG_VEC_INIT_CAP *
+                           ALG_VEC_INIT_CAP;
     alg_elem_t *data = (alg_elem_t *)malloc(cap * sizeof(alg_elem_t));
 
-    AlgVec v = {.data = data, .len = 0, .cap = cap};
-
-    va_list ap;
-    va_start(ap, n);
-
-    for (size_t i = 0; i < n; i++) {
-        v.data[v.len++] = va_arg(ap, alg_elem_t);
-    }
-
-    va_end(ap);
+    AlgVec v = {.data = data, .len = data_len, .cap = cap};
+    alg_internal_copy(v.data, v.len, arr, data_len);
 
     return v;
 }

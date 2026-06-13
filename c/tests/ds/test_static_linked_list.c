@@ -3,11 +3,11 @@
 #include <stdint.h>
 
 #define LEN 6
-#define TEST_DATA(...)                                                         \
-    AlgStaticLinkedList test_data() {                                          \
-        return alg_static_linked_list_init(LEN, __VA_ARGS__);                  \
-    }
-TEST_DATA(0, 1, 2, 3, 4, 5)
+static const alg_elem_t DATA[LEN] = {0, 1, 2, 3, 4, 5};
+
+AlgStaticLinkedList test_data(void) {
+    return alg_static_linked_list_from_array(DATA, LEN);
+}
 
 void test_create(void) {
     AlgStaticLinkedList list = alg_static_linked_list_create();
@@ -27,13 +27,12 @@ void test_create(void) {
     }
 }
 
-void test_init(void) {
-    AlgStaticLinkedList list =
-        alg_static_linked_list_init(LEN, 0, 1, 2, 3, 4, 5);
-    alg_elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
-    char      *msg;
+void test_from_array(void) {
+    AlgStaticLinkedList list     = alg_static_linked_list_from_array(DATA, LEN);
+    alg_elem_t          tmp[LEN] = {0, 1, 2, 3, 4, 5};
+    char               *msg;
 
-    msg = "should get a initialized static linked list";
+    msg = "should create a static linked list from an array";
     assert_eq(list.space, LEN, msg);
     assert_eq(list.head, 0, msg);
     assert_eq(list.tail, LEN - 1, msg);
@@ -49,6 +48,10 @@ void test_init(void) {
                msg);
         cur = list.nodes[cur].next;
     }
+
+    msg  = "should get an empty static linked list when array is NULL";
+    list = alg_static_linked_list_from_array(NULL, LEN);
+    assert(alg_static_linked_list_is_empty(&list), msg);
 }
 
 void test_to_array(void) {
@@ -399,7 +402,7 @@ int main(void) {
     char *target = "static_linked_list";
 
     run_test(test_create, mod, target, "create");
-    run_test(test_init, mod, target, "init");
+    run_test(test_from_array, mod, target, "from_array");
     run_test(test_to_array, mod, target, "to_array");
     run_test(test_swap, mod, target, "swap");
     run_test(test_reverse, mod, target, "reverse");

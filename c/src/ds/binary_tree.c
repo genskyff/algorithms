@@ -1,5 +1,4 @@
 ﻿#include "alg/ds/binary_tree.h"
-#include <stdarg.h>
 #include <stdlib.h>
 
 static AlgTreeNode *binary_tree_create_node(alg_elem_t e, AlgTreeNode *left,
@@ -31,7 +30,7 @@ AlgBinaryTree alg_binary_tree_create_root(alg_elem_t e) {
     return tree;
 }
 
-AlgBinaryTree alg_binary_tree_init(size_t n, ...);
+AlgBinaryTree alg_binary_tree_from_array(const alg_elem_t *arr, size_t len);
 void          alg_binary_tree_show(FILE *stream, const AlgBinaryTree *tree);
 void          alg_binary_tree_clear(AlgBinaryTree *tree);
 

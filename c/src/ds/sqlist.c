@@ -1,6 +1,5 @@
 ﻿#include "alg/ds/sqlist.h"
 #include "internal/utils.h"
-#include <stdarg.h>
 
 AlgSqList alg_sqlist_create(void) {
     AlgSqList list = {.len = 0};
@@ -8,17 +7,13 @@ AlgSqList alg_sqlist_create(void) {
     return list;
 }
 
-AlgSqList alg_sqlist_init(size_t n, ...) {
+AlgSqList alg_sqlist_from_array(const alg_elem_t *arr, size_t len) {
     AlgSqList list = alg_sqlist_create();
 
-    va_list ap;
-    va_start(ap, n);
-
-    for (size_t i = 0; i < ALG_INTERNAL_MIN(n, ALG_MAX_LEN); i++) {
-        list.data[list.len++] = va_arg(ap, alg_elem_t);
+    if (arr != NULL) {
+        list.len = ALG_INTERNAL_MIN(len, ALG_MAX_LEN);
+        alg_internal_copy(list.data, list.len, arr, list.len);
     }
-
-    va_end(ap);
 
     return list;
 }

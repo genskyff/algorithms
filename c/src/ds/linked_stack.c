@@ -1,6 +1,5 @@
 ﻿#include "alg/ds/linked_stack.h"
 #include "internal/utils.h"
-#include <stdarg.h>
 #include <stdlib.h>
 
 AlgLinkedStack alg_linked_stack_create(void) {
@@ -9,16 +8,13 @@ AlgLinkedStack alg_linked_stack_create(void) {
     return stack;
 }
 
-AlgLinkedStack alg_linked_stack_init(size_t n, ...) {
+AlgLinkedStack alg_linked_stack_from_array(const alg_elem_t *arr, size_t len) {
     AlgLinkedStack stack = alg_linked_stack_create();
 
-    va_list ap;
-    va_start(ap, n);
-
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; arr != NULL && i < len; i++) {
         AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
 
-        node->data = va_arg(ap, alg_elem_t);
+        node->data = arr[i];
         node->next = NULL;
 
         if (stack.top == NULL) {
@@ -31,8 +27,6 @@ AlgLinkedStack alg_linked_stack_init(size_t n, ...) {
         stack.top = node;
         stack.len++;
     }
-
-    va_end(ap);
 
     return stack;
 }

@@ -1,6 +1,5 @@
 ﻿#include "alg/ds/linked_list.h"
 #include "internal/utils.h"
-#include <stdarg.h>
 #include <stdlib.h>
 
 AlgLinkedList alg_linked_list_create(void) {
@@ -9,16 +8,13 @@ AlgLinkedList alg_linked_list_create(void) {
     return list;
 }
 
-AlgLinkedList alg_linked_list_init(size_t n, ...) {
+AlgLinkedList alg_linked_list_from_array(const alg_elem_t *arr, size_t len) {
     AlgLinkedList list = alg_linked_list_create();
 
-    va_list ap;
-    va_start(ap, n);
-
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; arr != NULL && i < len; i++) {
         AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
 
-        node->data = va_arg(ap, alg_elem_t);
+        node->data = arr[i];
         node->next = NULL;
 
         if (list.head == NULL) {
@@ -32,8 +28,6 @@ AlgLinkedList alg_linked_list_init(size_t n, ...) {
         list.tail = node;
         list.len++;
     }
-
-    va_end(ap);
 
     return list;
 }

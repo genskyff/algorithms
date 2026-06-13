@@ -1,6 +1,5 @@
 ﻿#include "alg/ds/array_queue.h"
 #include "internal/utils.h"
-#include <stdarg.h>
 
 AlgArrayQueue alg_array_queue_create(void) {
     AlgArrayQueue queue = {.front = 0, .len = 0};
@@ -8,17 +7,13 @@ AlgArrayQueue alg_array_queue_create(void) {
     return queue;
 }
 
-AlgArrayQueue alg_array_queue_init(size_t n, ...) {
+AlgArrayQueue alg_array_queue_from_array(const alg_elem_t *arr, size_t len) {
     AlgArrayQueue queue = alg_array_queue_create();
 
-    va_list ap;
-    va_start(ap, n);
-
-    for (size_t i = 0; i < ALG_INTERNAL_MIN(n, ALG_MAX_LEN); i++) {
-        queue.data[queue.len++] = va_arg(ap, alg_elem_t);
+    if (arr != NULL) {
+        queue.len = ALG_INTERNAL_MIN(len, ALG_MAX_LEN);
+        alg_internal_copy(queue.data, queue.len, arr, queue.len);
     }
-
-    va_end(ap);
 
     return queue;
 }

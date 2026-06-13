@@ -1,6 +1,5 @@
 ﻿#include "alg/ds/static_linked_list.h"
 #include "internal/utils.h"
-#include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,19 +36,18 @@ AlgStaticLinkedList alg_static_linked_list_create(void) {
     return list;
 }
 
-AlgStaticLinkedList alg_static_linked_list_init(size_t n, ...) {
+AlgStaticLinkedList alg_static_linked_list_from_array(const alg_elem_t *arr,
+                                                      size_t            len) {
     AlgStaticLinkedList list = alg_static_linked_list_create();
 
-    va_list ap;
-    va_start(ap, n);
-
-    for (size_t i = 0; i < ALG_INTERNAL_MIN(n, ALG_MAX_LEN); i++) {
+    for (size_t i = 0; arr != NULL && i < ALG_INTERNAL_MIN(len, ALG_MAX_LEN);
+         i++) {
         size_t idx = static_linked_list_alloc(&list);
         if (idx == SIZE_MAX) {
             break;
         }
 
-        list.nodes[idx].data = va_arg(ap, alg_elem_t);
+        list.nodes[idx].data = arr[i];
         list.nodes[idx].next = SIZE_MAX;
 
         if (list.head == SIZE_MAX) {
@@ -63,8 +61,6 @@ AlgStaticLinkedList alg_static_linked_list_init(size_t n, ...) {
         list.tail = idx;
         list.len++;
     }
-
-    va_end(ap);
 
     return list;
 }

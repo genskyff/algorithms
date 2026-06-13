@@ -2,11 +2,11 @@
 #include "support/helper.h"
 
 #define LEN 6
-#define TEST_DATA(...)                                                         \
-    AlgLinkedStack test_data() {                                               \
-        return alg_linked_stack_init(LEN, __VA_ARGS__);                        \
-    }
-TEST_DATA(0, 1, 2, 3, 4, 5)
+static const alg_elem_t DATA[LEN] = {0, 1, 2, 3, 4, 5};
+
+AlgLinkedStack test_data(void) {
+    return alg_linked_stack_from_array(DATA, LEN);
+}
 
 void test_create(void) {
     AlgLinkedStack stack = alg_linked_stack_create();
@@ -17,16 +17,22 @@ void test_create(void) {
     assert_eq(stack.len, 0, msg);
 }
 
-void test_init(void) {
-    AlgLinkedStack stack = alg_linked_stack_init(LEN, 0, 1, 2, 3, 4, 5);
+void test_from_array(void) {
+    AlgLinkedStack stack = alg_linked_stack_from_array(DATA, LEN);
     char          *msg;
 
-    msg = "should get a initialized linked stack";
+    msg = "should create a linked stack from an array";
     assert_not_null(stack.top, msg);
     assert_eq(stack.len, LEN, msg);
     alg_elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
     assert_list_arr_eq(stack.top, ALG_BACKWARD, tmp, LEN, msg);
     assert_eq(stack.top->data, 5, msg);
+
+    alg_linked_stack_clear(&stack);
+
+    msg   = "should get an empty linked stack when array is NULL";
+    stack = alg_linked_stack_from_array(NULL, LEN);
+    assert(alg_linked_stack_is_empty(&stack), msg);
 }
 
 void test_clear(void) {
@@ -116,7 +122,7 @@ int main(void) {
     char *target = "linked_stack";
 
     run_test(test_create, mod, target, "create");
-    run_test(test_init, mod, target, "init");
+    run_test(test_from_array, mod, target, "from_array");
     run_test(test_clear, mod, target, "clear");
     run_test(test_is_empty, mod, target, "is_empty");
     run_test(test_peek, mod, target, "peek");

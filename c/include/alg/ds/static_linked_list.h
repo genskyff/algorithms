@@ -23,7 +23,8 @@ typedef struct {
 } AlgStaticLinkedList;
 
 AlgStaticLinkedList alg_static_linked_list_create(void);
-AlgStaticLinkedList alg_static_linked_list_init(size_t n, ...);
+AlgStaticLinkedList alg_static_linked_list_from_array(const alg_elem_t *arr,
+                                                      size_t            len);
 alg_elem_t *alg_static_linked_list_to_array(const AlgStaticLinkedList *list);
 void alg_static_linked_list_swap(AlgStaticLinkedList *list, size_t i, size_t j);
 void alg_static_linked_list_reverse(AlgStaticLinkedList *list);

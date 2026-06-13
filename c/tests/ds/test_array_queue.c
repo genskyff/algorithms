@@ -2,11 +2,11 @@
 #include "support/helper.h"
 
 #define LEN 6
-#define TEST_DATA(...)                                                         \
-    AlgArrayQueue test_data() {                                                \
-        return alg_array_queue_init(LEN, __VA_ARGS__);                         \
-    }
-TEST_DATA(0, 1, 2, 3, 4, 5)
+static const alg_elem_t DATA[LEN] = {0, 1, 2, 3, 4, 5};
+
+AlgArrayQueue test_data(void) {
+    return alg_array_queue_from_array(DATA, LEN);
+}
 
 void test_create(void) {
     AlgArrayQueue queue = alg_array_queue_create();
@@ -16,14 +16,18 @@ void test_create(void) {
     assert_eq(queue.len, 0, msg);
 }
 
-void test_init(void) {
-    AlgArrayQueue queue = alg_array_queue_init(LEN, 0, 1, 2, 3, 4, 5);
+void test_from_array(void) {
+    AlgArrayQueue queue = alg_array_queue_from_array(DATA, LEN);
     char         *msg;
 
-    msg                 = "should get a initialized array queue";
+    msg                 = "should create an array queue from an array";
     alg_elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
     assert_eq(queue.len, LEN, msg);
     assert_arr_eq(queue.data, queue.len, tmp, LEN, msg);
+
+    msg   = "should get an empty array queue when array is NULL";
+    queue = alg_array_queue_from_array(NULL, LEN);
+    assert_eq(queue.len, 0, msg);
 }
 
 void test_clear(void) {
@@ -172,7 +176,7 @@ int main(void) {
     char *target = "array_queue";
 
     run_test(test_create, mod, target, "create");
-    run_test(test_init, mod, target, "init");
+    run_test(test_from_array, mod, target, "from_array");
     run_test(test_is_empty, mod, target, "is_empty");
     run_test(test_front, mod, target, "front");
     run_test(test_back, mod, target, "back");

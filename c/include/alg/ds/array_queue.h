@@ -15,7 +15,7 @@ typedef struct {
 } AlgArrayQueue;
 
 AlgArrayQueue alg_array_queue_create(void);
-AlgArrayQueue alg_array_queue_init(size_t n, ...);
+AlgArrayQueue alg_array_queue_from_array(const alg_elem_t *arr, size_t len);
 void          alg_array_queue_show(FILE *stream, const AlgArrayQueue *queue);
 void          alg_array_queue_clear(AlgArrayQueue *queue);
 bool          alg_array_queue_is_empty(const AlgArrayQueue *queue);

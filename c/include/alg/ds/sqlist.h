@@ -14,7 +14,7 @@ typedef struct {
 } AlgSqList;
 
 AlgSqList alg_sqlist_create(void);
-AlgSqList alg_sqlist_init(size_t n, ...);
+AlgSqList alg_sqlist_from_array(const alg_elem_t *arr, size_t len);
 void      alg_sqlist_swap(AlgSqList *list, size_t i, size_t j);
 void      alg_sqlist_reverse(AlgSqList *list);
 void      alg_sqlist_show(FILE *stream, const AlgSqList *list);

@@ -1,6 +1,5 @@
 ﻿#include "alg/ds/array_stack.h"
 #include "internal/utils.h"
-#include <stdarg.h>
 
 AlgArrayStack alg_array_stack_create(void) {
     AlgArrayStack stack = {.len = 0};
@@ -8,17 +7,13 @@ AlgArrayStack alg_array_stack_create(void) {
     return stack;
 }
 
-AlgArrayStack alg_array_stack_init(size_t n, ...) {
+AlgArrayStack alg_array_stack_from_array(const alg_elem_t *arr, size_t len) {
     AlgArrayStack stack = alg_array_stack_create();
 
-    va_list ap;
-    va_start(ap, n);
-
-    for (size_t i = 0; i < ALG_INTERNAL_MIN(n, ALG_MAX_LEN); i++) {
-        stack.data[stack.len++] = va_arg(ap, alg_elem_t);
+    if (arr != NULL) {
+        stack.len = ALG_INTERNAL_MIN(len, ALG_MAX_LEN);
+        alg_internal_copy(stack.data, stack.len, arr, stack.len);
     }
-
-    va_end(ap);
 
     return stack;
 }

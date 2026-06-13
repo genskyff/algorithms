@@ -1,6 +1,5 @@
 ﻿#include "alg/ds/linked_queue.h"
 #include "internal/utils.h"
-#include <stdarg.h>
 #include <stdlib.h>
 
 AlgLinkedQueue alg_linked_queue_create(void) {
@@ -9,16 +8,13 @@ AlgLinkedQueue alg_linked_queue_create(void) {
     return queue;
 }
 
-AlgLinkedQueue alg_linked_queue_init(size_t n, ...) {
+AlgLinkedQueue alg_linked_queue_from_array(const alg_elem_t *arr, size_t len) {
     AlgLinkedQueue queue = alg_linked_queue_create();
 
-    va_list ap;
-    va_start(ap, n);
-
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; arr != NULL && i < len; i++) {
         AlgNode *node = (AlgNode *)malloc(sizeof(AlgNode));
 
-        node->data = va_arg(ap, alg_elem_t);
+        node->data = arr[i];
         node->next = NULL;
 
         if (queue.front == NULL) {
@@ -32,8 +28,6 @@ AlgLinkedQueue alg_linked_queue_init(size_t n, ...) {
         queue.rear = node;
         queue.len++;
     }
-
-    va_end(ap);
 
     return queue;
 }
