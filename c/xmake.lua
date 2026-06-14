@@ -131,6 +131,7 @@ function add_test_task(name, group, desc)
 end
 
 add_test_task("all", "test*", "all")
+add_test_task("alg", "test_alg", "alg integration")
 add_test_task("helper", "test_helper", "helper")
 add_test_task("utils", "test_utils", "utils")
 add_test_task("ds", "test_ds", "data structure")
@@ -179,6 +180,13 @@ target("alg")
 set_kind("static")
 set_group("lib")
 add_files("src/*.c", "src/*/*.c")
+target_end()
+
+target("test_alg")
+set_kind("binary")
+set_group("test_alg")
+add_files("tests/integration/test_alg.c")
+add_deps("alg")
 target_end()
 
 -- -------

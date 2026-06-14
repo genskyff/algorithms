@@ -222,6 +222,7 @@ void assert_str_eq(const char *left, const char *right, const char *msg) {
         helper_str_err_msg(left, right, msg);
     }
 }
+
 void assert_str_ne(const char *left, const char *right, const char *msg) {
     if (helper_is_str_eq(left, right)) {
         helper_str_err_msg(left, right, msg);
