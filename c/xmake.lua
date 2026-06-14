@@ -39,16 +39,10 @@ on_run(
         local projectdir = os.projectdir()
         local files =
             os.iorunv(
-            "git",
+            "fd",
             {
-                "ls-files",
-                "--",
-                ":(glob)include/**/*.h",
-                ":(glob)include/**/*.c",
-                ":(glob)src/**/*.h",
-                ":(glob)src/**/*.c",
-                ":(glob)tests/**/*.h",
-                ":(glob)tests/**/*.c"
+                "-tf",
+                ".c|.h"
             },
             {curdir = projectdir}
         )
@@ -80,16 +74,10 @@ on_run(
         local projectdir = os.projectdir()
         local files =
             os.iorunv(
-            "git",
+            "fd",
             {
-                "ls-files",
-                "--",
-                ":(glob)include/**/*.h",
-                ":(glob)include/**/*.c",
-                ":(glob)src/**/*.h",
-                ":(glob)src/**/*.c",
-                ":(glob)tests/**/*.h",
-                ":(glob)tests/**/*.c"
+                "-tf",
+                ".c|.h"
             },
             {curdir = projectdir}
         )
