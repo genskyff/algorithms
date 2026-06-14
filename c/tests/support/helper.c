@@ -1,10 +1,27 @@
 ﻿#include "support/helper.h"
 #include "internal/utils.h"
+#include <setjmp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct {
+    const char *mod;
+    const char *target;
+    const char *name;
+} FailedTest;
+
+static jmp_buf     helper_test_env;
+static bool        helper_test_running;
+static size_t      helper_passed_count;
+static size_t      helper_failed_count;
+static FailedTest *helper_failed_tests;
+
 static bool helper_is_eq(alg_elem_t left, alg_elem_t right);
+static void helper_abort_test(void);
+static void helper_record_failure(const char *mod, const char *target,
+                                  const char *test_name);
+static void helper_report_results(void);
 static void helper_failure_header(const char *msg, const char *file,
                                   size_t line);
 static void helper_err_msg(alg_elem_t left, alg_elem_t right, const char *msg,
@@ -31,10 +48,54 @@ static bool helper_is_eq(alg_elem_t left, alg_elem_t right) {
     return left == right;
 }
 
+static void helper_abort_test(void) {
+    if (helper_test_running) {
+        longjmp(helper_test_env, 1);
+    }
+
+    exit(EXIT_FAILURE);
+}
+
+static void helper_record_failure(const char *mod, const char *target,
+                                  const char *test_name) {
+    helper_failed_count++;
+    helper_failed_tests =
+        realloc(helper_failed_tests, helper_failed_count * sizeof(FailedTest));
+    helper_failed_tests[helper_failed_count - 1] =
+        (FailedTest){.mod = mod, .target = target, .name = test_name};
+}
+
+static void helper_report_results(void) {
+    if (helper_failed_count == 0) {
+        return;
+    }
+
+    fprintf(stderr, "\nfailures:\n");
+    for (size_t i = 0; i < helper_failed_count; i++) {
+        FailedTest failed     = helper_failed_tests[i];
+        bool       has_mod    = failed.mod != NULL && *failed.mod != '\0';
+        bool       has_target = failed.target != NULL && *failed.target != '\0';
+
+        fprintf(stderr, "    %s%s%s%s%s\n", has_mod ? failed.mod : "",
+                has_mod ? " " : "", has_target ? failed.target : "",
+                has_target ? " " : "", failed.name != NULL ? failed.name : "");
+    }
+
+    fprintf(stderr,
+            "\ntest result: \x1b[1;31mFAILED\x1b[0m. %zu passed; %zu "
+            "failed\n",
+            helper_passed_count, helper_failed_count);
+    free(helper_failed_tests);
+    fflush(stdout);
+    fflush(stderr);
+    _Exit(EXIT_FAILURE);
+}
+
 static void helper_failure_header(const char *msg, const char *file,
                                   size_t line) {
     const char *message_text = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
-    fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
+    printf("\x1b[1;31m ... FAILED\x1b[0m\n");
+    fflush(stdout);
     fprintf(stderr, "\x1b[33m|-- location: \x1b[0m%s:%zu\n", file, line);
     fprintf(stderr, "\x1b[33m|-- message:  \x1b[0m%s\n", message_text);
 }
@@ -46,7 +107,7 @@ static void helper_err_msg(alg_elem_t left, alg_elem_t right, const char *msg,
     fprintf(stderr, "%d\n", left);
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
     fprintf(stderr, "%d\n\n", right);
-    exit(EXIT_FAILURE);
+    helper_abort_test();
 }
 
 static bool helper_is_str_eq(const char *left, const char *right) {
@@ -60,7 +121,7 @@ static void helper_str_err_msg(const char *left, const char *right,
     fprintf(stderr, "\"%s\"\n", left);
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
     fprintf(stderr, "\"%s\"\n\n", right);
-    exit(EXIT_FAILURE);
+    helper_abort_test();
 }
 
 static bool helper_is_arr_eq(alg_elem_t *left, size_t l_len, alg_elem_t *right,
@@ -91,7 +152,7 @@ static void helper_arr_err_msg(alg_elem_t *left, size_t l_len,
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
     alg_internal_show(stderr, right, r_len, NULL);
     fprintf(stderr, "\n");
-    exit(EXIT_FAILURE);
+    helper_abort_test();
 }
 
 static bool helper_is_list_eq(AlgNode *left, AlgNode *right, AlgDirection dir) {
@@ -115,7 +176,7 @@ static void helper_list_err_msg(AlgNode *left, AlgNode *right, AlgDirection dir,
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
     alg_internal_show_list(stderr, right, dir, NULL);
     fprintf(stderr, "\n");
-    exit(EXIT_FAILURE);
+    helper_abort_test();
 }
 
 static bool helper_is_list_arr_eq(AlgNode *node, AlgDirection dir,
@@ -149,21 +210,37 @@ static void helper_list_arr_err_msg(AlgNode *node, AlgDirection dir,
     fprintf(stderr, "\x1b[33m|-- arr:     \x1b[0m");
     alg_internal_show(stderr, arr, len, NULL);
     fprintf(stderr, "\n");
-    exit(EXIT_FAILURE);
+    helper_abort_test();
 }
 
 void run_test(TestFunc test, const char *mod, const char *target,
               const char *test_name) {
+    static bool report_registered;
+
     bool has_mod       = mod != NULL && *mod != '\0';
     bool has_target    = target != NULL && *target != '\0';
     bool has_test_name = test_name != NULL && *test_name != '\0';
 
+    if (!report_registered) {
+        atexit(helper_report_results);
+        report_registered = true;
+    }
+
     printf("test %s%s%s%s%s%s", has_mod ? mod : "", has_mod ? " " : "",
            has_target ? target : "", has_target ? " " : "",
            has_test_name ? test_name : "", has_test_name ? " " : "");
+    fflush(stdout);
 
-    test();
-    printf("\x1b[1;32m ... OK\x1b[0m\n");
+    helper_test_running = true;
+    if (setjmp(helper_test_env) == 0) {
+        test();
+        helper_test_running = false;
+        helper_passed_count++;
+        printf("\x1b[1;32m ... OK\x1b[0m\n");
+    } else {
+        helper_test_running = false;
+        helper_record_failure(mod, target, test_name);
+    }
 }
 
 void assert_at(bool cond, const char *msg, const char *file, size_t line) {
@@ -171,7 +248,7 @@ void assert_at(bool cond, const char *msg, const char *file, size_t line) {
         helper_failure_header(msg, file, line);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mtrue\n");
         fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mfalse\n\n");
-        exit(EXIT_FAILURE);
+        helper_abort_test();
     }
 }
 
@@ -180,7 +257,7 @@ void assert_not_at(bool cond, const char *msg, const char *file, size_t line) {
         helper_failure_header(msg, file, line);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mfalse\n");
         fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mtrue\n\n");
-        exit(EXIT_FAILURE);
+        helper_abort_test();
     }
 }
 
@@ -190,7 +267,7 @@ void assert_null_at(const void *ptr, const char *msg, const char *file,
         helper_failure_header(msg, file, line);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mNULL\n");
         fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mNot NULL\n\n");
-        exit(EXIT_FAILURE);
+        helper_abort_test();
     }
 }
 
@@ -200,7 +277,7 @@ void assert_not_null_at(const void *ptr, const char *msg, const char *file,
         helper_failure_header(msg, file, line);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mNot NULL\n");
         fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mNULL\n\n");
-        exit(EXIT_FAILURE);
+        helper_abort_test();
     }
 }
 
