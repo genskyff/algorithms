@@ -5,32 +5,43 @@
 #include <string.h>
 
 static bool helper_is_eq(alg_elem_t left, alg_elem_t right);
-static void helper_err_msg(alg_elem_t left, alg_elem_t right, const char *msg);
+static void helper_failure_header(const char *msg, const char *file,
+                                  size_t line);
+static void helper_err_msg(alg_elem_t left, alg_elem_t right, const char *msg,
+                           const char *file, size_t line);
 static bool helper_is_str_eq(const char *left, const char *right);
 static void helper_str_err_msg(const char *left, const char *right,
-                               const char *msg);
+                               const char *msg, const char *file, size_t line);
 static bool helper_is_arr_eq(alg_elem_t *left, size_t l_len, alg_elem_t *right,
                              size_t r_len);
 static void helper_arr_err_msg(alg_elem_t *left, size_t l_len,
-                               alg_elem_t *right, size_t r_len,
-                               const char *msg);
+                               alg_elem_t *right, size_t r_len, const char *msg,
+                               const char *file, size_t line);
 static bool helper_is_list_eq(AlgNode *left, AlgNode *right, AlgDirection dir);
 static void helper_list_err_msg(AlgNode *left, AlgNode *right, AlgDirection dir,
-                                const char *msg);
+                                const char *msg, const char *file, size_t line);
 static bool helper_is_list_arr_eq(AlgNode *node, AlgDirection dir,
                                   alg_elem_t *arr, size_t len);
 static void helper_list_arr_err_msg(AlgNode *node, AlgDirection dir,
                                     alg_elem_t *arr, size_t len,
-                                    const char *msg);
+                                    const char *msg, const char *file,
+                                    size_t line);
 
 static bool helper_is_eq(alg_elem_t left, alg_elem_t right) {
     return left == right;
 }
 
-static void helper_err_msg(alg_elem_t left, alg_elem_t right, const char *msg) {
+static void helper_failure_header(const char *msg, const char *file,
+                                  size_t line) {
     const char *message_text = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
     fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-    fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", message_text);
+    fprintf(stderr, "\x1b[33m|-- location: \x1b[0m%s:%zu\n", file, line);
+    fprintf(stderr, "\x1b[33m|-- message:  \x1b[0m%s\n", message_text);
+}
+
+static void helper_err_msg(alg_elem_t left, alg_elem_t right, const char *msg,
+                           const char *file, size_t line) {
+    helper_failure_header(msg, file, line);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
     fprintf(stderr, "%d\n", left);
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
@@ -43,10 +54,8 @@ static bool helper_is_str_eq(const char *left, const char *right) {
 }
 
 static void helper_str_err_msg(const char *left, const char *right,
-                               const char *msg) {
-    const char *message_text = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
-    fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-    fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", message_text);
+                               const char *msg, const char *file, size_t line) {
+    helper_failure_header(msg, file, line);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
     fprintf(stderr, "\"%s\"\n", left);
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
@@ -74,11 +83,9 @@ static bool helper_is_arr_eq(alg_elem_t *left, size_t l_len, alg_elem_t *right,
 }
 
 static void helper_arr_err_msg(alg_elem_t *left, size_t l_len,
-                               alg_elem_t *right, size_t r_len,
-                               const char *msg) {
-    const char *message_text = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
-    fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-    fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", message_text);
+                               alg_elem_t *right, size_t r_len, const char *msg,
+                               const char *file, size_t line) {
+    helper_failure_header(msg, file, line);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
     alg_internal_show(stderr, left, l_len, NULL);
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
@@ -100,10 +107,9 @@ static bool helper_is_list_eq(AlgNode *left, AlgNode *right, AlgDirection dir) {
 }
 
 static void helper_list_err_msg(AlgNode *left, AlgNode *right, AlgDirection dir,
-                                const char *msg) {
-    const char *message_text = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
-    fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-    fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", message_text);
+                                const char *msg, const char *file,
+                                size_t line) {
+    helper_failure_header(msg, file, line);
     fprintf(stderr, "\x1b[33m|-- left:    \x1b[0m");
     alg_internal_show_list(stderr, left, dir, NULL);
     fprintf(stderr, "\x1b[33m|-- right:   \x1b[0m");
@@ -135,10 +141,9 @@ static bool helper_is_list_arr_eq(AlgNode *node, AlgDirection dir,
 
 static void helper_list_arr_err_msg(AlgNode *node, AlgDirection dir,
                                     alg_elem_t *arr, size_t len,
-                                    const char *msg) {
-    const char *message_text = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
-    fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-    fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", message_text);
+                                    const char *msg, const char *file,
+                                    size_t line) {
+    helper_failure_header(msg, file, line);
     fprintf(stderr, "\x1b[33m|-- list:    \x1b[0m");
     alg_internal_show_list(stderr, node, dir, ", ");
     fprintf(stderr, "\x1b[33m|-- arr:     \x1b[0m");
@@ -161,113 +166,115 @@ void run_test(TestFunc test, const char *mod, const char *target,
     printf("\x1b[1;32m ... OK\x1b[0m\n");
 }
 
-void assert(bool cond, const char *msg) {
+void assert_at(bool cond, const char *msg, const char *file, size_t line) {
     if (!cond) {
-        const char *message_text = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
-        fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-        fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", message_text);
+        helper_failure_header(msg, file, line);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mtrue\n");
         fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mfalse\n\n");
         exit(EXIT_FAILURE);
     }
 }
 
-void assert_not(bool cond, const char *msg) {
+void assert_not_at(bool cond, const char *msg, const char *file, size_t line) {
     if (cond) {
-        const char *message_text = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
-        fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-        fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", message_text);
+        helper_failure_header(msg, file, line);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mfalse\n");
         fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mtrue\n\n");
         exit(EXIT_FAILURE);
     }
 }
 
-void assert_null(void *ptr, const char *msg) {
+void assert_null_at(const void *ptr, const char *msg, const char *file,
+                    size_t line) {
     if (ptr != NULL) {
-        const char *message_text = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
-        fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-        fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", message_text);
+        helper_failure_header(msg, file, line);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mNULL\n");
         fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mNot NULL\n\n");
         exit(EXIT_FAILURE);
     }
 }
 
-void assert_not_null(void *ptr, const char *msg) {
+void assert_not_null_at(const void *ptr, const char *msg, const char *file,
+                        size_t line) {
     if (ptr == NULL) {
-        const char *message_text = (msg == NULL || *msg == '\0') ? "\"\"" : msg;
-        fprintf(stderr, "\x1b[1;31m ... FAILED\x1b[0m\n");
-        fprintf(stderr, "\x1b[33m|-- message: \x1b[0m%s\n", message_text);
+        helper_failure_header(msg, file, line);
         fprintf(stderr, "\x1b[33m|-- expect:  \x1b[0mNot NULL\n");
         fprintf(stderr, "\x1b[33m|-- actual:  \x1b[0mNULL\n\n");
         exit(EXIT_FAILURE);
     }
 }
 
-void assert_eq(alg_elem_t left, alg_elem_t right, const char *msg) {
+void assert_eq_at(alg_elem_t left, alg_elem_t right, const char *msg,
+                  const char *file, size_t line) {
     if (!helper_is_eq(left, right)) {
-        helper_err_msg(left, right, msg);
+        helper_err_msg(left, right, msg, file, line);
     }
 }
 
-void assert_ne(alg_elem_t left, alg_elem_t right, const char *msg) {
+void assert_ne_at(alg_elem_t left, alg_elem_t right, const char *msg,
+                  const char *file, size_t line) {
     if (helper_is_eq(left, right)) {
-        helper_err_msg(left, right, msg);
+        helper_err_msg(left, right, msg, file, line);
     }
 }
 
-void assert_str_eq(const char *left, const char *right, const char *msg) {
+void assert_str_eq_at(const char *left, const char *right, const char *msg,
+                      const char *file, size_t line) {
     if (!helper_is_str_eq(left, right)) {
-        helper_str_err_msg(left, right, msg);
+        helper_str_err_msg(left, right, msg, file, line);
     }
 }
 
-void assert_str_ne(const char *left, const char *right, const char *msg) {
+void assert_str_ne_at(const char *left, const char *right, const char *msg,
+                      const char *file, size_t line) {
     if (helper_is_str_eq(left, right)) {
-        helper_str_err_msg(left, right, msg);
+        helper_str_err_msg(left, right, msg, file, line);
     }
 }
 
-void assert_arr_eq(alg_elem_t *left, size_t l_len, alg_elem_t *right,
-                   size_t r_len, const char *msg) {
+void assert_arr_eq_at(alg_elem_t *left, size_t l_len, alg_elem_t *right,
+                      size_t r_len, const char *msg, const char *file,
+                      size_t line) {
     if (!helper_is_arr_eq(left, l_len, right, r_len)) {
-        helper_arr_err_msg(left, l_len, right, r_len, msg);
+        helper_arr_err_msg(left, l_len, right, r_len, msg, file, line);
     }
 }
 
-void assert_arr_ne(alg_elem_t *left, size_t l_len, alg_elem_t *right,
-                   size_t r_len, const char *msg) {
+void assert_arr_ne_at(alg_elem_t *left, size_t l_len, alg_elem_t *right,
+                      size_t r_len, const char *msg, const char *file,
+                      size_t line) {
     if (helper_is_arr_eq(left, l_len, right, r_len)) {
-        helper_arr_err_msg(left, l_len, right, r_len, msg);
+        helper_arr_err_msg(left, l_len, right, r_len, msg, file, line);
     }
 }
 
-void assert_list_eq(AlgNode *left, AlgNode *right, AlgDirection dir,
-                    const char *msg) {
+void assert_list_eq_at(AlgNode *left, AlgNode *right, AlgDirection dir,
+                       const char *msg, const char *file, size_t line) {
     if (!helper_is_list_eq(left, right, dir)) {
-        helper_list_err_msg(left, right, dir, msg);
+        helper_list_err_msg(left, right, dir, msg, file, line);
     }
 }
 
-void assert_list_ne(AlgNode *left, AlgNode *right, AlgDirection dir,
-                    const char *msg) {
+void assert_list_ne_at(AlgNode *left, AlgNode *right, AlgDirection dir,
+                       const char *msg, const char *file, size_t line) {
     if (helper_is_list_eq(left, right, dir)) {
-        helper_list_err_msg(left, right, dir, msg);
+        helper_list_err_msg(left, right, dir, msg, file, line);
     }
 }
 
-void assert_list_arr_eq(AlgNode *node, AlgDirection dir, alg_elem_t *arr,
-                        size_t len, const char *msg) {
+void assert_list_arr_eq_at(AlgNode *node, AlgDirection dir, alg_elem_t *arr,
+                           size_t len, const char *msg, const char *file,
+                           size_t line) {
     if (!helper_is_list_arr_eq(node, dir, arr, len)) {
-        helper_list_arr_err_msg(node, dir, arr, len, msg);
+        helper_list_arr_err_msg(node, dir, arr, len, msg, file, line);
     }
 }
 
-void assert_list_arr_ne(AlgNode *node, AlgDirection dir, alg_elem_t *arr,
-                        size_t len, const char *msg) {
+void assert_list_arr_ne_at(AlgNode *node, AlgDirection dir, alg_elem_t *arr,
+                           size_t len, const char *msg, const char *file,
+                           size_t line) {
     if (helper_is_list_arr_eq(node, dir, arr, len)) {
-        helper_list_arr_err_msg(node, dir, arr, len, msg);
+        helper_list_arr_err_msg(node, dir, arr, len, msg, file, line);
     }
 }
 
