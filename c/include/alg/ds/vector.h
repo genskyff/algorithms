@@ -6,11 +6,6 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#define ALG_VEC_INIT_CAP      100
-#define ALG_VEC_SHRINK_CAP    1000
-#define ALG_VEC_LOW_FACTOR    0.25
-#define ALG_VEC_GROWTH_FACTOR 2
-
 // data[0] is the first
 // data[len - 1] is the last
 typedef struct {

@@ -4,6 +4,13 @@
 #include <stdlib.h>
 
 #define LEN 6
+enum {
+    TEST_GROW_LEN   = 32,
+    TEST_LARGE_CAP  = 2048,
+    TEST_SMALL_CAP  = 8,
+    TEST_SHRINK_LEN = 512,
+};
+
 AlgHashMap test_data() {
     alg_hashmap_key_t   keys[LEN]   = {"a", "b", "c", "d", "e", "f"};
     alg_hashmap_value_t values[LEN] = {1, 2, 3, 4, 5, 6};
@@ -17,7 +24,7 @@ void test_create(void) {
 
     msg = "should get a empty hashmap";
     assert_eq(map.len, 0, msg);
-    assert_eq(map.cap, ALG_HASHMAP_INIT_CAP, msg);
+    assert(map.cap > 0, msg);
     for (size_t i = 0; i < map.cap; ++i) {
         assert_null(map.buckets[i].head, msg);
         assert_eq(map.buckets[i].len, 0, msg);
@@ -47,7 +54,7 @@ void test_init(void) {
 
     msg = "should get a initialized hashmap";
     assert_eq(map.len, LEN, msg);
-    assert_eq(map.cap, ALG_HASHMAP_INIT_CAP, msg);
+    assert(map.cap >= map.len, msg);
 
     alg_hashmap_drop(&map);
 
@@ -73,7 +80,7 @@ void test_clear(void) {
     msg = "should clear";
     alg_hashmap_clear(&map);
     assert_eq(map.len, 0, msg);
-    assert_eq(map.cap, ALG_HASHMAP_INIT_CAP, msg);
+    assert(map.cap > 0, msg);
     for (size_t i = 0; i < map.cap; ++i) {
         assert_null(map.buckets[i].head, msg);
         assert_eq(map.buckets[i].len, 0, msg);
@@ -180,24 +187,26 @@ void test_insert(void) {
     assert(stored_keys[0] == key, msg);
     free(stored_keys);
 
-    msg = "should extend when load factor > 0.75";
-    alg_hashmap_clear(&map);
-    char *keys[ALG_HASHMAP_INIT_CAP];
-    for (size_t i = 0; i < ALG_HASHMAP_INIT_CAP; ++i) {
+    msg = "should grow as entries are added";
+    alg_hashmap_drop(&map);
+    map                = alg_hashmap_create_with(TEST_SMALL_CAP);
+    size_t initial_cap = map.cap;
+    char  *keys[TEST_GROW_LEN];
+    for (size_t i = 0; i < TEST_GROW_LEN; ++i) {
         keys[i] = (char *)calloc(10, sizeof(char));
         sprintf(keys[i], "%zu", i);
         assert(alg_hashmap_insert(&map, keys[i], i), msg);
     }
-    assert_eq(map.len, ALG_HASHMAP_INIT_CAP, msg);
-    assert_eq(map.cap, ALG_HASHMAP_INIT_CAP * 2, msg);
-    for (size_t i = 0; i < ALG_HASHMAP_INIT_CAP; ++i) {
+    assert_eq(map.len, TEST_GROW_LEN, msg);
+    assert(map.cap > initial_cap, msg);
+    for (size_t i = 0; i < TEST_GROW_LEN; ++i) {
         assert(alg_hashmap_get(&map, keys[i], &val), key);
         assert_eq(val, i, msg);
         assert_eq(val, i, msg);
     }
 
     alg_hashmap_drop(&map);
-    for (size_t i = 0; i < ALG_HASHMAP_INIT_CAP; ++i) {
+    for (size_t i = 0; i < TEST_GROW_LEN; ++i) {
         free(keys[i]);
     }
 }
@@ -223,22 +232,24 @@ void test_del(void) {
     assert_not(alg_hashmap_del(&map, "a"), msg);
     assert_eq(map.len, 0, msg);
 
-    msg = "should shrink when load factor < LOWER_FACTOR";
-    alg_hashmap_clear(&map);
-    char *keys[ALG_HASHMAP_SHRINK_CAP];
-    for (size_t i = 0; i < ALG_HASHMAP_SHRINK_CAP; ++i) {
+    msg = "should shrink after removing entries";
+    alg_hashmap_drop(&map);
+    map                = alg_hashmap_create_with(TEST_LARGE_CAP);
+    size_t initial_cap = map.cap;
+    char  *keys[TEST_SHRINK_LEN];
+    for (size_t i = 0; i < TEST_SHRINK_LEN; ++i) {
         keys[i] = (char *)calloc(10, sizeof(char));
         sprintf(keys[i], "%zu", i);
         assert(alg_hashmap_insert(&map, keys[i], i), msg);
     }
-    assert_eq(map.len, ALG_HASHMAP_SHRINK_CAP, msg);
-    assert_eq(map.cap % ALG_HASHMAP_INIT_CAP, 0, msg);
-    for (size_t i = 0; i < ALG_HASHMAP_SHRINK_CAP; ++i) {
+    assert_eq(map.len, TEST_SHRINK_LEN, msg);
+    assert_eq(map.cap, initial_cap, msg);
+    for (size_t i = 0; i < TEST_SHRINK_LEN; ++i) {
         assert(alg_hashmap_del(&map, keys[i]), msg);
         free(keys[i]);
     }
     assert_eq(map.len, 0, msg);
-    assert_eq(map.cap % ALG_HASHMAP_INIT_CAP, 0, msg);
+    assert(map.cap < initial_cap, msg);
 
     alg_hashmap_drop(&map);
 }

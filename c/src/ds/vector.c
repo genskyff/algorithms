@@ -3,6 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define ALG_VEC_INIT_CAP      100
+#define ALG_VEC_SHRINK_CAP    1000
+#define ALG_VEC_LOW_FACTOR    0.25
+#define ALG_VEC_GROWTH_FACTOR 2
+
 static void vec_shrink(AlgVec *v);
 static void vec_grow(AlgVec *v);
 

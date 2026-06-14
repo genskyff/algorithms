@@ -4,6 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define ALG_HASHMAP_INIT_CAP      100
+#define ALG_HASHMAP_SHRINK_CAP    1000
+#define ALG_HASHMAP_BUCKET_CAP    10
+#define ALG_HASHMAP_LOW_FACTOR    0.25
+#define ALG_HASHMAP_LOAD_FACTOR   0.75
+#define ALG_HASHMAP_GROWTH_FACTOR 2
+
 typedef void (*PrintFunc)(FILE *stream, const AlgHashMapPair *p);
 static void     hashmap_print(FILE *stream, const AlgHashMap *map,
                               PrintFunc print_func, const char *prefix,

@@ -2,6 +2,11 @@
 #include "support/helper.h"
 
 #define LEN 6
+enum {
+    TEST_LARGE_CAP  = 2048,
+    TEST_SHRINK_LEN = 512,
+};
+
 static const alg_elem_t DATA[LEN] = {0, 1, 2, 3, 4, 5};
 
 AlgVec test_data(void) {
@@ -15,7 +20,7 @@ void test_create(void) {
     msg = "should get a empty vector";
     assert_not_null(v.data, msg);
     assert_eq(v.len, 0, msg);
-    assert_eq(v.cap, ALG_VEC_INIT_CAP, msg);
+    assert(v.cap > 0, msg);
 
     alg_vec_drop(&v);
 }
@@ -40,7 +45,7 @@ void test_from_array(void) {
     msg = "should create a vector from an array";
     assert_not_null(v.data, msg);
     assert_eq(v.len, LEN, msg);
-    assert_eq(v.cap, ALG_VEC_INIT_CAP, msg);
+    assert(v.cap >= v.len, msg);
     alg_elem_t tmp[LEN] = {0, 1, 2, 3, 4, 5};
     assert_arr_eq(v.data, v.len, tmp, LEN, msg);
 
@@ -49,7 +54,7 @@ void test_from_array(void) {
     msg = "should get an empty vector when array is NULL";
     v   = alg_vec_from_array(NULL, LEN);
     assert_eq(v.len, 0, msg);
-    assert_eq(v.cap, ALG_VEC_INIT_CAP, msg);
+    assert(v.cap > 0, msg);
     alg_vec_drop(&v);
 }
 
@@ -96,7 +101,7 @@ void test_clear(void) {
     msg = "should clear";
     alg_vec_clear(&v);
     assert_eq(v.len, 0, msg);
-    assert_eq(v.cap, ALG_VEC_INIT_CAP, msg);
+    assert(v.cap > 0, msg);
 
     alg_vec_drop(&v);
 }
@@ -251,11 +256,12 @@ void test_insert(void) {
     assert_eq(v.len, LEN + 3, msg);
     assert_not(alg_vec_find(&v, e, NULL), msg);
 
-    msg   = "should extend when full";
-    v.len = v.cap;
+    msg            = "should extend when full";
+    size_t old_cap = v.cap;
+    v.len          = old_cap;
     assert(alg_vec_insert(&v, v.len, ++e), msg);
-    assert_eq(v.len, ALG_VEC_INIT_CAP + 1, msg);
-    assert_eq(v.cap, 2 * ALG_VEC_INIT_CAP, msg);
+    assert_eq(v.len, old_cap + 1, msg);
+    assert(v.cap > old_cap, msg);
     assert_eq(v.data[v.len - 1], e, msg);
 
     alg_vec_drop(&v);
@@ -274,11 +280,12 @@ void test_push_front(void) {
     assert_eq(v.len, LEN + 1, msg);
     assert_eq(v.data[0], e, msg);
 
-    msg   = "should extend when full";
-    v.len = v.cap;
+    msg            = "should extend when full";
+    size_t old_cap = v.cap;
+    v.len          = old_cap;
     assert(alg_vec_push_front(&v, ++e), msg);
-    assert_eq(v.len, ALG_VEC_INIT_CAP + 1, msg);
-    assert_eq(v.cap, 2 * ALG_VEC_INIT_CAP, msg);
+    assert_eq(v.len, old_cap + 1, msg);
+    assert(v.cap > old_cap, msg);
     assert_eq(v.data[0], e, msg);
 
     alg_vec_drop(&v);
@@ -297,11 +304,12 @@ void test_push_back(void) {
     assert_eq(v.len, LEN + 1, msg);
     assert_eq(v.data[v.len - 1], e, msg);
 
-    msg   = "should extend when full";
-    v.len = v.cap;
+    msg            = "should extend when full";
+    size_t old_cap = v.cap;
+    v.len          = old_cap;
     assert(alg_vec_push_back(&v, ++e), msg);
-    assert_eq(v.len, ALG_VEC_INIT_CAP + 1, msg);
-    assert_eq(v.cap, 2 * ALG_VEC_INIT_CAP, msg);
+    assert_eq(v.len, old_cap + 1, msg);
+    assert(v.cap > old_cap, msg);
     assert_eq(v.data[v.len - 1], e, msg);
 
     alg_vec_drop(&v);
@@ -344,17 +352,20 @@ void test_del(void) {
     assert_not(alg_vec_del(&v, 0, NULL), msg);
     assert_eq(v.len, 0, msg);
 
-    msg = "should shrink when load factor < LOWER_FACTOR";
-    for (size_t i = 0; i < ALG_VEC_SHRINK_CAP; ++i) {
+    msg = "should shrink after removing entries";
+    alg_vec_drop(&v);
+    v                  = alg_vec_create_with(TEST_LARGE_CAP);
+    size_t initial_cap = v.cap;
+    for (size_t i = 0; i < TEST_SHRINK_LEN; ++i) {
         assert(alg_vec_push_back(&v, i), msg);
     }
-    assert_eq(v.len, ALG_VEC_SHRINK_CAP, msg);
-    assert_eq(v.cap % ALG_VEC_INIT_CAP, 0, msg);
-    for (size_t i = 0; i < ALG_VEC_SHRINK_CAP; ++i) {
+    assert_eq(v.len, TEST_SHRINK_LEN, msg);
+    assert_eq(v.cap, initial_cap, msg);
+    for (size_t i = 0; i < TEST_SHRINK_LEN; ++i) {
         assert(alg_vec_del(&v, 0, NULL), msg);
     }
     assert_eq(v.len, 0, msg);
-    assert_eq(v.cap % ALG_VEC_INIT_CAP, 0, msg);
+    assert(v.cap < initial_cap, msg);
 
     alg_vec_drop(&v);
 }
