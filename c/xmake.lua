@@ -4,17 +4,16 @@ set_languages("c23")
 set_warnings("all", "extra")
 
 set_allowedplats("windows", "linux", "macosx")
-if is_plat("macosx") then
-    set_toolchains("clang")
-else
-    set_toolchains("gcc")
-end
 
 add_rules("mode.debug", "mode.release", "mode.test")
 rule("mode.test")
 on_load(
     function(target)
-        target:add("includedirs", "tests")
+        local group = target:get("group")
+        if group and string.find(group, "^test") == 1 then
+            target:add("includedirs", "tests")
+            target:add("deps", "helper")
+        end
     end
 )
 rule_end()
@@ -26,11 +25,6 @@ on_load(
     function(target)
         if target:name() ~= "utils" and target:name() ~= "alg" then
             target:add("deps", "utils")
-        end
-
-        local group = target:get("group")
-        if group and string.find(group, "^test") == 1 then
-            target:add("deps", "helper")
         end
     end
 )
@@ -48,8 +42,13 @@ on_run(
             "git",
             {
                 "ls-files",
-                "*.h",
-                "*.c"
+                "--",
+                ":(glob)include/**/*.h",
+                ":(glob)include/**/*.c",
+                ":(glob)src/**/*.h",
+                ":(glob)src/**/*.c",
+                ":(glob)tests/**/*.h",
+                ":(glob)tests/**/*.c"
             },
             {curdir = projectdir}
         )
@@ -84,8 +83,13 @@ on_run(
             "git",
             {
                 "ls-files",
-                "*.h",
-                "*.c"
+                "--",
+                ":(glob)include/**/*.h",
+                ":(glob)include/**/*.c",
+                ":(glob)src/**/*.h",
+                ":(glob)src/**/*.c",
+                ":(glob)tests/**/*.h",
+                ":(glob)tests/**/*.c"
             },
             {curdir = projectdir}
         )
@@ -196,6 +200,7 @@ end
 target("helper")
 set_kind("static")
 add_files("tests/support/helper.c")
+add_includedirs("tests")
 target_end()
 
 target("test_helper")
