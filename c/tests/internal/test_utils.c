@@ -40,7 +40,7 @@ void test_shuffle(void) {
     alg_elem_t tmp[LEN];
     char      *msg;
 
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
 
     msg = "should not shuffle when len < 2";
     alg_internal_copy(tmp, LEN, ARR, LEN);
@@ -161,16 +161,16 @@ void test_find(void) {
 
     msg = "should find at head";
     assert(alg_internal_find(ARR, LEN, 0, &i), msg);
-    assert_eq(i, 0, msg);
+    assert(i == 0, msg);
 
     msg = "should find at tail";
     assert(alg_internal_find(ARR, LEN, LEN - 1, &i), msg);
-    assert_eq(i, LEN - 1, msg);
+    assert(i == LEN - 1, msg);
 
     msg = "should not find when not exist";
     i   = 0;
     assert_not(alg_internal_find(ARR, LEN, 999, &i), msg);
-    assert_eq(i, 0, msg);
+    assert(i == 0, msg);
 }
 
 void test_find_slice(void) {
