@@ -35,7 +35,10 @@ jobs:
           build-cache: true
 
       - name: Run lint
-        run: xmake lint
+        run: |
+          sudo apt-get install -y fd-find
+          ln -s $(which fdfind) /usr/local/bin/fd
+          xmake lint
 
       - name: Run test
         run: xmake test:all
