@@ -1,7 +1,4 @@
-#include "alg/ds/hashmap.h"
-#include "alg/ds/vector.h"
-#include "alg/sort/quick.h"
-#include "alg/string/brute_force.h"
+#include "alg/alg.h"
 #include "support/helper.h"
 
 void test_public_api(void) {
