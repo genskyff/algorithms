@@ -118,9 +118,41 @@ function add_test_task(name, group, desc)
     task("test:" .. name)
     on_run(
         function()
+            import("core.project.project")
+
             os.exec("xmake f -m test")
             os.exec("xmake build -g " .. group)
-            os.exec("xmake run -g " .. group)
+
+            local targets = {}
+            for target_name, target in pairs(project.targets()) do
+                local target_group = target:get("group")
+                local matches =
+                    target_group == group or
+                    (group == "test*" and
+                        string.find(target_group or "", "^test") == 1)
+                if matches then
+                    table.insert(targets, target_name)
+                end
+            end
+            table.sort(targets)
+
+            local failed = 0
+            for _, target_name in ipairs(targets) do
+                try {
+                    function()
+                        os.execv("xmake", {"run", target_name})
+                    end,
+                    catch {
+                        function()
+                            failed = failed + 1
+                        end
+                    }
+                }
+            end
+
+            if failed > 0 then
+                raise("%d test targets failed", failed)
+            end
         end
     )
     set_menu {
