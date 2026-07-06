@@ -1,4 +1,4 @@
-*.local
+*.local*
 *.log*
 .DS_Store
 .idea
