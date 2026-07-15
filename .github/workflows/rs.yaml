@@ -1,16 +1,19 @@
 name: Rust
 
 on:
-  push:
-    branches: ["**"]
-    paths:
-      - rs/**
-      - .github/workflows/rs.yaml
   pull_request:
-    branches: ["**"]
     paths:
       - rs/**
       - .github/workflows/rs.yaml
+  push:
+    branches:
+      - "**"
+    paths:
+      - rs/**
+      - .github/workflows/rs.yaml
+
+permissions:
+  contents: read
 
 env:
   CARGO_TERM_COLOR: always
@@ -25,14 +28,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Rust
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
-          override: true
-          components: rustfmt, clippy
+          components: clippy, rustfmt
 
       - name: Run rustfmt
         run: cargo fmt -- --check

@@ -1,16 +1,19 @@
 name: Typescript
 
 on:
-  push:
-    branches: ["**"]
-    paths:
-      - ts/**
-      - .github/workflows/ts.yaml
   pull_request:
-    branches: ["**"]
     paths:
       - ts/**
       - .github/workflows/ts.yaml
+  push:
+    branches:
+      - "**"
+    paths:
+      - ts/**
+      - .github/workflows/ts.yaml
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -22,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
