@@ -61,8 +61,8 @@ fn test_with_cap() {
 fn test_to_vec() {
     let map = HashMap::from(TEST_DATA);
     assert_eq!(
-        map.to_vec().sort_by(|k1, k2| k1.0.cmp(&k2.0)),
-        TEST_DATA.to_vec().sort_by(|k1, k2| k1.0.cmp(&k2.0))
+        map.to_vec().sort_by(|k1, k2| k1.0.cmp(k2.0)),
+        TEST_DATA.to_vec().sort_by(|k1, k2| k1.0.cmp(k2.0))
     );
 }
 

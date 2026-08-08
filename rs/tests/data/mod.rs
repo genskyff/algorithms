@@ -46,12 +46,12 @@ impl TestData {
             let mut vec = vec![];
             let len = rng.random_range(3..Self::LEN);
 
-            let duplicate_value = rng.sample(&value_range);
+            let duplicate_value = rng.sample(value_range);
             vec.push(duplicate_value);
             vec.push(duplicate_value);
 
             for _ in vec.len()..len {
-                vec.push(rng.sample(&value_range));
+                vec.push(rng.sample(value_range));
             }
 
             if !vec.contains(&0) {
