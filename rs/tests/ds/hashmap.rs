@@ -60,10 +60,11 @@ fn test_with_cap() {
 #[test]
 fn test_to_vec() {
     let map = HashMap::from(TEST_DATA);
-    assert_eq!(
-        map.to_vec().sort_by(|k1, k2| k1.0.cmp(k2.0)),
-        TEST_DATA.to_vec().sort_by(|k1, k2| k1.0.cmp(k2.0))
-    );
+    let mut v1 = map.to_vec();
+    v1.sort_by(|k1, k2| k1.0.cmp(k2.0));
+    let mut v2 = TEST_DATA.to_vec();
+    v2.sort_by(|k1, k2| k1.0.cmp(k2.0));
+    assert_eq!(v1, v2);
 }
 
 #[test]
