@@ -5,15 +5,18 @@
 </a>
 
 ## Overview
+
 This is a repository implemented in Rust for various fundamental algorithms and data structures, intended for learning and recording purposes.
 
 ## Features
+
 - Only use stable Rust
 - Uses unsafe in only a few implementations
 - Includes integration tests
 - Includes documentation
 
 ## Usage
+
 You need to install Rust, and then run the following commands.
 
 To perform integration tests:
@@ -29,6 +32,7 @@ cargo doc --open
 ```
 
 ## Roadmap
+
 - [ ] Sorting
   - [x] Bubble sort
   - [x] Cocktail sort

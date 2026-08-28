@@ -1,20 +1,24 @@
 # Algorithms implemented in C
 
 ## Overview
+
 This is a repository implemented in C for various basic algorithms and data structures, intended for learning and recording.
 
 ## Features
+
 - Uses only the C standard library, with no 3rd-party libraries
 - Unit tests for almost all function
 - Strict adherence to the C23 standard, tested on MSVC, GCC, and Clang
 
 ## API naming
+
 Public symbols use the `alg` project namespace. Functions follow
 `alg_<module>_<action>` where applicable, for example `alg_vec_push_back` and
 `alg_hashmap_insert`. Public types and macros use the same namespace, such as
 `AlgVec`, `AlgHashMap`, `alg_elem_t`, and `ALG_MAX_LEN`.
 
 ## Usage
+
 First, you need any C compiler. GCC is used by default on Linux, clang is used by default on macOS. On Windows, you can choose to install Visual Studio to use MSVC or install MinGW64.
 
 Additionally, you need to install Clangd, as well as the build tool XMake.
@@ -32,6 +36,7 @@ xmake test:all
 ```
 
 ## Roadmap
+
 - [ ] Sorting
   - [x] Bubble sort
   - [x] Cocktail sort
