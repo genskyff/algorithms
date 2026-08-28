@@ -282,8 +282,6 @@ impl<K: Eq + Hash + Clone, V: Clone> HashMap<K, V> {
     }
 
     pub fn get(&self, key: K) -> Option<&V> {
-        let mut hasher = DefaultHasher::new();
-        key.hash(&mut hasher);
         let idx = Self::idx(self.cap(), &key);
         let bucket = &self.buckets[idx];
         if bucket.is_empty() {
@@ -297,8 +295,6 @@ impl<K: Eq + Hash + Clone, V: Clone> HashMap<K, V> {
     }
 
     pub fn get_mut(&mut self, key: K) -> Option<&mut V> {
-        let mut hasher = DefaultHasher::new();
-        key.hash(&mut hasher);
         let idx = Self::idx(self.cap(), &key);
         let bucket = &mut self.buckets[idx];
         if bucket.is_empty() {
@@ -323,26 +319,17 @@ impl<K: Eq + Hash + Clone, V: Clone> HashMap<K, V> {
     }
 
     pub fn remove(&mut self, key: K) -> Option<V> {
-        let mut hasher = DefaultHasher::new();
-        key.hash(&mut hasher);
         let idx = Self::idx(self.cap(), &key);
         let bucket = &mut self.buckets[idx];
         if bucket.is_empty() {
             None
         } else {
-            let mut idx_p = None;
-            for (i, p) in bucket.pairs.iter().enumerate() {
-                if p.key == key {
-                    idx_p = Some(i);
-                    break;
-                }
-            }
-            if idx_p.is_none() {
-                None
-            } else {
-                let r = Some(bucket.pairs.remove(idx_p.unwrap()).value);
+            if let Some(idx_p) = bucket.pairs.iter().position(|p| p.key == key) {
+                let r = Some(bucket.pairs.remove(idx_p).value);
                 self.shrink();
                 r
+            } else {
+                None
             }
         }
     }

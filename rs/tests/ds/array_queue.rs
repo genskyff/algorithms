@@ -76,7 +76,9 @@ fn test_front() {
 #[test]
 fn test_front_mut() {
     let mut queue = ArrayQueue::from(TEST_DATA);
-    queue.front_mut().map(|e| *e = 10);
+    if let Some(e) = queue.front_mut() {
+        *e = 10;
+    }
     assert_eq!(queue.front(), Some(&10));
 }
 
@@ -91,7 +93,9 @@ fn test_back() {
 #[test]
 fn test_back_mut() {
     let mut queue = ArrayQueue::from(TEST_DATA);
-    queue.back_mut().map(|e| *e = 10);
+    if let Some(e) = queue.back_mut() {
+        *e = 10;
+    }
     assert_eq!(queue.back(), Some(&10));
 }
 

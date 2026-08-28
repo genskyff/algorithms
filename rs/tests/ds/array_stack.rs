@@ -64,7 +64,9 @@ fn peek() {
 #[test]
 fn peek_mut() {
     let mut stack = ArrayStack::from(TEST_DATA);
-    stack.peek_mut().map(|e| *e = 10);
+    if let Some(e) = stack.peek_mut() {
+        *e = 10;
+    }
     assert_eq!(stack.peek(), Some(&10));
     stack.clear();
     assert_eq!(stack.peek_mut(), None);

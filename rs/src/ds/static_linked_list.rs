@@ -256,33 +256,33 @@ impl<T> SLinkedList<T> {
         if i_next == Some(node_j) {
             // node_i is directly connected to node_j
             self.nodes[node_i].next = j_next;
-            if j_next.is_some() {
-                self.nodes[j_next.unwrap()].prev = Some(node_i);
+            if let Some(j_next) = j_next {
+                self.nodes[j_next].prev = Some(node_i);
             }
 
             self.nodes[node_j].prev = i_prev;
-            if i_prev.is_some() {
-                self.nodes[i_prev.unwrap()].next = Some(node_j);
+            if let Some(i_prev) = i_prev {
+                self.nodes[i_prev].next = Some(node_j);
             }
 
             self.nodes[node_j].next = Some(node_i);
             self.nodes[node_i].prev = Some(node_j);
         } else {
             // non-adjacent nodes
-            if i_prev.is_some() {
-                self.nodes[i_prev.unwrap()].next = Some(node_j);
+            if let Some(i_prev) = i_prev {
+                self.nodes[i_prev].next = Some(node_j);
             }
 
-            if i_next.is_some() {
-                self.nodes[i_next.unwrap()].prev = Some(node_j);
+            if let Some(i_next) = i_next {
+                self.nodes[i_next].prev = Some(node_j);
             }
 
-            if j_prev.is_some() {
-                self.nodes[j_prev.unwrap()].next = Some(node_i);
+            if let Some(j_prev) = j_prev {
+                self.nodes[j_prev].next = Some(node_i);
             }
 
-            if j_next.is_some() {
-                self.nodes[j_next.unwrap()].prev = Some(node_i);
+            if let Some(j_next) = j_next {
+                self.nodes[j_next].prev = Some(node_i);
             }
 
             self.nodes[node_i].prev = j_prev;
@@ -361,15 +361,15 @@ impl<T> SLinkedList<T> {
             if at == 0 {
                 self.nodes[idx].prev = None;
                 self.nodes[idx].next = self.head;
-                if self.head.is_some() {
-                    self.nodes[self.head.unwrap()].prev = Some(idx);
+                if let Some(head) = self.head {
+                    self.nodes[head].prev = Some(idx);
                 }
                 self.head = Some(idx);
             } else if at == self.len {
                 self.nodes[idx].prev = self.tail;
                 self.nodes[idx].next = None;
-                if self.tail.is_some() {
-                    self.nodes[self.tail.unwrap()].next = Some(idx);
+                if let Some(tail) = self.tail {
+                    self.nodes[tail].next = Some(idx);
                 }
                 self.tail = Some(idx);
             } else {
@@ -408,13 +408,13 @@ impl<T> SLinkedList<T> {
         let e = self.nodes[cur].data;
         if at == 0 {
             self.head = self.nodes[cur].next;
-            if self.head.is_some() {
-                self.nodes[self.head.unwrap()].prev = None;
+            if let Some(head) = self.head {
+                self.nodes[head].prev = None;
             }
         } else if at == self.len - 1 {
             self.tail = self.nodes[cur].prev;
-            if self.tail.is_some() {
-                self.nodes[self.tail.unwrap()].next = None;
+            if let Some(tail) = self.tail {
+                self.nodes[tail].next = None;
             }
         } else {
             if self.nodes[cur].prev.is_some() {
