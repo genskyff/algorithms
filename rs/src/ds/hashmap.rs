@@ -142,8 +142,8 @@ impl<K: Clone + PartialOrd + Eq + Hash, V: Clone + PartialEq> PartialEq for Hash
 
         let mut v1 = self.to_vec();
         let mut v2 = other.to_vec();
-        v1.sort_by(|k1, k2| k1.0.partial_cmp(&k2.0).map_or(Ordering::Equal, |r| r));
-        v2.sort_by(|k1, k2| k1.0.partial_cmp(&k2.0).map_or(Ordering::Equal, |r| r));
+        v1.sort_by(|k1, k2| k1.0.partial_cmp(&k2.0).unwrap_or(Ordering::Equal));
+        v2.sort_by(|k1, k2| k1.0.partial_cmp(&k2.0).unwrap_or(Ordering::Equal));
 
         v1 == v2
     }
