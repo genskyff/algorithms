@@ -21,10 +21,10 @@ export type LinkedList<T> = {
   indexOf(val: T): number | undefined;
   swap(i: number, j: number): void;
   reverse(): void;
-  map(fn: (val: T, idx?: number) => T): LinkedList<T>;
-  filter(fn: (val: T, idx?: number) => boolean): LinkedList<T>;
-  reduce<U>(fn: (acc: U, val: T, idx?: number) => U, init: U): U;
-  forEach(fn: (val: T, idx?: number) => void): void;
+  map(fn: (val: T, idx: number) => T): LinkedList<T>;
+  filter(fn: (val: T, idx: number) => boolean): LinkedList<T>;
+  reduce<U>(fn: (acc: U, val: T, idx: number) => U, init: U): U;
+  forEach(fn: (val: T, idx: number) => void): void;
   toArray(): T[];
 };
 
@@ -197,7 +197,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     }
   };
 
-  const map = (fn: (val: T, idx?: number) => T) => {
+  const map = (fn: (val: T, idx: number) => T) => {
     const result = createLinkedList<T>();
     let cur: Node<T> = _head.next;
     for (let i = 0; i < _len; i++) {
@@ -207,7 +207,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     return result;
   };
 
-  const filter = (fn: (val: T, idx?: number) => boolean) => {
+  const filter = (fn: (val: T, idx: number) => boolean) => {
     const result = createLinkedList<T>();
     let cur: Node<T> = _head.next;
     for (let i = 0; i < _len; i++) {
@@ -219,7 +219,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     return result;
   };
 
-  const reduce = <U>(fn: (acc: U, val: T, idx?: number) => U, init: U) => {
+  const reduce = <U>(fn: (acc: U, val: T, idx: number) => U, init: U) => {
     let acc = init;
     let cur: Node<T> = _head.next;
     for (let i = 0; i < _len; i++) {
@@ -229,7 +229,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     return acc;
   };
 
-  const forEach = (fn: (val: T, idx?: number) => void) => {
+  const forEach = (fn: (val: T, idx: number) => void) => {
     let cur: Node<T> = _head.next;
     for (let i = 0; i < _len; i++) {
       fn(cur.val, i);

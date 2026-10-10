@@ -132,7 +132,7 @@ export const createHashMap = <T>(...vals: Pair<T>[]): HashMap<T> => {
 
     bucket.forEach((pair, i) => {
       if (removeIdx === -1 && pair.key === key) {
-        removeIdx = i!;
+        removeIdx = i;
         val = pair.value;
       }
     });

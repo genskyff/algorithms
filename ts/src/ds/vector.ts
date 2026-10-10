@@ -22,10 +22,10 @@ export type Vector<T> = {
   indexOf(val: T): number | undefined;
   swap(i: number, j: number): void;
   reverse(): void;
-  map(fn: (val: T, idx?: number) => T): Vector<T>;
-  filter(fn: (val: T, idx?: number) => boolean): Vector<T>;
-  reduce<U>(fn: (acc: U, val: T, idx?: number) => U, init: U): U;
-  forEach(fn: (val: T, idx?: number) => void): void;
+  map(fn: (val: T, idx: number) => T): Vector<T>;
+  filter(fn: (val: T, idx: number) => boolean): Vector<T>;
+  reduce<U>(fn: (acc: U, val: T, idx: number) => U, init: U): U;
+  forEach(fn: (val: T, idx: number) => void): void;
   toArray(): T[];
 };
 
@@ -186,7 +186,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
     }
   };
 
-  const map = (fn: (val: T, idx?: number) => T) => {
+  const map = (fn: (val: T, idx: number) => T) => {
     const result = createVector<T>();
     for (let i = 0; i < inner.len; i++) {
       result.push(fn(inner.data[i]!, i));
@@ -194,7 +194,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
     return result;
   };
 
-  const filter = (fn: (val: T, idx?: number) => boolean) => {
+  const filter = (fn: (val: T, idx: number) => boolean) => {
     const result = createVector<T>();
     for (let i = 0; i < inner.len; i++) {
       if (fn(inner.data[i]!, i)) {
@@ -204,7 +204,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
     return result;
   };
 
-  const reduce = <U>(fn: (acc: U, val: T, idx?: number) => U, init: U) => {
+  const reduce = <U>(fn: (acc: U, val: T, idx: number) => U, init: U) => {
     let acc = init;
     for (let i = 0; i < inner.len; i++) {
       acc = fn(acc, inner.data[i]!, i);
@@ -212,7 +212,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
     return acc;
   };
 
-  const forEach = (fn: (val: T, idx?: number) => void) => {
+  const forEach = (fn: (val: T, idx: number) => void) => {
     for (let i = 0; i < inner.len; i++) {
       fn(inner.data[i]!, i);
     }
