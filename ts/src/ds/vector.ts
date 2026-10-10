@@ -67,7 +67,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
   };
 
   const _grow = () => {
-    if (inner.len == inner.cap) {
+    if (inner.len === inner.cap) {
       const newCap = inner.cap * GROWTH_FACTOR;
       const newData = Array<T>(newCap);
       for (let i = 0; i < inner.len; i++) {
