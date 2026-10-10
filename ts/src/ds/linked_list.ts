@@ -1,7 +1,7 @@
 type Node<T> = {
   val: T;
-  prev: Node<T>;
-  next: Node<T>;
+  prev: Node<T> | undefined;
+  next: Node<T> | undefined;
 };
 
 export type LinkedList<T> = {
@@ -29,10 +29,8 @@ export type LinkedList<T> = {
 };
 
 export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
-  const _head = {} as Node<T>;
-  const _tail = {} as Node<T>;
-  _head.next = _tail;
-  _tail.prev = _head;
+  let _head: Node<T> | undefined;
+  let _tail: Node<T> | undefined;
   let _len = 0;
 
   const _checkIdx = (idx: number, closed = false) => {
@@ -41,92 +39,70 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     }
   };
 
-  const _checkNode = (node: Node<T>, type: 'linked' | 'detached' = 'linked') => {
-    if (type === 'linked' && !node.prev && !node.next) {
-      throw new Error('Node is detached');
-    } else if (type === 'detached' && (node.prev || node.next)) {
-      throw new Error('Node is already linked');
-    }
-  };
+  const _getNode = (idx: number): Node<T> => {
+    _checkIdx(idx);
 
-  const _getNode = (idx: number, closed = false): Node<T> => {
-    _checkIdx(idx, closed);
-
-    let cur: Node<T>;
+    let cur: Node<T> | undefined;
     if (idx < _len / 2) {
-      cur = _head.next;
+      cur = _head;
       for (let i = 0; i < idx; i++) {
-        cur = cur.next;
+        cur = cur?.next;
       }
     } else {
-      cur = _tail.prev;
+      cur = _tail;
       for (let i = _len - 1; i > idx; i--) {
-        cur = cur.prev;
+        cur = cur?.prev;
       }
     }
 
+    if (!cur) {
+      throw new Error(`Index out of bounds: ${idx}`);
+    }
     return cur;
-  };
-
-  const _link = (target: Node<T>, node: Node<T>) => {
-    _checkNode(target);
-    _checkNode(node, 'detached');
-
-    const next = target.next;
-    target.next = node;
-    next.prev = node;
-    node.next = next;
-    node.prev = target;
-
-    _len++;
-  };
-
-  const _unlink = (node: Node<T>) => {
-    _checkNode(node);
-
-    const prev = node.prev;
-    const next = node.next;
-    if (prev) prev.next = next;
-    if (next) next.prev = prev;
-    node.prev = undefined!;
-    node.next = undefined!;
-
-    _len--;
   };
 
   const len = () => _len;
 
   const get = (idx: number) => {
-    const node = _getNode(idx);
-    return node.val;
+    return _getNode(idx).val;
   };
 
   const set = (idx: number, val: T) => {
-    const node = _getNode(idx);
-    if (node) node.val = val;
+    _getNode(idx).val = val;
   };
 
   const isEmpty = () => _len === 0;
 
   const clear = () => {
-    _head.next = _tail;
-    _tail.prev = _head;
+    _head = undefined;
+    _tail = undefined;
     _len = 0;
   };
 
   const insert = (idx: number, val: T) => {
     _checkIdx(idx, true);
 
-    const node = { val } as Node<T>;
-    const target = idx === 0 ? _head : _getNode(idx - 1, true);
-    _link(target, node);
+    const prev = idx === 0 ? undefined : _getNode(idx - 1);
+    const next = prev ? prev.next : _head;
+    const node: Node<T> = { val, prev, next };
+
+    if (prev) prev.next = node;
+    else _head = node;
+    if (next) next.prev = node;
+    else _tail = node;
+
+    _len++;
   };
 
   const remove = (idx: number) => {
-    _checkIdx(idx);
-
     const node = _getNode(idx);
-    _unlink(node);
+
+    if (node.prev) node.prev.next = node.next;
+    else _head = node.next;
+    if (node.next) node.next.prev = node.prev;
+    else _tail = node.prev;
+
+    _len--;
     return node.val;
   };
 
@@ -159,10 +135,10 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
   };
 
   const indexOf = (val: T) => {
-    let cur = _getNode(0);
-    for (let i = 0; i < _len; i++) {
+    let cur = _head;
+    for (let i = 0; cur; i++) {
       if (cur.val === val) return i;
-      cur = cur.next!;
+      cur = cur.next;
     }
     return undefined;
   };
@@ -180,27 +156,27 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
   };
 
   const reverse = () => {
-    let leftNode = _getNode(0);
-    let rightNode = _getNode(_len - 1);
+    let leftNode = _head;
+    let rightNode = _tail;
     let leftIdx = 0;
     let rightIdx = _len - 1;
 
-    while (leftIdx < rightIdx) {
+    while (leftNode && rightNode && leftIdx < rightIdx) {
       const temp = leftNode.val;
       leftNode.val = rightNode.val;
       rightNode.val = temp;
 
       leftIdx++;
       rightIdx--;
-      leftNode = leftNode.next!;
-      rightNode = rightNode.prev!;
+      leftNode = leftNode.next;
+      rightNode = rightNode.prev;
     }
   };
 
   const map = (fn: (val: T, idx: number) => T) => {
     const result = createLinkedList<T>();
-    let cur: Node<T> = _head.next;
-    for (let i = 0; i < _len; i++) {
+    let cur = _head;
+    for (let i = 0; cur; i++) {
       result.push(fn(cur.val, i));
       cur = cur.next;
     }
@@ -209,8 +185,8 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
 
   const filter = (fn: (val: T, idx: number) => boolean) => {
     const result = createLinkedList<T>();
-    let cur: Node<T> = _head.next;
-    for (let i = 0; i < _len; i++) {
+    let cur = _head;
+    for (let i = 0; cur; i++) {
       if (fn(cur.val, i)) {
         result.push(cur.val);
       }
@@ -221,8 +197,8 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
 
   const reduce = <U>(fn: (acc: U, val: T, idx: number) => U, init: U) => {
     let acc = init;
-    let cur: Node<T> = _head.next;
-    for (let i = 0; i < _len; i++) {
+    let cur = _head;
+    for (let i = 0; cur; i++) {
       acc = fn(acc, cur.val, i);
       cur = cur.next;
     }
@@ -230,8 +206,8 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
   };
 
   const forEach = (fn: (val: T, idx: number) => void) => {
-    let cur: Node<T> = _head.next;
-    for (let i = 0; i < _len; i++) {
+    let cur = _head;
+    for (let i = 0; cur; i++) {
       fn(cur.val, i);
       cur = cur.next;
     }
@@ -239,10 +215,8 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
 
   const toArray = () => {
     const result: T[] = [];
-    let cur: Node<T> = _head.next;
-    for (let i = 0; i < _len; i++) {
+    for (let cur = _head; cur; cur = cur.next) {
       result.push(cur.val);
-      cur = cur.next;
     }
     return result;
   };
