@@ -1,41 +1,43 @@
-import { assertEquals, assertFalse } from "@std/assert";
-import { createBitset } from "@/ds";
+import { strict as assert } from 'node:assert';
+import { test } from 'node:test';
 
-Deno.test("Bitset - create less than 64", () => {
+import { createBitset } from '#/ds/index.ts';
+
+test('Bitset - create less than 64', () => {
   const bitset = createBitset(4);
-  assertEquals(bitset.size(), 4);
-  assertEquals(bitset.arrayLen(), 1);
-  assertEquals(bitset.toArray(), Array(4).fill(false));
+  assert.deepEqual(bitset.size(), 4);
+  assert.deepEqual(bitset.arrayLen(), 1);
+  assert.deepEqual(bitset.toArray(), Array(4).fill(false));
 });
 
-Deno.test("Bitset - create more than 64", () => {
+test('Bitset - create more than 64', () => {
   const bitset = createBitset(255);
-  assertEquals(bitset.size(), 255);
-  assertEquals(bitset.arrayLen(), 4);
-  assertEquals(bitset.toArray(), Array(255).fill(false));
+  assert.deepEqual(bitset.size(), 255);
+  assert.deepEqual(bitset.arrayLen(), 4);
+  assert.deepEqual(bitset.toArray(), Array(255).fill(false));
 });
 
-Deno.test("Bitset - get and set", () => {
+test('Bitset - get and set', () => {
   const bitset = createBitset(4);
-  assertFalse(bitset.get(0));
-  assertFalse(bitset.get(1));
-  assertFalse(bitset.get(2));
-  assertFalse(bitset.get(3));
+  assert.ok(!bitset.get(0));
+  assert.ok(!bitset.get(1));
+  assert.ok(!bitset.get(2));
+  assert.ok(!bitset.get(3));
 
   bitset.set(0);
   bitset.set(2);
-  assertEquals(bitset.toArray(), [true, false, true, false]);
+  assert.deepEqual(bitset.toArray(), [true, false, true, false]);
   bitset.set();
-  assertEquals(bitset.toArray(), Array(4).fill(true));
+  assert.deepEqual(bitset.toArray(), Array(4).fill(true));
 });
 
-Deno.test("Bitset - reset", () => {
+test('Bitset - reset', () => {
   const bitset = createBitset(4);
   bitset.set();
   bitset.reset(0);
   bitset.reset(3);
-  assertEquals(bitset.toArray(), [false, true, true, false]);
+  assert.deepEqual(bitset.toArray(), [false, true, true, false]);
 
   bitset.reset();
-  assertEquals(bitset.toArray(), Array(4).fill(false));
+  assert.deepEqual(bitset.toArray(), Array(4).fill(false));
 });

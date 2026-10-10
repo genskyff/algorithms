@@ -41,14 +41,11 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
     }
   };
 
-  const _checkNode = (
-    node: Node<T>,
-    type: "linked" | "detached" = "linked",
-  ) => {
-    if (type === "linked" && !node.prev && !node.next) {
-      throw new Error("Node is detached");
-    } else if (type === "detached" && (node.prev || node.next)) {
-      throw new Error("Node is already linked");
+  const _checkNode = (node: Node<T>, type: 'linked' | 'detached' = 'linked') => {
+    if (type === 'linked' && !node.prev && !node.next) {
+      throw new Error('Node is detached');
+    } else if (type === 'detached' && (node.prev || node.next)) {
+      throw new Error('Node is already linked');
     }
   };
 
@@ -73,7 +70,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
 
   const _link = (target: Node<T>, node: Node<T>) => {
     _checkNode(target);
-    _checkNode(node, "detached");
+    _checkNode(node, 'detached');
 
     const next = target.next;
     target.next = node;
@@ -167,6 +164,7 @@ export const createLinkedList = <T>(...vals: T[]): LinkedList<T> => {
       if (cur.val === val) return i;
       cur = cur.next!;
     }
+    return undefined;
   };
 
   const swap = (i: number, j: number) => {

@@ -9,7 +9,7 @@ export type Bitset = {
 
 export const createBitset = (size: number): Bitset => {
   if (size <= 0) {
-    throw new Error("Size must be a positive integer");
+    throw new Error('Size must be a positive integer');
   }
 
   const arrayLen = Math.ceil(size / 64);

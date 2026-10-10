@@ -36,12 +36,10 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
   const GROWTH_FACTOR = 2;
 
   const _len = vals.length;
-  const _cap = _len < INIT_CAP
-    ? INIT_CAP
-    : ((_len + INIT_CAP - 1) / INIT_CAP) * INIT_CAP;
+  const _cap = _len < INIT_CAP ? INIT_CAP : ((_len + INIT_CAP - 1) / INIT_CAP) * INIT_CAP;
   const _data = Array<T>(_cap);
   for (let i = 0; i < _len; i++) {
-    _data[i] = vals[i];
+    _data[i] = vals[i]!;
   }
   const inner: Inner<T> = {
     data: _data,
@@ -61,7 +59,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
       const newCap = ((baseCap + INIT_CAP - 1) / INIT_CAP) * INIT_CAP;
       const newData = Array<T>(newCap);
       for (let i = 0; i < inner.len; i++) {
-        newData[i] = inner.data[i];
+        newData[i] = inner.data[i]!;
       }
       inner.data = newData;
       inner.cap = newCap;
@@ -73,7 +71,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
       const newCap = inner.cap * GROWTH_FACTOR;
       const newData = Array<T>(newCap);
       for (let i = 0; i < inner.len; i++) {
-        newData[i] = inner.data[i];
+        newData[i] = inner.data[i]!;
       }
       inner.data = newData;
       inner.cap = newCap;
@@ -107,7 +105,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
     _grow();
 
     for (let i = inner.len; i > idx; i--) {
-      inner.data[i] = inner.data[i - 1];
+      inner.data[i] = inner.data[i - 1]!;
     }
 
     inner.data[idx] = val;
@@ -119,7 +117,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
 
     const val = inner.data[idx];
     for (let i = idx; i < inner.len - 1; i++) {
-      inner.data[i] = inner.data[i + 1];
+      inner.data[i] = inner.data[i + 1]!;
     }
     inner.len--;
     _shrink();
@@ -161,6 +159,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
         return i;
       }
     }
+    return undefined;
   };
 
   const swap = (i: number, j: number) => {
@@ -168,8 +167,8 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
     _checkIdx(j);
     if (i === j) return;
 
-    const temp = inner.data[i];
-    inner.data[i] = inner.data[j];
+    const temp = inner.data[i]!;
+    inner.data[i] = inner.data[j]!;
     inner.data[j] = temp;
   };
 
@@ -178,8 +177,8 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
     let rightIdx = inner.len - 1;
 
     while (leftIdx < rightIdx) {
-      const temp = inner.data[leftIdx];
-      inner.data[leftIdx] = inner.data[rightIdx];
+      const temp = inner.data[leftIdx]!;
+      inner.data[leftIdx] = inner.data[rightIdx]!;
       inner.data[rightIdx] = temp;
 
       leftIdx++;
@@ -190,7 +189,7 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
   const map = (fn: (val: T, idx?: number) => T) => {
     const result = createVector<T>();
     for (let i = 0; i < inner.len; i++) {
-      result.push(fn(inner.data[i], i));
+      result.push(fn(inner.data[i]!, i));
     }
     return result;
   };
@@ -198,8 +197,8 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
   const filter = (fn: (val: T, idx?: number) => boolean) => {
     const result = createVector<T>();
     for (let i = 0; i < inner.len; i++) {
-      if (fn(inner.data[i], i)) {
-        result.push(inner.data[i]);
+      if (fn(inner.data[i]!, i)) {
+        result.push(inner.data[i]!);
       }
     }
     return result;
@@ -208,14 +207,14 @@ export const createVector = <T>(...vals: T[]): Vector<T> => {
   const reduce = <U>(fn: (acc: U, val: T, idx?: number) => U, init: U) => {
     let acc = init;
     for (let i = 0; i < inner.len; i++) {
-      acc = fn(acc, inner.data[i], i);
+      acc = fn(acc, inner.data[i]!, i);
     }
     return acc;
   };
 
   const forEach = (fn: (val: T, idx?: number) => void) => {
     for (let i = 0; i < inner.len; i++) {
-      fn(inner.data[i], i);
+      fn(inner.data[i]!, i);
     }
   };
 

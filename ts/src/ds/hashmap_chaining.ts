@@ -1,4 +1,4 @@
-import { createLinkedList, type LinkedList } from "@/ds";
+import { createLinkedList, type LinkedList } from '#/ds/index.ts';
 
 type Pair<T> = {
   readonly key: string;
@@ -49,11 +49,7 @@ export const createHashMap = <T>(...vals: Pair<T>[]): HashMap<T> => {
   };
 
   const _initBuckets = (cap: number): Buckets<T> => {
-    const buckets: Buckets<T> = new Array(cap);
-    for (let i = 0; i < cap; i++) {
-      buckets[i] = createLinkedList<Pair<T>>();
-    }
-    return buckets;
+    return Array.from({ length: cap }, () => createLinkedList<Pair<T>>());
   };
 
   const inner: Inner<T> = {
@@ -68,7 +64,7 @@ export const createHashMap = <T>(...vals: Pair<T>[]): HashMap<T> => {
     for (const bucket of inner.data) {
       bucket.forEach((pair) => {
         const idx = _hash(pair.key, newCap);
-        newBuckets[idx].push(pair);
+        newBuckets[idx]!.push(pair);
       });
     }
 
@@ -92,7 +88,7 @@ export const createHashMap = <T>(...vals: Pair<T>[]): HashMap<T> => {
 
   const get = (key: string): T | undefined => {
     const idx = _hash(key, inner.cap);
-    const bucket = inner.data[idx];
+    const bucket = inner.data[idx]!;
     return bucket.reduce<T | undefined>((acc, pair) => {
       if (acc !== undefined) return acc;
       if (pair.key === key) return pair.value;
@@ -108,7 +104,7 @@ export const createHashMap = <T>(...vals: Pair<T>[]): HashMap<T> => {
 
   const insert = (key: string, value: T) => {
     const idx = _hash(key, inner.cap);
-    const bucket = inner.data[idx];
+    const bucket = inner.data[idx]!;
 
     let found = false;
     bucket.forEach((pair) => {
@@ -129,7 +125,7 @@ export const createHashMap = <T>(...vals: Pair<T>[]): HashMap<T> => {
 
   const remove = (key: string): T | undefined => {
     const idx = _hash(key, inner.cap);
-    const bucket = inner.data[idx];
+    const bucket = inner.data[idx]!;
 
     let removeIdx = -1;
     let val: T | undefined = undefined;

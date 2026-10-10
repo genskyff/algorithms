@@ -28,12 +28,10 @@ export const createDeque = <T>(...vals: T[]): Deque<T> => {
   const GROWTH_FACTOR = 2;
 
   const _len = vals.length;
-  const _cap = _len < INIT_CAP
-    ? INIT_CAP
-    : ((_len + INIT_CAP - 1) / INIT_CAP) * INIT_CAP;
+  const _cap = _len < INIT_CAP ? INIT_CAP : ((_len + INIT_CAP - 1) / INIT_CAP) * INIT_CAP;
   const _data = Array<T>(_cap);
   for (let i = 0; i < _len; i++) {
-    _data[i] = vals[i];
+    _data[i] = vals[i]!;
   }
   const inner: Inner<T> = {
     data: _data,
@@ -49,7 +47,7 @@ export const createDeque = <T>(...vals: T[]): Deque<T> => {
       const newCap = ((baseCap + INIT_CAP - 1) / INIT_CAP) * INIT_CAP;
       const newData = Array<T>(newCap);
       for (let i = 0; i < inner.len; i++) {
-        newData[i] = inner.data[(i + inner.start) % inner.cap];
+        newData[i] = inner.data[(i + inner.start) % inner.cap]!;
       }
       inner.data = newData;
       inner.start = 0;
@@ -63,7 +61,7 @@ export const createDeque = <T>(...vals: T[]): Deque<T> => {
       const newCap = inner.cap * GROWTH_FACTOR;
       const newData = Array<T>(newCap);
       for (let i = 0; i < inner.len; i++) {
-        newData[i] = inner.data[(i + inner.start) % inner.cap];
+        newData[i] = inner.data[(i + inner.start) % inner.cap]!;
       }
       inner.data = newData;
       inner.start = 0;
@@ -132,7 +130,7 @@ export const createDeque = <T>(...vals: T[]): Deque<T> => {
   const toArray = () => {
     const result = Array<T>(inner.len);
     for (let i = 0; i < inner.len; i++) {
-      result[i] = inner.data[(inner.start + i) % inner.cap];
+      result[i] = inner.data[(inner.start + i) % inner.cap]!;
     }
     return result;
   };
